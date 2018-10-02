@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C006B16847184C02FF65F9C /* Pods_BitmovinConvivaAnalytics_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF16C051F57342FA6E733179 /* Pods_BitmovinConvivaAnalytics_Example.framework */; };
+		51498C0978D2FC514AE7322D /* Pods_BitmovinConvivaAnalytics_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8F772F62106354A16E85C3 /* Pods_BitmovinConvivaAnalytics_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
-		82CB2668AC3D21066E314995 /* Pods_BitmovinConvivaAnalytics_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87D7E9C76D4D99356C45B5CD /* Pods_BitmovinConvivaAnalytics_Example.framework */; };
-		F5EFEF80AD7ADB28FBECE9D8 /* Pods_BitmovinConvivaAnalytics_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D75AD5415A4182BA5D04C98E /* Pods_BitmovinConvivaAnalytics_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +30,7 @@
 /* Begin PBXFileReference section */
 		18D9A1085FF475FC238B6545 /* Pods-BitmovinConvivaAnalytics_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		23AA901C80A2F84D631B507E /* Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		3E8F772F62106354A16E85C3 /* Pods_BitmovinConvivaAnalytics_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		45CD5012855AD308CAC3A093 /* Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* BitmovinConvivaAnalytics_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BitmovinConvivaAnalytics_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -41,10 +42,9 @@
 		607FACE51AFB9204008FA782 /* BitmovinConvivaAnalytics_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BitmovinConvivaAnalytics_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		87D7E9C76D4D99356C45B5CD /* Pods_BitmovinConvivaAnalytics_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0D6D92D5D0682BEB6A2AE76 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		BE302B93B26F5254AC33B8FB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		D75AD5415A4182BA5D04C98E /* Pods_BitmovinConvivaAnalytics_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF16C051F57342FA6E733179 /* Pods_BitmovinConvivaAnalytics_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A0D5E02D9AD46C7E9BCAF6 /* Pods-BitmovinConvivaAnalytics_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example.release.xcconfig"; sourceTree = "<group>"; };
 		FD51F7BB291EC2A66E494753 /* BitmovinConvivaAnalytics.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = BitmovinConvivaAnalytics.podspec; path = ../BitmovinConvivaAnalytics.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
@@ -54,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82CB2668AC3D21066E314995 /* Pods_BitmovinConvivaAnalytics_Example.framework in Frameworks */,
+				4C006B16847184C02FF65F9C /* Pods_BitmovinConvivaAnalytics_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5EFEF80AD7ADB28FBECE9D8 /* Pods_BitmovinConvivaAnalytics_Tests.framework in Frameworks */,
+				51498C0978D2FC514AE7322D /* Pods_BitmovinConvivaAnalytics_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,8 +72,8 @@
 		11AD340E6E895070F79F0F58 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				87D7E9C76D4D99356C45B5CD /* Pods_BitmovinConvivaAnalytics_Example.framework */,
-				D75AD5415A4182BA5D04C98E /* Pods_BitmovinConvivaAnalytics_Tests.framework */,
+				3E8F772F62106354A16E85C3 /* Pods_BitmovinConvivaAnalytics_Tests.framework */,
+				BF16C051F57342FA6E733179 /* Pods_BitmovinConvivaAnalytics_Example.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -171,6 +171,7 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				77BF9B562BFB23BFFBA9053D /* [CP] Embed Pods Frameworks */,
+				3749D20921637CF00074269D /* Swift Lint */,
 			);
 			buildRules = (
 			);
@@ -189,7 +190,7 @@
 				607FACE11AFB9204008FA782 /* Sources */,
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
-				DD28B3F18148813E0DC74FFE /* [CP] Embed Pods Frameworks */,
+				BCD8CBEAB6B3B57D967C09B9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -208,7 +209,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
@@ -335,20 +336,20 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BitmovinConvivaAnalytics/BitmovinConvivaAnalytics.framework",
+				"${PODS_ROOT}/BitmovinPlayer/iOS/BitmovinPlayer.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinConvivaAnalytics.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayer.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DD28B3F18148813E0DC74FFE /* [CP] Embed Pods Frameworks */ = {
+		BCD8CBEAB6B3B57D967C09B9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

@@ -1,13 +1,17 @@
 use_frameworks!
 
 target 'BitmovinConvivaAnalytics_Example' do
-  pod 'BitmovinConvivaAnalytics', :path => '../'
+  pod 'BitmovinConvivaAnalytics', path: '../'
+  pod 'BitmovinPlayer', git: 'https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git', tag: '2.12.0'
+  pod 'ConvivaSDK', '2.141.1'
+
   pod 'SwiftLint'
 
   target 'BitmovinConvivaAnalytics_Tests' do
     inherit! :search_paths
 
-    pod 'Quick', '~> 1.2.0'
-    pod 'Nimble', '~> 7.0.2'
+    pod 'Quick', '~> 1.3.2'
+    pod 'Nimble', '~> 7.3.1'
+
   end
 end

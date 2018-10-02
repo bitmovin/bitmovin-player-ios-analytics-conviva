@@ -1,7 +1,9 @@
 PODS:
   - BitmovinConvivaAnalytics (0.1.0):
     - BitmovinPlayer (~> 2.0)
+    - ConvivaSDK (~> 2.141.0)
   - BitmovinPlayer (2.12.0)
+  - ConvivaSDK (2.141.1)
   - Nimble (7.3.1)
   - Quick (1.3.2)
   - SwiftLint (0.27.0)
@@ -9,12 +11,14 @@ PODS:
 DEPENDENCIES:
   - BitmovinConvivaAnalytics (from `../`)
   - BitmovinPlayer (from `https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git`, tag `2.12.0`)
+  - ConvivaSDK (= 2.141.1)
   - Nimble (~> 7.3.1)
   - Quick (~> 1.3.2)
   - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - ConvivaSDK
     - Nimble
     - Quick
     - SwiftLint
@@ -32,12 +36,13 @@ CHECKOUT OPTIONS:
     :tag: 2.12.0
 
 SPEC CHECKSUMS:
-  BitmovinConvivaAnalytics: f3d632fe4dc55361aa8e75909313baeecb7b39bc
+  BitmovinConvivaAnalytics: 1ef88f6a2bc7102aadbfeace31317ba3a83f130a
   BitmovinPlayer: 163cf276bc47495f795fc0f033b279cc4b49291c
+  ConvivaSDK: c15324526c8e936c24b76cd8834c1eaf0defcbef
   Nimble: 04f732da099ea4d153122aec8c2a88fd0c7219ae
   Quick: 2623cb30d7a7f41ca62f684f679586558f483d46
   SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
 
-PODFILE CHECKSUM: fc334f27ba4798fce6fe393ab4bd4b5bff3fc791
+PODFILE CHECKSUM: 3550daa9daf8077e6648a1b39a0ce87632cf51cc
 
 COCOAPODS: 1.5.3

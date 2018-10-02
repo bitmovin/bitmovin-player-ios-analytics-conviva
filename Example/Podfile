@@ -2,6 +2,7 @@ use_frameworks!
 
 target 'BitmovinConvivaAnalytics_Example' do
   pod 'BitmovinConvivaAnalytics', :path => '../'
+  pod 'SwiftLint'
 
   target 'BitmovinConvivaAnalytics_Tests' do
     inherit! :search_paths

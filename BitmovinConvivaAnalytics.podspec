@@ -18,7 +18,7 @@ TODO: Add long description of the pod here.
   s.author           = { 'Bitmovin' => 'david.steinacher@bitmovin.com' }
   s.source           = { git: 'https://github.com/Bitmovin/BitmovinConvivaAnalytics.git', tag: s.version.to_s }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'BitmovinConvivaAnalytics/Classes/**/*.swift'
   s.swift_version = '4.2'

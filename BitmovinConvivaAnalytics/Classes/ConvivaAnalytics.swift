@@ -138,7 +138,7 @@ public class ConvivaAnalytics: NSObject {
     }
 
     private func registerPlayerEvents() {
-        self.player.add(listener: self)
+        player.add(listener: self)
     }
 
     private func unregisterPlayerEvents() {
@@ -173,6 +173,7 @@ public class ConvivaAnalytics: NSObject {
     }
 }
 
+// MARK: - PlayerListener
 extension ConvivaAnalytics: PlayerListener {
     public func onReady(_ event: ReadyEvent) {
         if !isValidSession {
@@ -274,6 +275,7 @@ extension ConvivaAnalytics: PlayerListener {
     }
 }
 
+// MARK: - UserInterfaceListener
 extension ConvivaAnalytics: UserInterfaceListener {
     public func onFullscreenEnter(_ event: FullscreenEnterEvent) {
         customEvent(event: event)

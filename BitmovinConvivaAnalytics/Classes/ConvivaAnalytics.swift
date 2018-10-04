@@ -82,6 +82,13 @@ public class ConvivaAnalytics: NSObject {
         contentMetadata.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
         contentMetadata.streamUrl = player.config.sourceItem?.url(forType: player.streamType)?.absoluteString
 
+        if let videoQuality = player.videoQuality {
+            let bitrate = Int(videoQuality.bitrate) / 1000 // in kbps
+            playerStateManager.setBitrateKbps!(bitrate)
+            playerStateManager.setVideoResolutionWidth!(videoQuality.width)
+            playerStateManager.setVideoResolutionHeight!(videoQuality.height)
+        }
+
         client.updateContentMetadata(sessionKey, metadata: contentMetadata)
     }
 
@@ -226,7 +233,6 @@ extension ConvivaAnalytics: PlayerListener {
         endSession()
     }
 
-    // TODO: video quality changed
     public func onMuted(_ event: MutedEvent) {
         customEvent(event: event)
     }

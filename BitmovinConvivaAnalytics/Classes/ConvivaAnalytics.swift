@@ -105,7 +105,7 @@ public class ConvivaAnalytics: NSObject {
     private func buildContentMetadata() {
         let sourceItem = player.config.sourceItem
 
-        contentMetadata.applicationName = config.applicationName ?? "Unknown (no config.applicationName set)"
+        contentMetadata.applicationName = config.applicationName
         contentMetadata.assetName = sourceItem?.itemTitle
         contentMetadata.viewerId = config.viewerId
 

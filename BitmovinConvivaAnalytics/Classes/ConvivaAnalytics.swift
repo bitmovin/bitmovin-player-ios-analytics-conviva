@@ -150,6 +150,12 @@ public class ConvivaAnalytics: NSObject {
         playerStateManager.setPlayerState!(playerState)
     }
 
+    // TODO: improve playerView event handling
+    public func registerPlayerView(playerView: BMPBitmovinPlayerView) {
+        self.playerView = playerView
+        self.playerView?.add(listener: self)
+    }
+
     private var streamType: String {
         switch player.streamType {
         case .DASH:
@@ -242,6 +248,16 @@ extension ConvivaAnalytics: PlayerListener {
     }
 
     public func onUnmuted(_ event: UnmutedEvent) {
+        customEvent(event: event)
+    }
+
+}
+extension ConvivaAnalytics: UserInterfaceListener {
+    public func onFullscreenEnter(_ event: FullscreenEnterEvent) {
+        customEvent(event: event)
+    }
+
+    public func onFullscreenExit(_ event: FullscreenExitEvent) {
         customEvent(event: event)
     }
 }

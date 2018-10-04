@@ -338,15 +338,3 @@ extension ConvivaAnalytics: UserInterfaceListener {
         customEvent(event: event)
     }
 }
-
-// TODO: extract
-public class ConvivaConfiguration {
-    public var debugLoggingEnabled: Bool = false
-    public var gatewayUrl: URL?
-    public var applicationName: String?
-    public var viewerId: String?
-    public var customTags: [String: Any]?
-
-    public init() {
-    }
-}

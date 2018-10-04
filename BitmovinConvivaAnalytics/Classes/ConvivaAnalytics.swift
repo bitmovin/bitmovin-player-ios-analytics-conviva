@@ -78,7 +78,9 @@ public class ConvivaAnalytics: NSObject {
         if !isValidSession {
             return
         }
-        contentMetadata.duration = Int(player.duration)
+        if !player.isLive {
+            contentMetadata.duration = Int(player.duration)
+        }
         contentMetadata.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
         contentMetadata.streamUrl = player.config.sourceItem?.url(forType: player.streamType)?.absoluteString
 

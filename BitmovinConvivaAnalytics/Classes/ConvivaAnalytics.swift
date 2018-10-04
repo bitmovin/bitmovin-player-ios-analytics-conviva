@@ -65,6 +65,12 @@ public class ConvivaAnalytics: NSObject {
         self.registerPlayerEvents()
     }
 
+    deinit {
+        unregisterPlayerEvents()
+        endSession()
+        client.releasePlayerStateManager(playerStateManager)
+    }
+
     // MARK: - session handling
     private func initSession() {
         buildContentMetadata()

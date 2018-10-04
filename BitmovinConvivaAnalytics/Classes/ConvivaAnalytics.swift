@@ -119,6 +119,14 @@ public class ConvivaAnalytics: NSObject {
         client.sendCustomEvent(sessionKey, eventname: name, withAttributes: attributes)
     }
 
+    private func customEvent(event: PlayerEvent, args: [AnyHashable: Any] = [:]) {
+        if !isValidSession {
+            return
+        }
+
+        sendCustomPlaybackEvent(name: event.name, attributes: args)
+    }
+
     private func registerPlayerEvents() {
         self.player.add(listener: self)
     }
@@ -219,6 +227,13 @@ extension ConvivaAnalytics: PlayerListener {
     }
 
     // TODO: video quality changed
+    public func onMuted(_ event: MutedEvent) {
+        customEvent(event: event)
+    }
+
+    public func onUnmuted(_ event: UnmutedEvent) {
+        customEvent(event: event)
+    }
 }
 
 // TODO: extract

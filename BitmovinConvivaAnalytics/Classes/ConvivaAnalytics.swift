@@ -184,6 +184,22 @@ extension ConvivaAnalytics: PlayerListener {
         endSession()
     }
 
+    public func onSeek(_ event: SeekEvent) {
+        playerStateManager.setSeekStart!(Int64(event.seekTarget))
+    }
+
+    public func onSeeked(_ event: SeekedEvent) {
+        playerStateManager.setSeekEnd!(Int64(player.currentTime))
+    }
+
+    public func onTimeShift(_ event: TimeShiftEvent) {
+        playerStateManager.setSeekStart!(Int64(event.target))
+    }
+
+    public func onTimeShifted(_ event: TimeShiftedEvent) {
+        playerStateManager.setSeekEnd!(Int64(player.currentTime)) // TODO: Test in live-stream
+    }
+
     public func onStallStarted(_ event: StallStartedEvent) {
         onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
     }

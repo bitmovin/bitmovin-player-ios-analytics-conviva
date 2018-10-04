@@ -23,6 +23,8 @@ class ViewController: UIViewController {
 
     let convivaCustomerKey: String = ""
     let convivaGatewayString: String = ""
+    var fullScreen: Bool = false
+
 
     override func viewDidLoad() {
         super.viewDidLoad()

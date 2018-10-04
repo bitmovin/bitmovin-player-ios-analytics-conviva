@@ -11,6 +11,7 @@ import ConvivaSDK
 
 public class ConvivaAnalytics: NSObject {
     let player: BitmovinPlayer
+    var playerView: BMPBitmovinPlayerView?
     let customerKey: String
     let config: ConvivaConfiguration
 

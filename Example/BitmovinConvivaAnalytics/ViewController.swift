@@ -61,6 +61,10 @@ class ViewController: UIViewController {
 
         // Setup UI
         playerView = BMPBitmovinPlayerView(player: player!, frame: playerUIView.bounds)
+        playerView?.fullscreenHandler = self // TODO: do something in the fullscreen Handler
+        if let convivaAnalytics = convivaAnalytics {
+            convivaAnalytics.registerPlayerView(playerView: playerView!)
+        }
         playerView?.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         playerUIView.addSubview(playerView!)
     }
@@ -111,4 +115,21 @@ class ViewController: UIViewController {
 
         return adConfig
     }
+
+}
+
+extension ViewController: FullscreenHandler {
+    var isFullscreen: Bool {
+        return fullScreen
+    }
+
+    func onFullscreenRequested() {
+        fullScreen = true
+    }
+
+    func onFullscreenExitRequested() {
+        fullScreen = false
+    }
+
+
 }

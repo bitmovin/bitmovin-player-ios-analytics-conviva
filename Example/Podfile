@@ -5,6 +5,7 @@ target 'BitmovinConvivaAnalytics_Example' do
   pod 'BitmovinPlayer', git: 'https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git', tag: '2.12.0'
   pod 'ConvivaSDK', '2.141.1'
 
+  pod 'GoogleAds-IMA-iOS-SDK', '3.7.0'
   pod 'SwiftLint'
 
   target 'BitmovinConvivaAnalytics_Tests' do

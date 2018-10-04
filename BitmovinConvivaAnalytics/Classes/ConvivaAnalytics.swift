@@ -255,7 +255,7 @@ extension ConvivaAnalytics: PlayerListener {
     }
 
     public func onAdStarted(_ event: AdStartedEvent) {
-        let adPosition: AdPosition = mapAdPosition(event: event)
+        let adPosition: AdPosition = AdEventUtil.parseAdPosition(event: event, contentDuration: player.duration)
         client.adStart(sessionKey, adStream: .ADSTREAM_SEPARATE, adPlayer: .ADPLAYER_CONTENT, adPosition: adPosition)
     }
 
@@ -274,61 +274,6 @@ extension ConvivaAnalytics: PlayerListener {
     }
 }
 
-// TODO: extract utils
-extension ConvivaAnalytics {
-    private func mapAdPosition(event: AdStartedEvent) -> AdPosition {
-        if var position = event.position {
-            // is valid string
-            let kPositionRegexPattern = "pre|post|[0-9]+%|([0-9]+:)?([0-9]+:)?[0-9]+(\\.[0-9]+)?";
-            if position.range(of: kPositionRegexPattern, options: .regularExpression, range: nil, locale: nil) == nil {
-                return .ADPOSITION_PREROLL
-            }
-
-            // percentage based
-            if position.contains("%") {
-                position = position.replacingOccurrences(of: "%", with: "")
-                let percentageValue = Double(position)
-                if percentageValue == 0 {
-                    return .ADPOSITION_PREROLL
-                } else if percentageValue == 100 {
-                    return .ADPOSITION_POSTROLL
-                } else {
-                    return .ADPOSITION_MIDROLL
-                }
-            }
-
-            // time based
-            if position.contains(":") {
-                let stringParts = position.split(separator: ":")
-                var seconds = 0.0
-                let secondFactors: [Double] = [1, 60 , 60 * 60, 60 * 60 * 24]
-                for (index, part) in stringParts.reversed().enumerated() {
-                    seconds += Double(part) ?? 0 * secondFactors[index]
-                }
-
-                if seconds == 0 {
-                    return .ADPOSITION_PREROLL
-                } else if seconds == Double(player.duration) {
-                    return .ADPOSITION_POSTROLL
-                } else {
-                    return .ADPOSITION_MIDROLL
-                }
-            }
-
-            // string position based
-            switch position {
-            case "pre":
-                return .ADPOSITION_PREROLL
-            case "post":
-                return .ADPOSITION_POSTROLL
-            default:
-                return .ADPOSITION_MIDROLL
-            }
-        } else {
-            return .ADPOSITION_PREROLL
-        }
-    }
-}
 extension ConvivaAnalytics: UserInterfaceListener {
     public func onFullscreenEnter(_ event: FullscreenEnterEvent) {
         customEvent(event: event)

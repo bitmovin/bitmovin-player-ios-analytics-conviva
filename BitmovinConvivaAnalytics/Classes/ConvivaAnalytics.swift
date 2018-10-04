@@ -227,6 +227,10 @@ extension ConvivaAnalytics: PlayerListener {
         }
     }
 
+    public func onSourceUnloaded(_ event: SourceUnloadedEvent) {
+        endSession()
+    }
+
     public func onError(_ event: ErrorEvent) {
         let message = "\(event.code) \(event.message)"
         client.reportError(sessionKey, errorMessage: message, errorSeverity: .ERROR_FATAL)

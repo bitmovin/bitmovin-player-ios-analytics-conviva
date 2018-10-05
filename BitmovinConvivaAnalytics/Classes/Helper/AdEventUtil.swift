@@ -9,7 +9,7 @@ import Foundation
 import BitmovinPlayer
 import ConvivaSDK
 
-class AdEventUtil {
+final class AdEventUtil {
     static let positionRegexPattern = "pre|post|[0-9]+%|([0-9]+:)?([0-9]+:)?[0-9]+(\\.[0-9]+)?"
 
     static func parseAdPosition(event: AdStartedEvent, contentDuration: TimeInterval) -> AdPosition {

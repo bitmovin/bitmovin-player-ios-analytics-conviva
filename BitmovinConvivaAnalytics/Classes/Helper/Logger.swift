@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Logger: NSObject {
+final class Logger: NSObject {
     var loggingEnabled: Bool = false
 
     init(loggingEnabled: Bool) {

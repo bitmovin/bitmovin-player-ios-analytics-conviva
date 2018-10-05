@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ConvivaConfiguration {
+public final class ConvivaConfiguration {
     /**
      Enables debug logging when set to true
      Default: false

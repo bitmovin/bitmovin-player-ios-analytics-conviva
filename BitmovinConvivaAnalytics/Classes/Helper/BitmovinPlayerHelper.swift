@@ -8,7 +8,7 @@
 import Foundation
 import BitmovinPlayer
 
-class BitmovinPlayerHelper: NSObject {
+final class BitmovinPlayerHelper: NSObject {
     let player: BitmovinPlayer
 
     init(player: BitmovinPlayer) {

@@ -9,7 +9,7 @@ import Foundation
 import BitmovinPlayer
 import ConvivaSDK
 
-public class ConvivaAnalytics: NSObject {
+public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
     let player: BitmovinPlayer
 

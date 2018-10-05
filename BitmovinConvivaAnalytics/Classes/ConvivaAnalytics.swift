@@ -26,8 +26,10 @@ public class ConvivaAnalytics: NSObject {
         return sessionKey != NO_SESSION_KEY
     }
 
+    let logger: Logger
+
     // MARK: - initializer
-    public init?(player: BitmovinPlayer, customerKey: String, config: ConvivaConfiguration) throws {
+    public init?(player: BitmovinPlayer, customerKey: String, config: ConvivaConfiguration = ConvivaConfiguration()) throws {
         self.player = player
         self.customerKey = customerKey
         self.config = config
@@ -37,6 +39,7 @@ public class ConvivaAnalytics: NSObject {
         let systemInterFactory: CISSystemInterfaceProtocol = IOSSystemInterfaceFactory.initializeWithSystemInterface()
         let setting: CISSystemSettings = CISSystemSettings()
 
+        logger = Logger(loggingEnabled: config.debugLoggingEnabled)
         if config.debugLoggingEnabled {
             setting.logLevel = LogLevel.LOGLEVEL_DEBUG
         }
@@ -77,12 +80,12 @@ public class ConvivaAnalytics: NSObject {
         sessionKey = client.createSession(with: contentMetadata)
 
         if !isValidSession {
-            debugLog(message: "Something went wrong, could not obtain session key")
+            logger.debugLog(message: "Something went wrong, could not obtain session key")
         }
 
         playerStateManager.setPlayerState!(PlayerState.CONVIVA_STOPPED)
         client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
-        debugLog(message: "Session started")
+        logger.debugLog(message: "Session started")
     }
 
     private func updateSession() {
@@ -110,7 +113,7 @@ public class ConvivaAnalytics: NSObject {
         client.detachPlayer(sessionKey)
         client.cleanupSession(sessionKey)
         sessionKey = NO_SESSION_KEY
-        debugLog(message: "Session ended")
+        logger.debugLog(message: "Session ended")
     }
 
     // MARK: - meta data handling
@@ -139,7 +142,7 @@ public class ConvivaAnalytics: NSObject {
     // TODO: Docu / Example
     public func sendCustomPlaybackEvent(name: String, attributes: [AnyHashable: Any] = [:]) {
         if !isValidSession {
-            debugLog(message: "Cannot send playback event, no active monitoring session")
+            logger.debugLog(message: "Cannot send playback event, no active monitoring session")
         }
         client.sendCustomEvent(sessionKey, eventname: name, withAttributes: attributes)
     }
@@ -166,7 +169,7 @@ public class ConvivaAnalytics: NSObject {
         }
 
         playerStateManager.setPlayerState!(playerState)
-        debugLog(message: "Player state changed: \(playerState.rawValue)")
+        logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }
 
     // TODO: improve playerView event handling
@@ -187,19 +190,12 @@ public class ConvivaAnalytics: NSObject {
             return "none"
         }
     }
-
-    // TODO: extract
-    private func debugLog(message: String) {
-        if config.debugLoggingEnabled {
-            NSLog("[ Conviva Analytics ] %@", message)
-        }
-    }
 }
 
 // MARK: - PlayerListener
 extension ConvivaAnalytics: PlayerListener {
     public func onEvent(_ event: PlayerEvent) {
-        debugLog(message: "[ Player Event ] \(event.name)")
+        logger.debugLog(message: "[ Player Event ] \(event.name)")
     }
 
     public func onReady(_ event: ReadyEvent) {

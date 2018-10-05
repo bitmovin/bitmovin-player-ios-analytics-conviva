@@ -27,10 +27,26 @@ public class ConvivaAnalytics: NSObject {
     }
 
     let logger: Logger
+    let playerHelper: BitmovinPlayerHelper
 
     // MARK: - initializer
-    public init?(player: BitmovinPlayer, customerKey: String, config: ConvivaConfiguration = ConvivaConfiguration()) throws {
+    /**
+     Initialize a new Bitmovin Conviva Analytics object to track metrics from BitmovinPlayer
+
+     **!! ConvivaAnalytics must be instantiated before calling player.setup() !!**
+
+     - Parameters:
+        - player: BitmovinPlayer instance to track
+        - customerKey: Conviva customerKey
+        - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
+
+     - Throws: Convivas `CISClientProtocol` and `CISClientSettingsProtocol` if an error occurs
+     */
+    public init?(player: BitmovinPlayer,
+                 customerKey: String,
+                 config: ConvivaConfiguration = ConvivaConfiguration()) throws {
         self.player = player
+        self.playerHelper = BitmovinPlayerHelper(player: player)
         self.customerKey = customerKey
         self.config = config
 
@@ -44,28 +60,19 @@ public class ConvivaAnalytics: NSObject {
             setting.logLevel = LogLevel.LOGLEVEL_DEBUG
         }
 
-        let systemFactory: CISSystemFactoryProtocol = CISSystemFactoryCreator.create(withCISSystemInterface: systemInterFactory, setting: setting)
-
-        // TODO: improve failing mechanism
-
-        let clientSetting : CISClientSettingProtocol = try CISClientSettingCreator.create(withCustomerKey: customerKey)
+        let systemFactory = CISSystemFactoryCreator.create(withCISSystemInterface: systemInterFactory, setting: setting)
+        let clientSetting: CISClientSettingProtocol = try CISClientSettingCreator.create(withCustomerKey: customerKey)
         if let gatewayUrl = config.gatewayUrl {
             clientSetting.setGatewayUrl(gatewayUrl.absoluteString)
         }
 
         self.client = try CISClientCreator.create(withClientSettings: clientSetting, factory: systemFactory)
-
-        self.playerStateManager = self.client.getPlayerStateManager()
-        self.playerStateManager.setPlayerType!("Bitmovin Player iOS")
-
-        // TODO: extract version
-        if let bitmovinPlayerVersion = Bundle(for: BitmovinPlayer.self).infoDictionary?["CFBundleShortVersionString"] as? String {
-            self.playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
-        }
+        self.playerStateManager = client.getPlayerStateManager()
 
         super.init()
 
-        self.registerPlayerEvents()
+        setupPlayerStateManager()
+        registerPlayerEvents()
     }
 
     deinit {
@@ -75,6 +82,14 @@ public class ConvivaAnalytics: NSObject {
     }
 
     // MARK: - session handling
+    private func setupPlayerStateManager() {
+        self.playerStateManager.setPlayerType!("Bitmovin Player iOS")
+
+        if let bitmovinPlayerVersion = playerHelper.version {
+            self.playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
+        }
+    }
+
     private func initSession() {
         buildContentMetadata()
         sessionKey = client.createSession(with: contentMetadata)
@@ -125,7 +140,7 @@ public class ConvivaAnalytics: NSObject {
         contentMetadata.viewerId = config.viewerId
 
         var customInternTags: [String: Any] = [
-            "streamType": streamType
+            "streamType": playerHelper.streamType
         ]
         if let customTags = config.customTags {
             customInternTags.merge(customTags) { (_, new) in new }
@@ -134,20 +149,34 @@ public class ConvivaAnalytics: NSObject {
     }
 
     // MARK: - event handling
-    // TODO: Docu / Example
-    public func sendCustomApplicationEvent(name: String, attributes: [AnyHashable: Any] = [:]) {
+    /**
+     Sends a custom application-level event to Conviva's Player Insight. An application-level event can always
+     be sent and is not tied to a specific video.
+
+     - Parameters:
+        - name: The name of the event
+        - attributes: A dictionary with custom event attributes
+     */
+    public func sendCustomApplicationEvent(name: String, attributes: [String: String] = [:]) {
         client.sendCustomEvent(NO_SESSION_KEY, eventname: name, withAttributes: attributes)
     }
 
-    // TODO: Docu / Example
-    public func sendCustomPlaybackEvent(name: String, attributes: [AnyHashable: Any] = [:]) {
+    /**
+     Sends a custom playback-level event to Conviva's Player Insight. A playback-level event can only be sent
+     during an active video session.
+
+     - Parameters:
+        - name: The name of the event
+        - attributes: A dictionary with custom event attributes
+     */
+    public func sendCustomPlaybackEvent(name: String, attributes: [String: String] = [:]) {
         if !isValidSession {
             logger.debugLog(message: "Cannot send playback event, no active monitoring session")
         }
         client.sendCustomEvent(sessionKey, eventname: name, withAttributes: attributes)
     }
 
-    private func customEvent(event: PlayerEvent, args: [AnyHashable: Any] = [:]) {
+    private func customEvent(event: PlayerEvent, args: [String: String] = [:]) {
         if !isValidSession {
             return
         }
@@ -176,19 +205,6 @@ public class ConvivaAnalytics: NSObject {
     public func registerPlayerView(playerView: BMPBitmovinPlayerView) {
         self.playerView = playerView
         self.playerView?.add(listener: self)
-    }
-
-    private var streamType: String {
-        switch player.streamType {
-        case .DASH:
-            return "DASH"
-        case .HLS:
-            return "HLS"
-        case .progressive:
-            return "progressive"
-        default:
-            return "none"
-        }
     }
 }
 

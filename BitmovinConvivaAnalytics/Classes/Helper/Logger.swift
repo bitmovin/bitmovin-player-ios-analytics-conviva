@@ -5,7 +5,7 @@
 //  Created by David Steinacher on 05.10.18.
 //
 
-import UIKit
+import Foundation
 
 class Logger: NSObject {
     var loggingEnabled: Bool = false

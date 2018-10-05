@@ -71,22 +71,43 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jlO-jb-xvs">
+                                            <rect key="frame" x="16" y="442" width="343" height="30"/>
+                                            <state key="normal" title="Send custom event">
+                                                <color key="titleColor" red="0.1215686275" green="0.6705882353" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="sendCustomEvent:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="m6E-uh-JOb"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UIEvents" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="isH-xM-r9B">
+                                            <rect key="frame" x="16" y="488" width="343" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Gr5-Bc-OFs" firstAttribute="leading" secondItem="1tT-Td-CXC" secondAttribute="leading" constant="16" id="3EP-GR-cwg"/>
                                         <constraint firstAttribute="trailing" secondItem="Y42-XQ-Sug" secondAttribute="trailing" constant="16" id="5yz-59-S4M"/>
+                                        <constraint firstItem="isH-xM-r9B" firstAttribute="leading" secondItem="1tT-Td-CXC" secondAttribute="leading" constant="16" id="7JP-cn-v07"/>
                                         <constraint firstItem="Gr5-Bc-OFs" firstAttribute="top" secondItem="Y42-XQ-Sug" secondAttribute="bottom" constant="16" id="DCZ-WB-aOA"/>
                                         <constraint firstItem="Y42-XQ-Sug" firstAttribute="top" secondItem="zt9-sa-S3x" secondAttribute="bottom" constant="16" id="DcX-oP-lyF"/>
                                         <constraint firstItem="zt9-sa-S3x" firstAttribute="top" secondItem="een-Ij-ecP" secondAttribute="bottom" constant="32" id="K1d-sC-DD2"/>
+                                        <constraint firstAttribute="trailing" secondItem="isH-xM-r9B" secondAttribute="trailing" constant="16" id="NXs-o9-Pq4"/>
                                         <constraint firstAttribute="trailing" secondItem="zt9-sa-S3x" secondAttribute="trailing" constant="16" id="Pyj-dn-2Ph"/>
                                         <constraint firstAttribute="trailing" secondItem="MXE-Yg-yw7" secondAttribute="trailing" constant="16" id="SNf-A0-ZeT"/>
+                                        <constraint firstItem="jlO-jb-xvs" firstAttribute="top" secondItem="Gr5-Bc-OFs" secondAttribute="bottom" constant="16" id="Ts5-wI-P3z"/>
                                         <constraint firstItem="6DN-c8-uo2" firstAttribute="leading" secondItem="1tT-Td-CXC" secondAttribute="leading" constant="16" id="ZoD-ab-dPp"/>
                                         <constraint firstItem="6DN-c8-uo2" firstAttribute="centerY" secondItem="zt9-sa-S3x" secondAttribute="centerY" id="add-YA-NtC"/>
                                         <constraint firstItem="MXE-Yg-yw7" firstAttribute="width" secondItem="Gr5-Bc-OFs" secondAttribute="width" id="j1l-fg-GkX"/>
                                         <constraint firstItem="Y42-XQ-Sug" firstAttribute="leading" secondItem="1tT-Td-CXC" secondAttribute="leading" constant="16" id="k0w-6U-Tv6"/>
+                                        <constraint firstItem="isH-xM-r9B" firstAttribute="top" secondItem="jlO-jb-xvs" secondAttribute="bottom" constant="16" id="mZh-l2-Mfi"/>
                                         <constraint firstItem="MXE-Yg-yw7" firstAttribute="top" secondItem="Gr5-Bc-OFs" secondAttribute="top" id="n7S-a9-kfn"/>
                                         <constraint firstItem="MXE-Yg-yw7" firstAttribute="leading" secondItem="Gr5-Bc-OFs" secondAttribute="trailing" constant="16" id="qrB-Sh-bHB"/>
                                         <constraint firstItem="zt9-sa-S3x" firstAttribute="leading" secondItem="6DN-c8-uo2" secondAttribute="trailing" constant="16" id="tJ4-v3-Pax"/>
+                                        <constraint firstItem="jlO-jb-xvs" firstAttribute="leading" secondItem="1tT-Td-CXC" secondAttribute="leading" constant="16" id="vJH-RX-Tcx"/>
+                                        <constraint firstAttribute="trailing" secondItem="jlO-jb-xvs" secondAttribute="trailing" constant="16" id="vhK-GM-G29"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="dark"/>
@@ -113,6 +134,7 @@
                         <outlet property="playerUIView" destination="een-Ij-ecP" id="Jne-Bu-NQE"/>
                         <outlet property="posterImageView" destination="el6-04-fsB" id="5sK-uw-mOl"/>
                         <outlet property="streamUrlTextField" destination="Y42-XQ-Sug" id="N1e-kV-YCg"/>
+                        <outlet property="uiEventLabel" destination="isH-xM-r9B" id="kJC-tc-PDJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

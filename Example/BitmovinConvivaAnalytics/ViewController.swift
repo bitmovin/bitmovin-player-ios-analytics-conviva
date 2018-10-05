@@ -15,16 +15,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var playerUIView: UIView!
     @IBOutlet weak var adsSwitch: UISwitch!
     @IBOutlet weak var streamUrlTextField: UITextField!
+    @IBOutlet weak var uiEventLabel: UILabel!
 
     var player: BitmovinPlayer?
     var playerView: BMPBitmovinPlayerView?
+    var fullScreen: Bool = false
 
     var convivaAnalytics: ConvivaAnalytics?
 
     let convivaCustomerKey: String = ""
     let convivaGatewayString: String = ""
-    var fullScreen: Bool = false
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,39 +43,36 @@ class ViewController: UIViewController {
         // Setup Player
         player = BitmovinPlayer()
 
-
         let convivaConfig = ConvivaConfiguration()
+
+        // only set gatewayUrl in debug mode !!!
         convivaConfig.gatewayUrl = URL(string: convivaGatewayString)!
+        convivaConfig.debugLoggingEnabled = true
+
+        convivaConfig.applicationName = "Bitmovin iOS Conviva integration example app"
         convivaConfig.viewerId = "awesomeViewerId"
-        // TODO: handle error here
-        // swiftlint:disable all
-        convivaAnalytics = try? ConvivaAnalytics(player: player!, customerKey: convivaCustomerKey, config: convivaConfig) as! ConvivaAnalytics
-        if convivaAnalytics != nil {
-            print("🤷‍♂️ Success")
-        } else {
-            print("🆘 Error")
+        convivaConfig.customTags = ["contentType": "Episode"]
+
+        do {
+            convivaAnalytics = try ConvivaAnalytics(player: player!,
+                                                    customerKey: convivaCustomerKey,
+                                                    config: convivaConfig)
+        } catch {
+            NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
         }
 
         player?.setup(configuration: playerConfiguration)
-
-
-
 
         // Setup UI
         playerView = BMPBitmovinPlayerView(player: player!, frame: playerUIView.bounds)
-        playerView?.fullscreenHandler = self // TODO: do something in the fullscreen Handler
+        playerView?.fullscreenHandler = self
+
         if let convivaAnalytics = convivaAnalytics {
             convivaAnalytics.registerPlayerView(playerView: playerView!)
         }
+
         playerView?.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         playerUIView.addSubview(playerView!)
-    }
-    @IBAction func setupPlayer(_ sender: Any) {
-        player?.setup(configuration: playerConfiguration)
-    }
-    @IBAction func destroyPlayer(_ sender: Any) {
-        player?.unload()
-//        player?.destroy()
     }
 
     var playerConfiguration: PlayerConfiguration {
@@ -118,6 +115,22 @@ class ViewController: UIViewController {
         return adConfig
     }
 
+    // MARK: - actions
+    @IBAction func setupPlayer(_ sender: Any) {
+        player?.setup(configuration: playerConfiguration)
+    }
+
+    @IBAction func destroyPlayer(_ sender: Any) {
+        player?.unload()
+    }
+
+    @IBAction func sendCustomEvent(_ sender: Any) {
+        if let player = player {
+            convivaAnalytics?.sendCustomPlaybackEvent(name: "Custom Event",
+                                                      attributes: ["at Time": "\(Int(player.currentTime))"])
+        }
+    }
+
 }
 
 extension ViewController: FullscreenHandler {
@@ -127,11 +140,11 @@ extension ViewController: FullscreenHandler {
 
     func onFullscreenRequested() {
         fullScreen = true
+        uiEventLabel.text = "enterFullscreen"
     }
 
     func onFullscreenExitRequested() {
         fullScreen = false
+        uiEventLabel.text = "exitFullscreen"
     }
-
-
 }

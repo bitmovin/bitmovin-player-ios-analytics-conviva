@@ -68,7 +68,7 @@ class ViewController: UIViewController {
         playerView?.fullscreenHandler = self
 
         if let convivaAnalytics = convivaAnalytics {
-            convivaAnalytics.registerPlayerView(playerView: playerView!)
+            convivaAnalytics.playerView = playerView
         }
 
         playerView?.autoresizingMask = [.flexibleHeight, .flexibleWidth]

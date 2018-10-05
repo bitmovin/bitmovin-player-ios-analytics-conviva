@@ -10,24 +10,34 @@ import BitmovinPlayer
 import ConvivaSDK
 
 public class ConvivaAnalytics: NSObject {
+    // MARK: - Bitmovin Player attributes
     let player: BitmovinPlayer
-    var playerView: BMPBitmovinPlayerView?
+
+    // MARK: - Conviva related attributes
     let customerKey: String
     let config: ConvivaConfiguration
-
-    // Conviva related attributes
     var client: CISClientProtocol
     var playerStateManager: CISPlayerStateManagerProtocol
-
     var sessionKey: Int32 = NO_SESSION_KEY
     var contentMetadata: CISContentMetadata = CISContentMetadata()
-
     var isValidSession: Bool {
         return sessionKey != NO_SESSION_KEY
     }
 
+    // MARK: - Helper
     let logger: Logger
     let playerHelper: BitmovinPlayerHelper
+
+    // MARK: - Public Attributes
+    /**
+     Set the BMPBitmovinPlayerView to enable view triggered events like fullscreen state changes
+     */
+    public var playerView: BMPBitmovinPlayerView? {
+        didSet {
+            playerView?.remove(listener: self)
+            playerView?.add(listener: self)
+        }
+    }
 
     // MARK: - initializer
     /**
@@ -200,12 +210,6 @@ public class ConvivaAnalytics: NSObject {
         playerStateManager.setPlayerState!(playerState)
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }
-
-    // TODO: improve playerView event handling
-    public func registerPlayerView(playerView: BMPBitmovinPlayerView) {
-        self.playerView = playerView
-        self.playerView?.add(listener: self)
-    }
 }
 
 // MARK: - PlayerListener
@@ -230,54 +234,12 @@ extension ConvivaAnalytics: PlayerListener {
         }
     }
 
-    public func onTimeChanged(_ event: TimeChangedEvent) {
-        updateSession()
-    }
-
-    public func onPlay(_ event: PlayEvent) {
-        updateSession()
-        onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
-    }
-
-    public func onPaused(_ event: PausedEvent) {
-        onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
-    }
-
-    public func onPlaybackFinished(_ event: PlaybackFinishedEvent) {
-        onPlaybackStateChanged(playerState: .CONVIVA_STOPPED)
-        endSession()
-    }
-
-    public func onSeek(_ event: SeekEvent) {
-        playerStateManager.setSeekStart!(Int64(event.seekTarget))
-    }
-
-    public func onSeeked(_ event: SeekedEvent) {
-        playerStateManager.setSeekEnd!(Int64(player.currentTime))
-    }
-
-    public func onTimeShift(_ event: TimeShiftEvent) {
-        playerStateManager.setSeekStart!(Int64(event.target))
-    }
-
-    public func onTimeShifted(_ event: TimeShiftedEvent) {
-        playerStateManager.setSeekEnd!(Int64(player.currentTime)) // TODO: Test in live-stream
-    }
-
-    public func onStallStarted(_ event: StallStartedEvent) {
-        onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
-    }
-
-    public func onStallEnded(_ event: StallEndedEvent) {
-        if player.isPlaying {
-            onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
-        } else if player.isPaused {
-            onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
-        }
-    }
-
     public func onSourceUnloaded(_ event: SourceUnloadedEvent) {
         endSession()
+    }
+
+    public func onTimeChanged(_ event: TimeChangedEvent) {
+        updateSession()
     }
 
     public func onError(_ event: ErrorEvent) {
@@ -294,6 +256,51 @@ extension ConvivaAnalytics: PlayerListener {
         customEvent(event: event)
     }
 
+    // MARK: - Playback state events
+    public func onPlay(_ event: PlayEvent) {
+        updateSession()
+        onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
+    }
+
+    public func onPaused(_ event: PausedEvent) {
+        onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
+    }
+
+    public func onPlaybackFinished(_ event: PlaybackFinishedEvent) {
+        onPlaybackStateChanged(playerState: .CONVIVA_STOPPED)
+        endSession()
+    }
+
+    public func onStallStarted(_ event: StallStartedEvent) {
+        onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
+    }
+
+    public func onStallEnded(_ event: StallEndedEvent) {
+        if player.isPlaying {
+            onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
+        } else if player.isPaused {
+            onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
+        }
+    }
+
+    // MARK: - Seek / Timeshift events
+    public func onSeek(_ event: SeekEvent) {
+        playerStateManager.setSeekStart!(Int64(event.seekTarget))
+    }
+
+    public func onSeeked(_ event: SeekedEvent) {
+        playerStateManager.setSeekEnd!(Int64(player.currentTime))
+    }
+
+    public func onTimeShift(_ event: TimeShiftEvent) {
+        playerStateManager.setSeekStart!(Int64(event.target))
+    }
+
+    public func onTimeShifted(_ event: TimeShiftedEvent) {
+        playerStateManager.setSeekEnd!(Int64(player.currentTime))
+    }
+
+    // MARK: - Ad events
     public func onAdStarted(_ event: AdStartedEvent) {
         let adPosition: AdPosition = AdEventUtil.parseAdPosition(event: event, contentDuration: player.duration)
         client.adStart(sessionKey, adStream: .ADSTREAM_SEPARATE, adPlayer: .ADPLAYER_CONTENT, adPosition: adPosition)

@@ -47,7 +47,7 @@ class AdEventUtil {
     private static func parseTime(position: String, _ contentDuration: TimeInterval) -> AdPosition {
         let stringParts = position.split(separator: ":")
         var seconds = 0.0
-        let secondFactors: [Double] = [1, 60 , 60 * 60, 60 * 60 * 24]
+        let secondFactors: [Double] = [1, 60, 60 * 60, 60 * 60 * 24]
         for (index, part) in stringParts.reversed().enumerated() {
             seconds += Double(part) ?? 0 * secondFactors[index]
         }

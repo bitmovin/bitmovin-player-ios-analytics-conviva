@@ -24,6 +24,8 @@ public final class ConvivaAnalytics: NSObject {
         return sessionKey != NO_SESSION_KEY
     }
 
+    var listener: BitmovinPlayerListener?
+
     // MARK: - Helper
     let logger: Logger
     let playerHelper: BitmovinPlayerHelper
@@ -83,6 +85,9 @@ public final class ConvivaAnalytics: NSObject {
 
         setupPlayerStateManager()
         registerPlayerEvents()
+
+        listener = BitmovinPlayerListener(player: player)
+        listener?.delegate = self
     }
 
     deinit {
@@ -213,6 +218,7 @@ public final class ConvivaAnalytics: NSObject {
 }
 
 // MARK: - PlayerListener
+// TODO: i don't like it that the events are public accessible (move out of here)
 extension ConvivaAnalytics: PlayerListener {
     public func onEvent(_ event: PlayerEvent) {
         logger.debugLog(message: "[ Player Event ] \(event.name)")
@@ -321,6 +327,16 @@ extension ConvivaAnalytics: PlayerListener {
     }
 }
 
+protocol BitmovinPlayerListenerDelegate: AnyObject {
+    func onPlay()
+}
+
+extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
+    func onPlay() {
+        print("play in delegate")
+    }
+}
+
 // MARK: - UserInterfaceListener
 extension ConvivaAnalytics: UserInterfaceListener {
     public func onFullscreenEnter(_ event: FullscreenEnterEvent) {
@@ -329,5 +345,22 @@ extension ConvivaAnalytics: UserInterfaceListener {
 
     public func onFullscreenExit(_ event: FullscreenExitEvent) {
         customEvent(event: event)
+    }
+}
+
+
+
+class BitmovinPlayerListener {
+    let player: BitmovinPlayer
+    weak var delegate: BitmovinPlayerListenerDelegate?
+    init(player: BitmovinPlayer) {
+        self.player = player
+        self.player.add(listener: self)
+    }
+}
+
+extension BitmovinPlayerListener: PlayerListener {
+    func onPlay(_ event: PlayEvent) {
+        delegate?.onPlay()
     }
 }

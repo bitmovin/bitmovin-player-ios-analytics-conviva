@@ -27,6 +27,8 @@ public final class ConvivaAnalytics: NSObject {
     // MARK: - Helper
     let logger: Logger
     let playerHelper: BitmovinPlayerHelper
+    // Workaround for player issue when onPlay is send while player is stalled
+    var isStalled: Bool = false
 
     // MARK: - Public Attributes
     /**
@@ -59,8 +61,6 @@ public final class ConvivaAnalytics: NSObject {
         self.playerHelper = BitmovinPlayerHelper(player: player)
         self.customerKey = customerKey
         self.config = config
-
-        // TODO: check if we can check if the player is already setup !!!!
 
         let systemInterFactory: CISSystemInterfaceProtocol = IOSSystemInterfaceFactory.initializeWithSystemInterface()
         let setting: CISSystemSettings = CISSystemSettings()
@@ -103,6 +103,7 @@ public final class ConvivaAnalytics: NSObject {
     private func initSession() {
         buildContentMetadata()
         sessionKey = client.createSession(with: contentMetadata)
+        updateSession()
 
         if !isValidSession {
             logger.debugLog(message: "Something went wrong, could not obtain session key")
@@ -148,14 +149,9 @@ public final class ConvivaAnalytics: NSObject {
         contentMetadata.applicationName = config.applicationName
         contentMetadata.assetName = sourceItem?.itemTitle
         contentMetadata.viewerId = config.viewerId
-
-        var customInternTags: [String: Any] = [
-            "streamType": playerHelper.streamType
-        ]
         if let customTags = config.customTags {
-            customInternTags.merge(customTags) { (_, new) in new }
+            contentMetadata.custom = NSMutableDictionary(dictionary: customTags)
         }
-        contentMetadata.custom = NSMutableDictionary(dictionary: customInternTags)
     }
 
     // MARK: - event handling
@@ -203,6 +199,11 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func onPlaybackStateChanged(playerState: PlayerState) {
+        // do not report playing while player isStalled
+        if isStalled && playerState != .CONVIVA_BUFFERING {
+            return
+        }
+
         if !isValidSession {
             self.initSession()
         }
@@ -218,22 +219,6 @@ extension ConvivaAnalytics: PlayerListener {
         logger.debugLog(message: "[ Player Event ] \(event.name)")
     }
 
-    public func onReady(_ event: ReadyEvent) {
-        if !isValidSession {
-            self.initSession()
-        }
-    }
-
-    public func onSourceLoaded(_ event: SourceLoadedEvent) {
-        if player.isAd {
-            return
-        }
-
-        if !isValidSession {
-            initSession()
-        }
-    }
-
     public func onSourceUnloaded(_ event: SourceUnloadedEvent) {
         endSession()
     }
@@ -243,6 +228,10 @@ extension ConvivaAnalytics: PlayerListener {
     }
 
     public func onError(_ event: ErrorEvent) {
+        if !isValidSession {
+            initSession()
+        }
+
         let message = "\(event.code) \(event.message)"
         client.reportError(sessionKey, errorMessage: message, errorSeverity: .ERROR_FATAL)
         endSession()
@@ -272,10 +261,12 @@ extension ConvivaAnalytics: PlayerListener {
     }
 
     public func onStallStarted(_ event: StallStartedEvent) {
+        isStalled = true
         onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
     }
 
     public func onStallEnded(_ event: StallEndedEvent) {
+        isStalled = false
         if player.isPlaying {
             onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
         } else if player.isPaused {

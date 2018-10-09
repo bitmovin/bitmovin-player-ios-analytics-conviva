@@ -2,47 +2,28 @@
 
 import Quick
 import Nimble
+import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import ConvivaSDK
 
 class TableOfContentsSpec: QuickSpec {
     override func spec() {
+        beforeSuite {
+            TestHelper.double.mockConviva()
+        }
         describe("these will fail") {
 
-            it("can do maths") {
-                expect(1) == 2
-            }
+            it("or maybe not / will success") {
+                let playerMock = BitmovinPlayerDouble()
+                do {
+                    _ = try ConvivaAnalytics(player: playerMock, customerKey: "")
+                    playerMock.fakeEvent()
 
-            it("can read") {
-                expect("number") == "string"
-            }
+                    let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
+                    expect(spy).to(haveBeenCalled())
 
-            it("will eventually fail") {
-                expect("time").toEventually( equal("done") )
-            }
-
-            context("these will pass") {
-
-                it("can do maths") {
-                    expect(23) == 23
-                }
-
-                it("can read") {
-                    expect("🐮") == "🐮"
-                }
-
-                it("will eventually pass") {
-                    var time = "passing"
-
-                    DispatchQueue.main.async {
-                        time = "done"
-                    }
-
-                    waitUntil { done in
-                        Thread.sleep(forTimeInterval: 0.5)
-                        expect(time) == "done"
-
-                        done()
-                    }
+                } catch {
+                    expect(1).to(equal(2)) // TODO: let the test fail
                 }
             }
         }

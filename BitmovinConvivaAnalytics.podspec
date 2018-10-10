@@ -19,12 +19,15 @@ TODO: Add long description of the pod here.
   s.source           = { git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: s.version.to_s }
 
   s.ios.deployment_target = '9.0'
+  s.tvos.deployment_target = '9.0'
 
   s.source_files = 'BitmovinConvivaAnalytics/Classes/**/*.swift'
   s.swift_version = '4.2'
 
-  s.dependency 'BitmovinPlayer', '~> 2.0'
-  s.dependency 'ConvivaSDK', '~> 2.141.0'
+  s.ios.dependency 'BitmovinPlayer', '~> 2.0'
+  s.tvos.dependency 'BitmovinPlayer', '~> 2.0'
+  s.ios.dependency 'ConvivaSDK', '~> 2.141.0'
+  s.tvos.dependency 'ConvivaSDK', '~> 2.141.0'
 
   s.static_framework = true
 end

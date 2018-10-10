@@ -225,10 +225,6 @@ extension ConvivaAnalytics: PlayerListener {
     }
 
     public func onSourceLoaded(_ event: SourceLoadedEvent) {
-        if player.isAd {
-            return
-        }
-
         if !isValidSession {
             initSession()
         }
@@ -285,7 +281,7 @@ extension ConvivaAnalytics: PlayerListener {
 
     // MARK: - Seek / Timeshift events
     public func onSeek(_ event: SeekEvent) {
-        playerStateManager.setSeekStart!(Int64(event.seekTarget))
+        playerStateManager.setSeekStart!(Int64(event.position))
     }
 
     public func onSeeked(_ event: SeekedEvent) {
@@ -293,7 +289,7 @@ extension ConvivaAnalytics: PlayerListener {
     }
 
     public func onTimeShift(_ event: TimeShiftEvent) {
-        playerStateManager.setSeekStart!(Int64(event.target))
+        playerStateManager.setSeekStart!(Int64(event.position))
     }
 
     public func onTimeShifted(_ event: TimeShiftedEvent) {
@@ -314,11 +310,12 @@ extension ConvivaAnalytics: PlayerListener {
         customEvent(event: event)
         client.adEnd(sessionKey)
     }
-
+    #if !os(tvOS)
     public func onAdError(_ event: AdErrorEvent) {
         customEvent(event: event)
         client.adEnd(sessionKey)
     }
+    #endif
 }
 
 // MARK: - UserInterfaceListener

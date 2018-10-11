@@ -109,7 +109,7 @@ class ViewController: UIViewController {
         let adSource2 = AdSource(tag: URL(string: adTagVast1)!, ofType: .IMA)
         let adSource3 = AdSource(tag: URL(string: adTagVast2)!, ofType: .IMA)
 
-        let preRoll = AdItem(adSources: [adSource1], atPosition: "blub")
+        let preRoll = AdItem(adSources: [adSource1], atPosition: "pre")
         let midRoll = AdItem(adSources: [adSource2], atPosition: "20%")
         let postRoll = AdItem(adSources: [adSource3], atPosition: "post")
 

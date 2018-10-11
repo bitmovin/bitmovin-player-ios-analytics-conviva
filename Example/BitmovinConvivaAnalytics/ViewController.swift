@@ -23,13 +23,13 @@ class ViewController: UIViewController {
 
     var convivaAnalytics: ConvivaAnalytics?
 
-    let convivaCustomerKey: String = ""
-    let convivaGatewayString: String = ""
+    let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
+    var convivaGatewayString: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupBMPlayer()
+        setupBitmovinPlayer()
 
         if let posterUrl = sourceItem.posterSource {
             // Be aware that this will be executed synchronously on the main thread (change to SDWebImage if needed)
@@ -39,14 +39,17 @@ class ViewController: UIViewController {
         }
     }
 
-    func setupBMPlayer() {
+    func setupBitmovinPlayer() {
         // Setup Player
         player = BitmovinPlayer()
 
         let convivaConfig = ConvivaConfiguration()
 
         // only set gatewayUrl in debug mode !!!
-        convivaConfig.gatewayUrl = URL(string: convivaGatewayString)!
+        if let gatewayString = convivaGatewayString,
+            let gatewayUrl = URL(string: gatewayString) {
+            convivaConfig.gatewayUrl = gatewayUrl
+        }
         convivaConfig.debugLoggingEnabled = true
 
         convivaConfig.applicationName = "Bitmovin iOS Conviva integration example app"

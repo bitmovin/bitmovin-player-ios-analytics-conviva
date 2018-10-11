@@ -12,20 +12,46 @@ import Quick
 import Nimble
 
 class TestHelper: NSObject {
-    static var tracker = TestTracker()
-    static var double = TestDoubleFactory()
+    static var shared = TestHelper()
+    let tracker: TestTracker
+    let double: TestDoubleFactory
+
+    private override init() {
+        self.tracker = TestTracker()
+        self.double = TestDoubleFactory()
+    }
 }
 
 class TestTracker {
-    var functionTracking: [String: Any] = [:]
-    var functionExpectation: String?
+    var functionTracking: [String: [String: String]?] = [:]
 
-    func track(functionName: String, args: [String: String]) {
+    func track(functionName: String, args: [String: String]? = nil) {
         functionTracking[functionName] = args
     }
 
-    func hasCalledFunction(_ name: String) -> Bool {
-        return functionTracking[name] != nil
+    func hasCalledFunction(_ name: String, withArgs: [String: String]? = nil) -> Bool {
+        let called = functionTracking.keys.contains(name)
+        if !called {
+            return false
+        }
+
+        if let expectedArgs = withArgs {
+            if let calledArgs = functionTracking[name] {
+                var containsExpectedArgs = true
+                for key in expectedArgs.keys {
+                    containsExpectedArgs = containsExpectedArgs && (calledArgs?[key] == expectedArgs[key])
+                }
+                return containsExpectedArgs
+            }
+
+            return false
+        }
+
+        return called
+    }
+
+    func reset() {
+        functionTracking = [:]
     }
 }
 
@@ -62,7 +88,21 @@ public func haveBeenCalled<T>() -> Predicate<T> {
 
         if let functionName = (try? actualExpression.evaluate() as? Spy)??.functionName {
             let message = ExpectationMessage.expectedTo("have called <\(functionName)>")
-            return PredicateResult(bool: TestHelper.tracker.hasCalledFunction(functionName),
+            return PredicateResult(bool: TestHelper.shared.tracker.hasCalledFunction(functionName),
+                                   message: message)
+        }
+
+        let message = ExpectationMessage.fail("Invalid Spy")
+        return PredicateResult(bool: false, message: message)
+    }
+}
+
+public func haveBeenCalled<T>(withArgs: [String: String]) -> Predicate<T> {
+    return Predicate { (actualExpression: Expression<T>) throws -> PredicateResult in
+
+        if let functionName = (try? actualExpression.evaluate() as? Spy)??.functionName {
+            let message = ExpectationMessage.expectedTo("have called <\(functionName)> with args<\(withArgs)> got <\(TestHelper.shared.tracker.functionTracking[functionName])>")
+            return PredicateResult(bool: TestHelper.shared.tracker.hasCalledFunction(functionName, withArgs: withArgs),
                                    message: message)
         }
 

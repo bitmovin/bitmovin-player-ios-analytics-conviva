@@ -13,15 +13,14 @@
 		37EB3CD6216B70DF0093F085 /* CISClientDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CCB216B6ED30093F085 /* CISClientDouble.swift */; };
 		37EB3CD7216B70E10093F085 /* PlayerStateManagerDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CCD216B6FE70093F085 /* PlayerStateManagerDouble.swift */; };
 		37EB3CD8216B70E40093F085 /* CISClientSettingProtocolDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CCF216B70160093F085 /* CISClientSettingProtocolDouble.swift */; };
-		4C006B16847184C02FF65F9C /* Pods_BitmovinConvivaAnalytics_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF16C051F57342FA6E733179 /* Pods_BitmovinConvivaAnalytics_Example.framework */; };
-		51498C0978D2FC514AE7322D /* Pods_BitmovinConvivaAnalytics_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E8F772F62106354A16E85C3 /* Pods_BitmovinConvivaAnalytics_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
-		A6B189EE59D39806EB0D2CA5 /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 732DFD120C2E4AB17CAB1D0A /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework */; };
+		6A3A889538D7C1465FC67FC0 /* Pods_BitmovinConvivaAnalytics_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A5B2F277AB518CCE79128 /* Pods_BitmovinConvivaAnalytics_Example.framework */; };
+		7B02410E22E0B14169642A9A /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7FCBCD8F7EDBCBE9B64730 /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,15 +36,14 @@
 /* Begin PBXFileReference section */
 		0B935631B6FC9478D0B5796B /* Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		18D9A1085FF475FC238B6545 /* Pods-BitmovinConvivaAnalytics_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		1E7FCBCD8F7EDBCBE9B64730 /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23AA901C80A2F84D631B507E /* Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		2E54D8B05EA82205B0E79EB9 /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_ExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_ExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		37EB3CC7216B6E3F0093F085 /* BitmovinPlayerDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BitmovinPlayerDouble.swift; path = Doubles/BitmovinPlayerDouble.swift; sourceTree = "<group>"; };
 		37EB3CC9216B6E8A0093F085 /* CISClientSettingCreatorDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISClientSettingCreatorDouble.swift; path = Doubles/CISClientSettingCreatorDouble.swift; sourceTree = "<group>"; };
 		37EB3CCB216B6ED30093F085 /* CISClientDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISClientDouble.swift; path = Doubles/CISClientDouble.swift; sourceTree = "<group>"; };
 		37EB3CCD216B6FE70093F085 /* PlayerStateManagerDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlayerStateManagerDouble.swift; path = Doubles/PlayerStateManagerDouble.swift; sourceTree = "<group>"; };
 		37EB3CCF216B70160093F085 /* CISClientSettingProtocolDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISClientSettingProtocolDouble.swift; path = Doubles/CISClientSettingProtocolDouble.swift; sourceTree = "<group>"; };
 		37EB3CD1216B70650093F085 /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
-		3E8F772F62106354A16E85C3 /* Pods_BitmovinConvivaAnalytics_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		45CD5012855AD308CAC3A093 /* Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* BitmovinConvivaAnalytics_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BitmovinConvivaAnalytics_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -57,15 +55,13 @@
 		607FACE51AFB9204008FA782 /* BitmovinConvivaAnalytics_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BitmovinConvivaAnalytics_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		732DFD120C2E4AB17CAB1D0A /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		767A5B2F277AB518CCE79128 /* Pods_BitmovinConvivaAnalytics_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BEA353F1EF3E281B7DFAAB9 /* Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		A23B32C43D9850B4E596F1C9 /* Pods_BitmovinConvivaAnalytics_ExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_ExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A325221B74D53FE9D6847CBB /* Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		A5278C86509C94C0D6B2A159 /* Pods-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_ExampleTests/Pods-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AB2C684C23DE1A58904C40EF /* Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B0D6D92D5D0682BEB6A2AE76 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		BE302B93B26F5254AC33B8FB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		BF16C051F57342FA6E733179 /* Pods_BitmovinConvivaAnalytics_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F114B5BD32FA8C33DF7C8FE3 /* Pods-BitmovinConvivaAnalytics_ExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_ExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_ExampleTests/Pods-BitmovinConvivaAnalytics_ExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		F4A0D5E02D9AD46C7E9BCAF6 /* Pods-BitmovinConvivaAnalytics_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example.release.xcconfig"; sourceTree = "<group>"; };
 		FD51F7BB291EC2A66E494753 /* BitmovinConvivaAnalytics.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = BitmovinConvivaAnalytics.podspec; path = ../BitmovinConvivaAnalytics.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -76,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C006B16847184C02FF65F9C /* Pods_BitmovinConvivaAnalytics_Example.framework in Frameworks */,
+				6A3A889538D7C1465FC67FC0 /* Pods_BitmovinConvivaAnalytics_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,8 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51498C0978D2FC514AE7322D /* Pods_BitmovinConvivaAnalytics_Tests.framework in Frameworks */,
-				A6B189EE59D39806EB0D2CA5 /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework in Frameworks */,
+				7B02410E22E0B14169642A9A /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,11 +90,8 @@
 		11AD340E6E895070F79F0F58 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3E8F772F62106354A16E85C3 /* Pods_BitmovinConvivaAnalytics_Tests.framework */,
-				BF16C051F57342FA6E733179 /* Pods_BitmovinConvivaAnalytics_Example.framework */,
-				A23B32C43D9850B4E596F1C9 /* Pods_BitmovinConvivaAnalytics_ExampleTests.framework */,
-				2E54D8B05EA82205B0E79EB9 /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_ExampleTests.framework */,
-				732DFD120C2E4AB17CAB1D0A /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework */,
+				767A5B2F277AB518CCE79128 /* Pods_BitmovinConvivaAnalytics_Example.framework */,
+				1E7FCBCD8F7EDBCBE9B64730 /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

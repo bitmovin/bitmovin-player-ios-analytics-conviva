@@ -49,7 +49,7 @@ final class AdEventUtil {
         var seconds = 0.0
         let secondFactors: [Double] = [1, 60, 60 * 60, 60 * 60 * 24]
         for (index, part) in stringParts.reversed().enumerated() {
-            seconds += Double(part) ?? 0 * secondFactors[index]
+            seconds += (Double(part) ?? 0) * secondFactors[index]
         }
 
         if seconds == 0 {

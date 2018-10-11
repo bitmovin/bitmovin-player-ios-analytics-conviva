@@ -9,26 +9,38 @@
 import Foundation
 import Nimble
 
-public func haveBeenCalled<T>() -> Predicate<T> {
+public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Predicate<T> {
     return Predicate { (actualExpression: Expression<T>) throws -> PredicateResult in
 
         if let functionName = (try? actualExpression.evaluate() as? Spy)??.functionName {
-            let message = ExpectationMessage.expectedTo("have called <\(functionName)>")
-            return PredicateResult(bool: TestHelper.shared.spyTracker.hasCalledFunction(functionName),
-                                   message: message)
-        }
+            let spyTracker = TestHelper.shared.spyTracker
 
-        let message = ExpectationMessage.fail("Invalid Spy")
-        return PredicateResult(bool: false, message: message)
-    }
-}
+            var spyResult = spyTracker.hasCalledFunction(functionName)
+            let spyWasCalled: Bool = spyResult.success
+            var argsAreMatching: Bool = true // expect best case for the case no args where expected
 
-public func haveBeenCalled<T>(withArgs: [String: String]) -> Predicate<T> {
-    return Predicate { (actualExpression: Expression<T>) throws -> PredicateResult in
+            let message: ExpectationMessage!
+            if spyWasCalled {
+                if let expectedArgs = withArgs {
+                    spyResult = spyTracker.hasCalledFunction(functionName, withArgs: expectedArgs)
+                    argsAreMatching = spyResult.success
 
-        if let functionName = (try? actualExpression.evaluate() as? Spy)??.functionName {
-            let message = ExpectationMessage.expectedTo("have called <\(functionName)> with args<\(withArgs)> got <\(TestHelper.shared.spyTracker.spies[functionName])>")
-            return PredicateResult(bool: TestHelper.shared.spyTracker.hasCalledFunction(functionName, withArgs: withArgs),
+                    let messageString: String!
+                    if let trackedArgs = spyResult.trackedArgs {
+                        messageString = "have called <\(functionName)> with args<\(expectedArgs)> got <\(trackedArgs)>"
+                    } else {
+                        messageString = "have called <\(functionName)> with args<\(expectedArgs)> got <nil>"
+                    }
+                    message = ExpectationMessage.expectedTo(messageString)
+                } else {
+                    // Success message (will never be shown but is needed)
+                    message = ExpectationMessage.expectedTo("have called <\(functionName)>")
+                }
+            } else {
+                message = ExpectationMessage.expectedTo("have called <\(functionName)> but was not called")
+            }
+
+            return PredicateResult(bool: spyWasCalled && argsAreMatching,
                                    message: message)
         }
 

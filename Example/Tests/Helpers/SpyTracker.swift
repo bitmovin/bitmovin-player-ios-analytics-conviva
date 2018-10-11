@@ -15,10 +15,11 @@ class SpyTracker {
         spies[functionName] = args
     }
 
-    func hasCalledFunction(_ name: String, withArgs: [String: String]? = nil) -> Bool {
+    func hasCalledFunction(_ name: String,
+                           withArgs: [String: String]? = nil) -> (success: Bool, trackedArgs: [String: String]?) {
         let called = spies.keys.contains(name)
         if !called {
-            return false
+            return (false, nil)
         }
 
         if let expectedArgs = withArgs {
@@ -27,13 +28,13 @@ class SpyTracker {
                 for key in expectedArgs.keys {
                     containsExpectedArgs = containsExpectedArgs && (calledArgs?[key] == expectedArgs[key])
                 }
-                return containsExpectedArgs
+                return (containsExpectedArgs, spies[name] ?? nil)
             }
 
-            return false
+            return (false, nil)
         }
 
-        return called
+        return (called, nil)
     }
 
     func reset() {

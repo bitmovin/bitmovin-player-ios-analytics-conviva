@@ -9,9 +9,9 @@
 import Foundation
 import ConvivaSDK
 
-class CISClientDouble: NSObject, CISClientProtocol {
+class CISClientDouble: NSObject, CISClientProtocol, DoubleDataSource {
     func createSession(with cisContentMetadata: CISContentMetadata!) -> Int32 {
-        TestHelper.shared.tracker.track(functionName: "createSession")
+        spy(functionName: "createSession")
         return Int32(0)
     }
 
@@ -19,20 +19,8 @@ class CISClientDouble: NSObject, CISClientProtocol {
         return 2
     }
 
-    func cleanUp() {
-
-    }
-
     func getPlayerStateManager() -> CISPlayerStateManagerProtocol! {
         return PlayerStateManagerDouble()
-    }
-
-    func attachPlayer(_ sessionKey: Int32, playerStateManager: CISPlayerStateManagerProtocol!) {
-
-    }
-
-    func reportError(_ sessionKey: Int32, errorMessage: String!, errorSeverity severity: ErrorSeverity) {
-
     }
 
     func updateContentMetadata(_ sessionKey: Int32, metadata contentMetadata: CISContentMetadata!) {
@@ -54,44 +42,31 @@ class CISClientDouble: NSObject, CISClientProtocol {
         args["streamType"] = "\(contentMetadata.streamType.rawValue)"
         args["streamUrl"] = contentMetadata.streamUrl
 
-        TestHelper.shared.tracker.track(functionName: "updateContentMetadata", args: args)
+        spy(functionName: "updateContentMetadata", args: args)
     }
 
-    func detachPlayer(_ sessionKey: Int32) {
-
-    }
-
-    func contentPreload(_ sessionKey: Int32) {
-
-    }
-
-    func contentStart(_ sessionKey: Int32) {
-
-    }
-
-    func sendCustomEvent(_ sessionKey: Int32, eventname eventName: String!, withAttributes attributes: [AnyHashable : Any]! = [:]) {
+    func sendCustomEvent(_ sessionKey: Int32,
+                         eventname eventName: String!,
+                         withAttributes attributes: [AnyHashable : Any]! = [:]) {
         var args: [String: String] = [:]
         args["sessionKey"] = "\(sessionKey)"
         args["eventName"] = eventName
         // swiftlint:disable:next force_cast
         args.merge(attributes as! [String: String]) { (_, new) in new }
-        TestHelper.shared.tracker.track(functionName: "sendCustomEvent", args: args)
+
+        spy(functionName: "sendCustomEvent", args: args)
     }
 
     func cleanupSession(_ sessionKey: Int32) {
-        TestHelper.shared.tracker.track(functionName: "cleanupSession", args: ["sessionKey": "\(sessionKey)"])
-    }
-
-    func releasePlayerStateManager(_ playerStateManager: CISPlayerStateManagerProtocol!) {
-
+        spy(functionName: "cleanupSession", args: ["sessionKey": "\(sessionKey)"])
     }
 
     func adStart(_ sessionKey: Int32, adStream: AdStream, adPlayer: AdPlayer, adPosition: AdPosition) {
-        TestHelper.shared.tracker.track(functionName: "adStart", args: ["adPosition": "\(adPosition.rawValue)"])
+        spy(functionName: "adStart", args: ["adPosition": "\(adPosition.rawValue)"])
     }
 
     func adEnd(_ sessionKey: Int32) {
-        TestHelper.shared.tracker.track(functionName: "adEnd")
+        spy(functionName: "adEnd")
     }
 
     func getAttachedPlayer(_ sessionKey: Int32) -> CISPlayerStateManagerProtocol! {
@@ -102,5 +77,11 @@ class CISClientDouble: NSObject, CISClientProtocol {
         return true
     }
 
-
+    func releasePlayerStateManager(_ playerStateManager: CISPlayerStateManagerProtocol!) {}
+    func detachPlayer(_ sessionKey: Int32) {}
+    func contentPreload(_ sessionKey: Int32) {}
+    func contentStart(_ sessionKey: Int32) {}
+    func cleanUp() {}
+    func attachPlayer(_ sessionKey: Int32, playerStateManager: CISPlayerStateManagerProtocol!) {}
+    func reportError(_ sessionKey: Int32, errorMessage: String!, errorSeverity severity: ErrorSeverity) {}
 }

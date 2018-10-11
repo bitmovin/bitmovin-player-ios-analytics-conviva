@@ -16,20 +16,6 @@ class BitmovinPlayerDouble: BitmovinPlayer, DoubleDataSource {
         super.init(configuration: PlayerConfiguration())
     }
 
-    func fakeEvent(_ event: PlayerEvent) {
-        guard let onEvent = fakeListener?.onEvent else {
-            return
-        }
-        onEvent(event)
-    }
-
-    func fakeReadyEvent() {
-        guard let onReady = fakeListener?.onReady else {
-            return
-        }
-        onReady(ReadyEvent())
-    }
-
     func fakePlayEvent() {
         guard let onPlay = fakeListener?.onPlay else {
             return

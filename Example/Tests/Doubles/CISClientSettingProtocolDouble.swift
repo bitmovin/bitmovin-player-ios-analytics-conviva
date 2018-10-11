@@ -10,14 +10,6 @@ import Foundation
 import ConvivaSDK
 
 class CISClientSettingProtocolDouble: NSObject, CISClientSettingProtocol {
-    func setCustomerKey(_ customerKey: String!) {
-
-    }
-
-    func setHeartbeatInterval(_ heartbeatInterval: TimeInterval) {
-
-    }
-
     func getCustomerKey() -> String! {
         return "StubKey"
     }
@@ -30,7 +22,7 @@ class CISClientSettingProtocolDouble: NSObject, CISClientSettingProtocol {
         return "Stub Url"
     }
 
-    func setGatewayUrl(_ gatewayUrl: String!) {
-
-    }
+    func setGatewayUrl(_ gatewayUrl: String!) {}
+    func setCustomerKey(_ customerKey: String!) {}
+    func setHeartbeatInterval(_ heartbeatInterval: TimeInterval) {}
 }

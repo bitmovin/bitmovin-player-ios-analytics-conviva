@@ -14,13 +14,21 @@ import Nimble
 class TestHelper: NSObject {
     static var shared = TestHelper()
     let tracker: TestTracker
-    let double: TestDoubleFactory
     let mocking: TestMocker
+    let double: TestDoubleFactory
 
     private override init() {
         self.tracker = TestTracker()
         self.double = TestDoubleFactory()
         self.mocking = TestMocker()
+    }
+
+    func spy(functionName: String, args: [String: String]? = nil) {
+        TestHelper.shared.tracker.track(functionName: functionName, args: args)
+    }
+
+    func mock(_ name: String, returnValue: Any) {
+        TestHelper.shared.mocking.addMock(name, returnValue: returnValue)
     }
 }
 
@@ -77,18 +85,23 @@ struct Spy {
 
 protocol DoubleDataSource {
     var mocking: [String: Any] { get }
+    func spy(functionName: String, args: [String: String]?)
 }
 
 extension DoubleDataSource {
     var mocking: [String: Any] {
         return TestHelper.shared.mocking.mocking
     }
+
+    func spy(functionName: String, args: [String: String]? = nil) {
+        TestHelper.shared.spy(functionName: functionName, args: args)
+    }
 }
 
 class Double {
     // can be used for methods and properties
     init(aClass: Any, name: String, return value: Any) {
-        TestHelper.shared.mocking.addMock(name, returnValue: value)
+        TestHelper.shared.mock(name, returnValue: value)
     }
 }
 

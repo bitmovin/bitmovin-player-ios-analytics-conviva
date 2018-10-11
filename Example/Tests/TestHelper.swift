@@ -87,7 +87,7 @@ extension DoubleDataSource {
 
 class Double {
     // can be used for methods and properties
-    init(aClass: AnyClass, name: String, return value: Any) {
+    init(aClass: Any, name: String, return value: Any) {
         TestHelper.shared.mocking.addMock(name, returnValue: value)
     }
 }

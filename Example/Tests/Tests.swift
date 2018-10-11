@@ -8,15 +8,15 @@ import ConvivaSDK
 
 // swiftlint:disable:next type_body_length
 class TableOfContentsSpec: QuickSpec {
-    var playerMock: BitmovinPlayerDouble = BitmovinPlayerDouble()
     // swiftlint:disable:next function_body_length
     override func spec() {
+        var playerDouble: BitmovinPlayerDouble!
         beforeSuite {
             self.continueAfterFailure = true
             TestHelper.shared.double.mockConviva()
         }
         beforeEach {
-            self.playerMock = BitmovinPlayerDouble()
+            playerDouble = BitmovinPlayerDouble()
             TestHelper.shared.tracker.reset()
         }
 
@@ -24,7 +24,7 @@ class TableOfContentsSpec: QuickSpec {
             context("Player event handling") {
                 beforeEach {
                     do {
-                        _ = try ConvivaAnalytics(player: self.playerMock, customerKey: "")
+                        _ = try ConvivaAnalytics(player: playerDouble, customerKey: "")
                     } catch {
                         fail("ConvivaAnalytics failed with error: \(error)")
                     }
@@ -32,14 +32,14 @@ class TableOfContentsSpec: QuickSpec {
                 context("initialize session") {
                     it("on Play") {
                         let spy = Spy(aClass: CISClientDouble.self, functionName: "createSession")
-                        self.playerMock.fakePlayEvent()
+                        playerDouble.fakePlayEvent()
                         expect(spy).to(haveBeenCalled())
                     }
 
                     xit("on Error") {
                         // will fail until updates in branch conviva-validation-updates
                         let spy = Spy(aClass: CISClientDouble.self, functionName: "createSession")
-                        self.playerMock.fakeErrorEvent()
+                        playerDouble.fakeErrorEvent()
                         expect(spy).to(haveBeenCalled())
                     }
                 }
@@ -48,7 +48,7 @@ class TableOfContentsSpec: QuickSpec {
                     xit("on Ready") {
                         // will fail until updates in branch conviva-validation-updates
                         let spy = Spy(aClass: CISClientDouble.self, functionName: "createSession")
-                        self.playerMock.fakePlayEvent()
+                        playerDouble.fakePlayEvent()
                         expect(spy).toNot(haveBeenCalled())
                     }
                 }
@@ -56,7 +56,7 @@ class TableOfContentsSpec: QuickSpec {
                 context("update playback state") {
                     it("on Play") {
                         let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
-                        self.playerMock.fakePlayEvent()
+                        playerDouble.fakePlayEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
                         )
@@ -64,7 +64,7 @@ class TableOfContentsSpec: QuickSpec {
 
                     it("on Pause") {
                         let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
-                        self.playerMock.fakePauseEvent()
+                        playerDouble.fakePauseEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PAUSED.rawValue)"])
                         )
@@ -72,7 +72,7 @@ class TableOfContentsSpec: QuickSpec {
 
                     it("on stall Started") {
                         let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
-                        self.playerMock.fakeStallStartedEvent()
+                        playerDouble.fakeStallStartedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_BUFFERING.rawValue)"])
                         )
@@ -81,8 +81,8 @@ class TableOfContentsSpec: QuickSpec {
                     context("after stalling") {
                         it("in playing state") {
                             let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
-                            _ = Double(aClass: BitmovinPlayerDouble.self, name: "isPlaying", return: true)
-                            self.playerMock.fakeStallEndedEvent()
+                            _ = Double(aClass: playerDouble, name: "isPlaying", return: true)
+                            playerDouble.fakeStallEndedEvent()
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
                             )
@@ -90,8 +90,8 @@ class TableOfContentsSpec: QuickSpec {
 
                         it("in paused state") {
                             let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
-                            _ = Double(aClass: BitmovinPlayerDouble.self, name: "isPlaying", return: false)
-                            self.playerMock.fakeStallEndedEvent()
+                            _ = Double(aClass: playerDouble, name: "isPlaying", return: false)
+                            playerDouble.fakeStallEndedEvent()
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PAUSED.rawValue)"])
                             )
@@ -105,19 +105,19 @@ class TableOfContentsSpec: QuickSpec {
                         spy = Spy(aClass: CISClientDouble.self, functionName: "cleanupSession")
                     }
                     it("on source unloaded") {
-                        self.playerMock.fakeSourceUnloadedEvent()
+                        playerDouble.fakeSourceUnloadedEvent()
                         expect(spy).to(haveBeenCalled())
                     }
 
                     it("on error") {
-                        self.playerMock.fakeErrorEvent()
+                        playerDouble.fakeErrorEvent()
                         expect(spy).to(haveBeenCalled())
                     }
 
                     it("on playback finished") {
                         let playbackStateSpy = Spy(aClass: PlayerStateManagerDouble.self,
                                                    functionName: "setPlayerState")
-                        self.playerMock.fakePlaybackFinishedEvent()
+                        playerDouble.fakePlaybackFinishedEvent()
                         expect(spy).to(haveBeenCalled())
                         expect(playbackStateSpy).to(
                             haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_STOPPED.rawValue)"])
@@ -132,35 +132,35 @@ class TableOfContentsSpec: QuickSpec {
                     }
                     context("track preroll ad") {
                         it("with string") {
-                            self.playerMock.fakeAdStartedEvent(position: "pre")
+                            playerDouble.fakeAdStartedEvent(position: "pre")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"])
                             )
                         }
 
                         it("with percentage") {
-                            self.playerMock.fakeAdStartedEvent(position: "0%")
+                            playerDouble.fakeAdStartedEvent(position: "0%")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"])
                             )
                         }
 
                         it("with timestamp") {
-                            self.playerMock.fakeAdStartedEvent(position: "00:00:00.000")
+                            playerDouble.fakeAdStartedEvent(position: "00:00:00.000")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"])
                             )
                         }
 
                         it("with invalid position") {
-                            self.playerMock.fakeAdStartedEvent(position: "start")
+                            playerDouble.fakeAdStartedEvent(position: "start")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"])
                             )
                         }
 
                         it("without position") {
-                            self.playerMock.fakeAdStartedEvent(position: nil)
+                            playerDouble.fakeAdStartedEvent(position: nil)
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"])
                             )
@@ -169,15 +169,15 @@ class TableOfContentsSpec: QuickSpec {
 
                     context("track midroll ad") {
                         it("with percentage") {
-                            self.playerMock.fakeAdStartedEvent(position: "10%")
+                            playerDouble.fakeAdStartedEvent(position: "10%")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_MIDROLL.rawValue)"])
                             )
                         }
 
                         it("with timestamp") {
-                            _ = Double(aClass: BitmovinPlayerDouble.self, name: "duration", return: TimeInterval(120))
-                            self.playerMock.fakeAdStartedEvent(position: "00:01:00.000")
+                            _ = Double(aClass: playerDouble, name: "duration", return: TimeInterval(120))
+                            playerDouble.fakeAdStartedEvent(position: "00:01:00.000")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_MIDROLL.rawValue)"])
                             )
@@ -186,22 +186,22 @@ class TableOfContentsSpec: QuickSpec {
 
                     context("track postroll ad") {
                         it("with string") {
-                            self.playerMock.fakeAdStartedEvent(position: "post")
+                            playerDouble.fakeAdStartedEvent(position: "post")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"])
                             )
                         }
 
                         it("with percentage") {
-                            self.playerMock.fakeAdStartedEvent(position: "100%")
+                            playerDouble.fakeAdStartedEvent(position: "100%")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"])
                             )
                         }
 
                         it("with timestamp") {
-                            _ = Double(aClass: BitmovinPlayerDouble.self, name: "duration", return: TimeInterval(120))
-                            self.playerMock.fakeAdStartedEvent(position: "00:02:00.000")
+                            _ = Double(aClass: playerDouble, name: "duration", return: TimeInterval(120))
+                            playerDouble.fakeAdStartedEvent(position: "00:02:00.000")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"])
                             )
@@ -210,22 +210,22 @@ class TableOfContentsSpec: QuickSpec {
 
                     context("track ad end") {
                         beforeEach {
-                            self.playerMock.fakePlayEvent()
+                            playerDouble.fakePlayEvent()
                             spy = Spy(aClass: CISClientDouble.self, functionName: "adEnd")
                         }
 
                         it("on ad skipped") {
-                            self.playerMock.fakeAdSkippedEvent()
+                            playerDouble.fakeAdSkippedEvent()
                             expect(spy).to(haveBeenCalled())
                         }
 
                         it("on ad finished") {
-                            self.playerMock.fakeAdFinishedEvent()
+                            playerDouble.fakeAdFinishedEvent()
                             expect(spy).to(haveBeenCalled())
                         }
 
                         it("on ad error") {
-                            self.playerMock.fakeAdErrorEvent()
+                            playerDouble.fakeAdErrorEvent()
                             expect(spy).to(haveBeenCalled())
                         }
                     }
@@ -238,16 +238,16 @@ class TableOfContentsSpec: QuickSpec {
                         convivaConfig.applicationName = "Unit Tests"
                         convivaConfig.viewerId = "TestViewer"
                         convivaConfig.customTags = ["Custom": "Tags", "TestRun": "Success"]
-                        _ = try ConvivaAnalytics(player: self.playerMock, customerKey: "", config: convivaConfig)
+                        _ = try ConvivaAnalytics(player: playerDouble, customerKey: "", config: convivaConfig)
                     } catch {
                         fail("ConvivaAnalytics failed with error: \(error)")
                     }
                 }
                 context("when initializins session") {
                     it("set application name") {
-                        self.playerMock.fakePlayEvent() // to initialize session
+                        playerDouble.fakePlayEvent() // to initialize session
                         let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
-                        self.playerMock.fakeTimeChangedEvent()
+                        playerDouble.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["applicationName": "Unit Tests"])
                         )
@@ -261,28 +261,28 @@ class TableOfContentsSpec: QuickSpec {
                         sourceItem.itemTitle = "Art of Unit Test"
                         playerConfiguration.sourceItem = sourceItem
 
-                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "config", return: playerConfiguration)
+                        _ = Double(aClass: playerDouble, name: "config", return: playerConfiguration)
 
-                        self.playerMock.fakePlayEvent() // to initialize session
-                        self.playerMock.fakeTimeChangedEvent()
+                        playerDouble.fakePlayEvent() // to initialize session
+                        playerDouble.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["assetName": "Art of Unit Test"])
                         )
                     }
 
                     it("set viwer id") {
-                        self.playerMock.fakePlayEvent() // to initialize session
+                        playerDouble.fakePlayEvent() // to initialize session
                         let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
-                        self.playerMock.fakeTimeChangedEvent()
+                        playerDouble.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["viewerId": "TestViewer"])
                         )
                     }
 
                     it("set custom tags") {
-                        self.playerMock.fakePlayEvent() // to initialize session
+                        playerDouble.fakePlayEvent() // to initialize session
                         let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
-                        self.playerMock.fakeTimeChangedEvent()
+                        playerDouble.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["Custom": "Tags", "TestRun": "Success"])
                         )
@@ -291,22 +291,22 @@ class TableOfContentsSpec: QuickSpec {
 
                 context("when updating session") {
                     it("update video duration") {
-                        self.playerMock.fakePlayEvent() // to initialize session
+                        playerDouble.fakePlayEvent() // to initialize session
                         let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
-                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "duration", return: TimeInterval(50))
+                        _ = Double(aClass: playerDouble, name: "duration", return: TimeInterval(50))
 
-                        self.playerMock.fakeTimeChangedEvent()
+                        playerDouble.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["duration": "50"])
                         )
                     }
 
                     it("update stream type (VOD/Live)") {
-                        self.playerMock.fakePlayEvent() // to initialize session
+                        playerDouble.fakePlayEvent() // to initialize session
                         let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
-                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "isLive", return: true)
+                        _ = Double(aClass: playerDouble, name: "isLive", return: true)
 
-                        self.playerMock.fakeTimeChangedEvent()
+                        playerDouble.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["streamType": "\(StreamType.CONVIVA_STREAM_LIVE.rawValue)"])
                         )
@@ -320,19 +320,19 @@ class TableOfContentsSpec: QuickSpec {
                         sourceItem.itemTitle = "Art of Unit Test"
                         playerConfiguration.sourceItem = sourceItem
 
-                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "config", return: playerConfiguration)
-                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "streamType", return: BMPMediaSourceType.HLS)
+                        _ = Double(aClass: playerDouble, name: "config", return: playerConfiguration)
+                        _ = Double(aClass: playerDouble, name: "streamType", return: BMPMediaSourceType.HLS)
 
-                        self.playerMock.fakePlayEvent() // to initialize session
+                        playerDouble.fakePlayEvent() // to initialize session
 
-                        self.playerMock.fakeTimeChangedEvent()
+                        playerDouble.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["streamUrl": "www.google.com.m3u8"])
                         )
                     }
 
                     it("update bitrate") {
-                        self.playerMock.fakePlayEvent() // to initialize session
+                        playerDouble.fakePlayEvent() // to initialize session
                         let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setBitrateKbps")
 
                         let videoQuality = VideoQuality(identifier: "Test",
@@ -341,9 +341,9 @@ class TableOfContentsSpec: QuickSpec {
                                                         width: 1900,
                                                         height: 800)
 
-                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "videoQuality", return: videoQuality)
+                        _ = Double(aClass: playerDouble, name: "videoQuality", return: videoQuality)
 
-                        self.playerMock.fakeTimeChangedEvent()
+                        playerDouble.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["newBitrateKbps": "4000"])
                         )
@@ -354,7 +354,7 @@ class TableOfContentsSpec: QuickSpec {
                 var convivaAnalytics: ConvivaAnalytics!
                 beforeEach {
                     do {
-                        convivaAnalytics = try ConvivaAnalytics(player: self.playerMock, customerKey: "")
+                        convivaAnalytics = try ConvivaAnalytics(player: playerDouble, customerKey: "")
                     } catch {
                         fail("ConvivaAnalytics failed with error: \(error)")
                     }
@@ -385,7 +385,7 @@ class TableOfContentsSpec: QuickSpec {
                 context("seek start") {
                     beforeEach {
                         do {
-                            _ = try ConvivaAnalytics(player: self.playerMock, customerKey: "")
+                            _ = try ConvivaAnalytics(player: playerDouble, customerKey: "")
                         } catch {
                             fail("ConvivaAnalytics failed with error: \(error)")
                         }
@@ -394,13 +394,13 @@ class TableOfContentsSpec: QuickSpec {
 
                     xit("tracked on seek") {
                         // will fail until updates in branch conviva-validation-updates
-                        self.playerMock.fakeSeekEvent(position: 100)
+                        playerDouble.fakeSeekEvent(position: 100)
                         expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "100"]))
                     }
 
                     xit("tracked on timeshift") {
                         // will fail until updates in branch conviva-validation-updates
-                        self.playerMock.fakeTimeShiftEvent(position: 100)
+                        playerDouble.fakeTimeShiftEvent(position: 100)
                         expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "100"]))
                     }
                 }
@@ -409,21 +409,21 @@ class TableOfContentsSpec: QuickSpec {
                         spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setSeekEnd")
 
                         do {
-                            _ = try ConvivaAnalytics(player: self.playerMock, customerKey: "")
+                            _ = try ConvivaAnalytics(player: playerDouble, customerKey: "")
                         } catch {
                             fail("ConvivaAnalytics failed with error: \(error)")
                         }
 
-                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "currentTime", return: TimeInterval(100))
+                        _ = Double(aClass: playerDouble, name: "currentTime", return: TimeInterval(100))
                     }
 
                     it("tracked on seeked") {
-                        self.playerMock.fakeSeekedEvent()
+                        playerDouble.fakeSeekedEvent()
                         expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "100"]))
                     }
 
                     it("tracked on timeshifted") {
-                        self.playerMock.fakeTimeShiftedEvent()
+                        playerDouble.fakeTimeShiftedEvent()
                         expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "100"]))
                     }
                 }

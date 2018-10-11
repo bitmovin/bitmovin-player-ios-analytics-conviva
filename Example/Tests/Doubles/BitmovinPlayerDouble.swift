@@ -9,9 +9,8 @@
 import Foundation
 import BitmovinPlayer
 
-class BitmovinPlayerDouble: BitmovinPlayer {
+class BitmovinPlayerDouble: BitmovinPlayer, DoubleDataSource {
     var fakeListener: PlayerListener?
-    var mocking: [String: Any] = [:]
 
     init() {
         super.init(configuration: PlayerConfiguration())
@@ -207,18 +206,5 @@ class BitmovinPlayerDouble: BitmovinPlayer {
             return mockedValue as! TimeInterval
         }
         return super.currentTime
-    }
-
-    // Mocking helper (would be awesome to generalice it in an object like Spy / Double)
-    /**
-     Double(aClass: AnyClass, method: String, return: Any)
-     doubleHelper: [String, Any]
-
-     if let doubled = .double.mockFor(method: #function) {
-        return doubled
-     }
-     */
-    func letMethod(_ method: String, return value: Any) {
-        mocking[method] = value
     }
 }

@@ -81,7 +81,7 @@ class TableOfContentsSpec: QuickSpec {
                     context("after stalling") {
                         it("in playing state") {
                             let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
-                            self.playerMock.letMethod("isPlaying", return: true)
+                            _ = Double(aClass: BitmovinPlayerDouble.self, name: "isPlaying", return: true)
                             self.playerMock.fakeStallEndedEvent()
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
@@ -90,7 +90,7 @@ class TableOfContentsSpec: QuickSpec {
 
                         it("in paused state") {
                             let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
-                            self.playerMock.letMethod("isPlaying", return: false)
+                            _ = Double(aClass: BitmovinPlayerDouble.self, name: "isPlaying", return: false)
                             self.playerMock.fakeStallEndedEvent()
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PAUSED.rawValue)"])
@@ -176,7 +176,7 @@ class TableOfContentsSpec: QuickSpec {
                         }
 
                         it("with timestamp") {
-                            self.playerMock.letMethod("duration", return: TimeInterval(120))
+                            _ = Double(aClass: BitmovinPlayerDouble.self, name: "duration", return: TimeInterval(120))
                             self.playerMock.fakeAdStartedEvent(position: "00:01:00.000")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_MIDROLL.rawValue)"])
@@ -200,7 +200,7 @@ class TableOfContentsSpec: QuickSpec {
                         }
 
                         it("with timestamp") {
-                            self.playerMock.letMethod("duration", return: TimeInterval(120))
+                            _ = Double(aClass: BitmovinPlayerDouble.self, name: "duration", return: TimeInterval(120))
                             self.playerMock.fakeAdStartedEvent(position: "00:02:00.000")
                             expect(spy).to(
                                 haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"])
@@ -261,7 +261,7 @@ class TableOfContentsSpec: QuickSpec {
                         sourceItem.itemTitle = "Art of Unit Test"
                         playerConfiguration.sourceItem = sourceItem
 
-                        self.playerMock.letMethod("config", return: playerConfiguration)
+                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "config", return: playerConfiguration)
 
                         self.playerMock.fakePlayEvent() // to initialize session
                         self.playerMock.fakeTimeChangedEvent()
@@ -293,7 +293,8 @@ class TableOfContentsSpec: QuickSpec {
                     it("update video duration") {
                         self.playerMock.fakePlayEvent() // to initialize session
                         let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
-                        self.playerMock.letMethod("duration", return: TimeInterval(50))
+                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "duration", return: TimeInterval(50))
+
                         self.playerMock.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["duration": "50"])
@@ -303,7 +304,8 @@ class TableOfContentsSpec: QuickSpec {
                     it("update stream type (VOD/Live)") {
                         self.playerMock.fakePlayEvent() // to initialize session
                         let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
-                        self.playerMock.letMethod("isLive", return: true)
+                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "isLive", return: true)
+
                         self.playerMock.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["streamType": "\(StreamType.CONVIVA_STREAM_LIVE.rawValue)"])
@@ -318,8 +320,8 @@ class TableOfContentsSpec: QuickSpec {
                         sourceItem.itemTitle = "Art of Unit Test"
                         playerConfiguration.sourceItem = sourceItem
 
-                        self.playerMock.letMethod("config", return: playerConfiguration)
-                        self.playerMock.letMethod("streamType", return: BMPMediaSourceType.HLS)
+                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "config", return: playerConfiguration)
+                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "streamType", return: BMPMediaSourceType.HLS)
 
                         self.playerMock.fakePlayEvent() // to initialize session
 
@@ -339,7 +341,8 @@ class TableOfContentsSpec: QuickSpec {
                                                         width: 1900,
                                                         height: 800)
 
-                        self.playerMock.letMethod("videoQuality", return: videoQuality)
+                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "videoQuality", return: videoQuality)
+
                         self.playerMock.fakeTimeChangedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["newBitrateKbps": "4000"])
@@ -411,7 +414,7 @@ class TableOfContentsSpec: QuickSpec {
                             fail("ConvivaAnalytics failed with error: \(error)")
                         }
 
-                        self.playerMock.letMethod("currentTime", return: TimeInterval(100))
+                        _ = Double(aClass: BitmovinPlayerDouble.self, name: "currentTime", return: TimeInterval(100))
                     }
 
                     it("tracked on seeked") {

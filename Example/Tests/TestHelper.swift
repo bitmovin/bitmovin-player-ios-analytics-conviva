@@ -15,10 +15,12 @@ class TestHelper: NSObject {
     static var shared = TestHelper()
     let tracker: TestTracker
     let double: TestDoubleFactory
+    let mocking: TestMocker
 
     private override init() {
         self.tracker = TestTracker()
         self.double = TestDoubleFactory()
+        self.mocking = TestMocker()
     }
 }
 
@@ -55,6 +57,14 @@ class TestTracker {
     }
 }
 
+class TestMocker {
+    var mocking: [String: Any] = [:]
+
+    func addMock(_ name: String, returnValue: Any) {
+        mocking[name] = returnValue
+    }
+}
+
 struct Spy {
     let aClass: Any
     let functionName: String
@@ -62,6 +72,23 @@ struct Spy {
     init(aClass: Any, functionName: String) {
         self.aClass = aClass
         self.functionName = functionName
+    }
+}
+
+protocol DoubleDataSource {
+    var mocking: [String: Any] { get }
+}
+
+extension DoubleDataSource {
+    var mocking: [String: Any] {
+        return TestHelper.shared.mocking.mocking
+    }
+}
+
+class Double {
+    // can be used for methods and properties
+    init(aClass: AnyClass, name: String, return value: Any) {
+        TestHelper.shared.mocking.addMock(name, returnValue: value)
     }
 }
 

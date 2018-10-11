@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37756EB0216F8E0D0041806D /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EAF216F8E0D0041806D /* Double.swift */; };
+		37756EB2216F8E2F0041806D /* Spy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB1216F8E2F0041806D /* Spy.swift */; };
+		37756EB4216F8E450041806D /* DoubleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB3216F8E450041806D /* DoubleDataSource.swift */; };
+		37756EB6216F8E700041806D /* CustomNimbleMatchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB5216F8E700041806D /* CustomNimbleMatchers.swift */; };
+		37756EB8216F8F010041806D /* MockingFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB7216F8F010041806D /* MockingFactory.swift */; };
+		37756EBA216F8FD30041806D /* SpyTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB9216F8FD30041806D /* SpyTracker.swift */; };
+		37756EBC216F90020041806D /* MockTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EBB216F90020041806D /* MockTracker.swift */; };
 		37EB3CD3216B70D70093F085 /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CD1216B70650093F085 /* TestHelper.swift */; };
 		37EB3CD4216B70DA0093F085 /* BitmovinPlayerDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CC7216B6E3F0093F085 /* BitmovinPlayerDouble.swift */; };
 		37EB3CD5216B70DC0093F085 /* CISClientSettingCreatorDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CC9216B6E8A0093F085 /* CISClientSettingCreatorDouble.swift */; };
@@ -38,6 +45,13 @@
 		18D9A1085FF475FC238B6545 /* Pods-BitmovinConvivaAnalytics_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		1E7FCBCD8F7EDBCBE9B64730 /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23AA901C80A2F84D631B507E /* Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		37756EAF216F8E0D0041806D /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Double.swift; path = Helpers/Double.swift; sourceTree = "<group>"; };
+		37756EB1216F8E2F0041806D /* Spy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Spy.swift; path = Helpers/Spy.swift; sourceTree = "<group>"; };
+		37756EB3216F8E450041806D /* DoubleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DoubleDataSource.swift; path = Helpers/DoubleDataSource.swift; sourceTree = "<group>"; };
+		37756EB5216F8E700041806D /* CustomNimbleMatchers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomNimbleMatchers.swift; path = Helpers/CustomNimbleMatchers.swift; sourceTree = "<group>"; };
+		37756EB7216F8F010041806D /* MockingFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockingFactory.swift; path = Helpers/MockingFactory.swift; sourceTree = "<group>"; };
+		37756EB9216F8FD30041806D /* SpyTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpyTracker.swift; path = Helpers/SpyTracker.swift; sourceTree = "<group>"; };
+		37756EBB216F90020041806D /* MockTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockTracker.swift; path = Helpers/MockTracker.swift; sourceTree = "<group>"; };
 		37EB3CC7216B6E3F0093F085 /* BitmovinPlayerDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BitmovinPlayerDouble.swift; path = Doubles/BitmovinPlayerDouble.swift; sourceTree = "<group>"; };
 		37EB3CC9216B6E8A0093F085 /* CISClientSettingCreatorDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISClientSettingCreatorDouble.swift; path = Doubles/CISClientSettingCreatorDouble.swift; sourceTree = "<group>"; };
 		37EB3CCB216B6ED30093F085 /* CISClientDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISClientDouble.swift; path = Doubles/CISClientDouble.swift; sourceTree = "<group>"; };
@@ -94,6 +108,20 @@
 				1E7FCBCD8F7EDBCBE9B64730 /* Pods_BitmovinConvivaAnalytics_Example_BitmovinConvivaAnalytics_Tests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		37756EAE216F8DF00041806D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				37756EB3216F8E450041806D /* DoubleDataSource.swift */,
+				37756EAF216F8E0D0041806D /* Double.swift */,
+				37756EB1216F8E2F0041806D /* Spy.swift */,
+				37756EB9216F8FD30041806D /* SpyTracker.swift */,
+				37756EBB216F90020041806D /* MockTracker.swift */,
+				37756EB7216F8F010041806D /* MockingFactory.swift */,
+				37756EB5216F8E700041806D /* CustomNimbleMatchers.swift */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		37EB3CC6216B6D2B0093F085 /* Doubles */ = {
@@ -173,6 +201,7 @@
 			children = (
 				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				37EB3CD1216B70650093F085 /* TestHelper.swift */,
+				37756EAE216F8DF00041806D /* Helpers */,
 				37EB3CC6216B6D2B0093F085 /* Doubles */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -432,13 +461,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37756EBC216F90020041806D /* MockTracker.swift in Sources */,
+				37756EB6216F8E700041806D /* CustomNimbleMatchers.swift in Sources */,
 				37EB3CD6216B70DF0093F085 /* CISClientDouble.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				37756EB8216F8F010041806D /* MockingFactory.swift in Sources */,
+				37756EB0216F8E0D0041806D /* Double.swift in Sources */,
 				37EB3CD5216B70DC0093F085 /* CISClientSettingCreatorDouble.swift in Sources */,
 				37EB3CD8216B70E40093F085 /* CISClientSettingProtocolDouble.swift in Sources */,
 				37EB3CD7216B70E10093F085 /* PlayerStateManagerDouble.swift in Sources */,
 				37EB3CD4216B70DA0093F085 /* BitmovinPlayerDouble.swift in Sources */,
 				37EB3CD3216B70D70093F085 /* TestHelper.swift in Sources */,
+				37756EB2216F8E2F0041806D /* Spy.swift in Sources */,
+				37756EBA216F8FD30041806D /* SpyTracker.swift in Sources */,
+				37756EB4216F8E450041806D /* DoubleDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

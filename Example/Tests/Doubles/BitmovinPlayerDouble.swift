@@ -140,7 +140,7 @@ class BitmovinPlayerDouble: BitmovinPlayer, DoubleDataSource {
     }
 
     override var isPlaying: Bool {
-        if let mockedValue = mocking["isPlaying"] {
+        if let mockedValue = mocks["isPlaying"] {
             // swiftlint:disable:next force_cast
             return mockedValue as! Bool
         }
@@ -148,7 +148,7 @@ class BitmovinPlayerDouble: BitmovinPlayer, DoubleDataSource {
     }
 
     override var duration: TimeInterval {
-        if let mockedValue = mocking["duration"] {
+        if let mockedValue = mocks["duration"] {
             // swiftlint:disable:next force_cast
             return mockedValue as! TimeInterval
         }
@@ -156,7 +156,7 @@ class BitmovinPlayerDouble: BitmovinPlayer, DoubleDataSource {
     }
 
     override var config: PlayerConfiguration {
-        if let mockedValue = mocking["config"] {
+        if let mockedValue = mocks["config"] {
             // swiftlint:disable:next force_cast
             return mockedValue as! PlayerConfiguration
         }
@@ -164,7 +164,7 @@ class BitmovinPlayerDouble: BitmovinPlayer, DoubleDataSource {
     }
 
     override var isLive: Bool {
-        if let mockedValue = mocking["isLive"] {
+        if let mockedValue = mocks["isLive"] {
             // swiftlint:disable:next force_cast
             return mockedValue as! Bool
         }
@@ -172,7 +172,7 @@ class BitmovinPlayerDouble: BitmovinPlayer, DoubleDataSource {
     }
 
     override var streamType: BMPMediaSourceType {
-        if let mockedValue = mocking["streamType"] {
+        if let mockedValue = mocks["streamType"] {
             // swiftlint:disable:next force_cast
             return mockedValue as! BMPMediaSourceType
         }
@@ -180,14 +180,14 @@ class BitmovinPlayerDouble: BitmovinPlayer, DoubleDataSource {
     }
 
     override var videoQuality: VideoQuality? {
-        if let mockedValue = mocking["videoQuality"] {
+        if let mockedValue = mocks["videoQuality"] {
             return mockedValue as? VideoQuality
         }
         return super.videoQuality
     }
 
     override var currentTime: TimeInterval {
-        if let mockedValue = mocking["currentTime"] {
+        if let mockedValue = mocks["currentTime"] {
             // swiftlint:disable:next force_cast
             return mockedValue as! TimeInterval
         }

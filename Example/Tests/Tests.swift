@@ -13,11 +13,12 @@ class TableOfContentsSpec: QuickSpec {
         var playerDouble: BitmovinPlayerDouble!
         beforeSuite {
             self.continueAfterFailure = true
-            TestHelper.shared.double.mockConviva()
+            TestHelper.shared.factory.mockConviva()
         }
         beforeEach {
             playerDouble = BitmovinPlayerDouble()
-            TestHelper.shared.tracker.reset()
+            TestHelper.shared.spyTracker.reset()
+            TestHelper.shared.mockTracker.reset()
         }
 
         describe("Conviva Analytics") {

@@ -24,6 +24,8 @@ public final class ConvivaAnalytics: NSObject {
         return sessionKey != NO_SESSION_KEY
     }
 
+    // The BitmovinPlayerListener is used to prevent listener methods to be public and therefore
+    // preventing calling form outside.
     var listener: BitmovinPlayerListener?
 
     // MARK: - Helper
@@ -200,11 +202,17 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func registerPlayerEvents() {
-        player.add(listener: self)
+        guard let listener = listener else {
+            return
+        }
+        player.add(listener: listener)
     }
 
     private func unregisterPlayerEvents() {
-        player.remove(listener: self)
+        guard let listener = listener else {
+            return
+        }
+        player.remove(listener: listener)
     }
 
     private func onPlaybackStateChanged(playerState: PlayerState) {
@@ -218,19 +226,18 @@ public final class ConvivaAnalytics: NSObject {
 }
 
 // MARK: - PlayerListener
-// TODO: i don't like it that the events are public accessible (move out of here)
-extension ConvivaAnalytics: PlayerListener {
-    public func onEvent(_ event: PlayerEvent) {
+extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
+    func onEvent(_ event: PlayerEvent) {
         logger.debugLog(message: "[ Player Event ] \(event.name)")
     }
 
-    public func onReady(_ event: ReadyEvent) {
+    func onReady() {
         if !isValidSession {
             self.initSession()
         }
     }
 
-    public func onSourceLoaded(_ event: SourceLoadedEvent) {
+    func onSourceLoaded() {
         if player.isAd {
             return
         }
@@ -240,48 +247,48 @@ extension ConvivaAnalytics: PlayerListener {
         }
     }
 
-    public func onSourceUnloaded(_ event: SourceUnloadedEvent) {
+    func onSourceUnloaded() {
         endSession()
     }
 
-    public func onTimeChanged(_ event: TimeChangedEvent) {
+    func onTimeChanged() {
         updateSession()
     }
 
-    public func onError(_ event: ErrorEvent) {
+    func onError(_ event: ErrorEvent) {
         let message = "\(event.code) \(event.message)"
         client.reportError(sessionKey, errorMessage: message, errorSeverity: .ERROR_FATAL)
         endSession()
     }
 
-    public func onMuted(_ event: MutedEvent) {
+    func onMuted(_ event: MutedEvent) {
         customEvent(event: event)
     }
 
-    public func onUnmuted(_ event: UnmutedEvent) {
+    func onUnmuted(_ event: UnmutedEvent) {
         customEvent(event: event)
     }
 
     // MARK: - Playback state events
-    public func onPlay(_ event: PlayEvent) {
+    func onPlay() {
         updateSession()
         onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
     }
 
-    public func onPaused(_ event: PausedEvent) {
+    func onPaused() {
         onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
     }
 
-    public func onPlaybackFinished(_ event: PlaybackFinishedEvent) {
+    func onPlaybackFinished() {
         onPlaybackStateChanged(playerState: .CONVIVA_STOPPED)
         endSession()
     }
 
-    public func onStallStarted(_ event: StallStartedEvent) {
+    func onStallStarted() {
         onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
     }
 
-    public func onStallEnded(_ event: StallEndedEvent) {
+    func onStallEnded() {
         if player.isPlaying {
             onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
         } else if player.isPaused {
@@ -290,50 +297,40 @@ extension ConvivaAnalytics: PlayerListener {
     }
 
     // MARK: - Seek / Timeshift events
-    public func onSeek(_ event: SeekEvent) {
+    func onSeek(_ event: SeekEvent) {
         playerStateManager.setSeekStart!(Int64(event.seekTarget))
     }
 
-    public func onSeeked(_ event: SeekedEvent) {
+    func onSeeked() {
         playerStateManager.setSeekEnd!(Int64(player.currentTime))
     }
 
-    public func onTimeShift(_ event: TimeShiftEvent) {
+    func onTimeShift(_ event: TimeShiftEvent) {
         playerStateManager.setSeekStart!(Int64(event.target))
     }
 
-    public func onTimeShifted(_ event: TimeShiftedEvent) {
+    func onTimeShifted() {
         playerStateManager.setSeekEnd!(Int64(player.currentTime))
     }
 
     // MARK: - Ad events
-    public func onAdStarted(_ event: AdStartedEvent) {
+    func onAdStarted(_ event: AdStartedEvent) {
         let adPosition: AdPosition = AdEventUtil.parseAdPosition(event: event, contentDuration: player.duration)
         client.adStart(sessionKey, adStream: .ADSTREAM_SEPARATE, adPlayer: .ADPLAYER_CONTENT, adPosition: adPosition)
     }
 
-    public func onAdFinished(_ event: AdFinishedEvent) {
+    func onAdFinished() {
         client.adEnd(sessionKey)
     }
 
-    public func onAdSkipped(_ event: AdSkippedEvent) {
+    func onAdSkipped(_ event: AdSkippedEvent) {
         customEvent(event: event)
         client.adEnd(sessionKey)
     }
 
-    public func onAdError(_ event: AdErrorEvent) {
+    func onAdError(_ event: AdErrorEvent) {
         customEvent(event: event)
         client.adEnd(sessionKey)
-    }
-}
-
-protocol BitmovinPlayerListenerDelegate: AnyObject {
-    func onPlay()
-}
-
-extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
-    func onPlay() {
-        print("play in delegate")
     }
 }
 
@@ -345,22 +342,5 @@ extension ConvivaAnalytics: UserInterfaceListener {
 
     public func onFullscreenExit(_ event: FullscreenExitEvent) {
         customEvent(event: event)
-    }
-}
-
-
-
-class BitmovinPlayerListener {
-    let player: BitmovinPlayer
-    weak var delegate: BitmovinPlayerListenerDelegate?
-    init(player: BitmovinPlayer) {
-        self.player = player
-        self.player.add(listener: self)
-    }
-}
-
-extension BitmovinPlayerListener: PlayerListener {
-    func onPlay(_ event: PlayEvent) {
-        delegate?.onPlay()
     }
 }

@@ -608,7 +608,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bitmovin.BitmovinConvivaAnalyticsTvOSExample;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bitmovin.conviva-analytics-example-tvos";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -644,7 +644,7 @@
 				INFOPLIST_FILE = BitmovinConvivaAnalyticsTvOSExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bitmovin.BitmovinConvivaAnalyticsTvOSExample;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bitmovin.conviva-analytics-example-tvos";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 4.2;

@@ -24,10 +24,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupBMPlayer()
+        setupBitmovinPlayer()
     }
 
-    func setupBMPlayer() {
+    func setupBitmovinPlayer() {
         // Setup Player
         player = BitmovinPlayer()
 
@@ -74,9 +74,12 @@ class ViewController: UIViewController {
         return playerConfiguration
     }
 
-    var sourceItem: SourceItem {
+    var sourceItem: SourceItem? {
         let sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
-        let sourceItem = SourceItem(url: URL(string: sourceString)!)!
+        guard let url = URL(string: sourceString),
+            let sourceItem = SourceItem(url: url) else {
+                return nil
+        }
         sourceItem.posterSource = URL(string: "https://bitmovin-a.akamaihd.net/content/poster/hd/RedBull.jpg")
         sourceItem.itemTitle = "Art of Motion"
         return sourceItem

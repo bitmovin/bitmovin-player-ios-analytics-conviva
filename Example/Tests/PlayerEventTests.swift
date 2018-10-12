@@ -32,15 +32,18 @@ class PlayerEventsSpec: QuickSpec {
                 }
             }
             context("initialize session") {
+                var spy: Spy!
+                beforeEach {
+                    spy = Spy(aClass: CISClientDouble.self, functionName: "createSession")
+                }
+
                 it("on Play") {
-                    let spy = Spy(aClass: CISClientDouble.self, functionName: "createSession")
                     playerDouble.fakePlayEvent()
                     expect(spy).to(haveBeenCalled())
                 }
 
                 xit("on Error") {
                     // will fail until updates in branch conviva-validation-updates
-                    let spy = Spy(aClass: CISClientDouble.self, functionName: "createSession")
                     playerDouble.fakeErrorEvent()
                     expect(spy).to(haveBeenCalled())
                 }
@@ -56,8 +59,12 @@ class PlayerEventsSpec: QuickSpec {
             }
 
             context("update playback state") {
+                var spy: Spy!
+                beforeEach {
+                    spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
+                }
+
                 it("on Play") {
-                    let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
                     playerDouble.fakePlayEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
@@ -65,7 +72,6 @@ class PlayerEventsSpec: QuickSpec {
                 }
 
                 it("on Pause") {
-                    let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
                     playerDouble.fakePauseEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PAUSED.rawValue)"])
@@ -73,7 +79,6 @@ class PlayerEventsSpec: QuickSpec {
                 }
 
                 it("on stall Started") {
-                    let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
                     playerDouble.fakeStallStartedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_BUFFERING.rawValue)"])
@@ -82,7 +87,6 @@ class PlayerEventsSpec: QuickSpec {
 
                 context("after stalling") {
                     it("in playing state") {
-                        let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
                         _ = TestDouble(aClass: playerDouble, name: "isPlaying", return: true)
                         playerDouble.fakeStallEndedEvent()
                         expect(spy).to(
@@ -91,7 +95,6 @@ class PlayerEventsSpec: QuickSpec {
                     }
 
                     it("in paused state") {
-                        let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
                         _ = TestDouble(aClass: playerDouble, name: "isPlaying", return: false)
                         playerDouble.fakeStallEndedEvent()
                         expect(spy).to(
@@ -106,6 +109,7 @@ class PlayerEventsSpec: QuickSpec {
                 beforeEach {
                     spy = Spy(aClass: CISClientDouble.self, functionName: "cleanupSession")
                 }
+
                 it("on source unloaded") {
                     playerDouble.fakeSourceUnloadedEvent()
                     expect(spy).to(haveBeenCalled())
@@ -132,6 +136,7 @@ class PlayerEventsSpec: QuickSpec {
                 beforeEach {
                     spy = Spy(aClass: CISClientDouble.self, functionName: "adStart")
                 }
+
                 context("track preroll ad") {
                     it("with string") {
                         playerDouble.fakeAdStartedEvent(position: "pre")

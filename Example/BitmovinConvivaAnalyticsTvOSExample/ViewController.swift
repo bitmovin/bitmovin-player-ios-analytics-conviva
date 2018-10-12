@@ -18,8 +18,8 @@ class ViewController: UIViewController {
 
     var convivaAnalytics: ConvivaAnalytics?
 
-    let convivaCustomerKey: String = ""
-    let convivaGatewayString: String = ""
+    let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
+    var convivaGatewayString: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +33,11 @@ class ViewController: UIViewController {
 
         let convivaConfig = ConvivaConfiguration()
 
-        // only set gatewayUrl in debug mode !!!
-        convivaConfig.gatewayUrl = URL(string: convivaGatewayString)!
+        // Set gatewayUrl ONLY in debug mode !!!
+        if let gatewayString = convivaGatewayString,
+            let gatewayUrl = URL(string: gatewayString) {
+            convivaConfig.gatewayUrl = gatewayUrl
+        }
         convivaConfig.debugLoggingEnabled = true
 
         convivaConfig.applicationName = "Bitmovin tvOS Conviva integration example app"

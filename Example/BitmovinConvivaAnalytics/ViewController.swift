@@ -45,7 +45,7 @@ class ViewController: UIViewController {
 
         let convivaConfig = ConvivaConfiguration()
 
-        // only set gatewayUrl in debug mode !!!
+        // Set gatewayUrl ONLY in debug mode !!!
         if let gatewayString = convivaGatewayString,
             let gatewayUrl = URL(string: gatewayString) {
             convivaConfig.gatewayUrl = gatewayUrl

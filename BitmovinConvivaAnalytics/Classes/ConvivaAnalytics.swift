@@ -25,7 +25,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     // The BitmovinPlayerListener is used to prevent listener methods to be public and therefore
-    // preventing calling form outside.
+    // preventing calling from outside.
     var listener: BitmovinPlayerListener?
 
     // MARK: - Helper

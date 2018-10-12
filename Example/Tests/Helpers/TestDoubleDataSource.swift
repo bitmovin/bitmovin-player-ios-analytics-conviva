@@ -1,5 +1,5 @@
 //
-//  DoubleDataSource.swift
+//  TestDoubleDataSource.swift
 //  BitmovinConvivaAnalytics_Tests
 //
 //  Created by David Steinacher on 11.10.18.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol DoubleDataSource {
+protocol TestDoubleDataSource {
     var mocks: [String: Any] { get }
     func spy(functionName: String, args: [String: String]?)
 }
 
-extension DoubleDataSource {
+extension TestDoubleDataSource {
     var mocks: [String: Any] {
         return TestHelper.shared.mockTracker.mocks
     }

@@ -23,7 +23,7 @@ class PlayerEventsSpec: QuickSpec {
             TestHelper.shared.mockTracker.reset()
         }
 
-        context("Player event handling") {
+        context("player event handling") {
             beforeEach {
                 do {
                     _ = try ConvivaAnalytics(player: playerDouble, customerKey: "")
@@ -83,7 +83,7 @@ class PlayerEventsSpec: QuickSpec {
                 context("after stalling") {
                     it("in playing state") {
                         let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
-                        _ = Double(aClass: playerDouble, name: "isPlaying", return: true)
+                        _ = TestDouble(aClass: playerDouble, name: "isPlaying", return: true)
                         playerDouble.fakeStallEndedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
@@ -92,7 +92,7 @@ class PlayerEventsSpec: QuickSpec {
 
                     it("in paused state") {
                         let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
-                        _ = Double(aClass: playerDouble, name: "isPlaying", return: false)
+                        _ = TestDouble(aClass: playerDouble, name: "isPlaying", return: false)
                         playerDouble.fakeStallEndedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PAUSED.rawValue)"])
@@ -178,7 +178,7 @@ class PlayerEventsSpec: QuickSpec {
                     }
 
                     it("with timestamp") {
-                        _ = Double(aClass: playerDouble, name: "duration", return: TimeInterval(120))
+                        _ = TestDouble(aClass: playerDouble, name: "duration", return: TimeInterval(120))
                         playerDouble.fakeAdStartedEvent(position: "00:01:00.000")
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_MIDROLL.rawValue)"])
@@ -202,7 +202,7 @@ class PlayerEventsSpec: QuickSpec {
                     }
 
                     it("with timestamp") {
-                        _ = Double(aClass: playerDouble, name: "duration", return: TimeInterval(120))
+                        _ = TestDouble(aClass: playerDouble, name: "duration", return: TimeInterval(120))
                         playerDouble.fakeAdStartedEvent(position: "00:02:00.000")
                         expect(spy).to(
                             haveBeenCalled(withArgs: ["adPosition": "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"])

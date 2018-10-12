@@ -9,7 +9,7 @@
 import Foundation
 import ConvivaSDK
 
-class CISClientDouble: NSObject, CISClientProtocol, DoubleDataSource {
+class CISClientDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     func createSession(with cisContentMetadata: CISContentMetadata!) -> Int32 {
         spy(functionName: "createSession")
         return Int32(0)
@@ -25,7 +25,7 @@ class CISClientDouble: NSObject, CISClientProtocol, DoubleDataSource {
 
     func updateContentMetadata(_ sessionKey: Int32, metadata contentMetadata: CISContentMetadata!) {
         var args: [String: String] = [:]
-        // content meta data
+        // content metadata
         args["applicationName"] = contentMetadata.applicationName
         args["viewerId"] = contentMetadata.viewerId
         for key in contentMetadata.custom.allKeys {

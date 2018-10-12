@@ -50,7 +50,7 @@ class SeekTimeshiftSpec: QuickSpec {
                         fail("ConvivaAnalytics failed with error: \(error)")
                     }
 
-                    _ = Double(aClass: playerDouble, name: "currentTime", return: TimeInterval(100))
+                    _ = TestDouble(aClass: playerDouble, name: "currentTime", return: TimeInterval(100))
                 }
 
                 it("tracked on seeked") {

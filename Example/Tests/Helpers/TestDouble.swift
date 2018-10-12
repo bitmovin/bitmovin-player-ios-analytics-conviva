@@ -1,5 +1,5 @@
 //
-//  Double.swift
+//  TestDouble.swift
 //  BitmovinConvivaAnalytics_Tests
 //
 //  Created by David Steinacher on 11.10.18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Double {
+class TestDouble {
     // can be used for methods and properties
     init(aClass: Any, name: String, return value: Any) {
         TestHelper.shared.mock(name, returnValue: value)

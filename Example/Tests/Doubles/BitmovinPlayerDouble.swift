@@ -9,7 +9,7 @@
 import Foundation
 import BitmovinPlayer
 
-class BitmovinPlayerDouble: BitmovinPlayer, DoubleDataSource {
+class BitmovinPlayerDouble: BitmovinPlayer, TestDoubleDataSource {
     var fakeListener: PlayerListener?
 
     init() {
@@ -103,14 +103,15 @@ class BitmovinPlayerDouble: BitmovinPlayer, DoubleDataSource {
         guard let onSeek = fakeListener?.onSeek else {
             return
         }
-        onSeek(SeekEvent(position: position, seekTarget: seekTarget)) // seek target return -DBL_MAX when livestreaming
+        // seek target returns -DBL_MAX when livestreaming
+        onSeek(SeekEvent(position: position, seekTarget: seekTarget))
     }
 
     func fakeTimeShiftEvent(position: TimeInterval = 0, seekTarget: TimeInterval = 0) {
         guard let onTimeShift = fakeListener?.onTimeShift else {
             return
         }
-        // seek target return -DBL_MAX when livestreaming
+        // seek target returns -DBL_MAX when livestreaming
         onTimeShift(TimeShiftEvent(position: position, target: seekTarget, timeShift: 0))
     }
 

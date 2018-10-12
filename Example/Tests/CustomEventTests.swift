@@ -12,7 +12,7 @@ import BitmovinPlayer
 import BitmovinConvivaAnalytics
 import ConvivaSDK
 
-class CusotmEventsSpec: QuickSpec {
+class CustomEventsSpec: QuickSpec {
     override func spec() {
         var playerDouble: BitmovinPlayerDouble!
 

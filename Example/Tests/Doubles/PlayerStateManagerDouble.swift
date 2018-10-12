@@ -9,9 +9,9 @@
 import Foundation
 import ConvivaSDK
 
-class PlayerStateManagerDouble: NSObject, CISPlayerStateManagerProtocol, DoubleDataSource {
+class PlayerStateManagerDouble: NSObject, CISPlayerStateManagerProtocol, TestDoubleDataSource {
     override func doesNotRecognizeSelector(_ aSelector: Selector!) {
-        // be aware that all method calls that are not existing will silently fail
+        // be aware that all method calls that that do not exist will fail silently
         print("[ PlayerStateManagerDouble ] method_missing: \(NSStringFromSelector(aSelector))")
     }
 

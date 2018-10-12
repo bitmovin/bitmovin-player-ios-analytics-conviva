@@ -12,19 +12,32 @@ import ConvivaSDK
 class MockingFactory {
     func mockConviva() {
         // method swizzling
-        let createMethod = class_getClassMethod(CISClientSettingCreator.self,
-                                                #selector(CISClientSettingCreator.create(withCustomerKey: )))
-        let myCreateMethod = class_getClassMethod(CISClientSettingCreatorDouble.self,
-                                                  #selector(CISClientSettingCreatorDouble.myCreate(withCustomerKey:)))
-        method_exchangeImplementations(createMethod!, myCreateMethod!)
+        method_exchangeImplementations(createSettingMethod, mockedCreateSettingMethod)
+        method_exchangeImplementations(createClientMethod, mockedCreateClientMethod)
+    }
 
-        let clientCreateMethod = class_getClassMethod(CISClientCreator.self,
-                                                      #selector(CISClientCreator.create(withClientSettings:factory:)))
-        let myClientCreateMethod = class_getClassMethod(CISClientCreatorDouble.self,
-                                                        #selector(
-                                                            CISClientCreatorDouble.create(withClientSettings:factory:)
-            )
-        )
-        method_exchangeImplementations(clientCreateMethod!, myClientCreateMethod!)
+    func undoConvivaMock() {
+        method_exchangeImplementations(mockedCreateSettingMethod, createSettingMethod)
+        method_exchangeImplementations(mockedCreateClientMethod, createClientMethod)
+    }
+
+    var createSettingMethod: Method {
+        return class_getClassMethod(CISClientSettingCreator.self,
+                                    #selector(CISClientSettingCreator.create(withCustomerKey: )))!
+    }
+
+    var mockedCreateSettingMethod: Method {
+        return class_getClassMethod(CISClientSettingCreatorDouble.self,
+                                    #selector(CISClientSettingCreatorDouble.myCreate(withCustomerKey:)))!
+    }
+
+    var createClientMethod: Method {
+        return class_getClassMethod(CISClientCreator.self,
+                                    #selector(CISClientCreator.create(withClientSettings:factory:)))!
+    }
+
+    var mockedCreateClientMethod: Method {
+        return class_getClassMethod(CISClientCreatorDouble.self,
+                                    #selector(CISClientCreatorDouble.create(withClientSettings:factory:)))!
     }
 }

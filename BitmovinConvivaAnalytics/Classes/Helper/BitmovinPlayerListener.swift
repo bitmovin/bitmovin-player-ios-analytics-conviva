@@ -17,6 +17,10 @@ class BitmovinPlayerListener: NSObject {
         super.init()
         self.player.add(listener: self)
     }
+
+    deinit {
+        player.remove(listener: self)
+    }
 }
 
 extension BitmovinPlayerListener: PlayerListener {

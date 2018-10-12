@@ -86,14 +86,12 @@ public final class ConvivaAnalytics: NSObject {
         super.init()
 
         setupPlayerStateManager()
-        registerPlayerEvents()
 
         listener = BitmovinPlayerListener(player: player)
         listener?.delegate = self
     }
 
     deinit {
-        unregisterPlayerEvents()
         endSession()
         client.releasePlayerStateManager(playerStateManager)
     }
@@ -199,20 +197,6 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         sendCustomPlaybackEvent(name: event.name, attributes: args)
-    }
-
-    private func registerPlayerEvents() {
-        guard let listener = listener else {
-            return
-        }
-        player.add(listener: listener)
-    }
-
-    private func unregisterPlayerEvents() {
-        guard let listener = listener else {
-            return
-        }
-        player.remove(listener: listener)
     }
 
     private func onPlaybackStateChanged(playerState: PlayerState) {

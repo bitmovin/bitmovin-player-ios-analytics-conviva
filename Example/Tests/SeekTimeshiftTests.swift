@@ -29,7 +29,6 @@ class SeekTimeshiftSpec: QuickSpec {
             }
 
             afterEach {
-                // hack to silence xcode warning that variable is unused
                 if convivaAnalytics != nil {
                     convivaAnalytics = nil
                 }

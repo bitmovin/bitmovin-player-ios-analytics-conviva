@@ -50,16 +50,14 @@ class PlayerEventsSpec: QuickSpec {
                     expect(spy).to(haveBeenCalled())
                 }
 
-                xit("on error") {
-                    // will fail until updates in branch conviva-validation-updates
+                it("on error") {
                     playerDouble.fakeErrorEvent()
                     expect(spy).to(haveBeenCalled())
                 }
             }
 
             context("not initialize session") {
-                xit("on ready") {
-                    // will fail until updates in branch conviva-validation-updates
+                it("on ready") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
                     playerDouble.fakePlayEvent()
                     expect(spy).toNot(haveBeenCalled())

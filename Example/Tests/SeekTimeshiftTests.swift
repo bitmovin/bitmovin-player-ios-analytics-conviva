@@ -35,14 +35,12 @@ class SeekTimeshiftSpec: QuickSpec {
             }
 
             context("seek start") {
-                xit("tracked on seek") {
-                    // will fail until updates in branch conviva-validation-updates
+                it("tracked on seek") {
                     playerDouble.fakeSeekEvent(position: 100)
                     expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "100"]))
                 }
 
-                xit("tracked on timeshift") {
-                    // will fail until updates in branch conviva-validation-updates
+                it("tracked on timeshift") {
                     playerDouble.fakeTimeShiftEvent(position: 100)
                     expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "100"]))
                 }

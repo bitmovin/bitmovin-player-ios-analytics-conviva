@@ -272,7 +272,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Seek / Timeshift events
     func onSeek(_ event: SeekEvent) {
-        playerStateManager.setSeekStart!(Int64(event.seekTarget))
+        playerStateManager.setSeekStart!(Int64(event.position))
     }
 
     func onSeeked() {
@@ -280,7 +280,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onTimeShift(_ event: TimeShiftEvent) {
-        playerStateManager.setSeekStart!(Int64(event.target))
+        playerStateManager.setSeekStart!(Int64(event.position))
     }
 
     func onTimeShifted() {

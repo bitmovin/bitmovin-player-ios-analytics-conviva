@@ -16,6 +16,13 @@ class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
         super.init(configuration: PlayerConfiguration())
     }
 
+    func fakeReadyEvent() {
+        guard let onReady = fakeListener?.onReady else {
+            return
+        }
+        onReady(ReadyEvent())
+    }
+
     func fakePlayEvent() {
         guard let onPlay = fakeListener?.onPlay else {
             return

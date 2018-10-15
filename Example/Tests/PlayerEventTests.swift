@@ -59,7 +59,7 @@ class PlayerEventsSpec: QuickSpec {
             context("not initialize session") {
                 it("on ready") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
-                    playerDouble.fakePlayEvent()
+                    playerDouble.fakeReadyEvent()
                     expect(spy).toNot(haveBeenCalled())
                 }
             }

@@ -15,6 +15,11 @@ class PlayerStateManagerTestDouble: NSObject, CISPlayerStateManagerProtocol, Tes
         print("[ PlayerStateManagerDouble ] method_missing: \(NSStringFromSelector(aSelector))")
     }
 
+    override init() {
+        super.init()
+        spy(functionName: "init")
+    }
+
     func setPlayerState(_ newState: PlayerState) {
         spy(functionName: "setPlayerState", args: ["newState": "\(newState.rawValue)"])
     }

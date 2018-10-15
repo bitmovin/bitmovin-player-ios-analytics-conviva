@@ -64,6 +64,29 @@ class PlayerEventsSpec: QuickSpec {
                 }
             }
 
+            context("initialize player state manager") {
+                it("on play") {
+                    let spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "init")
+                    playerDouble.fakePlayEvent()
+                    expect(spy).to(haveBeenCalled())
+                }
+            }
+
+            context("not initialize player state manager") {
+                it("when initializing conviva analytics") {
+                    let spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "init")
+                    expect(spy).toNot(haveBeenCalled())
+                }
+            }
+
+            context("deinitialize player state manager") {
+                it("on playback finished") {
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "releasePlayerStateManager")
+                    playerDouble.fakePlaybackFinishedEvent()
+                    expect(spy).to(haveBeenCalled())
+                }
+            }
+
             context("update playback state") {
                 var spy: Spy!
                 beforeEach {

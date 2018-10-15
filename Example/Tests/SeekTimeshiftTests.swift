@@ -7,6 +7,7 @@ import BitmovinConvivaAnalytics
 import ConvivaSDK
 
 class SeekTimeshiftSpec: QuickSpec {
+    // swiftlint:disable:next function_body_length
     override func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
@@ -34,34 +35,47 @@ class SeekTimeshiftSpec: QuickSpec {
                 }
             }
 
-            context("seek start") {
-                it("tracked on seek") {
-                    playerDouble.fakeSeekEvent(position: 100)
-                    expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "100"]))
+            describe("after an initial play event") {
+                beforeEach {
+                    playerDouble.fakePlayEvent() // to initialize the session
                 }
 
-                it("tracked on timeshift") {
-                    playerDouble.fakeTimeShiftEvent(position: 100)
-                    expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "100"]))
+                context("track seek start") {
+                    it("on seek") {
+                        playerDouble.fakeSeekEvent(position: 100)
+                        expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "100"]))
+                    }
+
+                    it("on timeshift") {
+                        playerDouble.fakeTimeShiftEvent(position: 100)
+                        expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "100"]))
+                    }
+                }
+
+                context("track seek finished") {
+                    beforeEach {
+                        spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setSeekEnd")
+                        _ = TestDouble(aClass: playerDouble, name: "currentTime", return: TimeInterval(100))
+                    }
+
+                    it("on seeked") {
+                        playerDouble.fakeSeekedEvent()
+                        expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "100"]))
+                    }
+
+                    it("on timeshifted") {
+                        playerDouble.fakeTimeShiftedEvent()
+                        expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "100"]))
+                    }
                 }
             }
-            context("seek finished") {
-                beforeEach {
-                    spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setSeekEnd")
-                    _ = TestDouble(aClass: playerDouble, name: "currentTime", return: TimeInterval(100))
-                }
 
-                it("tracked on seeked") {
-                    playerDouble.fakeSeekedEvent()
-                    expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "100"]))
-                }
-
-                it("tracked on timeshifted") {
-                    playerDouble.fakeTimeShiftedEvent()
-                    expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "100"]))
+            describe("does not track seek") {
+                it("when play was never called") {
+                    playerDouble.fakeSeekEvent(position: 100)
+                    expect(spy).toNot(haveBeenCalled())
                 }
             }
         }
-
     }
 }

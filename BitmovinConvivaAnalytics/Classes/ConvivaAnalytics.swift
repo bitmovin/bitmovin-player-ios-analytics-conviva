@@ -17,7 +17,7 @@ public final class ConvivaAnalytics: NSObject {
     let customerKey: String
     let config: ConvivaConfiguration
     var client: CISClientProtocol
-    var playerStateManager: CISPlayerStateManagerProtocol
+    var playerStateManager: CISPlayerStateManagerProtocol!
     var sessionKey: Int32 = NO_SESSION_KEY
     var contentMetadata: CISContentMetadata = CISContentMetadata()
     var isValidSession: Bool {
@@ -81,11 +81,8 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         self.client = try CISClientCreator.create(withClientSettings: clientSetting, factory: systemFactory)
-        self.playerStateManager = client.getPlayerStateManager()
 
         super.init()
-
-        setupPlayerStateManager()
 
         listener = BitmovinPlayerListener(player: player)
         listener?.delegate = self
@@ -93,28 +90,29 @@ public final class ConvivaAnalytics: NSObject {
 
     deinit {
         endSession()
-        client.releasePlayerStateManager(playerStateManager)
     }
 
     // MARK: - session handling
     private func setupPlayerStateManager() {
-        self.playerStateManager.setPlayerType!("Bitmovin Player iOS")
+        playerStateManager = client.getPlayerStateManager()
+        playerStateManager.setPlayerState!(PlayerState.CONVIVA_STOPPED)
+        playerStateManager.setPlayerType!("Bitmovin Player iOS")
 
         if let bitmovinPlayerVersion = playerHelper.version {
-            self.playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
+            playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
         }
     }
 
     private func initSession() {
         buildContentMetadata()
         sessionKey = client.createSession(with: contentMetadata)
+        setupPlayerStateManager()
         updateSession()
 
         if !isValidSession {
             logger.debugLog(message: "Something went wrong, could not obtain session key")
         }
 
-        playerStateManager.setPlayerState!(PlayerState.CONVIVA_STOPPED)
         client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
         logger.debugLog(message: "Session started")
     }
@@ -143,6 +141,7 @@ public final class ConvivaAnalytics: NSObject {
     private func endSession() {
         client.detachPlayer(sessionKey)
         client.cleanupSession(sessionKey)
+        client.releasePlayerStateManager(playerStateManager)
         sessionKey = NO_SESSION_KEY
         logger.debugLog(message: "Session ended")
     }
@@ -272,6 +271,12 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Seek / Timeshift events
     func onSeek(_ event: SeekEvent) {
+        if !isValidSession {
+            // Handle the case that the User seeks on the UI before play was triggered.
+            // This also handles startTime feature. The same applies for onTimeShift.
+            return
+        }
+
         playerStateManager.setSeekStart!(Int64(event.position))
     }
 
@@ -280,6 +285,11 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onTimeShift(_ event: TimeShiftEvent) {
+        if !isValidSession {
+            // See comment in onSeek
+            return
+        }
+
         playerStateManager.setSeekStart!(Int64(event.position))
     }
 

@@ -32,9 +32,11 @@ protocol BitmovinPlayerListenerDelegate: AnyObject {
     func onTimeShift(_ event: TimeShiftEvent)
     func onTimeShifted()
 
+    #if !os(tvOS)
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent)
     func onAdFinished()
     func onAdSkipped(_ event: AdSkippedEvent)
     func onAdError(_ event: AdErrorEvent)
+    #endif
 }

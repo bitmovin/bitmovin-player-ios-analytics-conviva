@@ -1,5 +1,5 @@
 //
-//  PlayerStateManagerDouble.swift
+//  PlayerStateManagerTestDouble.swift
 //  BitmovinConvivaAnalytics_Example
 //
 //  Created by David Steinacher on 08.10.18.
@@ -9,7 +9,7 @@
 import Foundation
 import ConvivaSDK
 
-class PlayerStateManagerDouble: NSObject, CISPlayerStateManagerProtocol, TestDoubleDataSource {
+class PlayerStateManagerTestDouble: NSObject, CISPlayerStateManagerProtocol, TestDoubleDataSource {
     override func doesNotRecognizeSelector(_ aSelector: Selector!) {
         // be aware that all method calls that that do not exist will fail silently
         print("[ PlayerStateManagerDouble ] method_missing: \(NSStringFromSelector(aSelector))")

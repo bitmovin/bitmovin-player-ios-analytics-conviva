@@ -1,5 +1,5 @@
 //
-//  CISClientDouble.swift
+//  CISClientTestDouble.swift
 //  BitmovinConvivaAnalytics_Example
 //
 //  Created by David Steinacher on 08.10.18.
@@ -9,7 +9,7 @@
 import Foundation
 import ConvivaSDK
 
-class CISClientDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
+class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     func createSession(with cisContentMetadata: CISContentMetadata!) -> Int32 {
         spy(functionName: "createSession")
         return Int32(0)
@@ -20,7 +20,7 @@ class CISClientDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     }
 
     func getPlayerStateManager() -> CISPlayerStateManagerProtocol! {
-        return PlayerStateManagerDouble()
+        return PlayerStateManagerTestDouble()
     }
 
     func updateContentMetadata(_ sessionKey: Int32, metadata contentMetadata: CISContentMetadata!) {
@@ -47,7 +47,7 @@ class CISClientDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
 
     func sendCustomEvent(_ sessionKey: Int32,
                          eventname eventName: String!,
-                         withAttributes attributes: [AnyHashable : Any]! = [:]) {
+                         withAttributes attributes: [AnyHashable: Any]! = [:]) {
         var args: [String: String] = [:]
         args["sessionKey"] = "\(sessionKey)"
         args["eventName"] = eventName
@@ -70,7 +70,7 @@ class CISClientDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     }
 
     func getAttachedPlayer(_ sessionKey: Int32) -> CISPlayerStateManagerProtocol! {
-        return PlayerStateManagerDouble()
+        return PlayerStateManagerTestDouble()
     }
 
     func isPlayerAttached(_ sessionKey: Int32) -> Bool {

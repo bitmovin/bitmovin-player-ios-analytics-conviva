@@ -14,10 +14,10 @@ import ConvivaSDK
 
 class CustomEventsSpec: QuickSpec {
     override func spec() {
-        var playerDouble: BitmovinPlayerDouble!
+        var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {
-            playerDouble = BitmovinPlayerDouble()
+            playerDouble = BitmovinPlayerTestDouble()
             TestHelper.shared.spyTracker.reset()
             TestHelper.shared.mockTracker.reset()
         }
@@ -33,7 +33,7 @@ class CustomEventsSpec: QuickSpec {
             }
 
             it("send custom playback event") {
-                let spy = Spy(aClass: CISClientDouble.self, functionName: "sendCustomEvent")
+                let spy = Spy(aClass: CISClientTestDouble.self, functionName: "sendCustomEvent")
                 convivaAnalytics.sendCustomPlaybackEvent(name: "Playback Event",
                                                          attributes: ["Test Case": "Playback"])
                 expect(spy).to(
@@ -42,7 +42,7 @@ class CustomEventsSpec: QuickSpec {
             }
 
             it("send custom application event") {
-                let spy = Spy(aClass: CISClientDouble.self, functionName: "sendCustomEvent")
+                let spy = Spy(aClass: CISClientTestDouble.self, functionName: "sendCustomEvent")
                 convivaAnalytics.sendCustomApplicationEvent(name: "Application Event",
                                                             attributes: ["Test Case": "Application"])
                 expect(spy).to(

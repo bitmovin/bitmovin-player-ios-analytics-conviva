@@ -27,8 +27,8 @@ class MockingFactory {
     }
 
     var mockedCreateSettingMethod: Method {
-        return class_getClassMethod(CISClientSettingCreatorDouble.self,
-                                    #selector(CISClientSettingCreatorDouble.myCreate(withCustomerKey:)))!
+        return class_getClassMethod(CISClientSettingCreatorTestDouble.self,
+                                    #selector(CISClientSettingCreatorTestDouble.myCreate(withCustomerKey:)))!
     }
 
     var createClientMethod: Method {
@@ -37,7 +37,7 @@ class MockingFactory {
     }
 
     var mockedCreateClientMethod: Method {
-        return class_getClassMethod(CISClientCreatorDouble.self,
-                                    #selector(CISClientCreatorDouble.create(withClientSettings:factory:)))!
+        return class_getClassMethod(CISClientCreatorTestDouble.self,
+                                    #selector(CISClientCreatorTestDouble.create(withClientSettings:factory:)))!
     }
 }

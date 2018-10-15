@@ -1,5 +1,5 @@
 //
-//  CISClientSettingProtocolDouble.swift
+//  CISClientSettingProtocolTestDouble.swift
 //  BitmovinConvivaAnalytics_Example
 //
 //  Created by David Steinacher on 08.10.18.
@@ -9,7 +9,7 @@
 import Foundation
 import ConvivaSDK
 
-class CISClientSettingProtocolDouble: NSObject, CISClientSettingProtocol {
+class CISClientSettingProtocolTestDouble: NSObject, CISClientSettingProtocol {
     func getCustomerKey() -> String! {
         return "StubKey"
     }

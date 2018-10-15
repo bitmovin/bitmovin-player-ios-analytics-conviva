@@ -1,5 +1,5 @@
 //
-//  ContentMetaDataTests.swift
+//  ContentMetadataTests.swift
 //  BitmovinConvivaAnalytics_Tests
 //
 //  Created by David Steinacher on 11.10.18.
@@ -12,13 +12,13 @@ import BitmovinPlayer
 import BitmovinConvivaAnalytics
 import ConvivaSDK
 
-class ContentMetaDataSpec: QuickSpec {
+class ContentMetadataSpec: QuickSpec {
     // swiftlint:disable:next function_body_length
     override func spec() {
-        var playerDouble: BitmovinPlayerDouble!
+        var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {
-            playerDouble = BitmovinPlayerDouble()
+            playerDouble = BitmovinPlayerTestDouble()
             TestHelper.shared.spyTracker.reset()
             TestHelper.shared.mockTracker.reset()
         }
@@ -47,7 +47,7 @@ class ContentMetaDataSpec: QuickSpec {
             context("when initializing session") {
                 it("set application name") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
                     playerDouble.fakeTimeChangedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["applicationName": "Unit Tests"])
@@ -55,7 +55,7 @@ class ContentMetaDataSpec: QuickSpec {
                 }
 
                 it("set asset name") {
-                    let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
 
                     let playerConfiguration = PlayerConfiguration()
                     let sourceItem = SourceItem(url: URL(string: "www.google.com.m3u8")!)!
@@ -73,7 +73,7 @@ class ContentMetaDataSpec: QuickSpec {
 
                 it("set viewer id") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
                     playerDouble.fakeTimeChangedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["viewerId": "TestViewer"])
@@ -82,7 +82,7 @@ class ContentMetaDataSpec: QuickSpec {
 
                 it("set custom tags") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
                     playerDouble.fakeTimeChangedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["Custom": "Tags", "TestRun": "Success"])
@@ -93,7 +93,7 @@ class ContentMetaDataSpec: QuickSpec {
             context("when updating session") {
                 it("update video duration") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
                     _ = TestDouble(aClass: playerDouble, name: "duration", return: TimeInterval(50))
 
                     playerDouble.fakeTimeChangedEvent()
@@ -104,7 +104,7 @@ class ContentMetaDataSpec: QuickSpec {
 
                 it("update stream type (VOD/Live)") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
                     _ = TestDouble(aClass: playerDouble, name: "isLive", return: true)
 
                     playerDouble.fakeTimeChangedEvent()
@@ -114,7 +114,7 @@ class ContentMetaDataSpec: QuickSpec {
                 }
 
                 it("update stream url") {
-                    let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
 
                     let playerConfiguration = PlayerConfiguration()
                     let sourceItem = SourceItem(url: URL(string: "www.google.com.m3u8")!)!
@@ -134,7 +134,7 @@ class ContentMetaDataSpec: QuickSpec {
 
                 it("update bitrate") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setBitrateKbps")
+                    let spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setBitrateKbps")
 
                     let videoQuality = VideoQuality(identifier: "Test",
                                                     label: "test",

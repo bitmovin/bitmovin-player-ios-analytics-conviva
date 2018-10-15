@@ -15,10 +15,10 @@ import ConvivaSDK
 class PlayerEventsSpec: QuickSpec {
     // swiftlint:disable:next function_body_length
     override func spec() {
-        var playerDouble: BitmovinPlayerDouble!
+        var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {
-            playerDouble = BitmovinPlayerDouble()
+            playerDouble = BitmovinPlayerTestDouble()
             TestHelper.shared.spyTracker.reset()
             TestHelper.shared.mockTracker.reset()
         }
@@ -43,7 +43,7 @@ class PlayerEventsSpec: QuickSpec {
             context("initialize session") {
                 var spy: Spy!
                 beforeEach {
-                    spy = Spy(aClass: CISClientDouble.self, functionName: "createSession")
+                    spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
                 }
 
                 it("on play") {
@@ -61,7 +61,7 @@ class PlayerEventsSpec: QuickSpec {
             context("not initialize session") {
                 xit("on ready") {
                     // will fail until updates in branch conviva-validation-updates
-                    let spy = Spy(aClass: CISClientDouble.self, functionName: "createSession")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
                     playerDouble.fakePlayEvent()
                     expect(spy).toNot(haveBeenCalled())
                 }
@@ -70,7 +70,7 @@ class PlayerEventsSpec: QuickSpec {
             context("update playback state") {
                 var spy: Spy!
                 beforeEach {
-                    spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
+                    spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setPlayerState")
                 }
 
                 it("on play") {
@@ -116,7 +116,7 @@ class PlayerEventsSpec: QuickSpec {
             context("end session") {
                 var spy: Spy!
                 beforeEach {
-                    spy = Spy(aClass: CISClientDouble.self, functionName: "cleanupSession")
+                    spy = Spy(aClass: CISClientTestDouble.self, functionName: "cleanupSession")
                 }
 
                 it("on source unloaded") {
@@ -130,7 +130,7 @@ class PlayerEventsSpec: QuickSpec {
                 }
 
                 it("on playback finished") {
-                    let playbackStateSpy = Spy(aClass: PlayerStateManagerDouble.self,
+                    let playbackStateSpy = Spy(aClass: PlayerStateManagerTestDouble.self,
                                                functionName: "setPlayerState")
                     playerDouble.fakePlaybackFinishedEvent()
                     expect(spy).to(haveBeenCalled())
@@ -143,7 +143,7 @@ class PlayerEventsSpec: QuickSpec {
             describe("ads") {
                 var spy: Spy!
                 beforeEach {
-                    spy = Spy(aClass: CISClientDouble.self, functionName: "adStart")
+                    spy = Spy(aClass: CISClientTestDouble.self, functionName: "adStart")
                 }
 
                 context("track preroll ad") {
@@ -227,7 +227,7 @@ class PlayerEventsSpec: QuickSpec {
                 context("track ad end") {
                     beforeEach {
                         playerDouble.fakePlayEvent()
-                        spy = Spy(aClass: CISClientDouble.self, functionName: "adEnd")
+                        spy = Spy(aClass: CISClientTestDouble.self, functionName: "adEnd")
                     }
 
                     it("on ad skipped") {

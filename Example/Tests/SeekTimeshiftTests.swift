@@ -8,10 +8,10 @@ import ConvivaSDK
 
 class SeekTimeshiftSpec: QuickSpec {
     override func spec() {
-        var playerDouble: BitmovinPlayerDouble!
+        var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {
-            playerDouble = BitmovinPlayerDouble()
+            playerDouble = BitmovinPlayerTestDouble()
             TestHelper.shared.spyTracker.reset()
             TestHelper.shared.mockTracker.reset()
         }
@@ -25,7 +25,7 @@ class SeekTimeshiftSpec: QuickSpec {
                 } catch {
                     fail("ConvivaAnalytics failed with error: \(error)")
                 }
-                spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setSeekStart")
+                spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setSeekStart")
             }
 
             afterEach {
@@ -50,7 +50,7 @@ class SeekTimeshiftSpec: QuickSpec {
             }
             context("seek finished") {
                 beforeEach {
-                    spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setSeekEnd")
+                    spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setSeekEnd")
                     _ = TestDouble(aClass: playerDouble, name: "currentTime", return: TimeInterval(100))
                 }
 

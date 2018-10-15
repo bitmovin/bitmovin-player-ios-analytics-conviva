@@ -1,5 +1,5 @@
 //
-//  BitmovinPlayerDouble.swift
+//  BitmovinPlayerTestDouble.swift
 //  BitmovinConvivaAnalytics_Example
 //
 //  Created by David Steinacher on 08.10.18.
@@ -9,7 +9,7 @@
 import Foundation
 import BitmovinPlayer
 
-class BitmovinPlayerDouble: BitmovinPlayer, TestDoubleDataSource {
+class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
     var fakeListener: PlayerListener?
 
     init() {

@@ -24,15 +24,24 @@ class ContentMetaDataSpec: QuickSpec {
         }
 
         context("content meta data") {
+            var convivaAnalytics: ConvivaAnalytics!
             beforeEach {
                 do {
                     let convivaConfig = ConvivaConfiguration()
                     convivaConfig.applicationName = "Unit Tests"
                     convivaConfig.viewerId = "TestViewer"
                     convivaConfig.customTags = ["Custom": "Tags", "TestRun": "Success"]
-                    _ = try ConvivaAnalytics(player: playerDouble, customerKey: "", config: convivaConfig)
+                    convivaAnalytics = try ConvivaAnalytics(player: playerDouble,
+                                                            customerKey: "",
+                                                            config: convivaConfig)
                 } catch {
                     fail("ConvivaAnalytics failed with error: \(error)")
+                }
+            }
+            afterEach {
+                // hack to silence xcode warning that variable is unused
+                if convivaAnalytics != nil {
+                    convivaAnalytics = nil
                 }
             }
             context("when initializing session") {
@@ -62,7 +71,7 @@ class ContentMetaDataSpec: QuickSpec {
                     )
                 }
 
-                it("set viwer id") {
+                it("set viewer id") {
                     playerDouble.fakePlayEvent() // to initialize session
                     let spy = Spy(aClass: CISClientDouble.self, functionName: "updateContentMetadata")
                     playerDouble.fakeTimeChangedEvent()

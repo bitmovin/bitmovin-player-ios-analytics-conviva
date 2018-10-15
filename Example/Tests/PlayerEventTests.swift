@@ -24,25 +24,34 @@ class PlayerEventsSpec: QuickSpec {
         }
 
         context("player event handling") {
+            var convivaAnalytics: ConvivaAnalytics!
             beforeEach {
                 do {
-                    _ = try ConvivaAnalytics(player: playerDouble, customerKey: "")
+                    convivaAnalytics = try ConvivaAnalytics(player: playerDouble, customerKey: "")
                 } catch {
                     fail("ConvivaAnalytics failed with error: \(error)")
                 }
             }
+
+            afterEach {
+                // hack to silence xcode warning that variable is unused
+                if convivaAnalytics != nil {
+                    convivaAnalytics = nil
+                }
+            }
+
             context("initialize session") {
                 var spy: Spy!
                 beforeEach {
                     spy = Spy(aClass: CISClientDouble.self, functionName: "createSession")
                 }
 
-                it("on Play") {
+                it("on play") {
                     playerDouble.fakePlayEvent()
                     expect(spy).to(haveBeenCalled())
                 }
 
-                xit("on Error") {
+                xit("on error") {
                     // will fail until updates in branch conviva-validation-updates
                     playerDouble.fakeErrorEvent()
                     expect(spy).to(haveBeenCalled())
@@ -50,7 +59,7 @@ class PlayerEventsSpec: QuickSpec {
             }
 
             context("not initialize session") {
-                xit("on Ready") {
+                xit("on ready") {
                     // will fail until updates in branch conviva-validation-updates
                     let spy = Spy(aClass: CISClientDouble.self, functionName: "createSession")
                     playerDouble.fakePlayEvent()
@@ -64,21 +73,21 @@ class PlayerEventsSpec: QuickSpec {
                     spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setPlayerState")
                 }
 
-                it("on Play") {
+                it("on play") {
                     playerDouble.fakePlayEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
                     )
                 }
 
-                it("on Pause") {
+                it("on pause") {
                     playerDouble.fakePauseEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PAUSED.rawValue)"])
                     )
                 }
 
-                it("on stall Started") {
+                it("on stall started") {
                     playerDouble.fakeStallStartedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_BUFFERING.rawValue)"])

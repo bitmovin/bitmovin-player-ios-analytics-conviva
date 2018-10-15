@@ -18,16 +18,24 @@ class SeekTimeshiftSpec: QuickSpec {
 
         describe("seek / timeshift") {
             var spy: Spy!
-            context("seek start") {
-                beforeEach {
-                    do {
-                        _ = try ConvivaAnalytics(player: playerDouble, customerKey: "")
-                    } catch {
-                        fail("ConvivaAnalytics failed with error: \(error)")
-                    }
-                    spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setSeekStart")
+            var convivaAnalytics: ConvivaAnalytics!
+            beforeEach {
+                do {
+                    convivaAnalytics = try ConvivaAnalytics(player: playerDouble, customerKey: "")
+                } catch {
+                    fail("ConvivaAnalytics failed with error: \(error)")
                 }
+                spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setSeekStart")
+            }
 
+            afterEach {
+                // hack to silence xcode warning that variable is unused
+                if convivaAnalytics != nil {
+                    convivaAnalytics = nil
+                }
+            }
+
+            context("seek start") {
                 xit("tracked on seek") {
                     // will fail until updates in branch conviva-validation-updates
                     playerDouble.fakeSeekEvent(position: 100)
@@ -43,13 +51,6 @@ class SeekTimeshiftSpec: QuickSpec {
             context("seek finished") {
                 beforeEach {
                     spy = Spy(aClass: PlayerStateManagerDouble.self, functionName: "setSeekEnd")
-
-                    do {
-                        _ = try ConvivaAnalytics(player: playerDouble, customerKey: "")
-                    } catch {
-                        fail("ConvivaAnalytics failed with error: \(error)")
-                    }
-
                     _ = TestDouble(aClass: playerDouble, name: "currentTime", return: TimeInterval(100))
                 }
 

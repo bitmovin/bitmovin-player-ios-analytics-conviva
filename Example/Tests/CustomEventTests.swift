@@ -41,7 +41,7 @@ class CustomEventsSpec: QuickSpec {
                 )
             }
 
-            it("senc dustom application event") {
+            it("send custom application event") {
                 let spy = Spy(aClass: CISClientDouble.self, functionName: "sendCustomEvent")
                 convivaAnalytics.sendCustomApplicationEvent(name: "Application Event",
                                                             attributes: ["Test Case": "Application"])

@@ -281,6 +281,11 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onSeeked() {
+        if !isValidSession {
+            // See comment in onSeek
+            return
+        }
+
         playerStateManager.setSeekEnd!(Int64(player.currentTime * 1000))
     }
 
@@ -295,6 +300,11 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onTimeShifted() {
+        if !isValidSession {
+            // See comment in onSeek
+            return
+        }
+
         playerStateManager.setSeekEnd!(-1)
     }
 

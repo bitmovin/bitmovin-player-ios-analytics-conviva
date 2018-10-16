@@ -42,13 +42,13 @@ class SeekTimeshiftSpec: QuickSpec {
 
                 context("track seek start") {
                     it("on seek") {
-                        playerDouble.fakeSeekEvent(position: 100)
-                        expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "100"]))
+                        playerDouble.fakeSeekEvent(position: 10, seekTarget: 51)
+                        expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "51000"]))
                     }
 
                     it("on timeshift") {
                         playerDouble.fakeTimeShiftEvent(position: 100)
-                        expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "100"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "-1"]))
                     }
                 }
 
@@ -60,12 +60,12 @@ class SeekTimeshiftSpec: QuickSpec {
 
                     it("on seeked") {
                         playerDouble.fakeSeekedEvent()
-                        expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "100"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "100000"]))
                     }
 
                     it("on timeshifted") {
                         playerDouble.fakeTimeShiftedEvent()
-                        expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "100"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "-1"]))
                     }
                 }
             }

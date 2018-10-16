@@ -277,11 +277,11 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             return
         }
 
-        playerStateManager.setSeekStart!(Int64(event.position))
+        playerStateManager.setSeekStart!(Int64(event.seekTarget * 1000))
     }
 
     func onSeeked() {
-        playerStateManager.setSeekEnd!(Int64(player.currentTime))
+        playerStateManager.setSeekEnd!(Int64(player.currentTime * 1000))
     }
 
     func onTimeShift(_ event: TimeShiftEvent) {
@@ -290,11 +290,12 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             return
         }
 
-        playerStateManager.setSeekStart!(Int64(event.position))
+        // According to conviva it is valid to pass -1 for seeking in live streams
+        playerStateManager.setSeekStart!(-1)
     }
 
     func onTimeShifted() {
-        playerStateManager.setSeekEnd!(Int64(player.currentTime))
+        playerStateManager.setSeekEnd!(-1)
     }
 
     // MARK: - Ad events

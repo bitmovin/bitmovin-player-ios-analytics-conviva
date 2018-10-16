@@ -153,9 +153,14 @@ public final class ConvivaAnalytics: NSObject {
         contentMetadata.applicationName = config.applicationName
         contentMetadata.assetName = sourceItem?.itemTitle
         contentMetadata.viewerId = config.viewerId
+
+        var customInternTags: [String: Any] = [
+            "streamType": playerHelper.streamType
+        ]
         if let customTags = config.customTags {
-            contentMetadata.custom = NSMutableDictionary(dictionary: customTags)
+            customInternTags.merge(customTags) { (_, new) in new }
         }
+        contentMetadata.custom = NSMutableDictionary(dictionary: customInternTags)
     }
 
     // MARK: - event handling

@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  BitmovinConvivaAnalyticsTvOSExample
 //
-//  Created by David Steinacher on 10.10.18.
-//  Copyright © 2018 CocoaPods. All rights reserved.
+//  Created by Bitmovin on 10.10.18.
+//  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
 import UIKit

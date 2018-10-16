@@ -63,7 +63,7 @@ do {
 ```
 
 
-If you want to track UI related event such as full-screen state changes add following after initializing the `BMPBitmovinPlayerView`:
+If you want to track UI related events such as full-screen state changes add the following after initializing the `BMPBitmovinPlayerView`:
 
 ```swift
 convivaAnalytics.playerView = bitmovinPlayerView

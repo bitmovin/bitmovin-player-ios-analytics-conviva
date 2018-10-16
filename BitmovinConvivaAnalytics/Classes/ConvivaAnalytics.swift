@@ -31,7 +31,7 @@ public final class ConvivaAnalytics: NSObject {
     // MARK: - Helper
     let logger: Logger
     let playerHelper: BitmovinPlayerHelper
-    // Workaround for player issue when onPlay is send while player is stalled
+    // Workaround for player issue when onPlay is sent while player is stalled
     var isStalled: Bool = false
 
     // MARK: - Public Attributes
@@ -200,7 +200,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func onPlaybackStateChanged(playerState: PlayerState) {
-        // do not report playing while player isStalled
+        // do not report any playback state changes while player isStalled except buffering
         if isStalled && playerState != .CONVIVA_BUFFERING {
             return
         }

@@ -115,6 +115,10 @@ class PlayerEventsSpec: QuickSpec {
                 }
 
                 context("after stalling") {
+                    beforeEach {
+                        playerDouble.fakeStallStartedEvent()
+                    }
+
                     it("in playing state") {
                         _ = TestDouble(aClass: playerDouble, name: "isPlaying", return: true)
                         playerDouble.fakeStallEndedEvent()

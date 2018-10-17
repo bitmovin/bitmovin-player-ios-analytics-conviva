@@ -31,7 +31,7 @@ extension BitmovinPlayerListener: PlayerListener {
     func onSourceUnloaded(_ event: SourceUnloadedEvent) {
         // The default SDK error handling is that it triggers the onSourceUnloaded before the onError event.
         // To track errors to conviva we need to delay the onSourceUnloaded to ensure the onError event is
-        // called first. A small delay should be enough. There is also a test which covers this workaround.
+        // called first.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.delegate?.onSourceUnloaded()
         }

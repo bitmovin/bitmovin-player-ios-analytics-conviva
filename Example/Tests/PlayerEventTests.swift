@@ -145,7 +145,9 @@ class PlayerEventsSpec: QuickSpec {
 
                 it("on source unloaded") {
                     playerDouble.fakeSourceUnloadedEvent()
-                    expect(spy).to(haveBeenCalled())
+                    DispatchQueue.main.async {
+                        expect(spy).to(haveBeenCalled())
+                    }
                 }
 
                 it("on error") {
@@ -161,6 +163,27 @@ class PlayerEventsSpec: QuickSpec {
                     expect(playbackStateSpy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_STOPPED.rawValue)"])
                     )
+                }
+
+                describe("with on source unloaded / on error workaround") {
+                    it("when on source unloaded is followed by on error") {
+                        // simulating a mid stream error so simulate a session initialization first
+                        playerDouble.fakePlayEvent()
+
+                        // reset spies to add ability to test against createSession has not been called
+                        TestHelper.shared.spyTracker.reset()
+                        let errorSpy = Spy(aClass: CISClientTestDouble.self, functionName: "reportError")
+                        let sessionSpy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+
+                        // default sdk error handling is to call unload and this will be triggered first
+                        // but we want to track the error event in the same session
+                        playerDouble.fakeSourceUnloadedEvent()
+                        playerDouble.fakeErrorEvent()
+
+                        expect(errorSpy).to(haveBeenCalled())
+                        // should not be called while session is still valid (would be invalidated in end session)
+                        expect(sessionSpy).toNot(haveBeenCalled())
+                    }
                 }
             }
 

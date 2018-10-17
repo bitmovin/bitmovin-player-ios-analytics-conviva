@@ -81,10 +81,13 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
         spy(functionName: "releasePlayerStateManager")
     }
 
+    func reportError(_ sessionKey: Int32, errorMessage: String!, errorSeverity severity: ErrorSeverity) {
+        spy(functionName: "reportError", args: ["errorMessage": errorMessage])
+    }
+
     func detachPlayer(_ sessionKey: Int32) {}
     func contentPreload(_ sessionKey: Int32) {}
     func contentStart(_ sessionKey: Int32) {}
     func cleanUp() {}
     func attachPlayer(_ sessionKey: Int32, playerStateManager: CISPlayerStateManagerProtocol!) {}
-    func reportError(_ sessionKey: Int32, errorMessage: String!, errorSeverity severity: ErrorSeverity) {}
 }

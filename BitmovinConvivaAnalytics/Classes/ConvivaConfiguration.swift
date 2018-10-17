@@ -2,7 +2,8 @@
 //  ConvivaConfiguration.swift
 //  BitmovinConvivaAnalytics
 //
-//  Created by David Steinacher on 04.10.18.
+//  Created by Bitmovin on 04.10.18.
+//  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
 import Foundation

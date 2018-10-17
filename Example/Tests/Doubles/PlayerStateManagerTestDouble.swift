@@ -2,8 +2,8 @@
 //  PlayerStateManagerTestDouble.swift
 //  BitmovinConvivaAnalytics_Example
 //
-//  Created by David Steinacher on 08.10.18.
-//  Copyright © 2018 CocoaPods. All rights reserved.
+//  Created by Bitmovin on 08.10.18.
+//  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
 import Foundation

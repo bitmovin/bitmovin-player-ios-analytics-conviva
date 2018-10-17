@@ -86,6 +86,7 @@ extension BitmovinPlayerListener: PlayerListener {
         delegate?.onTimeShifted()
     }
 
+    #if !os(tvOS)
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent) {
         delegate?.onAdStarted(event)
@@ -102,4 +103,5 @@ extension BitmovinPlayerListener: PlayerListener {
     func onAdError(_ event: AdErrorEvent) {
         delegate?.onAdError(event)
     }
+    #endif
 }

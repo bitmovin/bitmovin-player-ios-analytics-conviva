@@ -220,7 +220,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         logger.debugLog(message: "[ Player Event ] \(event.name)")
     }
 
-    public func onSourceUnloaded() {
+    func onSourceUnloaded() {
         endSession()
     }
 
@@ -314,6 +314,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         playerStateManager.setSeekEnd!(-1)
     }
 
+    #if !os(tvOS)
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent) {
         let adPosition: AdPosition = AdEventUtil.parseAdPosition(event: event, contentDuration: player.duration)
@@ -333,6 +334,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         customEvent(event: event)
         client.adEnd(sessionKey)
     }
+    #endif
 }
 
 // MARK: - UserInterfaceListener

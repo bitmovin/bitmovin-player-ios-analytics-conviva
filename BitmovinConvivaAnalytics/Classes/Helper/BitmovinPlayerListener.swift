@@ -29,14 +29,6 @@ extension BitmovinPlayerListener: PlayerListener {
         delegate?.onEvent(event)
     }
 
-    func onReady(_ event: ReadyEvent) {
-        delegate?.onReady()
-    }
-
-    func onSourceLoaded(_ event: SourceLoadedEvent) {
-        delegate?.onSourceLoaded()
-    }
-
     func onSourceUnloaded(_ event: SourceUnloadedEvent) {
         delegate?.onSourceUnloaded()
     }

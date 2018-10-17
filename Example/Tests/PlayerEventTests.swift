@@ -50,19 +50,40 @@ class PlayerEventsSpec: QuickSpec {
                     expect(spy).to(haveBeenCalled())
                 }
 
-                xit("on error") {
-                    // will fail until updates in branch conviva-validation-updates
+                it("on error") {
                     playerDouble.fakeErrorEvent()
                     expect(spy).to(haveBeenCalled())
                 }
             }
 
             context("not initialize session") {
-                xit("on ready") {
-                    // will fail until updates in branch conviva-validation-updates
+                it("on ready") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
-                    playerDouble.fakePlayEvent()
+                    playerDouble.fakeReadyEvent()
                     expect(spy).toNot(haveBeenCalled())
+                }
+            }
+
+            context("initialize player state manager") {
+                it("on play") {
+                    let spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "init")
+                    playerDouble.fakePlayEvent()
+                    expect(spy).to(haveBeenCalled())
+                }
+            }
+
+            context("not initialize player state manager") {
+                it("when initializing conviva analytics") {
+                    let spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "init")
+                    expect(spy).toNot(haveBeenCalled())
+                }
+            }
+
+            context("deinitialize player state manager") {
+                it("on playback finished") {
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "releasePlayerStateManager")
+                    playerDouble.fakePlaybackFinishedEvent()
+                    expect(spy).to(haveBeenCalled())
                 }
             }
 
@@ -94,6 +115,10 @@ class PlayerEventsSpec: QuickSpec {
                 }
 
                 context("after stalling") {
+                    beforeEach {
+                        playerDouble.fakeStallStartedEvent()
+                    }
+
                     it("in playing state") {
                         _ = TestDouble(aClass: playerDouble, name: "isPlaying", return: true)
                         playerDouble.fakeStallEndedEvent()

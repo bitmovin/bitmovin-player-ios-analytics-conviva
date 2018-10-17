@@ -47,7 +47,7 @@ class ContentMetadataSpec: QuickSpec {
                 it("set application name") {
                     playerDouble.fakePlayEvent() // to initialize session
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
-                    playerDouble.fakeTimeChangedEvent()
+
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["applicationName": "Unit Tests"])
                     )
@@ -64,7 +64,6 @@ class ContentMetadataSpec: QuickSpec {
                     _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfiguration)
 
                     playerDouble.fakePlayEvent() // to initialize session
-                    playerDouble.fakeTimeChangedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["assetName": "Art of Unit Test"])
                     )
@@ -73,7 +72,6 @@ class ContentMetadataSpec: QuickSpec {
                 it("set viewer id") {
                     playerDouble.fakePlayEvent() // to initialize session
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
-                    playerDouble.fakeTimeChangedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["viewerId": "TestViewer"])
                     )
@@ -82,7 +80,6 @@ class ContentMetadataSpec: QuickSpec {
                 it("set custom tags") {
                     playerDouble.fakePlayEvent() // to initialize session
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
-                    playerDouble.fakeTimeChangedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["Custom": "Tags", "TestRun": "Success"])
                     )
@@ -91,22 +88,20 @@ class ContentMetadataSpec: QuickSpec {
 
             context("when updating session") {
                 it("update video duration") {
+                    _ = TestDouble(aClass: playerDouble, name: "duration", return: TimeInterval(50))
                     playerDouble.fakePlayEvent() // to initialize session
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
-                    _ = TestDouble(aClass: playerDouble, name: "duration", return: TimeInterval(50))
 
-                    playerDouble.fakeTimeChangedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["duration": "50"])
                     )
                 }
 
                 it("update stream type (VOD/Live)") {
+                    _ = TestDouble(aClass: playerDouble, name: "isLive", return: true)
                     playerDouble.fakePlayEvent() // to initialize session
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
-                    _ = TestDouble(aClass: playerDouble, name: "isLive", return: true)
 
-                    playerDouble.fakeTimeChangedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["streamType": "\(StreamType.CONVIVA_STREAM_LIVE.rawValue)"])
                     )
@@ -125,16 +120,12 @@ class ContentMetadataSpec: QuickSpec {
 
                     playerDouble.fakePlayEvent() // to initialize session
 
-                    playerDouble.fakeTimeChangedEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["streamUrl": "www.google.com.m3u8"])
                     )
                 }
 
                 it("update bitrate") {
-                    playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setBitrateKbps")
-
                     let videoQuality = VideoQuality(identifier: "Test",
                                                     label: "test",
                                                     bitrate: 4_000_000,
@@ -143,7 +134,9 @@ class ContentMetadataSpec: QuickSpec {
 
                     _ = TestDouble(aClass: playerDouble, name: "videoQuality", return: videoQuality)
 
-                    playerDouble.fakeTimeChangedEvent()
+                    playerDouble.fakePlayEvent() // to initialize session
+                    let spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setBitrateKbps")
+
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["newBitrateKbps": "4000"])
                     )

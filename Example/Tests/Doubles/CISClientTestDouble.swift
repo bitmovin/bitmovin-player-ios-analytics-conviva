@@ -77,7 +77,10 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
         return true
     }
 
-    func releasePlayerStateManager(_ playerStateManager: CISPlayerStateManagerProtocol!) {}
+    func releasePlayerStateManager(_ playerStateManager: CISPlayerStateManagerProtocol!) {
+        spy(functionName: "releasePlayerStateManager")
+    }
+
     func detachPlayer(_ sessionKey: Int32) {}
     func contentPreload(_ sessionKey: Int32) {}
     func contentStart(_ sessionKey: Int32) {}

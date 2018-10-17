@@ -18,7 +18,7 @@ public final class ConvivaAnalytics: NSObject {
     let customerKey: String
     let config: ConvivaConfiguration
     var client: CISClientProtocol
-    var playerStateManager: CISPlayerStateManagerProtocol
+    var playerStateManager: CISPlayerStateManagerProtocol!
     var sessionKey: Int32 = NO_SESSION_KEY
     var contentMetadata: CISContentMetadata = CISContentMetadata()
     var isValidSession: Bool {
@@ -32,6 +32,8 @@ public final class ConvivaAnalytics: NSObject {
     // MARK: - Helper
     let logger: Logger
     let playerHelper: BitmovinPlayerHelper
+    // Workaround for player issue when onPlay is sent while player is stalled
+    var isStalled: Bool = false
 
     // MARK: - Public Attributes
     /**
@@ -65,8 +67,6 @@ public final class ConvivaAnalytics: NSObject {
         self.customerKey = customerKey
         self.config = config
 
-        // TODO: check if we can check if the player is already setup !!!!
-
         let systemInterFactory: CISSystemInterfaceProtocol = IOSSystemInterfaceFactory.initializeWithSystemInterface()
         let setting: CISSystemSettings = CISSystemSettings()
 
@@ -82,11 +82,8 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         self.client = try CISClientCreator.create(withClientSettings: clientSetting, factory: systemFactory)
-        self.playerStateManager = client.getPlayerStateManager()
 
         super.init()
-
-        setupPlayerStateManager()
 
         listener = BitmovinPlayerListener(player: player)
         listener?.delegate = self
@@ -94,27 +91,29 @@ public final class ConvivaAnalytics: NSObject {
 
     deinit {
         endSession()
-        client.releasePlayerStateManager(playerStateManager)
     }
 
     // MARK: - session handling
     private func setupPlayerStateManager() {
-        self.playerStateManager.setPlayerType!("Bitmovin Player iOS")
+        playerStateManager = client.getPlayerStateManager()
+        playerStateManager.setPlayerState!(PlayerState.CONVIVA_STOPPED)
+        playerStateManager.setPlayerType!("Bitmovin Player iOS")
 
         if let bitmovinPlayerVersion = playerHelper.version {
-            self.playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
+            playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
         }
     }
 
     private func initSession() {
         buildContentMetadata()
         sessionKey = client.createSession(with: contentMetadata)
+        setupPlayerStateManager()
+        updateSession()
 
         if !isValidSession {
             logger.debugLog(message: "Something went wrong, could not obtain session key")
         }
 
-        playerStateManager.setPlayerState!(PlayerState.CONVIVA_STOPPED)
         client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
         logger.debugLog(message: "Session started")
     }
@@ -143,6 +142,7 @@ public final class ConvivaAnalytics: NSObject {
     private func endSession() {
         client.detachPlayer(sessionKey)
         client.cleanupSession(sessionKey)
+        client.releasePlayerStateManager(playerStateManager)
         sessionKey = NO_SESSION_KEY
         logger.debugLog(message: "Session ended")
     }
@@ -201,6 +201,11 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func onPlaybackStateChanged(playerState: PlayerState) {
+        // do not report any playback state changes while player isStalled except buffering
+        if isStalled && playerState != .CONVIVA_BUFFERING {
+            return
+        }
+
         if !isValidSession {
             self.initSession()
         }
@@ -216,24 +221,6 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         logger.debugLog(message: "[ Player Event ] \(event.name)")
     }
 
-    func onReady() {
-        if !isValidSession {
-            self.initSession()
-        }
-    }
-
-    func onSourceLoaded() {
-        #if !os(tvOS)
-        if player.isAd {
-            return
-        }
-        #endif
-
-        if !isValidSession {
-            initSession()
-        }
-    }
-
     func onSourceUnloaded() {
         endSession()
     }
@@ -243,6 +230,10 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onError(_ event: ErrorEvent) {
+        if !isValidSession {
+            initSession()
+        }
+
         let message = "\(event.code) \(event.message)"
         client.reportError(sessionKey, errorMessage: message, errorSeverity: .ERROR_FATAL)
         endSession()
@@ -272,10 +263,12 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onStallStarted() {
+        isStalled = true
         onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
     }
 
     func onStallEnded() {
+        isStalled = false
         if player.isPlaying {
             onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
         } else if player.isPaused {
@@ -285,19 +278,41 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Seek / Timeshift events
     func onSeek(_ event: SeekEvent) {
-        playerStateManager.setSeekStart!(Int64(event.position))
+        if !isValidSession {
+            // Handle the case that the User seeks on the UI before play was triggered.
+            // This also handles startTime feature. The same applies for onTimeShift.
+            return
+        }
+
+        playerStateManager.setSeekStart!(Int64(event.seekTarget * 1000))
     }
 
     func onSeeked() {
-        playerStateManager.setSeekEnd!(Int64(player.currentTime))
+        if !isValidSession {
+            // See comment in onSeek
+            return
+        }
+
+        playerStateManager.setSeekEnd!(Int64(player.currentTime * 1000))
     }
 
     func onTimeShift(_ event: TimeShiftEvent) {
-        playerStateManager.setSeekStart!(Int64(event.position))
+        if !isValidSession {
+            // See comment in onSeek
+            return
+        }
+
+        // According to conviva it is valid to pass -1 for seeking in live streams
+        playerStateManager.setSeekStart!(-1)
     }
 
     func onTimeShifted() {
-        playerStateManager.setSeekEnd!(Int64(player.currentTime))
+        if !isValidSession {
+            // See comment in onSeek
+            return
+        }
+
+        playerStateManager.setSeekEnd!(-1)
     }
 
     #if !os(tvOS)

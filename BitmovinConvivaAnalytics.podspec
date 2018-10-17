@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = 'BitmovinConvivaAnalytics'
   s.version          = '0.1.0'
-  s.summary          = 'Bitmovin iOS SDK Conviva Analytics Integration'
+  s.summary          = 'Conviva Analytics Integration for the Bitmovin Player iOS SDK'
 
   s.description      = <<-DESC
-Bitmovin iOS SDK Conviva Analytics Integration
+Conviva Analytics Integration for the Bitmovin Player iOS SDK
                        DESC
 
   s.homepage         = 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva'

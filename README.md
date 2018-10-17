@@ -1,4 +1,4 @@
-# Bitmovin iOS SDK Conviva Analytics Integration
+# Conviva Analytics Integration for the Bitmovin Player iOS SDK
 
 ## Installation
 
@@ -18,7 +18,7 @@ pod install
 
 ## Usage
 
-### Basic
+### Basic Setup
 The following example shows how to setup the BitmovinConvivaAnalytics:
 
 ```swift
@@ -32,7 +32,7 @@ do {
 
 Details about usage of `BitmovinPlayer` can be found [here](https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod).
 
-### Advanced
+### Advanced Setup
 
 You can add more information to your conviva integration via the `ConvivaConfig`:
 

@@ -188,6 +188,7 @@ public final class ConvivaAnalytics: NSObject {
     public func sendCustomPlaybackEvent(name: String, attributes: [String: String] = [:]) {
         if !isValidSession {
             logger.debugLog(message: "Cannot send playback event, no active monitoring session")
+            return
         }
         client.sendCustomEvent(sessionKey, eventname: name, withAttributes: attributes)
     }

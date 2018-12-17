@@ -29,3 +29,6 @@ Carthage/Build
 
 # Pods
 Pods/
+
+# Intellij IDEA
+.idea/

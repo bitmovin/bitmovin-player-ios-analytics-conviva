@@ -7,7 +7,7 @@ BitmovinConvivaAnalytics is available through [CocoaPods](https://cocoapods.org)
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'BitmovinConvivaAnalytics', git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: '1.0.0-b.1'
+pod 'BitmovinConvivaAnalytics', git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: '1.0.0'
 ```
 
 Then, in your command line run:

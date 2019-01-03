@@ -34,6 +34,9 @@ class CustomEventsSpec: QuickSpec {
 
             it("send custom playback event") {
                 let spy = Spy(aClass: CISClientTestDouble.self, functionName: "sendCustomEvent")
+
+                playerDouble.fakePlayEvent() // to initialize session
+
                 convivaAnalytics.sendCustomPlaybackEvent(name: "Playback Event",
                                                          attributes: ["Test Case": "Playback"])
                 expect(spy).to(

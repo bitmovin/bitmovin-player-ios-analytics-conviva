@@ -11,7 +11,7 @@ import ConvivaSDK
 
 class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     func createSession(with cisContentMetadata: CISContentMetadata!) -> Int32 {
-        spy(functionName: "createSession")
+        spy(functionName: "createSession", args: metaDataToArgs(contentMetadata: cisContentMetadata))
         return Int32(0)
     }
 
@@ -24,25 +24,7 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     }
 
     func updateContentMetadata(_ sessionKey: Int32, metadata contentMetadata: CISContentMetadata!) {
-        var args: [String: String] = [:]
-        // content metadata
-        args["applicationName"] = contentMetadata.applicationName
-        args["viewerId"] = contentMetadata.viewerId
-        for key in contentMetadata.custom.allKeys {
-            if let keyString = key as? String {
-                if let value = contentMetadata.custom.value(forKey: keyString) as? String {
-                    args[keyString] = value
-                }
-            }
-        }
-        args["assetName"] = contentMetadata.assetName
-
-        // update session metadata
-        args["duration"] = "\(contentMetadata.duration)"
-        args["streamType"] = "\(contentMetadata.streamType.rawValue)"
-        args["streamUrl"] = contentMetadata.streamUrl
-
-        spy(functionName: "updateContentMetadata", args: args)
+        spy(functionName: "updateContentMetadata", args: metaDataToArgs(contentMetadata: contentMetadata))
     }
 
     func sendCustomEvent(_ sessionKey: Int32,
@@ -90,4 +72,27 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     func contentStart(_ sessionKey: Int32) {}
     func cleanUp() {}
     func attachPlayer(_ sessionKey: Int32, playerStateManager: CISPlayerStateManagerProtocol!) {}
+
+    // MARK: - private helper
+    private func metaDataToArgs(contentMetadata: CISContentMetadata) -> [String: String] {
+        var args: [String: String] = [:]
+        // content metadata
+        args["applicationName"] = contentMetadata.applicationName
+        args["viewerId"] = contentMetadata.viewerId
+        for key in contentMetadata.custom.allKeys {
+            if let keyString = key as? String {
+                if let value = contentMetadata.custom.value(forKey: keyString) as? String {
+                    args[keyString] = value
+                }
+            }
+        }
+        args["assetName"] = contentMetadata.assetName
+
+        // update session metadata
+        args["duration"] = "\(contentMetadata.duration)"
+        args["streamType"] = "\(contentMetadata.streamType.rawValue)"
+        args["streamUrl"] = contentMetadata.streamUrl
+
+        return args
+    }
 }

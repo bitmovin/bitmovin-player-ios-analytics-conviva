@@ -46,7 +46,7 @@ class ContentMetadataSpec: QuickSpec {
             context("when initializing session") {
                 it("set application name") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
 
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["applicationName": "Unit Tests"])
@@ -54,7 +54,7 @@ class ContentMetadataSpec: QuickSpec {
                 }
 
                 it("set asset name") {
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
 
                     let playerConfiguration = PlayerConfiguration()
                     let sourceItem = SourceItem(url: URL(string: "www.google.com.m3u8")!)!
@@ -71,7 +71,7 @@ class ContentMetadataSpec: QuickSpec {
 
                 it("set viewer id") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["viewerId": "TestViewer"])
                     )
@@ -79,9 +79,27 @@ class ContentMetadataSpec: QuickSpec {
 
                 it("set custom tags") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["Custom": "Tags", "TestRun": "Success"])
+                    )
+                }
+
+                it("set stream url") {
+                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+
+                    let playerConfiguration = PlayerConfiguration()
+                    let sourceItem = SourceItem(url: URL(string: "www.google.com.m3u8")!)!
+                    sourceItem.itemTitle = "Art of Unit Test"
+                    playerConfiguration.sourceItem = sourceItem
+
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfiguration)
+                    _ = TestDouble(aClass: playerDouble, name: "streamType", return: BMPMediaSourceType.HLS)
+
+                    playerDouble.fakePlayEvent() // to initialize session
+
+                    expect(spy).to(
+                        haveBeenCalled(withArgs: ["streamUrl": "www.google.com.m3u8"])
                     )
                 }
             }

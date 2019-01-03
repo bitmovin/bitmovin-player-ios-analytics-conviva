@@ -123,11 +123,7 @@ public final class ConvivaAnalytics: NSObject {
         if !isValidSession {
             return
         }
-        if !player.isLive {
-            contentMetadata.duration = Int(player.duration)
-        }
-        contentMetadata.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
-        contentMetadata.streamUrl = player.config.sourceItem?.url(forType: player.streamType)?.absoluteString
+        buildDynamicContentMetadata()
 
         if let videoQuality = player.videoQuality {
             let bitrate = Int(videoQuality.bitrate) / 1000 // in kbps
@@ -162,6 +158,15 @@ public final class ConvivaAnalytics: NSObject {
             customInternTags.merge(customTags) { (_, new) in new }
         }
         contentMetadata.custom = NSMutableDictionary(dictionary: customInternTags)
+        buildDynamicContentMetadata()
+    }
+
+    private func buildDynamicContentMetadata() {
+        if !player.isLive {
+            contentMetadata.duration = Int(player.duration)
+        }
+        contentMetadata.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
+        contentMetadata.streamUrl = player.config.sourceItem?.url(forType: player.streamType)?.absoluteString
     }
 
     // MARK: - event handling

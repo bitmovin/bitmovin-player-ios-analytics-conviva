@@ -46,6 +46,19 @@ public final class ConvivaAnalytics: NSObject {
         }
     }
 
+    public var version: String {
+        var options: NSDictionary?
+        if let path = Bundle(for: ConvivaAnalytics.self).path(forResource: "BitmovinConviva-Info", ofType: "plist") {
+            options = NSDictionary(contentsOfFile: path)
+
+            if let version = options?["CFBundleShortVersionString"] as? String {
+                return version
+            }
+        }
+        // Should not happen but keep it failsafe
+        return ""
+    }
+
     // MARK: - initializer
     /**
      Initialize a new Bitmovin Conviva Analytics object to track metrics from BitmovinPlayer
@@ -152,7 +165,8 @@ public final class ConvivaAnalytics: NSObject {
         contentMetadata.viewerId = config.viewerId
 
         var customInternTags: [String: Any] = [
-            "streamType": playerHelper.streamType
+            "streamType": playerHelper.streamType,
+            "integrationVersion": version
         ]
         if let customTags = config.customTags {
             customInternTags.merge(customTags) { (_, new) in new }

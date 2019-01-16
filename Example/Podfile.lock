@@ -39,7 +39,7 @@ CHECKOUT OPTIONS:
     :tag: 2.12.0
 
 SPEC CHECKSUMS:
-  BitmovinConvivaAnalytics: ecb68c702b87b388967e42bb2a1b2f710e2431b1
+  BitmovinConvivaAnalytics: 8c24b9d2cca88c723c6d54bde4cd2cd800fe646c
   BitmovinPlayer: 163cf276bc47495f795fc0f033b279cc4b49291c
   ConvivaSDK: c15324526c8e936c24b76cd8834c1eaf0defcbef
   GoogleAds-IMA-iOS-SDK: cdc8901c00aa1aa4a383c9180df4c59bc94e2dcf

@@ -293,6 +293,7 @@
 				3714F236216DD51D00B446F2 /* Resources */,
 				3714F24B216E141C00B446F2 /* Swift Lint */,
 				E527C969E49D83A0FC4A83D9 /* [CP] Embed Pods Frameworks */,
+				71AF79FF2DD030172BD9667C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -313,6 +314,7 @@
 				607FACCE1AFB9204008FA782 /* Resources */,
 				77BF9B562BFB23BFFBA9053D /* [CP] Embed Pods Frameworks */,
 				3749D20921637CF00074269D /* Swift Lint */,
+				D8B401E42FFC63ADFCAA0D7C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -332,6 +334,7 @@
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
 				BCD8CBEAB6B3B57D967C09B9 /* [CP] Embed Pods Frameworks */,
+				7ED7F86F2E085221D58EB0EC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -500,6 +503,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		71AF79FF2DD030172BD9667C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-resources.sh",
+				"${PODS_ROOT}/../../BitmovinConvivaAnalytics/Assets/BitmovinConviva-Info.plist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BitmovinConviva-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		77BF9B562BFB23BFFBA9053D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -522,6 +547,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7ED7F86F2E085221D58EB0EC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-resources.sh",
+				"${PODS_ROOT}/../../BitmovinConvivaAnalytics/Assets/BitmovinConviva-Info.plist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BitmovinConviva-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9D9B1274FA91C9D8769B9C40 /* [CP] Check Pods Manifest.lock */ = {
@@ -570,6 +617,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D8B401E42FFC63ADFCAA0D7C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-resources.sh",
+				"${PODS_ROOT}/../../BitmovinConvivaAnalytics/Assets/BitmovinConviva-Info.plist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BitmovinConviva-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E527C969E49D83A0FC4A83D9 /* [CP] Embed Pods Frameworks */ = {

@@ -269,6 +269,12 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Playback state events
     func onPlay() {
+        if !isValidSession {
+            initSession()
+        }
+    }
+
+    func onPlaying() {
         updateSession()
         onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
     }

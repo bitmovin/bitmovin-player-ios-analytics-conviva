@@ -30,6 +30,13 @@ class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
         onPlay(PlayEvent(time: 1))
     }
 
+    func fakePlayingEvent() {
+        guard let onPlaying = fakeListener?.onPlaying else {
+            return
+        }
+        onPlaying(PlayingEvent(time: 1))
+    }
+
     func fakePauseEvent() {
         guard let onPaused = fakeListener?.onPaused else {
             return

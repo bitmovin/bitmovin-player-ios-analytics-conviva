@@ -93,8 +93,17 @@ class PlayerEventsSpec: QuickSpec {
                     spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setPlayerState")
                 }
 
-                it("on play") {
-                    playerDouble.fakePlayEvent()
+                context("not") {
+                    it("on play") {
+                        playerDouble.fakePlayEvent()
+                        expect(spy).notTo(
+                            haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
+                        )
+                    }
+                }
+
+                it("on playing") {
+                    playerDouble.fakePlayingEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
                     )

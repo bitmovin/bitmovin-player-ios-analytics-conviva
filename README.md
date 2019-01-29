@@ -16,7 +16,7 @@ Then, in your command line run:
 pod install
 ```
 
-### Support
+### Compatibility
 This version of the Conviva Analytics Integration depends on `BitmovinPlayer` version `>= 2.17.x`. If you need support for prior `2.17.x` please use [v1.0.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.0.0).
 
 ## Usage

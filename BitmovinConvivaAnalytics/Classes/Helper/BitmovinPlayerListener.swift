@@ -59,6 +59,10 @@ extension BitmovinPlayerListener: PlayerListener {
         delegate?.onPlay()
     }
 
+    func onPlaying(_ event: PlayingEvent) {
+        delegate?.onPlaying()
+    }
+
     func onPaused(_ event: PausedEvent) {
         delegate?.onPaused()
     }

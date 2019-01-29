@@ -1,6 +1,6 @@
 def shared_pods
   pod 'BitmovinConvivaAnalytics', path: '../'
-  pod 'BitmovinPlayer', git: 'https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git', tag: '2.12.0'
+  pod 'BitmovinPlayer', git: 'https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git', tag: '2.17.0'
   pod 'ConvivaSDK', '2.141.1'
 
   pod 'SwiftLint'

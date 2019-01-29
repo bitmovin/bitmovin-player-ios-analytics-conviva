@@ -20,6 +20,7 @@ protocol BitmovinPlayerListenerDelegate: AnyObject {
 
     // MARK: - Playback state events
     func onPlay()
+    func onPlaying()
     func onPaused()
     func onPlaybackFinished()
     func onStallStarted()

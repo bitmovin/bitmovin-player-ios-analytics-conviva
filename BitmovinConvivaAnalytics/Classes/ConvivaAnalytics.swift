@@ -21,7 +21,7 @@ public final class ConvivaAnalytics: NSObject {
     var playerStateManager: CISPlayerStateManagerProtocol!
     var sessionKey: Int32 = NO_SESSION_KEY
     var contentMetadata: CISContentMetadata = CISContentMetadata()
-    var isValidSession: Bool {
+    var isSessionActive: Bool {
         return sessionKey != NO_SESSION_KEY
     }
 
@@ -103,7 +103,51 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     deinit {
-        endSession()
+        internalEndSession()
+    }
+
+    // MARK: - event handling
+    /**
+     Sends a custom application-level event to Conviva's Player Insight. An application-level event can always
+     be sent and is not tied to a specific video.
+
+     - Parameters:
+     - name: The name of the event
+     - attributes: A dictionary with custom event attributes
+     */
+    public func sendCustomApplicationEvent(name: String, attributes: [String: String] = [:]) {
+        client.sendCustomEvent(NO_SESSION_KEY, eventname: name, withAttributes: attributes)
+    }
+
+    /**
+     Sends a custom playback-level event to Conviva's Player Insight. A playback-level event can only be sent
+     during an active video session.
+
+     - Parameters:
+     - name: The name of the event
+     - attributes: A dictionary with custom event attributes
+     */
+    public func sendCustomPlaybackEvent(name: String, attributes: [String: String] = [:]) {
+        if !isSessionActive {
+            logger.debugLog(message: "Cannot send playback event, no active monitoring session")
+            return
+        }
+        client.sendCustomEvent(sessionKey, eventname: name, withAttributes: attributes)
+    }
+
+    /**
+     Ends the current conviva tracking session.
+     Results in a no-opt if there is no active session.
+
+     Warning: The integration can only be validated without external session managing.
+     So when using this method we can no longer ensure that the session is managed at the correct time.
+     */
+    public func endSession() {
+        if !isSessionActive {
+            return
+        }
+
+        internalEndSession()
     }
 
     // MARK: - session handling
@@ -117,13 +161,13 @@ public final class ConvivaAnalytics: NSObject {
         }
     }
 
-    private func initSession() {
+    private func internalInitializeSession() {
         buildContentMetadata()
         sessionKey = client.createSession(with: contentMetadata)
         setupPlayerStateManager()
         updateSession()
 
-        if !isValidSession {
+        if !isSessionActive {
             logger.debugLog(message: "Something went wrong, could not obtain session key")
         }
 
@@ -133,7 +177,7 @@ public final class ConvivaAnalytics: NSObject {
 
     private func updateSession() {
         // Update metadata
-        if !isValidSession {
+        if !isSessionActive {
             return
         }
         buildDynamicContentMetadata()
@@ -148,7 +192,7 @@ public final class ConvivaAnalytics: NSObject {
         client.updateContentMetadata(sessionKey, metadata: contentMetadata)
     }
 
-    private func endSession() {
+    private func internalEndSession() {
         client.detachPlayer(sessionKey)
         client.cleanupSession(sessionKey)
         client.releasePlayerStateManager(playerStateManager)
@@ -183,37 +227,8 @@ public final class ConvivaAnalytics: NSObject {
         contentMetadata.streamUrl = player.config.sourceItem?.url(forType: player.streamType)?.absoluteString
     }
 
-    // MARK: - event handling
-    /**
-     Sends a custom application-level event to Conviva's Player Insight. An application-level event can always
-     be sent and is not tied to a specific video.
-
-     - Parameters:
-        - name: The name of the event
-        - attributes: A dictionary with custom event attributes
-     */
-    public func sendCustomApplicationEvent(name: String, attributes: [String: String] = [:]) {
-        client.sendCustomEvent(NO_SESSION_KEY, eventname: name, withAttributes: attributes)
-    }
-
-    /**
-     Sends a custom playback-level event to Conviva's Player Insight. A playback-level event can only be sent
-     during an active video session.
-
-     - Parameters:
-        - name: The name of the event
-        - attributes: A dictionary with custom event attributes
-     */
-    public func sendCustomPlaybackEvent(name: String, attributes: [String: String] = [:]) {
-        if !isValidSession {
-            logger.debugLog(message: "Cannot send playback event, no active monitoring session")
-            return
-        }
-        client.sendCustomEvent(sessionKey, eventname: name, withAttributes: attributes)
-    }
-
     private func customEvent(event: PlayerEvent, args: [String: String] = [:]) {
-        if !isValidSession {
+        if !isSessionActive {
             return
         }
 
@@ -226,8 +241,8 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
-        if !isValidSession {
-            self.initSession()
+        if !isSessionActive {
+            self.internalInitializeSession()
         }
 
         playerStateManager.setPlayerState!(playerState)
@@ -242,7 +257,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onSourceUnloaded() {
-        endSession()
+        internalEndSession()
     }
 
     func onTimeChanged() {
@@ -250,13 +265,13 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onError(_ event: ErrorEvent) {
-        if !isValidSession {
-            initSession()
+        if !isSessionActive {
+            internalInitializeSession()
         }
 
         let message = "\(event.code) \(event.message)"
         client.reportError(sessionKey, errorMessage: message, errorSeverity: .ERROR_FATAL)
-        endSession()
+        internalEndSession()
     }
 
     func onMuted(_ event: MutedEvent) {
@@ -269,8 +284,8 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Playback state events
     func onPlay() {
-        if !isValidSession {
-            initSession()
+        if !isSessionActive {
+            internalInitializeSession()
         }
     }
 
@@ -285,7 +300,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onPlaybackFinished() {
         onPlaybackStateChanged(playerState: .CONVIVA_STOPPED)
-        endSession()
+        internalEndSession()
     }
 
     func onStallStarted() {
@@ -304,7 +319,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Seek / Timeshift events
     func onSeek(_ event: SeekEvent) {
-        if !isValidSession {
+        if !isSessionActive {
             // Handle the case that the User seeks on the UI before play was triggered.
             // This also handles startTime feature. The same applies for onTimeShift.
             return
@@ -314,7 +329,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onSeeked() {
-        if !isValidSession {
+        if !isSessionActive {
             // See comment in onSeek
             return
         }
@@ -323,7 +338,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onTimeShift(_ event: TimeShiftEvent) {
-        if !isValidSession {
+        if !isSessionActive {
             // See comment in onSeek
             return
         }
@@ -333,7 +348,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onTimeShifted() {
-        if !isValidSession {
+        if !isSessionActive {
             // See comment in onSeek
             return
         }

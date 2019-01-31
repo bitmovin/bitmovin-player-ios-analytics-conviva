@@ -22,6 +22,7 @@
 		37756EC0216F9A510041806D /* ContentMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EBF216F9A510041806D /* ContentMetadataTests.swift */; };
 		37756EC2216F9AA50041806D /* CustomEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EC1216F9AA50041806D /* CustomEventTests.swift */; };
 		37756EC42170764E0041806D /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EC32170764E0041806D /* SpecHelper.swift */; };
+		37CE33382203067500E0286F /* ExternallyManagedSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CE33372203067500E0286F /* ExternallyManagedSessionTests.swift */; };
 		37EB3CD3216B70D70093F085 /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CD1216B70650093F085 /* TestHelper.swift */; };
 		37EB3CD4216B70DA0093F085 /* BitmovinPlayerTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CC7216B6E3F0093F085 /* BitmovinPlayerTestDouble.swift */; };
 		37EB3CD5216B70DC0093F085 /* CISClientSettingCreatorTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CC9216B6E8A0093F085 /* CISClientSettingCreatorTestDouble.swift */; };
@@ -73,6 +74,7 @@
 		37756EBF216F9A510041806D /* ContentMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentMetadataTests.swift; sourceTree = "<group>"; };
 		37756EC1216F9AA50041806D /* CustomEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEventTests.swift; sourceTree = "<group>"; };
 		37756EC32170764E0041806D /* SpecHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecHelper.swift; sourceTree = "<group>"; };
+		37CE33372203067500E0286F /* ExternallyManagedSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternallyManagedSessionTests.swift; sourceTree = "<group>"; };
 		37EB3CC7216B6E3F0093F085 /* BitmovinPlayerTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BitmovinPlayerTestDouble.swift; path = Doubles/BitmovinPlayerTestDouble.swift; sourceTree = "<group>"; };
 		37EB3CC9216B6E8A0093F085 /* CISClientSettingCreatorTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISClientSettingCreatorTestDouble.swift; path = Doubles/CISClientSettingCreatorTestDouble.swift; sourceTree = "<group>"; };
 		37EB3CCB216B6ED30093F085 /* CISClientTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISClientTestDouble.swift; path = Doubles/CISClientTestDouble.swift; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 				37756EBF216F9A510041806D /* ContentMetadataTests.swift */,
 				37756EC1216F9AA50041806D /* CustomEventTests.swift */,
 				607FACEB1AFB9204008FA782 /* SeekTimeshiftTests.swift */,
+				37CE33372203067500E0286F /* ExternallyManagedSessionTests.swift */,
 				37756EC32170764E0041806D /* SpecHelper.swift */,
 				37EB3CD1216B70650093F085 /* TestHelper.swift */,
 				37756EAE216F8DF00041806D /* Helpers */,
@@ -707,6 +710,7 @@
 				37EB3CD3216B70D70093F085 /* TestHelper.swift in Sources */,
 				37756EB2216F8E2F0041806D /* Spy.swift in Sources */,
 				37756EBA216F8FD30041806D /* SpyTracker.swift in Sources */,
+				37CE33382203067500E0286F /* ExternallyManagedSessionTests.swift in Sources */,
 				37756EB4216F8E450041806D /* TestDoubleDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

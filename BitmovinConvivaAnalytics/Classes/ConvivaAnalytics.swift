@@ -141,6 +141,19 @@ public final class ConvivaAnalytics: NSObject {
         client.sendCustomEvent(sessionKey, eventname: name, withAttributes: attributes)
     }
 
+    /**
+     Initializes a new conviva tracking session.
+
+     Warning: The integration can only be validated without external session managing. So when using this method we can
+     no longer ensure that the session is managed at the correct time. Additional: Since some metadata attributes
+     relies on the players source we can't ensure that all metadata attributes are present at session creation.
+     Therefore it could be that there will be a 'ContentMetadata created late' issue after conviva validation.
+
+     - Parameters:
+     - assetName: Will be used as contentMetadata.assetName if no source was loaded before. This overrides the
+                  source assetName. If no source was loaded and no assetName is present this method will throw an
+                  error.
+     */
     public func initializeSession(assetName: String? = nil) throws {
         if isSessionActive {
             return

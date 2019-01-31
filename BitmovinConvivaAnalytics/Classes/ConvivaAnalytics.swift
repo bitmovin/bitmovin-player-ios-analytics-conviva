@@ -141,6 +141,7 @@ public final class ConvivaAnalytics: NSObject {
         client.sendCustomEvent(sessionKey, eventname: name, withAttributes: attributes)
     }
 
+    // MARK: - external session handling
     /**
      Initializes a new conviva tracking session.
 

@@ -33,16 +33,75 @@ class ExternallyManagedSessionSpec: QuickSpec {
                 }
             }
 
+            afterEach {
+                if convivaAnalytics != nil {
+                    convivaAnalytics = nil
+                }
+            }
+
+            context("initialize session") {
+                var spy: Spy!
+                beforeEach {
+                    spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+                }
+                context("without source loaded") {
+                    beforeEach {
+                        let playerConfig = PlayerConfiguration()
+                        _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+                    }
+
+                    it("with asset name provided") {
+                        try? convivaAnalytics.initializeSession(assetName: "MyAsset")
+                        expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
+                    }
+
+                    it("throw error without source and asset name") {
+                        expect { try convivaAnalytics.initializeSession() }.to(throwError())
+                        expect(spy).toNot(haveBeenCalled())
+                    }
+                }
+
+                context("with source config") {
+                    beforeEach {
+                        let playerConfig = PlayerConfiguration()
+                        let hlsSource = HLSSource(url: URL(string: "http://a.url")!)
+                        playerConfig.sourceItem = SourceItem(hlsSource: hlsSource)
+                        playerConfig.sourceItem?.itemTitle = "MyTitle"
+                        _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+                    }
+
+                    it("uses item title") {
+                        try? convivaAnalytics.initializeSession()
+                        expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyTitle"]))
+                    }
+
+                    it("uses asset anem attribute") {
+                        try? convivaAnalytics.initializeSession(assetName: "A Override")
+                        expect(spy).to(haveBeenCalled(withArgs: ["assetName": "A Override"]))
+                    }
+                }
+
+                it("no-opt if session is running") {
+                    playerDouble.fakePlayEvent()
+                    TestHelper.shared.spyTracker.reset()
+                    try? convivaAnalytics.initializeSession()
+                    expect(spy).toNot(haveBeenCalled())
+                }
+            }
+
             context("end session") {
+                var spy: Spy!
+                beforeEach {
+                    spy = Spy(aClass: CISClientTestDouble.self, functionName: "cleanupSession")
+                }
+
                 it("no-opt if no session running") {
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "cleanupSession")
                     convivaAnalytics.endSession()
                     expect(spy).toNot(haveBeenCalled())
                 }
 
                 it("cleanup running session") {
                     playerDouble.fakePlayEvent()
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "cleanupSession")
                     convivaAnalytics.endSession()
                     expect(spy).to(haveBeenCalled())
                 }

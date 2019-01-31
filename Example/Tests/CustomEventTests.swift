@@ -32,6 +32,12 @@ class CustomEventsSpec: QuickSpec {
                 }
             }
 
+            afterEach {
+                if convivaAnalytics != nil {
+                    convivaAnalytics = nil
+                }
+            }
+
             it("send custom playback event") {
                 let spy = Spy(aClass: CISClientTestDouble.self, functionName: "sendCustomEvent")
 

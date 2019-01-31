@@ -10,6 +10,10 @@ import Foundation
 import BitmovinPlayer
 import ConvivaSDK
 
+struct MetadataOverrides {
+    var assetName: String?
+}
+
 public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
     let player: BitmovinPlayer
@@ -34,6 +38,8 @@ public final class ConvivaAnalytics: NSObject {
     let playerHelper: BitmovinPlayerHelper
     // Workaround for player issue when onPlay is sent while player is stalled
     var isStalled: Bool = false
+
+    var metadataOverrides: MetadataOverrides = MetadataOverrides()
 
     // MARK: - Public Attributes
     /**
@@ -135,6 +141,22 @@ public final class ConvivaAnalytics: NSObject {
         client.sendCustomEvent(sessionKey, eventname: name, withAttributes: attributes)
     }
 
+    public func initializeSession(assetName: String? = nil) throws {
+        if isSessionActive {
+            return
+        }
+
+        if player.config.sourceItem?.itemTitle == nil && assetName == nil {
+            throw ConvivaAnalytisError("AssetName is missing. Provide assetName attribute or load player source first")
+        }
+
+        if assetName != nil {
+            metadataOverrides.assetName = assetName
+        }
+
+        internalInitializeSession()
+    }
+
     /**
      Ends the current conviva tracking session.
      Results in a no-opt if there is no active session.
@@ -205,7 +227,7 @@ public final class ConvivaAnalytics: NSObject {
         let sourceItem = player.config.sourceItem
 
         contentMetadata.applicationName = config.applicationName
-        contentMetadata.assetName = sourceItem?.itemTitle
+        contentMetadata.assetName = metadataOverrides.assetName ?? sourceItem?.itemTitle
         contentMetadata.viewerId = config.viewerId
 
         var customInternTags: [String: Any] = [

@@ -150,6 +150,13 @@ class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
         onPlaybackFinished(PlaybackFinishedEvent())
     }
 
+    func fakeDestroyEvent() {
+        guard let onDestroyEvent = fakeListener?.onDestroy else {
+            return
+        }
+        onDestroyEvent(DestroyEvent())
+    }
+
     override func add(listener: PlayerListener) {
         self.fakeListener = listener
     }

@@ -174,6 +174,11 @@ class PlayerEventsSpec: QuickSpec {
                     )
                 }
 
+                it("on destroy") {
+                    playerDouble.fakeDestroyEvent()
+                    expect(spy).to(haveBeenCalled())
+                }
+
                 describe("with on source unloaded / on error workaround") {
                     it("when on source unloaded is followed by on error") {
                         // simulating a mid stream error so simulate a session initialization first

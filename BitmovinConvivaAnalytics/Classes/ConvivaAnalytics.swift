@@ -362,6 +362,10 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         client.adEnd(sessionKey)
     }
     #endif
+
+    func onDestroy() {
+        endSession()
+    }
 }
 
 // MARK: - UserInterfaceListener

@@ -241,10 +241,6 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
-        if !isSessionActive {
-            self.internalInitializeSession()
-        }
-
         playerStateManager.setPlayerState!(playerState)
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }

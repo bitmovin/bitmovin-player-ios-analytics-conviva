@@ -106,6 +106,28 @@ public final class ConvivaAnalytics: NSObject {
         endSession()
     }
 
+    /**
+     Sends a custom deficiency event during playback to Conviva's Player Insight. If no session is active it will NOT
+     create one.
+
+     - Parameters:
+        - message: Message which will be send to conviva
+        - severity: One of FATAL or WARNING
+        - endSession: Boolean flag if session should be closed after reporting the deficiency (Default: true)
+     */
+    public func reportPlaybackDeficiency(message: String,
+                                         severity: ErrorSeverity,
+                                         endSession: Bool = true) {
+        if !isValidSession {
+            return
+        }
+
+        client.reportError(sessionKey, errorMessage: message, errorSeverity: severity)
+        if endSession {
+            self.endSession()
+        }
+    }
+
     // MARK: - session handling
     private func setupPlayerStateManager() {
         playerStateManager = client.getPlayerStateManager()
@@ -255,8 +277,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         }
 
         let message = "\(event.code) \(event.message)"
-        client.reportError(sessionKey, errorMessage: message, errorSeverity: .ERROR_FATAL)
-        endSession()
+        reportPlaybackDeficiency(message: message, severity: .ERROR_FATAL)
     }
 
     func onMuted(_ event: MutedEvent) {

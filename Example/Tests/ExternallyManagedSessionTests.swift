@@ -55,10 +55,14 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
                     }
 
+                    #if targetEnvironment(simulator)
+                    // This test will only run on a simulator
+                    // https://github.com/Quick/Nimble#swift-assertions
                     it("throw error without source and asset name") {
                         expect { try convivaAnalytics.initializeSession() }.to(throwError())
                         expect(spy).toNot(haveBeenCalled())
                     }
+                    #endif
                 }
 
                 context("with source config") {

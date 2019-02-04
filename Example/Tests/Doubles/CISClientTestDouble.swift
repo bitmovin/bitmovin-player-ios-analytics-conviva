@@ -64,7 +64,8 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     }
 
     func reportError(_ sessionKey: Int32, errorMessage: String!, errorSeverity severity: ErrorSeverity) {
-        spy(functionName: "reportError", args: ["errorMessage": errorMessage])
+        spy(functionName: "reportError", args: ["errorMessage": errorMessage,
+                                                "severity": "\(severity.rawValue)"])
     }
 
     func detachPlayer(_ sessionKey: Int32) {}

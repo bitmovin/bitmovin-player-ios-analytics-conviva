@@ -11,6 +11,7 @@
 		3714F23D216DD51D00B446F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3714F23C216DD51D00B446F2 /* ViewController.swift */; };
 		3714F240216DD51D00B446F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3714F23E216DD51D00B446F2 /* Main.storyboard */; };
 		3714F242216DD52000B446F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3714F241216DD52000B446F2 /* Assets.xcassets */; };
+		37226EC922043A9D0072DE47 /* ExternallyManagedSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */; };
 		37756EB0216F8E0D0041806D /* TestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EAF216F8E0D0041806D /* TestDouble.swift */; };
 		37756EB2216F8E2F0041806D /* Spy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB1216F8E2F0041806D /* Spy.swift */; };
 		37756EB4216F8E450041806D /* TestDoubleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB3216F8E450041806D /* TestDoubleDataSource.swift */; };
@@ -63,6 +64,7 @@
 		3714F23F216DD51D00B446F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3714F241216DD52000B446F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3714F243216DD52000B446F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternallyManagedSessionTests.swift; sourceTree = "<group>"; };
 		37756EAF216F8E0D0041806D /* TestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestDouble.swift; path = Helpers/TestDouble.swift; sourceTree = "<group>"; };
 		37756EB1216F8E2F0041806D /* Spy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Spy.swift; path = Helpers/Spy.swift; sourceTree = "<group>"; };
 		37756EB3216F8E450041806D /* TestDoubleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestDoubleDataSource.swift; path = Helpers/TestDoubleDataSource.swift; sourceTree = "<group>"; };
@@ -255,7 +257,7 @@
 				37756EBF216F9A510041806D /* ContentMetadataTests.swift */,
 				37756EC1216F9AA50041806D /* CustomEventTests.swift */,
 				607FACEB1AFB9204008FA782 /* SeekTimeshiftTests.swift */,
-				37CE33372203067500E0286F /* ExternallyManagedSessionTests.swift */,
+				37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */,
 				37756EC32170764E0041806D /* SpecHelper.swift */,
 				37EB3CD1216B70650093F085 /* TestHelper.swift */,
 				37756EAE216F8DF00041806D /* Helpers */,
@@ -710,7 +712,7 @@
 				37EB3CD3216B70D70093F085 /* TestHelper.swift in Sources */,
 				37756EB2216F8E2F0041806D /* Spy.swift in Sources */,
 				37756EBA216F8FD30041806D /* SpyTracker.swift in Sources */,
-				37CE33382203067500E0286F /* ExternallyManagedSessionTests.swift in Sources */,
+				37226EC922043A9D0072DE47 /* ExternallyManagedSessionTests.swift in Sources */,
 				37756EB4216F8E450041806D /* TestDoubleDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

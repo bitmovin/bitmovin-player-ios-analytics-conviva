@@ -199,13 +199,15 @@ public final class ConvivaAnalytics: NSObject {
 
     private func internalInitializeSession() {
         buildContentMetadata()
-        sessionKey = client.createSession(with: contentMetadata)
-        setupPlayerStateManager()
-        updateSession()
 
+        sessionKey = client.createSession(with: contentMetadata)
         if !isSessionActive {
             logger.debugLog(message: "Something went wrong, could not obtain session key")
+            return
         }
+
+        setupPlayerStateManager()
+        updateSession()
 
         client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
         logger.debugLog(message: "Session started")

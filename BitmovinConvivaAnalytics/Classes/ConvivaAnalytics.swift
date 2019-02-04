@@ -118,8 +118,8 @@ public final class ConvivaAnalytics: NSObject {
      be sent and is not tied to a specific video.
 
      - Parameters:
-     - name: The name of the event
-     - attributes: A dictionary with custom event attributes
+        - name: The name of the event
+        - attributes: A dictionary with custom event attributes
      */
     public func sendCustomApplicationEvent(name: String, attributes: [String: String] = [:]) {
         client.sendCustomEvent(NO_SESSION_KEY, eventname: name, withAttributes: attributes)
@@ -130,8 +130,8 @@ public final class ConvivaAnalytics: NSObject {
      during an active video session.
 
      - Parameters:
-     - name: The name of the event
-     - attributes: A dictionary with custom event attributes
+        - name: The name of the event
+        - attributes: A dictionary with custom event attributes
      */
     public func sendCustomPlaybackEvent(name: String, attributes: [String: String] = [:]) {
         if !isSessionActive {
@@ -151,9 +151,9 @@ public final class ConvivaAnalytics: NSObject {
      Therefore it could be that there will be a 'ContentMetadata created late' issue after conviva validation.
 
      - Parameters:
-     - assetName: Will be used as contentMetadata.assetName if no source was loaded before. This overrides the
-                  source assetName. If no source was loaded and no assetName is present this method will throw an
-                  error.
+        - assetName: Will be used as contentMetadata.assetName if no source was loaded before. This overrides the
+                     source assetName. If no source was loaded and no assetName is present this method will throw an
+                     error.
      */
     public func initializeSession(assetName: String? = nil) throws {
         if isSessionActive {

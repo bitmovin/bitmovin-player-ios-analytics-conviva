@@ -157,6 +157,7 @@ public final class ConvivaAnalytics: NSObject {
      */
     public func initializeSession(assetName: String? = nil) throws {
         if isSessionActive {
+            logger.debugLog(message: "There is already a session running. Returning …")
             return
         }
 
@@ -180,6 +181,7 @@ public final class ConvivaAnalytics: NSObject {
      */
     public func endSession() {
         if !isSessionActive {
+            logger.debugLog(message: "No session running. Returning …")
             return
         }
 
@@ -235,6 +237,7 @@ public final class ConvivaAnalytics: NSObject {
         client.cleanupSession(sessionKey)
         client.releasePlayerStateManager(playerStateManager)
         sessionKey = NO_SESSION_KEY
+        metadataOverrides = MetadataOverrides()
         logger.debugLog(message: "Session ended")
     }
 

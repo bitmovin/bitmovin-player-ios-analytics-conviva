@@ -106,6 +106,32 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     expect(spy).to(haveBeenCalled())
                 }
             }
+
+            context("multiple sessions") {
+                var spy: Spy!
+                beforeEach {
+                    spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+                }
+
+                it("take the asset name from the source in a consecutive session") {
+                    // No source at first run
+                    let playerConfig = PlayerConfiguration()
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+
+                    try? convivaAnalytics.initializeSession(assetName: "MyAsset")
+                    expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
+                    convivaAnalytics.endSession()
+
+                    // With source at second run
+                    let hlsSource = HLSSource(url: URL(string: "http://a.url")!)
+                    playerConfig.sourceItem = SourceItem(hlsSource: hlsSource)
+                    playerConfig.sourceItem?.itemTitle = "MyTitle"
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+
+                    try? convivaAnalytics.initializeSession()
+                    expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyTitle"]))
+                }
+            }
         }
     }
 }

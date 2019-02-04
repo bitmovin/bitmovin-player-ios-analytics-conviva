@@ -161,7 +161,7 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         if player.config.sourceItem?.itemTitle == nil && assetName == nil {
-            throw ConvivaAnalytisError("AssetName is missing. Provide assetName attribute or load player source first")
+            throw ConvivaAnalyticsError("AssetName is missing. Provide assetName attribute or load player source first")
         }
 
         if assetName != nil {

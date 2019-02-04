@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ConvivaAnalytisError: Error {
+public struct ConvivaAnalyticsError: Error {
     let message: String
 
     init(_ message: String) {

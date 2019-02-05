@@ -39,6 +39,104 @@ class ExternallyManagedSessionSpec: QuickSpec {
                 }
             }
 
+            context("initialize session") {
+                var spy: Spy!
+                beforeEach {
+                    spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+                }
+                context("without source loaded") {
+                    beforeEach {
+                        let playerConfig = PlayerConfiguration()
+                        _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+                    }
+
+                    it("with asset name provided") {
+                        try? convivaAnalytics.initializeSession(assetName: "MyAsset")
+                        expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
+                    }
+
+                    #if targetEnvironment(simulator)
+                    // This test will only run on a simulator
+                    // https://github.com/Quick/Nimble#swift-assertions
+                    it("throw error without source and asset name") {
+                        expect { try convivaAnalytics.initializeSession() }.to(throwError())
+                        expect(spy).toNot(haveBeenCalled())
+                    }
+                    #endif
+                }
+
+                context("with source config") {
+                    beforeEach {
+                        let playerConfig = PlayerConfiguration()
+                        let hlsSource = HLSSource(url: URL(string: "http://a.url")!)
+                        playerConfig.sourceItem = SourceItem(hlsSource: hlsSource)
+                        playerConfig.sourceItem?.itemTitle = "MyTitle"
+                        _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+                    }
+
+                    it("uses item title") {
+                        try? convivaAnalytics.initializeSession()
+                        expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyTitle"]))
+                    }
+
+                    it("uses asset anem attribute") {
+                        try? convivaAnalytics.initializeSession(assetName: "A Override")
+                        expect(spy).to(haveBeenCalled(withArgs: ["assetName": "A Override"]))
+                    }
+                }
+
+                it("no-opt if session is running") {
+                    playerDouble.fakePlayEvent()
+                    TestHelper.shared.spyTracker.reset()
+                    try? convivaAnalytics.initializeSession()
+                    expect(spy).toNot(haveBeenCalled())
+                }
+            }
+
+            context("end session") {
+                var spy: Spy!
+                beforeEach {
+                    spy = Spy(aClass: CISClientTestDouble.self, functionName: "cleanupSession")
+                }
+
+                it("no-opt if no session running") {
+                    convivaAnalytics.endSession()
+                    expect(spy).toNot(haveBeenCalled())
+                }
+
+                it("cleanup running session") {
+                    playerDouble.fakePlayEvent()
+                    convivaAnalytics.endSession()
+                    expect(spy).to(haveBeenCalled())
+                }
+            }
+
+            context("multiple sessions") {
+                var spy: Spy!
+                beforeEach {
+                    spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+                }
+
+                it("take the asset name from the source in a consecutive session") {
+                    // No source at first run
+                    let playerConfig = PlayerConfiguration()
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+
+                    try? convivaAnalytics.initializeSession(assetName: "MyAsset")
+                    expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
+                    convivaAnalytics.endSession()
+
+                    // With source at second run
+                    let hlsSource = HLSSource(url: URL(string: "http://a.url")!)
+                    playerConfig.sourceItem = SourceItem(hlsSource: hlsSource)
+                    playerConfig.sourceItem?.itemTitle = "MyTitle"
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+
+                    try? convivaAnalytics.initializeSession()
+                    expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyTitle"]))
+                }
+            }
+
             context("report playback deficiency") {
                 var spy: Spy!
 

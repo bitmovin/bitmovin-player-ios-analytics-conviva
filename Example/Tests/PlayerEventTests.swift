@@ -82,6 +82,7 @@ class PlayerEventsSpec: QuickSpec {
             context("deinitialize player state manager") {
                 it("on playback finished") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "releasePlayerStateManager")
+                    playerDouble.fakePlayEvent()
                     playerDouble.fakePlaybackFinishedEvent()
                     expect(spy).to(haveBeenCalled())
                 }
@@ -91,6 +92,7 @@ class PlayerEventsSpec: QuickSpec {
                 var spy: Spy!
                 beforeEach {
                     spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setPlayerState")
+                    playerDouble.fakePlayEvent()
                 }
 
                 context("not") {
@@ -167,6 +169,7 @@ class PlayerEventsSpec: QuickSpec {
                 it("on playback finished") {
                     let playbackStateSpy = Spy(aClass: PlayerStateManagerTestDouble.self,
                                                functionName: "setPlayerState")
+                    playerDouble.fakePlayEvent()
                     playerDouble.fakePlaybackFinishedEvent()
                     expect(spy).to(haveBeenCalled())
                     expect(playbackStateSpy).to(

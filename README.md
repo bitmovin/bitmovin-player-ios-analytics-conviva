@@ -65,6 +65,20 @@ do {
 }
 ```
 
+### Background handling
+
+If your app stops playback when entering background conviva suggests to end the active session.
+Since the integration can't know if you app supports playback in background this can't be done automatically.
+
+To end a session use:
+```swift
+convivaAnalytics.endSession()
+```
+
+Since the `BitmovinPlayer` automatically pauses the video if no background playback is supported the session creation after
+the app is in foreground again is handled automatically.
+
+### UI events
 
 If you want to track UI related events such as full-screen state changes add the following after initializing the `BMPBitmovinPlayerView`:
 

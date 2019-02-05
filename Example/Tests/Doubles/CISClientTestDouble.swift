@@ -93,6 +93,8 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
         args["duration"] = "\(contentMetadata.duration)"
         args["streamType"] = "\(contentMetadata.streamType.rawValue)"
         args["streamUrl"] = contentMetadata.streamUrl
+        args["encodedFramerate"] = "\(contentMetadata.encodedFramerate)"
+        args["defaultResource"] = contentMetadata.defaultResource
 
         return args
     }

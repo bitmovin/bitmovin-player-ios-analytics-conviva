@@ -160,6 +160,171 @@ class ContentMetadataSpec: QuickSpec {
                     )
                 }
             }
+
+            describe("overriding") {
+                var metadata: BitmovinConvivaAnalytics.Metadata!
+                beforeEach {
+                    metadata = BitmovinConvivaAnalytics.Metadata()
+                }
+
+                context("setting overrides before playback report them at session creation") {
+                    var spy: Spy!
+                    beforeEach {
+                        spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+                        metadata.assetName = "MyAsset"
+
+                    }
+
+                    func updateMetadataAndInitialize() {
+                        convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
+                        // swiftlint:disable:next force_try
+                        try! convivaAnalytics.initializeSession()
+                    }
+
+                    it("set assetName") {
+                        // Asset name is set in beforeEach block
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
+                    }
+
+                    it("set viewerId") {
+                        metadata.viewerId = "MyViewerId"
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["viewerId": "MyViewerId"]))
+                    }
+
+                    it("set application name") {
+                        metadata.applicationName = "My Application Name"
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["applicationName": "My Application Name"]))
+                    }
+
+                    it("set stream type") {
+                        let streamType = StreamType.CONVIVA_STREAM_LIVE
+                        metadata.streamType = streamType
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["streamType": "\(streamType.rawValue)"]))
+                    }
+
+                    it("set duration") {
+                        metadata.duration = 659
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["duration": "659"]))
+                    }
+
+                    it("set custom") {
+                        metadata.custom = [
+                            "MyCustom": "Test Value"
+                        ]
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["MyCustom": "Test Value"]))
+                    }
+
+                    it("set encoded frame rate") {
+                        metadata.encodedFramerate = 55
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["encodedFramerate": "55"]))
+                    }
+
+                    it("set default resrouce") {
+                        metadata.defaultResource = "MyResource"
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["defaultResource": "MyResource"]))
+                    }
+
+                    it("set stream Url") {
+                        metadata.streamUrl = "MyUrl"
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["streamUrl": "MyUrl"]))
+                    }
+
+                    it("dont override intern custom tags") {
+                        metadata.custom = [
+                            "integrationVersion": "xyz"
+                        ]
+                        updateMetadataAndInitialize()
+                        expect(spy).toNot(haveBeenCalled(withArgs: ["integrationVersion": "xyz"]))
+                    }
+                }
+
+                context("setting overrides during playback reports just permitted immediately") {
+                    var spy: Spy!
+                    beforeEach {
+                        spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
+                        let playerConfig = PlayerConfiguration()
+
+                        let hlsSource = HLSSource(url: URL(string: "http://a.url")!)
+                        playerConfig.sourceItem = SourceItem(hlsSource: hlsSource)
+                        playerConfig.sourceItem?.itemTitle = "MyTitle"
+
+                        _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+
+                        playerDouble.fakePlayEvent()
+                        playerDouble.fakePlayingEvent()
+                    }
+
+                    func updateMetadataAndInitialize() {
+                        convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
+                    }
+
+                    it("set assetName") {
+                        metadata.assetName = "MyAsset"
+                        updateMetadataAndInitialize()
+                        expect(spy).toNot(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
+                    }
+
+                    it("set viewerId") {
+                        metadata.viewerId = "MyViewerId"
+                        updateMetadataAndInitialize()
+                        expect(spy).toNot(haveBeenCalled(withArgs: ["viewerId": "MyViewerId"]))
+                    }
+
+                    it("set application name") {
+                        metadata.applicationName = "My Application Name"
+                        updateMetadataAndInitialize()
+                        expect(spy).toNot(haveBeenCalled(withArgs: ["applicationName": "My Application Name"]))
+                    }
+
+                    it("set stream type") {
+                        let streamType = StreamType.CONVIVA_STREAM_LIVE
+                        metadata.streamType = streamType
+                        updateMetadataAndInitialize()
+                        expect(spy).toNot(haveBeenCalled(withArgs: ["streamType": "\(streamType.rawValue)"]))
+                    }
+
+                    it("set duration") {
+                        metadata.duration = 659
+                        updateMetadataAndInitialize()
+                        expect(spy).toNot(haveBeenCalled(withArgs: ["duration": "659"]))
+                    }
+
+                    it("set custom") {
+                        metadata.custom = [
+                            "MyCustom": "Test Value"
+                        ]
+                        updateMetadataAndInitialize()
+                        expect(spy).toNot(haveBeenCalled(withArgs: ["MyCustom": "Test Value"]))
+                    }
+
+                    it("set encoded frame rate") {
+                        metadata.encodedFramerate = 55
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["encodedFramerate": "55"]))
+                    }
+
+                    it("set default resrouce") {
+                        metadata.defaultResource = "MyResource"
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["defaultResource": "MyResource"]))
+                    }
+
+                    it("set stream Url") {
+                        metadata.streamUrl = "MyUrl"
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["streamUrl": "MyUrl"]))
+                    }
+                }
+            }
         }
     }
 }

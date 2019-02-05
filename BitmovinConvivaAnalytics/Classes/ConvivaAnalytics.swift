@@ -10,10 +10,6 @@ import Foundation
 import BitmovinPlayer
 import ConvivaSDK
 
-struct MetadataOverrides {
-    var assetName: String?
-}
-
 public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
     let player: BitmovinPlayer
@@ -24,7 +20,7 @@ public final class ConvivaAnalytics: NSObject {
     var client: CISClientProtocol
     var playerStateManager: CISPlayerStateManagerProtocol!
     var sessionKey: Int32 = NO_SESSION_KEY
-    var contentMetadata: CISContentMetadata = CISContentMetadata()
+    let contentMetadataBuilder: ContentMetadataBuilder
     var isSessionActive: Bool {
         return sessionKey != NO_SESSION_KEY
     }
@@ -38,8 +34,6 @@ public final class ConvivaAnalytics: NSObject {
     let playerHelper: BitmovinPlayerHelper
     // Workaround for player issue when onPlay is sent while player is stalled
     var isStalled: Bool = false
-
-    var metadataOverrides: MetadataOverrides = MetadataOverrides()
 
     // MARK: - Public Attributes
     /**
@@ -90,6 +84,8 @@ public final class ConvivaAnalytics: NSObject {
         let setting: CISSystemSettings = CISSystemSettings()
 
         logger = Logger(loggingEnabled: config.debugLoggingEnabled)
+        self.contentMetadataBuilder = ContentMetadataBuilder(logger: logger)
+
         if config.debugLoggingEnabled {
             setting.logLevel = LogLevel.LOGLEVEL_DEBUG
         }
@@ -142,6 +138,32 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     // MARK: - external session handling
+
+    /**
+     Will update the contentMetadata which are tracked with conviva.
+
+     If there is an active session only permitted values will be updated and propagated immediately.
+     If there is no active session the values will set on session creation.
+
+     Attributes set via this method will override automatic tracked once.
+     - Parameters:
+        - metadataOverrides: Metadata attributes which will be used to track to conviva.
+                             @see ContentMetadataBuilder for more information about permitted attributes
+     */
+    public func updateContentMetadata(metadataOverrides: Metadata) {
+        contentMetadataBuilder.setOverrides(metadataOverrides)
+
+        if !isSessionActive {
+            logger.debugLog(
+                message: "[ ConvivaAnalytics ] no active session; Don\'t propagate content metadata to conviva."
+            )
+            return
+        }
+
+        buildContentMetadata()
+        updateSession()
+    }
+
     /**
      Initializes a new conviva tracking session.
 
@@ -150,23 +172,18 @@ public final class ConvivaAnalytics: NSObject {
      relies on the players source we can't ensure that all metadata attributes are present at session creation.
      Therefore it could be that there will be a 'ContentMetadata created late' issue after conviva validation.
 
-     - Parameters:
-        - assetName: Will be used as contentMetadata.assetName if no source was loaded before. This overrides the
-                     source assetName. If no source was loaded and no assetName is present this method will throw an
-                     error.
+     If no source was loaded and no assetName was set via updateContentMetadata this method will throw an error.
      */
-    public func initializeSession(assetName: String? = nil) throws {
+    public func initializeSession() throws {
         if isSessionActive {
             logger.debugLog(message: "There is already a session running. Returning …")
             return
         }
 
-        if player.config.sourceItem?.itemTitle == nil && assetName == nil {
-            throw ConvivaAnalyticsError("AssetName is missing. Provide assetName attribute or load player source first")
-        }
-
-        if assetName != nil {
-            metadataOverrides.assetName = assetName
+        if player.config.sourceItem?.itemTitle == nil && contentMetadataBuilder.assetName == nil {
+            throw ConvivaAnalyticsError(
+                "AssetName is missing. Load player source first or set assetName via updateContentMetadata"
+            )
         }
 
         internalInitializeSession()
@@ -224,7 +241,7 @@ public final class ConvivaAnalytics: NSObject {
     private func internalInitializeSession() {
         buildContentMetadata()
 
-        sessionKey = client.createSession(with: contentMetadata)
+        sessionKey = client.createSession(with: contentMetadataBuilder.build())
         if !isSessionActive {
             logger.debugLog(message: "Something went wrong, could not obtain session key")
             return
@@ -251,7 +268,7 @@ public final class ConvivaAnalytics: NSObject {
             playerStateManager.setVideoResolutionHeight!(videoQuality.height)
         }
 
-        client.updateContentMetadata(sessionKey, metadata: contentMetadata)
+        client.updateContentMetadata(sessionKey, metadata: contentMetadataBuilder.build())
     }
 
     private func internalEndSession() {
@@ -259,7 +276,7 @@ public final class ConvivaAnalytics: NSObject {
         client.cleanupSession(sessionKey)
         client.releasePlayerStateManager(playerStateManager)
         sessionKey = NO_SESSION_KEY
-        metadataOverrides = MetadataOverrides()
+        contentMetadataBuilder.reset()
         logger.debugLog(message: "Session ended")
     }
 
@@ -267,9 +284,9 @@ public final class ConvivaAnalytics: NSObject {
     private func buildContentMetadata() {
         let sourceItem = player.config.sourceItem
 
-        contentMetadata.applicationName = config.applicationName
-        contentMetadata.assetName = metadataOverrides.assetName ?? sourceItem?.itemTitle
-        contentMetadata.viewerId = config.viewerId
+        contentMetadataBuilder.applicationName = config.applicationName
+        contentMetadataBuilder.assetName = sourceItem?.itemTitle
+        contentMetadataBuilder.viewerId = config.viewerId
 
         var customInternTags: [String: Any] = [
             "streamType": playerHelper.streamType,
@@ -278,16 +295,16 @@ public final class ConvivaAnalytics: NSObject {
         if let customTags = config.customTags {
             customInternTags.merge(customTags) { (_, new) in new }
         }
-        contentMetadata.custom = NSMutableDictionary(dictionary: customInternTags)
+        contentMetadataBuilder.custom = customInternTags
         buildDynamicContentMetadata()
     }
 
     private func buildDynamicContentMetadata() {
         if !player.isLive {
-            contentMetadata.duration = Int(player.duration)
+            contentMetadataBuilder.duration = Int(player.duration)
         }
-        contentMetadata.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
-        contentMetadata.streamUrl = player.config.sourceItem?.url(forType: player.streamType)?.absoluteString
+        contentMetadataBuilder.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
+        contentMetadataBuilder.streamUrl = player.config.sourceItem?.url(forType: player.streamType)?.absoluteString
     }
 
     private func customEvent(event: PlayerEvent, args: [String: String] = [:]) {
@@ -348,6 +365,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onPlaying() {
+        contentMetadataBuilder.setPlaybackStarted(true)
         updateSession()
         onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
     }

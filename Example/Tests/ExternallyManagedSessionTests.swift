@@ -51,7 +51,10 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     }
 
                     it("with asset name provided") {
-                        try? convivaAnalytics.initializeSession(assetName: "MyAsset")
+                        var metadata: BitmovinConvivaAnalytics.Metadata = BitmovinConvivaAnalytics.Metadata()
+                        metadata.assetName = "MyAsset"
+                        convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
+                        try? convivaAnalytics.initializeSession()
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
                     }
 
@@ -80,7 +83,11 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     }
 
                     it("uses asset anem attribute") {
-                        try? convivaAnalytics.initializeSession(assetName: "A Override")
+                        var metadata = BitmovinConvivaAnalytics.Metadata()
+                        metadata.assetName = "A Override"
+                        convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
+
+                        try? convivaAnalytics.initializeSession()
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "A Override"]))
                     }
                 }
@@ -122,7 +129,11 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     let playerConfig = PlayerConfiguration()
                     _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
 
-                    try? convivaAnalytics.initializeSession(assetName: "MyAsset")
+                    var metadata = BitmovinConvivaAnalytics.Metadata()
+                    metadata.assetName = "MyAsset"
+                    convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
+
+                    try? convivaAnalytics.initializeSession()
                     expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
                     convivaAnalytics.endSession()
 

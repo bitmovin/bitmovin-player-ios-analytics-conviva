@@ -283,18 +283,13 @@ public final class ConvivaAnalytics: NSObject {
     // MARK: - meta data handling
     private func buildContentMetadata() {
         let sourceItem = player.config.sourceItem
-
-        contentMetadataBuilder.applicationName = config.applicationName
         contentMetadataBuilder.assetName = sourceItem?.itemTitle
-        contentMetadataBuilder.viewerId = config.viewerId
 
-        var customInternTags: [String: Any] = [
+        let customInternTags: [String: Any] = [
             "streamType": playerHelper.streamType,
             "integrationVersion": version
         ]
-        if let customTags = config.customTags {
-            customInternTags.merge(customTags) { (_, new) in new }
-        }
+
         contentMetadataBuilder.custom = customInternTags
         buildDynamicContentMetadata()
     }

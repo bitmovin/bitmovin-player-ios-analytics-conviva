@@ -12,6 +12,7 @@ import BitmovinPlayer
 import BitmovinConvivaAnalytics
 import ConvivaSDK
 
+// swiftlint:disable:next type_body_length
 class ContentMetadataSpec: QuickSpec {
     // swiftlint:disable:next function_body_length
     override func spec() {
@@ -28,12 +29,16 @@ class ContentMetadataSpec: QuickSpec {
             beforeEach {
                 do {
                     let convivaConfig = ConvivaConfiguration()
-                    convivaConfig.applicationName = "Unit Tests"
-                    convivaConfig.viewerId = "TestViewer"
-                    convivaConfig.customTags = ["Custom": "Tags", "TestRun": "Success"]
+
                     convivaAnalytics = try ConvivaAnalytics(player: playerDouble,
                                                             customerKey: "",
                                                             config: convivaConfig)
+
+                    var metadata = BitmovinConvivaAnalytics.Metadata()
+                    metadata.applicationName = "Unit Tests"
+                    metadata.viewerId = "TestViewer"
+                    metadata.custom = ["Custom": "Tags", "TestRun": "Success"]
+                    convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
                 } catch {
                     fail("ConvivaAnalytics failed with error: \(error)")
                 }

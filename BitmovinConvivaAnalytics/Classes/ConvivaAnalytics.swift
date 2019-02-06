@@ -150,7 +150,7 @@ public final class ConvivaAnalytics: NSObject {
         - metadataOverrides: Metadata attributes which will be used to track to conviva.
                              @see ContentMetadataBuilder for more information about permitted attributes
      */
-    public func updateContentMetadata(metadataOverrides: Metadata) {
+    public func updateContentMetadata(metadataOverrides: MetadataOverrides) {
         contentMetadataBuilder.setOverrides(metadataOverrides)
 
         if !isSessionActive {

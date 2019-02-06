@@ -52,7 +52,7 @@ class ViewController: UIViewController {
         }
         convivaConfig.debugLoggingEnabled = true
 
-        var metadata = BitmovinConvivaAnalytics.Metadata()
+        var metadata = MetadataOverrides()
         metadata.applicationName = "Bitmovin iOS Conviva integration example app"
         metadata.viewerId = "awesomeViewerId"
         metadata.custom = ["contentType": "Episode"]

@@ -9,7 +9,7 @@
 import Foundation
 import ConvivaSDK
 
-public struct Metadata {
+public struct MetadataOverrides {
     // Can only be set once
     public var assetName: String?
 
@@ -33,8 +33,8 @@ class ContentMetadataBuilder {
     var contentMetadata: CISContentMetadata
 
     // internal metadata fields to enable merging / overriding
-    var metadataOverrides: Metadata = Metadata()
-    var metadata: Metadata = Metadata()
+    var metadataOverrides: MetadataOverrides = MetadataOverrides()
+    var metadata: MetadataOverrides = MetadataOverrides()
     var playbackStarted: Bool = false
 
     init(logger: Logger) {
@@ -42,7 +42,7 @@ class ContentMetadataBuilder {
         contentMetadata = CISContentMetadata()
     }
 
-    public func setOverrides(_ metadataOverrides: Metadata) {
+    public func setOverrides(_ metadataOverrides: MetadataOverrides) {
         if playbackStarted {
             logger.debugLog(
                 message: "[ Conviva Analytics ] Playback has started. Only some metadata attributes will be updated"
@@ -169,8 +169,8 @@ class ContentMetadataBuilder {
     }
 
     public func reset() {
-        metadataOverrides = Metadata()
-        metadata = Metadata()
+        metadataOverrides = MetadataOverrides()
+        metadata = MetadataOverrides()
         playbackStarted = false
         contentMetadata = CISContentMetadata()
     }

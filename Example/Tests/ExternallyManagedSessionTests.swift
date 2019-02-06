@@ -51,7 +51,7 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     }
 
                     it("with asset name provided") {
-                        var metadata: BitmovinConvivaAnalytics.Metadata = BitmovinConvivaAnalytics.Metadata()
+                        var metadata: MetadataOverrides = MetadataOverrides()
                         metadata.assetName = "MyAsset"
                         convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
                         try? convivaAnalytics.initializeSession()
@@ -83,7 +83,7 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     }
 
                     it("uses asset anem attribute") {
-                        var metadata = BitmovinConvivaAnalytics.Metadata()
+                        var metadata = MetadataOverrides()
                         metadata.assetName = "A Override"
                         convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
 
@@ -129,7 +129,7 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     let playerConfig = PlayerConfiguration()
                     _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
 
-                    var metadata = BitmovinConvivaAnalytics.Metadata()
+                    var metadata = MetadataOverrides()
                     metadata.assetName = "MyAsset"
                     convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
 

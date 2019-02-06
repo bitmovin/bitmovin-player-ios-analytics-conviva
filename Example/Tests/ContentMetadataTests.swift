@@ -34,7 +34,7 @@ class ContentMetadataSpec: QuickSpec {
                                                             customerKey: "",
                                                             config: convivaConfig)
 
-                    var metadata = BitmovinConvivaAnalytics.Metadata()
+                    var metadata = MetadataOverrides()
                     metadata.applicationName = "Unit Tests"
                     metadata.viewerId = "TestViewer"
                     metadata.custom = ["Custom": "Tags", "TestRun": "Success"]
@@ -167,9 +167,9 @@ class ContentMetadataSpec: QuickSpec {
             }
 
             describe("overriding") {
-                var metadata: BitmovinConvivaAnalytics.Metadata!
+                var metadata: MetadataOverrides!
                 beforeEach {
-                    metadata = BitmovinConvivaAnalytics.Metadata()
+                    metadata = MetadataOverrides()
                 }
 
                 context("setting overrides before playback report them at session creation") {

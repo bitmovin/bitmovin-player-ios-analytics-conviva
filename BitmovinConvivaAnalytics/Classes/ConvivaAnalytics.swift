@@ -255,6 +255,10 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func internalEndSession() {
+        if !isSessionActive {
+            return
+        }
+
         client.detachPlayer(sessionKey)
         client.cleanupSession(sessionKey)
         client.releasePlayerStateManager(playerStateManager)
@@ -437,7 +441,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     #endif
 
     func onDestroy() {
-        endSession()
+        internalEndSession()
     }
 }
 

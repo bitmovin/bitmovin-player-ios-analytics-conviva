@@ -152,13 +152,12 @@ class PlayerEventsSpec: QuickSpec {
                 var spy: Spy!
                 beforeEach {
                     spy = Spy(aClass: CISClientTestDouble.self, functionName: "cleanupSession")
+                    playerDouble.fakePlayEvent()
                 }
 
                 it("on source unloaded") {
                     playerDouble.fakeSourceUnloadedEvent()
-                    DispatchQueue.main.async {
-                        expect(spy).to(haveBeenCalled())
-                    }
+                    expect(spy).toEventually(haveBeenCalled())
                 }
 
                 it("on error") {
@@ -175,6 +174,21 @@ class PlayerEventsSpec: QuickSpec {
                     expect(playbackStateSpy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_STOPPED.rawValue)"])
                     )
+                }
+
+                it("on destroy") {
+                    playerDouble.fakeDestroyEvent()
+                    expect(spy).to(haveBeenCalled())
+                }
+
+                it("calls end session only if a session is active") {
+                    playerDouble.fakeSourceUnloadedEvent()
+
+                    expect(spy).toEventually(haveBeenCalled())
+                    TestHelper.shared.spyTracker.reset()
+
+                    playerDouble.fakeDestroyEvent()
+                    expect(spy).toEventuallyNot(haveBeenCalled())
                 }
 
                 describe("with on source unloaded / on error workaround") {

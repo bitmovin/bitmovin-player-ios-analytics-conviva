@@ -114,4 +114,8 @@ extension BitmovinPlayerListener: PlayerListener {
         delegate?.onAdError(event)
     }
     #endif
+
+    func onDestroy(_ event: DestroyEvent) {
+        delegate?.onDestroy()
+    }
 }

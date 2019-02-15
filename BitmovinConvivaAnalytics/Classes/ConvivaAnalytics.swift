@@ -210,6 +210,29 @@ public final class ConvivaAnalytics: NSObject {
         }
     }
 
+    /**
+     Puts the session state in a notMonitored state.
+     */
+    public func pauseTracking() {
+        // AdStart is the preferred way to pause tracking according to conviva.
+        client.adStart(sessionKey,
+                       adStream: .ADSTREAM_SEPARATE,
+                       adPlayer: .ADPLAYER_SEPARATE,
+                       adPosition: .ADPOSITION_PREROLL)
+        client.detachPlayer(sessionKey)
+        logger.debugLog(message: "Tracking paused.")
+    }
+
+    /**
+     Puts the session state from a notMonitored state into the last one tracked.
+     */
+    public func resumeTracking() {
+        client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        // AdEnd is the preferred way to resume tracking according to conviva.
+        client.adEnd(sessionKey)
+        logger.debugLog(message: "Tracking resumed.")
+    }
+
     // MARK: - session handling
     private func setupPlayerStateManager() {
         playerStateManager = client.getPlayerStateManager()

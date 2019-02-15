@@ -37,7 +37,7 @@ Details about usage of `BitmovinPlayer` can be found [here](https://github.com/b
 
 ### Content Metadata handling
 
-If you want to override some content metadata attributes you can do so by adding following:
+If you want to override some content metadata attributes you can do so by adding the following:
 
 ```swift
 var metadata = BitmovinConvivaAnalytics.Metadata()

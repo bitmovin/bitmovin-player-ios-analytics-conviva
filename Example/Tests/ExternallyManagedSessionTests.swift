@@ -82,7 +82,7 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyTitle"]))
                     }
 
-                    it("uses asset anem attribute") {
+                    it("uses asset name attribute") {
                         var metadata = MetadataOverrides()
                         metadata.assetName = "A Override"
                         convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)

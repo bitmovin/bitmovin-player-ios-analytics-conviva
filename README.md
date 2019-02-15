@@ -90,7 +90,7 @@ convivaAnalytics.playerView = bitmovinPlayerView
 
 If you want to use the same player instance for multiple playback call `player.unload()` before loading a new source.
 
-```js
+```swift
 player.unload();
 player.load(…);
 ```

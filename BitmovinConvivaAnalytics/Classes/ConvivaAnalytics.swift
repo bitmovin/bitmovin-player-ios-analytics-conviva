@@ -227,9 +227,9 @@ public final class ConvivaAnalytics: NSObject {
      Puts the session state from a notMonitored state into the last one tracked.
      */
     public func resumeTracking() {
+        client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
         // AdEnd is the preferred way to resume tracking according to conviva.
         client.adEnd(sessionKey)
-        client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
         logger.debugLog(message: "Tracking resumed.")
     }
 

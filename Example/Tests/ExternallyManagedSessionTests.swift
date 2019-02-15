@@ -65,6 +65,14 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         expect { try convivaAnalytics.initializeSession() }.to(throwError())
                         expect(spy).toNot(haveBeenCalled())
                     }
+
+                    it("throw error without title in the source and without asset name") {
+                        let playerConfig = PlayerConfiguration()
+                        let hlsSource = HLSSource(url: URL(string: "http://a.url")!)
+                        playerConfig.sourceItem = SourceItem(hlsSource: hlsSource)
+                        expect { try convivaAnalytics.initializeSession() }.to(throwError())
+                        expect(spy).toNot(haveBeenCalled())
+                    }
                     #endif
                 }
 

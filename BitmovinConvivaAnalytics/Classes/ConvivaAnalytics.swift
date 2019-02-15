@@ -172,7 +172,8 @@ public final class ConvivaAnalytics: NSObject {
      relies on the players source we can't ensure that all metadata attributes are present at session creation.
      Therefore it could be that there will be a 'ContentMetadata created late' issue after conviva validation.
 
-     If no source was loaded and no assetName was set via updateContentMetadata this method will throw an error.
+     If no source was loaded (or the itemTitle is missing) and no assetName was set via updateContentMetadata
+     this method will throw an error.
      */
     public func initializeSession() throws {
         if isSessionActive {
@@ -182,7 +183,10 @@ public final class ConvivaAnalytics: NSObject {
 
         if player.config.sourceItem?.itemTitle == nil && contentMetadataBuilder.assetName == nil {
             throw ConvivaAnalyticsError(
-                "AssetName is missing. Load player source first or set assetName via updateContentMetadata"
+"""
+AssetName is missing. Load player source (with itemTitle) first.
+Or set assetName via updateContentMetadata
+"""
             )
         }
 

@@ -35,34 +35,21 @@ do {
 
 Details about usage of `BitmovinPlayer` can be found [here](https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod).
 
-### Advanced Setup
+### Content Metadata handling
 
-You can add more information to your conviva integration via the `ConvivaConfig`:
+If you want to override some content metadata attributes you can do so by adding the following:
 
 ```swift
-let convivaConfig = ConvivaConfiguration()
+var metadata = BitmovinConvivaAnalytics.Metadata()
+metadata.applicationName = "Bitmovin iOS Conviva integration example app"
+metadata.viewerId = "awesomeViewerId"
+metadata.custom = ["contentType": "Episode"]
 
-// Set gatewayUrl ONLY in debug mode for testing!!!
-convivaConfig.gatewayUrl = "https://youraccount-test.testonly.conviva.com"
+// …
+// Initialize ConvivaAnalytics
+// …
 
-convivaConfig.debugLoggingEnabled = true
-
-// Set an application name
-convivaConfig.applicationName = "Some App name"
-
-// Set the viewerId
-convivaConfig.viewerId = "awesomeViewerId"
-
-// Add custom tags which will be sent to conviva
-convivaConfig.customTags = ["key": "value"]
-
-do {
-    convivaAnalytics = try ConvivaAnalytics(player: bitmovinPlayer,
-                                            customerKey: "YOUR-CONVIVA-CUSTOMER-KEY",
-                                            config: convivaConfig)
-} catch {
-    NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
-}
+convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
 ```
 
 ### Background handling

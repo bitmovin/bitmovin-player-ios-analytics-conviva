@@ -52,14 +52,16 @@ class ViewController: UIViewController {
         }
         convivaConfig.debugLoggingEnabled = true
 
-        convivaConfig.applicationName = "Bitmovin iOS Conviva integration example app"
-        convivaConfig.viewerId = "awesomeViewerId"
-        convivaConfig.customTags = ["contentType": "Episode"]
+        var metadata = MetadataOverrides()
+        metadata.applicationName = "Bitmovin iOS Conviva integration example app"
+        metadata.viewerId = "awesomeViewerId"
+        metadata.custom = ["contentType": "Episode"]
 
         do {
             convivaAnalytics = try ConvivaAnalytics(player: player!,
                                                     customerKey: convivaCustomerKey,
                                                     config: convivaConfig)
+            convivaAnalytics?.updateContentMetadata(metadataOverrides: metadata)
         } catch {
             NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
         }

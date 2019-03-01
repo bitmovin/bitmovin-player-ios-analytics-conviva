@@ -52,6 +52,8 @@ metadata.custom = ["contentType": "Episode"]
 convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
 ```
 
+Those values will be cleaned up after the session is closed.
+
 ### Background handling
 
 If your app stops playback when entering background conviva suggests to end the active session.

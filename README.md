@@ -88,9 +88,8 @@ convivaAnalytics.playerView = bitmovinPlayerView
 
 ### Consecutive playback
 
-If you want to use the same player instance for multiple playback call `player.unload()` before loading a new source.
+If you want to use the same player instance for multiple playback, just load a new source with `player.load(…)`. The integration will close the active session.
 
 ```swift
-player.unload();
 player.load(…);
 ```

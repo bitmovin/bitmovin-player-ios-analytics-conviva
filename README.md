@@ -52,6 +52,8 @@ metadata.custom = ["contentType": "Episode"]
 convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
 ```
 
+Those values will be cleaned up after the session is closed.
+
 ### Background handling
 
 If your app stops playback when entering background conviva suggests to end the active session.
@@ -71,4 +73,12 @@ If you want to track UI related events such as full-screen state changes add the
 
 ```swift
 convivaAnalytics.playerView = bitmovinPlayerView
+```
+
+### Consecutive playback
+
+If you want to use the same player instance for multiple playback, just load a new source with `player.load(…)`. The integration will close the active session.
+
+```swift
+player.load(…);
 ```

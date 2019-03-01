@@ -19,20 +19,6 @@ public final class ConvivaConfiguration {
      production or automated testing**.
      */
     public var gatewayUrl: URL?
-    /**
-     A string value used to distinguish individual apps, players, locations, platforms, and/or deployments.
-     Default: Unknown (no config.applicationName set)
-     */
-    public var applicationName: String = "Unknown (no config.applicationName set)"
-    /**
-     A unique identifier to distinguish individual viewers/subscribers and their watching experience through
-     Conviva's Viewers Module in Pulse.
-     */
-    public var viewerId: String?
-    /**
-     A `Dictionary<String, String>` to send customer specific custom tags.
-     */
-    public var customTags: [String: String]?
 
     public init() {}
 }

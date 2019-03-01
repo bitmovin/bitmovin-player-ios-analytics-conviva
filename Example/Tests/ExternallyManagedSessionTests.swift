@@ -51,7 +51,10 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     }
 
                     it("with asset name provided") {
-                        try? convivaAnalytics.initializeSession(assetName: "MyAsset")
+                        var metadata: MetadataOverrides = MetadataOverrides()
+                        metadata.assetName = "MyAsset"
+                        convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
+                        try? convivaAnalytics.initializeSession()
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
                     }
 
@@ -59,6 +62,14 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     // This test will only run on a simulator
                     // https://github.com/Quick/Nimble#swift-assertions
                     it("throw error without source and asset name") {
+                        expect { try convivaAnalytics.initializeSession() }.to(throwError())
+                        expect(spy).toNot(haveBeenCalled())
+                    }
+
+                    it("throw error without title in the source and without asset name") {
+                        let playerConfig = PlayerConfiguration()
+                        let hlsSource = HLSSource(url: URL(string: "http://a.url")!)
+                        playerConfig.sourceItem = SourceItem(hlsSource: hlsSource)
                         expect { try convivaAnalytics.initializeSession() }.to(throwError())
                         expect(spy).toNot(haveBeenCalled())
                     }
@@ -79,8 +90,12 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyTitle"]))
                     }
 
-                    it("uses asset anem attribute") {
-                        try? convivaAnalytics.initializeSession(assetName: "A Override")
+                    it("uses asset name attribute") {
+                        var metadata = MetadataOverrides()
+                        metadata.assetName = "A Override"
+                        convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
+
+                        try? convivaAnalytics.initializeSession()
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "A Override"]))
                     }
                 }
@@ -122,7 +137,11 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     let playerConfig = PlayerConfiguration()
                     _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
 
-                    try? convivaAnalytics.initializeSession(assetName: "MyAsset")
+                    var metadata = MetadataOverrides()
+                    metadata.assetName = "MyAsset"
+                    convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
+
+                    try? convivaAnalytics.initializeSession()
                     expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
                     convivaAnalytics.endSession()
 

@@ -10,6 +10,11 @@ import Foundation
 import ConvivaSDK
 
 class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
+    
+    func getClientId() -> String! {
+        return ""
+    }
+    
     func createSession(with cisContentMetadata: CISContentMetadata!) -> Int32 {
         spy(functionName: "createSession", args: metaDataToArgs(contentMetadata: cisContentMetadata))
         return Int32(0)
@@ -45,6 +50,10 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
 
     func adStart(_ sessionKey: Int32, adStream: AdStream, adPlayer: AdPlayer, adPosition: AdPosition) {
         spy(functionName: "adStart", args: ["adPosition": "\(adPosition.rawValue)"])
+    }
+    
+    func adStart(_ sessionKey: Int32) {
+        spy(functionName: "adStart")
     }
 
     func adEnd(_ sessionKey: Int32) {

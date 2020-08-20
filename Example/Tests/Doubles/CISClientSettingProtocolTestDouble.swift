@@ -10,6 +10,10 @@ import Foundation
 import ConvivaSDK
 
 class CISClientSettingProtocolTestDouble: NSObject, CISClientSettingProtocol {
+    func setUserPreferenceForDataCollection(_ userPrefs: [AnyHashable : Any]!) {}
+    
+    func setUserPreferenceForDataDeletion(_ userPrefs: [AnyHashable : Any]!) {}
+    
     func getCustomerKey() -> String! {
         return "StubKey"
     }

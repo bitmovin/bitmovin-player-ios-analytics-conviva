@@ -22,8 +22,8 @@ Conviva Analytics Integration for the Bitmovin Player iOS SDK
 
   s.ios.dependency 'BitmovinPlayer', '~> 2.17'
   s.tvos.dependency 'BitmovinPlayer', '~> 2.17'
-  s.ios.dependency 'ConvivaSDK', '~> 2.141.0'
-  s.tvos.dependency 'ConvivaSDK', '~> 2.141.0'
+  s.ios.dependency 'ConvivaSDK', '~> 4.0.3'
+  s.tvos.dependency 'ConvivaSDK', '~> 4.0.3'
 
   s.static_framework = true
 end

@@ -23,7 +23,6 @@
 		37756EC0216F9A510041806D /* ContentMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EBF216F9A510041806D /* ContentMetadataTests.swift */; };
 		37756EC2216F9AA50041806D /* CustomEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EC1216F9AA50041806D /* CustomEventTests.swift */; };
 		37756EC42170764E0041806D /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EC32170764E0041806D /* SpecHelper.swift */; };
-		37CE33382203067500E0286F /* ExternallyManagedSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CE33372203067500E0286F /* ExternallyManagedSessionTests.swift */; };
 		37EB3CD3216B70D70093F085 /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CD1216B70650093F085 /* TestHelper.swift */; };
 		37EB3CD4216B70DA0093F085 /* BitmovinPlayerTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CC7216B6E3F0093F085 /* BitmovinPlayerTestDouble.swift */; };
 		37EB3CD5216B70DC0093F085 /* CISClientSettingCreatorTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CC9216B6E8A0093F085 /* CISClientSettingCreatorTestDouble.swift */; };
@@ -76,7 +75,6 @@
 		37756EBF216F9A510041806D /* ContentMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentMetadataTests.swift; sourceTree = "<group>"; };
 		37756EC1216F9AA50041806D /* CustomEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEventTests.swift; sourceTree = "<group>"; };
 		37756EC32170764E0041806D /* SpecHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecHelper.swift; sourceTree = "<group>"; };
-		37CE33372203067500E0286F /* ExternallyManagedSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternallyManagedSessionTests.swift; sourceTree = "<group>"; };
 		37EB3CC7216B6E3F0093F085 /* BitmovinPlayerTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BitmovinPlayerTestDouble.swift; path = Doubles/BitmovinPlayerTestDouble.swift; sourceTree = "<group>"; };
 		37EB3CC9216B6E8A0093F085 /* CISClientSettingCreatorTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISClientSettingCreatorTestDouble.swift; path = Doubles/CISClientSettingCreatorTestDouble.swift; sourceTree = "<group>"; };
 		37EB3CCB216B6ED30093F085 /* CISClientTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISClientTestDouble.swift; path = Doubles/CISClientTestDouble.swift; sourceTree = "<group>"; };
@@ -514,21 +512,17 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-resources.sh",
 				"${PODS_ROOT}/../../BitmovinConvivaAnalytics/Assets/BitmovinConviva-Info.plist",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BitmovinConviva-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		77BF9B562BFB23BFFBA9053D /* [CP] Embed Pods Frameworks */ = {
@@ -536,23 +530,19 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh",
 				"${PODS_ROOT}/BitmovinPlayer/iOS/BitmovinPlayer.framework",
 				"${PODS_ROOT}/GoogleAds-IMA-iOS-SDK/GoogleInteractiveMediaAds/GoogleInteractiveMediaAds.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleInteractiveMediaAds.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7ED7F86F2E085221D58EB0EC /* [CP] Copy Pods Resources */ = {
@@ -560,21 +550,17 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-resources.sh",
 				"${PODS_ROOT}/../../BitmovinConvivaAnalytics/Assets/BitmovinConviva-Info.plist",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BitmovinConviva-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9D9B1274FA91C9D8769B9C40 /* [CP] Check Pods Manifest.lock */ = {
@@ -604,17 +590,13 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh",
 				"${PODS_ROOT}/BitmovinPlayer/iOS/BitmovinPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
@@ -622,7 +604,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D8B401E42FFC63ADFCAA0D7C /* [CP] Copy Pods Resources */ = {
@@ -630,21 +612,17 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-resources.sh",
 				"${PODS_ROOT}/../../BitmovinConvivaAnalytics/Assets/BitmovinConviva-Info.plist",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BitmovinConviva-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E527C969E49D83A0FC4A83D9 /* [CP] Embed Pods Frameworks */ = {
@@ -652,21 +630,17 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-frameworks.sh",
 				"${PODS_ROOT}/BitmovinPlayer/tvOS/BitmovinPlayer.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayer.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

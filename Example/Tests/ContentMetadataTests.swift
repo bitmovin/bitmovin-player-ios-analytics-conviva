@@ -152,6 +152,7 @@ class ContentMetadataSpec: QuickSpec {
                     let videoQuality = VideoQuality(identifier: "Test",
                                                     label: "test",
                                                     bitrate: 4_000_000,
+                                                    codec: nil,
                                                     width: 1900,
                                                     height: 800)
 

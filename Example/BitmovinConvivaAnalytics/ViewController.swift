@@ -23,8 +23,8 @@ class ViewController: UIViewController {
 
     var convivaAnalytics: ConvivaAnalytics?
 
-    let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
-    var convivaGatewayString: String?
+    let convivaCustomerKey: String = "61a16fe47d5345ac124fee77eb07a2ed1a5b82ab"
+    var convivaGatewayString: String? = "https://nbcsports-test.testonly.conviva.com/"
 
     override func viewDidLoad() {
         super.viewDidLoad()

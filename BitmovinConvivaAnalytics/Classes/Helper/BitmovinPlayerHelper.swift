@@ -9,6 +9,8 @@
 import Foundation
 import BitmovinPlayer
 
+public typealias BitmovinPlayer = Player
+
 final class BitmovinPlayerHelper: NSObject {
     let player: BitmovinPlayer
 

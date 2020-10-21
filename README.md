@@ -17,7 +17,7 @@ pod install
 ```
 
 ### Compatibility
-This version of the Conviva Analytics Integration depends on `BitmovinPlayer` version `>= 2.17.x`. If you need support for prior `2.17.x` please use [v1.0.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.0.0). For `BitmovinPlayer` version `>= 2.51.x` please use [v1.2.0]
+This version of the Conviva Analytics Integration depends on `BitmovinPlayer` version `>= 2.17.x`. If you need support for prior `2.17.x` please use [v1.0.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.0.0). For `BitmovinPlayer` version `>= 2.51.x` please use [v1.2.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.2.0)
 
 ## Usage
 

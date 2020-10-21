@@ -1,6 +1,6 @@
 def shared_pods
   pod 'BitmovinConvivaAnalytics', path: '../'
-  pod 'BitmovinPlayer', git: 'https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git', tag: '2.17.0'
+  pod 'BitmovinPlayer', git: 'https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git', tag: '2.51.0'
   pod 'ConvivaSDK', '4.0.3'
 
   pod 'SwiftLint'
@@ -11,7 +11,7 @@ target 'BitmovinConvivaAnalytics_Example' do
   platform :ios, '9.0'
   shared_pods
 
-  pod 'GoogleAds-IMA-iOS-SDK', '3.7.0'
+  pod 'GoogleAds-IMA-iOS-SDK', '3.11.1'
 end
 
 target 'BitmovinConvivaAnalytics_TvOSExample' do

@@ -244,12 +244,29 @@ class ContentMetadataSpec: QuickSpec {
                         expect(spy).to(haveBeenCalled(withArgs: ["streamUrl": "MyUrl"]))
                     }
 
-                    it("dont override intern custom tags") {
+                    it("override intern custom tags") {
                         metadata.custom = [
-                            "integrationVersion": "xyz"
+                            "streamType": "VOD"
                         ]
                         updateMetadataAndInitialize()
-                        expect(spy).toNot(haveBeenCalled(withArgs: ["integrationVersion": "xyz"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["streamType": "VOD"]))
+                    }
+
+                    it("add extern custom tags") {
+                        metadata.custom = [
+                            "contentType": "Episode"
+                        ]
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["contentType": "Episode"]))
+                    }
+
+                    it("override intern and add extern custom tags") {
+                        metadata.custom = [
+                            "streamType": "LIVE",
+                            "contentType": "Episode"
+                        ]
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["streamType": "LIVE", "contentType": "Episode"]))
                     }
                 }
 

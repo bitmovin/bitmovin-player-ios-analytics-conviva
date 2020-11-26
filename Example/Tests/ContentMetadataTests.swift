@@ -86,7 +86,7 @@ class ContentMetadataSpec: QuickSpec {
                     playerDouble.fakePlayEvent() // to initialize session
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
                     expect(spy).to(
-                        haveBeenCalled(withArgs: ["Custom": "Tags", "TestRun": "Success"])
+                        haveBeenCalled(withArgs: ["custom:Custom": "Tags", "custom:TestRun": "Success"])
                     )
                 }
 
@@ -223,7 +223,7 @@ class ContentMetadataSpec: QuickSpec {
                             "MyCustom": "Test Value"
                         ]
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["MyCustom": "Test Value"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["custom:MyCustom": "Test Value"]))
                     }
 
                     it("set encoded frame rate") {
@@ -249,7 +249,7 @@ class ContentMetadataSpec: QuickSpec {
                             "streamType": "VOD"
                         ]
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["streamType": "VOD"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["custom:streamType": "VOD"]))
                     }
 
                     it("add extern custom tags") {
@@ -257,7 +257,7 @@ class ContentMetadataSpec: QuickSpec {
                             "contentType": "Episode"
                         ]
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["contentType": "Episode"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["custom:contentType": "Episode"]))
                     }
 
                     it("override intern and add extern custom tags") {
@@ -266,7 +266,7 @@ class ContentMetadataSpec: QuickSpec {
                             "contentType": "Episode"
                         ]
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["streamType": "LIVE", "contentType": "Episode"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["custom:streamType": "LIVE", "custom:contentType": "Episode"]))
                     }
                 }
 

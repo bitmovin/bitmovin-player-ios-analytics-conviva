@@ -128,7 +128,7 @@ class ContentMetadataBuilder {
             metadata.custom = newValue
         }
         get {
-            return mergeDictionaries(dict1: metadataOverrides.custom, dict2: metadata.custom)
+            return mergeDictionaries(dict1: metadata.custom, dict2: metadataOverrides.custom)
         }
     }
 

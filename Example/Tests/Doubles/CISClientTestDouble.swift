@@ -92,7 +92,7 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
         for key in contentMetadata.custom.allKeys {
             if let keyString = key as? String {
                 if let value = contentMetadata.custom.value(forKey: keyString) as? String {
-                    args[keyString] = value
+                    args["custom:"+keyString] = value
                 }
             }
         }

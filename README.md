@@ -17,11 +17,16 @@ pod install
 ```
 
 ### Compatibility
-This version of the Conviva Analytics Integration depends on `BitmovinPlayer` version `>= 2.17.x`. If you need support for prior `2.17.x` please use [v1.0.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.0.0). For `BitmovinPlayer` version `>= 2.51.x` please use [v1.2.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.2.0) or later.
+
+The most recent version of the Conviva Analytics Integration depends on `BitmovinPlayer` version `>= 2.57.1`.
+For `BitmovinPlayer` version `>= 2.57.1` please use [v1.3.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.3.0) or later.
+
+If you need support for prior to `2.57.1` please use [v1.2.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.2.0).
 
 ## Usage
 
 ### Basic Setup
+
 The following example shows how to setup the BitmovinConvivaAnalytics:
 
 ```swift
@@ -60,6 +65,7 @@ If your app stops playback when entering background conviva suggests to end the 
 Since the integration can't know if you app supports playback in background this can't be done automatically.
 
 To end a session use:
+
 ```swift
 convivaAnalytics.endSession()
 ```

@@ -324,7 +324,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func buildDynamicContentMetadata() {
-        if !player.isLive {
+        if !player.isLive && player.duration.isFinite {
             contentMetadataBuilder.duration = Int(player.duration)
         }
         contentMetadataBuilder.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD

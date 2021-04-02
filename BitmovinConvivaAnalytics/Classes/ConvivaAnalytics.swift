@@ -465,19 +465,25 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onAdFinished() {
-        client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        if !client.isPlayerAttached(sessionKey) {
+            client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        }
         client.adEnd(sessionKey)
     }
 
     func onAdSkipped(_ event: AdSkippedEvent) {
         customEvent(event: event)
-        client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        if !client.isPlayerAttached(sessionKey) {
+            client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        }
         client.adEnd(sessionKey)
     }
 
     func onAdError(_ event: AdErrorEvent) {
         customEvent(event: event)
-        client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        if !client.isPlayerAttached(sessionKey) {
+            client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        }
         client.adEnd(sessionKey)
     }
     #endif

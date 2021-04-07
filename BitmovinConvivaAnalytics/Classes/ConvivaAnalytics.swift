@@ -484,7 +484,9 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onAdBreakFinished(_ event: AdBreakFinishedEvent) {
         customEvent(event: event)
-        client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        if !client.isPlayerAttached(sessionKey) {
+            client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        }
     }
     #endif
 

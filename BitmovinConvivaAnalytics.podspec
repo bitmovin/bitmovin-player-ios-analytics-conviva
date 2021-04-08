@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'BitmovinConvivaAnalytics'
-  s.version          = '1.2.1'
+  s.version          = '1.3.0'
   s.summary          = 'Conviva Analytics Integration for the Bitmovin Player iOS SDK'
 
   s.description      = <<-DESC
@@ -22,8 +22,8 @@ Conviva Analytics Integration for the Bitmovin Player iOS SDK
 
   s.ios.dependency 'BitmovinPlayer', '~> 2.57'
   s.tvos.dependency 'BitmovinPlayer', '~> 2.57'
-  s.ios.dependency 'ConvivaSDK', '~> 4.0.3'
-  s.tvos.dependency 'ConvivaSDK', '~> 4.0.3'
+  s.ios.dependency 'ConvivaSDK', '~> 4.0'
+  s.tvos.dependency 'ConvivaSDK', '~> 4.0'
 
   s.static_framework = true
 end

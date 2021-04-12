@@ -38,6 +38,8 @@ protocol BitmovinPlayerListenerDelegate: AnyObject {
     func onAdFinished()
     func onAdSkipped(_ event: AdSkippedEvent)
     func onAdError(_ event: AdErrorEvent)
+    func onAdBreakStarted(_ event: AdBreakStartedEvent)
+    func onAdBreakFinished(_ event: AdBreakFinishedEvent)
     #endif
 
     func onDestroy()

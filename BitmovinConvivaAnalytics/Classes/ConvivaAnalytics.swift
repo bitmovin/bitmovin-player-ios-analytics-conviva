@@ -305,6 +305,7 @@ public final class ConvivaAnalytics: NSObject {
 
         client.detachPlayer(sessionKey)
         client.cleanupSession(sessionKey)
+        playerStateManager.reset?()
         client.releasePlayerStateManager(playerStateManager)
         sessionKey = NO_SESSION_KEY
         contentMetadataBuilder.reset()

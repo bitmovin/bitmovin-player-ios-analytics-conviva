@@ -31,12 +31,12 @@ class ViewController: UIViewController {
 
         setupBitmovinPlayer()
 
-        if let posterUrl = sourceItem.posterSource {
+        /*if let posterUrl = sourceItem.posterSource {
             // Be aware that this will be executed synchronously on the main thread (change to SDWebImage if needed)
             if let data = try? Data(contentsOf: posterUrl) {
                 posterImageView.image = UIImage(data: data)
             }
-        }
+        }*/
     }
 
     func setupBitmovinPlayer() {
@@ -82,8 +82,10 @@ class ViewController: UIViewController {
 
     var playerConfiguration: PlayerConfiguration {
         let playerConfiguration = PlayerConfiguration()
-        playerConfiguration.sourceItem = sourceItem
+        playerConfiguration.sourceItem = vodSourceItem
+        //playerConfiguration.sourceItem = vodSourceItemStartOffset
         //playerConfiguration.sourceItem = liveSourceItem
+        //playerConfiguration.sourceItem = liveSourceItemStartOffset
         if adsSwitch.isOn {
             playerConfiguration.advertisingConfiguration = adConfig
         }
@@ -94,7 +96,7 @@ class ViewController: UIViewController {
         return playerConfiguration
     }
 
-    var sourceItem: SourceItem {
+    var vodSourceItem: SourceItem {
         var sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
         if let streamString = streamUrlTextField.text,
            URL(string: streamString) != nil {
@@ -102,16 +104,27 @@ class ViewController: UIViewController {
         }
 
         let sourceItem = SourceItem(url: URL(string: sourceString)!)!
-        sourceItem.posterSource = URL(string: "https://bitmovin-a.akamaihd.net/content/poster/hd/RedBull.jpg")
+        sourceItem.itemTitle = "Art of Motion"
+        return sourceItem
+    }
+
+    var vodSourceItemStartOffset: SourceItem {
+        var sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
+        if let streamString = streamUrlTextField.text,
+           URL(string: streamString) != nil {
+            sourceString = streamString
+        }
+
+        let sourceItem = SourceItem(url: URL(string: sourceString)!)!
         sourceItem.itemTitle = "Art of Motion"
         // set start offset
         let  options: SourceOptions = SourceOptions()
         options.startOffset = 30
         options.startOffsetTimelineReference = .start
-        //sourceItem.options = options
+        sourceItem.options = options
         return sourceItem
     }
-    
+
     var liveSourceItem: SourceItem {
         var sourceString = "https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8"
         if let streamString = streamUrlTextField.text,
@@ -120,13 +133,26 @@ class ViewController: UIViewController {
         }
 
         let sourceItem = SourceItem(url: URL(string: sourceString)!)!
-        //sourceItem.posterSource = URL(string: "https://bitmovin-a.akamaihd.net/content/poster/hd/RedBull.jpg")
+        sourceItem.itemTitle = "HLS Live"
+
+        return sourceItem
+    }
+
+    var liveSourceItemStartOffset: SourceItem {
+        var sourceString = "https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8"
+        if let streamString = streamUrlTextField.text,
+           URL(string: streamString) != nil {
+            sourceString = streamString
+        }
+
+        let sourceItem = SourceItem(url: URL(string: sourceString)!)!
+
         sourceItem.itemTitle = "HLS Live"
         // set start offset
         let  options: SourceOptions = SourceOptions()
         options.startOffset = 0
         options.startOffsetTimelineReference = .start
-        //sourceItem.options = options
+        sourceItem.options = options
         return sourceItem
     }
 

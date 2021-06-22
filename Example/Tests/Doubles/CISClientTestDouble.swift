@@ -10,11 +10,14 @@ import Foundation
 import ConvivaSDK
 
 class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
-    
+    func getSessionId(_ sessionKey: Int32) -> Int32 {
+        return -1
+    }
+
     func getClientId() -> String! {
         return ""
     }
-    
+
     func createSession(with cisContentMetadata: CISContentMetadata!) -> Int32 {
         spy(functionName: "createSession", args: metaDataToArgs(contentMetadata: cisContentMetadata))
         return Int32(0)

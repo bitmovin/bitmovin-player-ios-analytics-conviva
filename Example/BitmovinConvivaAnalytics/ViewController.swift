@@ -83,9 +83,14 @@ class ViewController: UIViewController {
     var playerConfiguration: PlayerConfiguration {
         let playerConfiguration = PlayerConfiguration()
         playerConfiguration.sourceItem = sourceItem
+        //playerConfiguration.sourceItem = liveSourceItem
         if adsSwitch.isOn {
             playerConfiguration.advertisingConfiguration = adConfig
         }
+
+        let playbackConfiguration = PlaybackConfiguration()
+        playbackConfiguration.isAutoplayEnabled = true
+        playerConfiguration.playbackConfiguration = playbackConfiguration
         return playerConfiguration
     }
 
@@ -99,6 +104,29 @@ class ViewController: UIViewController {
         let sourceItem = SourceItem(url: URL(string: sourceString)!)!
         sourceItem.posterSource = URL(string: "https://bitmovin-a.akamaihd.net/content/poster/hd/RedBull.jpg")
         sourceItem.itemTitle = "Art of Motion"
+        // set start offset
+        let  options: SourceOptions = SourceOptions()
+        options.startOffset = 30
+        options.startOffsetTimelineReference = .start
+        //sourceItem.options = options
+        return sourceItem
+    }
+    
+    var liveSourceItem: SourceItem {
+        var sourceString = "https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8"
+        if let streamString = streamUrlTextField.text,
+           URL(string: streamString) != nil {
+            sourceString = streamString
+        }
+
+        let sourceItem = SourceItem(url: URL(string: sourceString)!)!
+        //sourceItem.posterSource = URL(string: "https://bitmovin-a.akamaihd.net/content/poster/hd/RedBull.jpg")
+        sourceItem.itemTitle = "HLS Live"
+        // set start offset
+        let  options: SourceOptions = SourceOptions()
+        options.startOffset = 0
+        options.startOffsetTimelineReference = .start
+        //sourceItem.options = options
         return sourceItem
     }
 

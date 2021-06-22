@@ -386,18 +386,22 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Playback state events
     func onPlay() {
+        print("Conviva: [Event] onPlay before")
         if !isSessionActive {
             internalInitializeSession()
         }
+        print("Conviva: [Event] onPlay after")
     }
 
     func onPlaying() {
+        print("Conviva: [Event] onPlaying")
         contentMetadataBuilder.setPlaybackStarted(true)
         updateSession()
         onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
     }
 
     func onPaused() {
+        print("Conviva: [Event] onPaused")
         onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
     }
 
@@ -407,6 +411,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onStallStarted() {
+        print("Conviva: [Event] onStallStarted")
         isStalled = true
         onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
     }
@@ -414,8 +419,10 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     func onStallEnded() {
         isStalled = false
         if player.isPlaying {
+            print("Conviva: [Event] onStallEnded Playing")
             onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
         } else if player.isPaused {
+            print("Conviva: [Event] onStallEnded Paused")
             onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
         }
     }

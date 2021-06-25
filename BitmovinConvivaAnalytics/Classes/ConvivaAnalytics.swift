@@ -311,6 +311,7 @@ public final class ConvivaAnalytics: NSObject {
         sessionKey = NO_SESSION_KEY
         contentMetadataBuilder.reset()
         logger.debugLog(message: "Session ended")
+        isPlaybackStarted = false
     }
 
     // MARK: - meta data handling

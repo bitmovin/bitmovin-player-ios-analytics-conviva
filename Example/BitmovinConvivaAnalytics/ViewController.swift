@@ -84,8 +84,6 @@ class ViewController: UIViewController {
         let playerConfiguration = PlayerConfiguration()
         playerConfiguration.sourceItem = vodSourceItem
 //        playerConfiguration.sourceItem = vodSourceItemStartOffset
-//        playerConfiguration.sourceItem = liveSourceItem
-//        playerConfiguration.sourceItem = liveSourceItemStartOffset
         if adsSwitch.isOn {
             playerConfiguration.advertisingConfiguration = adConfig
         }
@@ -121,37 +119,6 @@ class ViewController: UIViewController {
         // set start offset
         let  options: SourceOptions = SourceOptions()
         options.startOffset = 30
-        options.startOffsetTimelineReference = .start
-        sourceItem.options = options
-        return sourceItem
-    }
-
-    var liveSourceItem: SourceItem {
-        var sourceString = "https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8"
-        if let streamString = streamUrlTextField.text,
-           URL(string: streamString) != nil {
-            sourceString = streamString
-        }
-
-        let sourceItem = SourceItem(url: URL(string: sourceString)!)!
-        sourceItem.itemTitle = "HLS Live"
-
-        return sourceItem
-    }
-
-    var liveSourceItemStartOffset: SourceItem {
-        var sourceString = "https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8"
-        if let streamString = streamUrlTextField.text,
-           URL(string: streamString) != nil {
-            sourceString = streamString
-        }
-
-        let sourceItem = SourceItem(url: URL(string: sourceString)!)!
-
-        sourceItem.itemTitle = "HLS Live"
-        // set start offset
-        let  options: SourceOptions = SourceOptions()
-        options.startOffset = 0
         options.startOffsetTimelineReference = .start
         sourceItem.options = options
         return sourceItem

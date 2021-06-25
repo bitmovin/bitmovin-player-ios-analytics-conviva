@@ -83,15 +83,16 @@ class ViewController: UIViewController {
     var playerConfiguration: PlayerConfiguration {
         let playerConfiguration = PlayerConfiguration()
         playerConfiguration.sourceItem = vodSourceItem
-        //playerConfiguration.sourceItem = vodSourceItemStartOffset
-        //playerConfiguration.sourceItem = liveSourceItem
-        //playerConfiguration.sourceItem = liveSourceItemStartOffset
+//        playerConfiguration.sourceItem = vodSourceItemStartOffset
+//        playerConfiguration.sourceItem = liveSourceItem
+//        playerConfiguration.sourceItem = liveSourceItemStartOffset
         if adsSwitch.isOn {
             playerConfiguration.advertisingConfiguration = adConfig
         }
 
         let playbackConfiguration = PlaybackConfiguration()
         playbackConfiguration.isAutoplayEnabled = true
+        playbackConfiguration.isMuted = true
         playerConfiguration.playbackConfiguration = playbackConfiguration
         return playerConfiguration
     }

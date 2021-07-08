@@ -31,12 +31,12 @@ class ViewController: UIViewController {
 
         setupBitmovinPlayer()
 
-        /*if let posterUrl = sourceItem.posterSource {
+        if let posterUrl = vodSourceItem.posterSource {
             // Be aware that this will be executed synchronously on the main thread (change to SDWebImage if needed)
             if let data = try? Data(contentsOf: posterUrl) {
                 posterImageView.image = UIImage(data: data)
             }
-        }*/
+        }
     }
 
     func setupBitmovinPlayer() {
@@ -117,7 +117,7 @@ class ViewController: UIViewController {
         let sourceItem = SourceItem(url: URL(string: sourceString)!)!
         sourceItem.itemTitle = "Art of Motion"
         // set start offset
-        let  options: SourceOptions = SourceOptions()
+        let options: SourceOptions = SourceOptions()
         options.startOffset = 30
         options.startOffsetTimelineReference = .start
         sourceItem.options = options

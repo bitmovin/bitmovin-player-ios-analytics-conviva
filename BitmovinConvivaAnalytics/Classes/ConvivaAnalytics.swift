@@ -34,7 +34,7 @@ public final class ConvivaAnalytics: NSObject {
     let playerHelper: BitmovinPlayerHelper
     // Workaround for player issue when onPlay is sent while player is stalled
     var isStalled: Bool = false
-    var isPlaybackStarted: Bool = false
+    var playbackStarted: Bool = false
 
     // MARK: - Public Attributes
     /**
@@ -310,7 +310,7 @@ public final class ConvivaAnalytics: NSObject {
         client.releasePlayerStateManager(playerStateManager)
         sessionKey = NO_SESSION_KEY
         contentMetadataBuilder.reset()
-        isPlaybackStarted = false
+        playbackStarted = false
         logger.debugLog(message: "Session ended")
     }
 
@@ -394,7 +394,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onPlaying() {
-        isPlaybackStarted = true
+        playbackStarted = true
         contentMetadataBuilder.setPlaybackStarted(true)
         updateSession()
         onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
@@ -417,7 +417,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     func onStallEnded() {
         isStalled = false
         
-        guard isPlaybackStarted else { return }
+        guard playbackStarted else { return }
         if player.isPlaying {
             onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
         } else if player.isPaused {

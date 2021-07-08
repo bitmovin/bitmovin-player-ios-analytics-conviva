@@ -258,6 +258,8 @@ public final class ConvivaAnalytics: NSObject {
         playerStateManager.setPlayerState!(PlayerState.CONVIVA_STOPPED)
         playerStateManager.setPlayerType!("Bitmovin Player iOS")
 
+        playerStateManager.setCISIClientMeasureInterface?(self)
+
         if let bitmovinPlayerVersion = playerHelper.version {
             playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
         }
@@ -303,6 +305,7 @@ public final class ConvivaAnalytics: NSObject {
 
         client.detachPlayer(sessionKey)
         client.cleanupSession(sessionKey)
+        playerStateManager.reset?()
         client.releasePlayerStateManager(playerStateManager)
         sessionKey = NO_SESSION_KEY
         contentMetadataBuilder.reset()
@@ -503,5 +506,11 @@ extension ConvivaAnalytics: UserInterfaceListener {
 
     public func onFullscreenExit(_ event: FullscreenExitEvent) {
         customEvent(event: event)
+    }
+}
+
+extension ConvivaAnalytics: CISIClientMeasureInterface {
+    public func getAverageFrames() -> Int {
+        return Int(player.currentVideoFrameRate)
     }
 }

@@ -1,31 +1,31 @@
 def shared_pods
   pod 'BitmovinConvivaAnalytics', path: '../'
-  pod 'BitmovinPlayer', git: 'https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git', tag: '2.12.0'
-  pod 'ConvivaSDK', '2.141.1'
+  pod 'BitmovinPlayer', git: 'https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git', tag: '2.64.0'
+  pod 'ConvivaSDK', '4.0.13'
 
   pod 'SwiftLint'
 end
 
 target 'BitmovinConvivaAnalytics_Example' do
   use_frameworks!
-  platform :ios, '9.0'
+  platform :ios, '10.0'
   shared_pods
 
-  pod 'GoogleAds-IMA-iOS-SDK', '3.7.0'
+  pod 'GoogleAds-IMA-iOS-SDK', '3.12.1'
 end
 
 target 'BitmovinConvivaAnalytics_TvOSExample' do
   use_frameworks!
-  platform :tvos, '9.0'
+  platform :tvos, '10.0'
 
   shared_pods
 end
 
 target 'BitmovinConvivaAnalytics_Tests' do
   use_frameworks!
-  platform :ios, '9.0'
+  platform :ios, '10.0'
   shared_pods
 
-  pod 'Quick', '~> 1.3.2'
-  pod 'Nimble', '~> 7.3.1'
+  pod 'Quick', '~> 4.0.0'
+  pod 'Nimble', '~> 9.2.0'
 end

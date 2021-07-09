@@ -31,7 +31,7 @@ class ViewController: UIViewController {
 
         setupBitmovinPlayer()
 
-        if let posterUrl = sourceItem.posterSource {
+        if let posterUrl = vodSourceItem.posterSource {
             // Be aware that this will be executed synchronously on the main thread (change to SDWebImage if needed)
             if let data = try? Data(contentsOf: posterUrl) {
                 posterImageView.image = UIImage(data: data)
@@ -52,14 +52,16 @@ class ViewController: UIViewController {
         }
         convivaConfig.debugLoggingEnabled = true
 
-        convivaConfig.applicationName = "Bitmovin iOS Conviva integration example app"
-        convivaConfig.viewerId = "awesomeViewerId"
-        convivaConfig.customTags = ["contentType": "Episode"]
+        var metadata = MetadataOverrides()
+        metadata.applicationName = "Bitmovin iOS Conviva integration example app"
+        metadata.viewerId = "awesomeViewerId"
+        metadata.custom = ["contentType": "Episode"]
 
         do {
             convivaAnalytics = try ConvivaAnalytics(player: player!,
                                                     customerKey: convivaCustomerKey,
                                                     config: convivaConfig)
+            convivaAnalytics?.updateContentMetadata(metadataOverrides: metadata)
         } catch {
             NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
         }
@@ -80,14 +82,20 @@ class ViewController: UIViewController {
 
     var playerConfiguration: PlayerConfiguration {
         let playerConfiguration = PlayerConfiguration()
-        playerConfiguration.sourceItem = sourceItem
+        playerConfiguration.sourceItem = vodSourceItem
+//        playerConfiguration.sourceItem = vodSourceItemStartOffset
         if adsSwitch.isOn {
             playerConfiguration.advertisingConfiguration = adConfig
         }
+
+        let playbackConfiguration = PlaybackConfiguration()
+        playbackConfiguration.isAutoplayEnabled = true
+        playbackConfiguration.isMuted = true
+        playerConfiguration.playbackConfiguration = playbackConfiguration
         return playerConfiguration
     }
 
-    var sourceItem: SourceItem {
+    var vodSourceItem: SourceItem {
         var sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
         if let streamString = streamUrlTextField.text,
            URL(string: streamString) != nil {
@@ -95,8 +103,24 @@ class ViewController: UIViewController {
         }
 
         let sourceItem = SourceItem(url: URL(string: sourceString)!)!
-        sourceItem.posterSource = URL(string: "https://bitmovin-a.akamaihd.net/content/poster/hd/RedBull.jpg")
         sourceItem.itemTitle = "Art of Motion"
+        return sourceItem
+    }
+
+    var vodSourceItemStartOffset: SourceItem {
+        var sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
+        if let streamString = streamUrlTextField.text,
+           URL(string: streamString) != nil {
+            sourceString = streamString
+        }
+
+        let sourceItem = SourceItem(url: URL(string: sourceString)!)!
+        sourceItem.itemTitle = "Art of Motion"
+        // set start offset
+        let options: SourceOptions = SourceOptions()
+        options.startOffset = 30
+        options.startOffsetTimelineReference = .start
+        sourceItem.options = options
         return sourceItem
     }
 

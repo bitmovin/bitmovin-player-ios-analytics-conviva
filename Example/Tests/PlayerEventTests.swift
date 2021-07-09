@@ -82,6 +82,7 @@ class PlayerEventsSpec: QuickSpec {
             context("deinitialize player state manager") {
                 it("on playback finished") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "releasePlayerStateManager")
+                    playerDouble.fakePlayEvent()
                     playerDouble.fakePlaybackFinishedEvent()
                     expect(spy).to(haveBeenCalled())
                 }
@@ -91,10 +92,20 @@ class PlayerEventsSpec: QuickSpec {
                 var spy: Spy!
                 beforeEach {
                     spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setPlayerState")
+                    playerDouble.fakePlayEvent()
                 }
 
-                it("on play") {
-                    playerDouble.fakePlayEvent()
+                context("not") {
+                    it("on play") {
+                        playerDouble.fakePlayEvent()
+                        expect(spy).notTo(
+                            haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
+                        )
+                    }
+                }
+
+                it("on playing") {
+                    playerDouble.fakePlayingEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
                     )
@@ -141,13 +152,12 @@ class PlayerEventsSpec: QuickSpec {
                 var spy: Spy!
                 beforeEach {
                     spy = Spy(aClass: CISClientTestDouble.self, functionName: "cleanupSession")
+                    playerDouble.fakePlayEvent()
                 }
 
                 it("on source unloaded") {
                     playerDouble.fakeSourceUnloadedEvent()
-                    DispatchQueue.main.async {
-                        expect(spy).to(haveBeenCalled())
-                    }
+                    expect(spy).toEventually(haveBeenCalled())
                 }
 
                 it("on error") {
@@ -158,11 +168,27 @@ class PlayerEventsSpec: QuickSpec {
                 it("on playback finished") {
                     let playbackStateSpy = Spy(aClass: PlayerStateManagerTestDouble.self,
                                                functionName: "setPlayerState")
+                    playerDouble.fakePlayEvent()
                     playerDouble.fakePlaybackFinishedEvent()
                     expect(spy).to(haveBeenCalled())
                     expect(playbackStateSpy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_STOPPED.rawValue)"])
                     )
+                }
+
+                it("on destroy") {
+                    playerDouble.fakeDestroyEvent()
+                    expect(spy).to(haveBeenCalled())
+                }
+
+                it("calls end session only if a session is active") {
+                    playerDouble.fakeSourceUnloadedEvent()
+
+                    expect(spy).toEventually(haveBeenCalled())
+                    TestHelper.shared.spyTracker.reset()
+
+                    playerDouble.fakeDestroyEvent()
+                    expect(spy).toEventuallyNot(haveBeenCalled())
                 }
 
                 describe("with on source unloaded / on error workaround") {

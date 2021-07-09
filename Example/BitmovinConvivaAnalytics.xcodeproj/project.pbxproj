@@ -11,6 +11,7 @@
 		3714F23D216DD51D00B446F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3714F23C216DD51D00B446F2 /* ViewController.swift */; };
 		3714F240216DD51D00B446F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3714F23E216DD51D00B446F2 /* Main.storyboard */; };
 		3714F242216DD52000B446F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3714F241216DD52000B446F2 /* Assets.xcassets */; };
+		37226EC922043A9D0072DE47 /* ExternallyManagedSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */; };
 		37756EB0216F8E0D0041806D /* TestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EAF216F8E0D0041806D /* TestDouble.swift */; };
 		37756EB2216F8E2F0041806D /* Spy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB1216F8E2F0041806D /* Spy.swift */; };
 		37756EB4216F8E450041806D /* TestDoubleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB3216F8E450041806D /* TestDoubleDataSource.swift */; };
@@ -62,6 +63,7 @@
 		3714F23F216DD51D00B446F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3714F241216DD52000B446F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3714F243216DD52000B446F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternallyManagedSessionTests.swift; sourceTree = "<group>"; };
 		37756EAF216F8E0D0041806D /* TestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestDouble.swift; path = Helpers/TestDouble.swift; sourceTree = "<group>"; };
 		37756EB1216F8E2F0041806D /* Spy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Spy.swift; path = Helpers/Spy.swift; sourceTree = "<group>"; };
 		37756EB3216F8E450041806D /* TestDoubleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestDoubleDataSource.swift; path = Helpers/TestDoubleDataSource.swift; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 				37756EBF216F9A510041806D /* ContentMetadataTests.swift */,
 				37756EC1216F9AA50041806D /* CustomEventTests.swift */,
 				607FACEB1AFB9204008FA782 /* SeekTimeshiftTests.swift */,
+				37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */,
 				37756EC32170764E0041806D /* SpecHelper.swift */,
 				37EB3CD1216B70650093F085 /* TestHelper.swift */,
 				37756EAE216F8DF00041806D /* Helpers */,
@@ -293,6 +296,7 @@
 				3714F236216DD51D00B446F2 /* Resources */,
 				3714F24B216E141C00B446F2 /* Swift Lint */,
 				E527C969E49D83A0FC4A83D9 /* [CP] Embed Pods Frameworks */,
+				71AF79FF2DD030172BD9667C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -313,6 +317,7 @@
 				607FACCE1AFB9204008FA782 /* Resources */,
 				77BF9B562BFB23BFFBA9053D /* [CP] Embed Pods Frameworks */,
 				3749D20921637CF00074269D /* Swift Lint */,
+				D8B401E42FFC63ADFCAA0D7C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -332,6 +337,7 @@
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
 				BCD8CBEAB6B3B57D967C09B9 /* [CP] Embed Pods Frameworks */,
+				7ED7F86F2E085221D58EB0EC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -367,6 +373,7 @@
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = 7UXPEM3WRB;
 						LastSwiftMigration = 1000;
+						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
 				};
 			};
@@ -375,6 +382,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -500,28 +508,60 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		71AF79FF2DD030172BD9667C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-resources.sh",
+				"${PODS_ROOT}/../../BitmovinConvivaAnalytics/Assets/BitmovinConviva-Info.plist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BitmovinConviva-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		77BF9B562BFB23BFFBA9053D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh",
 				"${PODS_ROOT}/BitmovinPlayer/iOS/BitmovinPlayer.framework",
-				"${PODS_ROOT}/GoogleAds-IMA-iOS-SDK/GoogleInteractiveMediaAds/GoogleInteractiveMediaAds.framework",
+				"${PODS_ROOT}/GoogleAds-IMA-iOS-SDK/GoogleInteractiveMediaAds.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleInteractiveMediaAds.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7ED7F86F2E085221D58EB0EC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-resources.sh",
+				"${PODS_ROOT}/../../BitmovinConvivaAnalytics/Assets/BitmovinConviva-Info.plist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BitmovinConviva-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9D9B1274FA91C9D8769B9C40 /* [CP] Check Pods Manifest.lock */ = {
@@ -551,17 +591,13 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh",
 				"${PODS_ROOT}/BitmovinPlayer/iOS/BitmovinPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
 				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
@@ -569,7 +605,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D8B401E42FFC63ADFCAA0D7C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-resources.sh",
+				"${PODS_ROOT}/../../BitmovinConvivaAnalytics/Assets/BitmovinConviva-Info.plist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BitmovinConviva-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E527C969E49D83A0FC4A83D9 /* [CP] Embed Pods Frameworks */ = {
@@ -577,21 +631,17 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-frameworks.sh",
 				"${PODS_ROOT}/BitmovinPlayer/tvOS/BitmovinPlayer.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayer.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_TvOSExample/Pods-BitmovinConvivaAnalytics_TvOSExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -637,6 +687,7 @@
 				37EB3CD3216B70D70093F085 /* TestHelper.swift in Sources */,
 				37756EB2216F8E2F0041806D /* Spy.swift in Sources */,
 				37756EBA216F8FD30041806D /* SpyTracker.swift in Sources */,
+				37226EC922043A9D0072DE47 /* ExternallyManagedSessionTests.swift in Sources */,
 				37756EB4216F8E450041806D /* TestDoubleDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -713,7 +764,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
@@ -748,7 +799,7 @@
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -797,7 +848,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -843,7 +894,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -858,7 +909,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 7UXPEM3WRB;
 				INFOPLIST_FILE = BitmovinConvivaAnalytics/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmovin.analytics.conviva.example;
@@ -874,7 +925,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 7UXPEM3WRB;
 				INFOPLIST_FILE = BitmovinConvivaAnalytics/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmovin.analytics.conviva.example;
@@ -901,6 +952,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BitmovinConvivaAnalytics_Example.app/BitmovinConvivaAnalytics_Example";
 			};
 			name = Debug;
 		};
@@ -918,6 +970,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BitmovinConvivaAnalytics_Example.app/BitmovinConvivaAnalytics_Example";
 			};
 			name = Release;
 		};

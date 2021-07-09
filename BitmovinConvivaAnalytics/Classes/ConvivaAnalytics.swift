@@ -20,8 +20,8 @@ public final class ConvivaAnalytics: NSObject {
     var client: CISClientProtocol
     var playerStateManager: CISPlayerStateManagerProtocol!
     var sessionKey: Int32 = NO_SESSION_KEY
-    var contentMetadata: CISContentMetadata = CISContentMetadata()
-    var isValidSession: Bool {
+    let contentMetadataBuilder: ContentMetadataBuilder
+    var isSessionActive: Bool {
         return sessionKey != NO_SESSION_KEY
     }
 
@@ -34,6 +34,7 @@ public final class ConvivaAnalytics: NSObject {
     let playerHelper: BitmovinPlayerHelper
     // Workaround for player issue when onPlay is sent while player is stalled
     var isStalled: Bool = false
+    var playbackStarted: Bool = false
 
     // MARK: - Public Attributes
     /**
@@ -44,6 +45,19 @@ public final class ConvivaAnalytics: NSObject {
             playerView?.remove(listener: self)
             playerView?.add(listener: self)
         }
+    }
+
+    public var version: String {
+        var options: NSDictionary?
+        if let path = Bundle(for: ConvivaAnalytics.self).path(forResource: "BitmovinConviva-Info", ofType: "plist") {
+            options = NSDictionary(contentsOfFile: path)
+
+            if let version = options?["CFBundleShortVersionString"] as? String {
+                return version
+            }
+        }
+        // Should not happen but keep it failsafe
+        return ""
     }
 
     // MARK: - initializer
@@ -71,6 +85,8 @@ public final class ConvivaAnalytics: NSObject {
         let setting: CISSystemSettings = CISSystemSettings()
 
         logger = Logger(loggingEnabled: config.debugLoggingEnabled)
+        self.contentMetadataBuilder = ContentMetadataBuilder(logger: logger)
+
         if config.debugLoggingEnabled {
             setting.logLevel = LogLevel.LOGLEVEL_DEBUG
         }
@@ -90,78 +106,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     deinit {
-        endSession()
-    }
-
-    // MARK: - session handling
-    private func setupPlayerStateManager() {
-        playerStateManager = client.getPlayerStateManager()
-        playerStateManager.setPlayerState!(PlayerState.CONVIVA_STOPPED)
-        playerStateManager.setPlayerType!("Bitmovin Player iOS")
-
-        if let bitmovinPlayerVersion = playerHelper.version {
-            playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
-        }
-    }
-
-    private func initSession() {
-        buildContentMetadata()
-        sessionKey = client.createSession(with: contentMetadata)
-        setupPlayerStateManager()
-        updateSession()
-
-        if !isValidSession {
-            logger.debugLog(message: "Something went wrong, could not obtain session key")
-        }
-
-        client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
-        logger.debugLog(message: "Session started")
-    }
-
-    private func updateSession() {
-        // Update metadata
-        if !isValidSession {
-            return
-        }
-        if !player.isLive {
-            contentMetadata.duration = Int(player.duration)
-        }
-        contentMetadata.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
-        contentMetadata.streamUrl = player.config.sourceItem?.url(forType: player.streamType)?.absoluteString
-
-        if let videoQuality = player.videoQuality {
-            let bitrate = Int(videoQuality.bitrate) / 1000 // in kbps
-            playerStateManager.setBitrateKbps!(bitrate)
-            playerStateManager.setVideoResolutionWidth!(videoQuality.width)
-            playerStateManager.setVideoResolutionHeight!(videoQuality.height)
-        }
-
-        client.updateContentMetadata(sessionKey, metadata: contentMetadata)
-    }
-
-    private func endSession() {
-        client.detachPlayer(sessionKey)
-        client.cleanupSession(sessionKey)
-        client.releasePlayerStateManager(playerStateManager)
-        sessionKey = NO_SESSION_KEY
-        logger.debugLog(message: "Session ended")
-    }
-
-    // MARK: - meta data handling
-    private func buildContentMetadata() {
-        let sourceItem = player.config.sourceItem
-
-        contentMetadata.applicationName = config.applicationName
-        contentMetadata.assetName = sourceItem?.itemTitle
-        contentMetadata.viewerId = config.viewerId
-
-        var customInternTags: [String: Any] = [
-            "streamType": playerHelper.streamType
-        ]
-        if let customTags = config.customTags {
-            customInternTags.merge(customTags) { (_, new) in new }
-        }
-        contentMetadata.custom = NSMutableDictionary(dictionary: customInternTags)
+        internalEndSession()
     }
 
     // MARK: - event handling
@@ -186,15 +131,213 @@ public final class ConvivaAnalytics: NSObject {
         - attributes: A dictionary with custom event attributes
      */
     public func sendCustomPlaybackEvent(name: String, attributes: [String: String] = [:]) {
-        if !isValidSession {
+        if !isSessionActive {
             logger.debugLog(message: "Cannot send playback event, no active monitoring session")
             return
         }
         client.sendCustomEvent(sessionKey, eventname: name, withAttributes: attributes)
     }
 
+    // MARK: - external session handling
+
+    /**
+     Will update the contentMetadata which are tracked with conviva.
+
+     If there is an active session only permitted values will be updated and propagated immediately.
+     If there is no active session the values will be set on session creation.
+
+     Attributes set via this method will override automatic tracked once.
+     - Parameters:
+        - metadataOverrides: Metadata attributes which will be used to track to conviva.
+                             @see ContentMetadataBuilder for more information about permitted attributes
+     */
+    public func updateContentMetadata(metadataOverrides: MetadataOverrides) {
+        contentMetadataBuilder.setOverrides(metadataOverrides)
+
+        if !isSessionActive {
+            logger.debugLog(
+                message: "[ ConvivaAnalytics ] no active session; Don\'t propagate content metadata to conviva."
+            )
+            return
+        }
+
+        buildContentMetadata()
+        updateSession()
+    }
+
+    /**
+     Initializes a new conviva tracking session.
+
+     Warning: The integration can only be validated without external session managing. So when using this method we can
+     no longer ensure that the session is managed at the correct time. Additional: Since some metadata attributes
+     relies on the players source we can't ensure that all metadata attributes are present at session creation.
+     Therefore it could be that there will be a 'ContentMetadata created late' issue after conviva validation.
+
+     If no source was loaded (or the itemTitle is missing) and no assetName was set via updateContentMetadata
+     this method will throw an error.
+     */
+    public func initializeSession() throws {
+        if isSessionActive {
+            logger.debugLog(message: "There is already a session running. Returning …")
+            return
+        }
+
+        if player.config.sourceItem?.itemTitle == nil && contentMetadataBuilder.assetName == nil {
+            throw ConvivaAnalyticsError(
+                // swiftlint:disable:next line_length
+                "AssetName is missing. Load player source (with itemTitle) first or set assetName via updateContentMetadata"
+            )
+        }
+
+        internalInitializeSession()
+    }
+
+    /**
+     Ends the current conviva tracking session.
+     Results in a no-opt if there is no active session.
+
+     Warning: The integration can only be validated without external session managing.
+     So when using this method we can no longer ensure that the session is managed at the correct time.
+     */
+    public func endSession() {
+        if !isSessionActive {
+            logger.debugLog(message: "No session running. Returning …")
+            return
+        }
+
+        internalEndSession()
+    }
+
+    /**
+     Sends a custom deficiency event during playback to Conviva's Player Insight. If no session is active it will NOT
+     create one.
+
+     - Parameters:
+        - message: Message which will be send to conviva
+        - severity: One of FATAL or WARNING
+        - endSession: Boolean flag if session should be closed after reporting the deficiency (Default: true)
+     */
+    public func reportPlaybackDeficiency(message: String,
+                                         severity: ErrorSeverity,
+                                         endSession: Bool = true) {
+        if !isSessionActive {
+            return
+        }
+
+        client.reportError(sessionKey, errorMessage: message, errorSeverity: severity)
+        if endSession {
+            internalEndSession()
+        }
+    }
+
+    /**
+     Puts the session state in a notMonitored state.
+     */
+    public func pauseTracking() {
+        // AdStart is the preferred way to pause tracking according to conviva.
+        client.adStart(sessionKey,
+                       adStream: .ADSTREAM_SEPARATE,
+                       adPlayer: .ADPLAYER_SEPARATE,
+                       adPosition: .ADPOSITION_PREROLL)
+        client.detachPlayer(sessionKey)
+        logger.debugLog(message: "Tracking paused.")
+    }
+
+    /**
+     Puts the session state from a notMonitored state into the last one tracked.
+     */
+    public func resumeTracking() {
+        client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        // AdEnd is the preferred way to resume tracking according to conviva.
+        client.adEnd(sessionKey)
+        logger.debugLog(message: "Tracking resumed.")
+    }
+
+    // MARK: - session handling
+    private func setupPlayerStateManager() {
+        playerStateManager = client.getPlayerStateManager()
+        playerStateManager.setPlayerState!(PlayerState.CONVIVA_STOPPED)
+        playerStateManager.setPlayerType!("Bitmovin Player iOS")
+
+        playerStateManager.setCISIClientMeasureInterface?(self)
+
+        if let bitmovinPlayerVersion = playerHelper.version {
+            playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
+        }
+    }
+
+    private func internalInitializeSession() {
+        buildContentMetadata()
+
+        sessionKey = client.createSession(with: contentMetadataBuilder.build())
+        if !isSessionActive {
+            logger.debugLog(message: "Something went wrong, could not obtain session key")
+            return
+        }
+
+        setupPlayerStateManager()
+        updateSession()
+
+        client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        logger.debugLog(message: "Session started")
+    }
+
+    private func updateSession() {
+        // Update metadata
+        if !isSessionActive {
+            return
+        }
+        buildDynamicContentMetadata()
+
+        if let videoQuality = player.videoQuality {
+            let bitrate = Int(videoQuality.bitrate) / 1000 // in kbps
+            playerStateManager.setBitrateKbps!(bitrate)
+            playerStateManager.setVideoResolutionWidth!(videoQuality.width)
+            playerStateManager.setVideoResolutionHeight!(videoQuality.height)
+        }
+
+        client.updateContentMetadata(sessionKey, metadata: contentMetadataBuilder.build())
+    }
+
+    private func internalEndSession() {
+        if !isSessionActive {
+            return
+        }
+
+        client.detachPlayer(sessionKey)
+        client.cleanupSession(sessionKey)
+        playerStateManager.reset?()
+        client.releasePlayerStateManager(playerStateManager)
+        sessionKey = NO_SESSION_KEY
+        contentMetadataBuilder.reset()
+        playbackStarted = false
+        logger.debugLog(message: "Session ended")
+    }
+
+    // MARK: - meta data handling
+    private func buildContentMetadata() {
+        let sourceItem = player.config.sourceItem
+        contentMetadataBuilder.assetName = sourceItem?.itemTitle
+
+        let customInternTags: [String: Any] = [
+            "streamType": playerHelper.streamType,
+            "integrationVersion": version
+        ]
+
+        contentMetadataBuilder.custom = customInternTags
+        buildDynamicContentMetadata()
+    }
+
+    private func buildDynamicContentMetadata() {
+        if !player.isLive && player.duration.isFinite {
+            contentMetadataBuilder.duration = Int(player.duration)
+        }
+        contentMetadataBuilder.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
+        contentMetadataBuilder.streamUrl = player.config.sourceItem?.url(forType: player.streamType)?.absoluteString
+    }
+
     private func customEvent(event: PlayerEvent, args: [String: String] = [:]) {
-        if !isValidSession {
+        if !isSessionActive {
             return
         }
 
@@ -205,10 +348,6 @@ public final class ConvivaAnalytics: NSObject {
         // do not report any playback state changes while player isStalled except buffering
         if isStalled && playerState != .CONVIVA_BUFFERING {
             return
-        }
-
-        if !isValidSession {
-            self.initSession()
         }
 
         playerStateManager.setPlayerState!(playerState)
@@ -223,7 +362,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onSourceUnloaded() {
-        endSession()
+        internalEndSession()
     }
 
     func onTimeChanged() {
@@ -231,13 +370,12 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onError(_ event: ErrorEvent) {
-        if !isValidSession {
-            initSession()
+        if !isSessionActive {
+            internalInitializeSession()
         }
 
         let message = "\(event.code) \(event.message)"
-        client.reportError(sessionKey, errorMessage: message, errorSeverity: .ERROR_FATAL)
-        endSession()
+        reportPlaybackDeficiency(message: message, severity: .ERROR_FATAL)
     }
 
     func onMuted(_ event: MutedEvent) {
@@ -250,6 +388,14 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Playback state events
     func onPlay() {
+        if !isSessionActive {
+            internalInitializeSession()
+        }
+    }
+
+    func onPlaying() {
+        playbackStarted = true
+        contentMetadataBuilder.setPlaybackStarted(true)
         updateSession()
         onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
     }
@@ -260,7 +406,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onPlaybackFinished() {
         onPlaybackStateChanged(playerState: .CONVIVA_STOPPED)
-        endSession()
+        internalEndSession()
     }
 
     func onStallStarted() {
@@ -270,6 +416,8 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onStallEnded() {
         isStalled = false
+        
+        guard playbackStarted else { return }
         if player.isPlaying {
             onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
         } else if player.isPaused {
@@ -279,7 +427,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Seek / Timeshift events
     func onSeek(_ event: SeekEvent) {
-        if !isValidSession {
+        if !isSessionActive {
             // Handle the case that the User seeks on the UI before play was triggered.
             // This also handles startTime feature. The same applies for onTimeShift.
             return
@@ -289,7 +437,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onSeeked() {
-        if !isValidSession {
+        if !isSessionActive {
             // See comment in onSeek
             return
         }
@@ -298,7 +446,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onTimeShift(_ event: TimeShiftEvent) {
-        if !isValidSession {
+        if !isSessionActive {
             // See comment in onSeek
             return
         }
@@ -308,7 +456,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onTimeShifted() {
-        if !isValidSession {
+        if !isSessionActive {
             // See comment in onSeek
             return
         }
@@ -336,7 +484,23 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         customEvent(event: event)
         client.adEnd(sessionKey)
     }
+
+    func onAdBreakStarted(_ event: AdBreakStartedEvent) {
+        customEvent(event: event)
+        client.detachPlayer(sessionKey)
+    }
+
+    func onAdBreakFinished(_ event: AdBreakFinishedEvent) {
+        customEvent(event: event)
+        if !client.isPlayerAttached(sessionKey) {
+            client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        }
+    }
     #endif
+
+    func onDestroy() {
+        internalEndSession()
+    }
 }
 
 // MARK: - UserInterfaceListener
@@ -347,5 +511,11 @@ extension ConvivaAnalytics: UserInterfaceListener {
 
     public func onFullscreenExit(_ event: FullscreenExitEvent) {
         customEvent(event: event)
+    }
+}
+
+extension ConvivaAnalytics: CISIClientMeasureInterface {
+    public func getAverageFrames() -> Int {
+        return Int(player.currentVideoFrameRate)
     }
 }

@@ -9,10 +9,12 @@
 import Foundation
 import BitmovinPlayer
 
+typealias BitmovinPlayer = Player
+
 class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
     var fakeListener: PlayerListener?
 
-    init() {
+    override init() {
         super.init(configuration: PlayerConfiguration())
     }
 
@@ -28,6 +30,13 @@ class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
             return
         }
         onPlay(PlayEvent(time: 1))
+    }
+
+    func fakePlayingEvent() {
+        guard let onPlaying = fakeListener?.onPlaying else {
+            return
+        }
+        onPlaying(PlayingEvent(time: 1))
     }
 
     func fakePauseEvent() {
@@ -68,7 +77,8 @@ class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
                                    duration: 2,
                                    timeOffset: 3,
                                    skipOffset: 4,
-                                   position: position))
+                                   position: position,
+                                   ad: BitmovinPlayerTestAd()))
     }
 
     func fakeTimeChangedEvent() {
@@ -89,21 +99,21 @@ class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
         guard let onAdSkipped = fakeListener?.onAdSkipped else {
             return
         }
-        onAdSkipped(AdSkippedEvent())
+        onAdSkipped(AdSkippedEvent(ad: BitmovinPlayerTestAd()))
     }
 
     func fakeAdFinishedEvent() {
         guard let onAdFinished = fakeListener?.onAdFinished else {
             return
         }
-        onAdFinished(AdFinishedEvent())
+        onAdFinished(AdFinishedEvent(ad: BitmovinPlayerTestAd()))
     }
 
     func fakeAdErrorEvent() {
         guard let onAdError = fakeListener?.onAdError else {
             return
         }
-        onAdError(AdErrorEvent(adItem: nil, code: 1000, message: "Error Message"))
+        onAdError(AdErrorEvent(adItem: nil, code: 1000, message: "Error Message", adConfig: nil))
     }
 
     func fakeSeekEvent(position: TimeInterval = 0, seekTarget: TimeInterval = 0) {
@@ -141,6 +151,13 @@ class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
             return
         }
         onPlaybackFinished(PlaybackFinishedEvent())
+    }
+
+    func fakeDestroyEvent() {
+        guard let onDestroyEvent = fakeListener?.onDestroy else {
+            return
+        }
+        onDestroyEvent(DestroyEvent())
     }
 
     override func add(listener: PlayerListener) {
@@ -200,5 +217,34 @@ class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
             return mockedValue as! TimeInterval
         }
         return super.currentTime
+    }
+}
+
+class BitmovinPlayerTestAd: NSObject, Ad {
+    var isLinear: Bool = false
+
+    var width: Int = 0
+
+    var height: Int = 0
+
+    var identifier: String?
+
+    var mediaFileUrl: URL?
+
+    var clickThroughUrl: URL?
+
+    var data: AdData?
+
+    func toJsonString() throws -> String {
+        return ""
+    }
+
+    func toJsonData() -> [AnyHashable: Any] {
+        return [:]
+    }
+
+    static func fromJsonData(_ jsonData: [AnyHashable: Any]) throws -> Self {
+        // swiftlint:disable:next force_cast
+        return BitmovinPlayerTestAd() as! Self
     }
 }

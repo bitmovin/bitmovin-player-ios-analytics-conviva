@@ -10,8 +10,16 @@ import Foundation
 import ConvivaSDK
 
 class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
+    func getSessionId(_ sessionKey: Int32) -> Int32 {
+        return -1
+    }
+
+    func getClientId() -> String! {
+        return ""
+    }
+
     func createSession(with cisContentMetadata: CISContentMetadata!) -> Int32 {
-        spy(functionName: "createSession")
+        spy(functionName: "createSession", args: metaDataToArgs(contentMetadata: cisContentMetadata))
         return Int32(0)
     }
 
@@ -24,25 +32,7 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     }
 
     func updateContentMetadata(_ sessionKey: Int32, metadata contentMetadata: CISContentMetadata!) {
-        var args: [String: String] = [:]
-        // content metadata
-        args["applicationName"] = contentMetadata.applicationName
-        args["viewerId"] = contentMetadata.viewerId
-        for key in contentMetadata.custom.allKeys {
-            if let keyString = key as? String {
-                if let value = contentMetadata.custom.value(forKey: keyString) as? String {
-                    args[keyString] = value
-                }
-            }
-        }
-        args["assetName"] = contentMetadata.assetName
-
-        // update session metadata
-        args["duration"] = "\(contentMetadata.duration)"
-        args["streamType"] = "\(contentMetadata.streamType.rawValue)"
-        args["streamUrl"] = contentMetadata.streamUrl
-
-        spy(functionName: "updateContentMetadata", args: args)
+        spy(functionName: "updateContentMetadata", args: metaDataToArgs(contentMetadata: contentMetadata))
     }
 
     func sendCustomEvent(_ sessionKey: Int32,
@@ -64,6 +54,10 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     func adStart(_ sessionKey: Int32, adStream: AdStream, adPlayer: AdPlayer, adPosition: AdPosition) {
         spy(functionName: "adStart", args: ["adPosition": "\(adPosition.rawValue)"])
     }
+    
+    func adStart(_ sessionKey: Int32) {
+        spy(functionName: "adStart")
+    }
 
     func adEnd(_ sessionKey: Int32) {
         spy(functionName: "adEnd")
@@ -82,7 +76,8 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     }
 
     func reportError(_ sessionKey: Int32, errorMessage: String!, errorSeverity severity: ErrorSeverity) {
-        spy(functionName: "reportError", args: ["errorMessage": errorMessage])
+        spy(functionName: "reportError", args: ["errorMessage": errorMessage,
+                                                "severity": "\(severity.rawValue)"])
     }
 
     func detachPlayer(_ sessionKey: Int32) {}
@@ -90,4 +85,29 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     func contentStart(_ sessionKey: Int32) {}
     func cleanUp() {}
     func attachPlayer(_ sessionKey: Int32, playerStateManager: CISPlayerStateManagerProtocol!) {}
+
+    // MARK: - private helper
+    private func metaDataToArgs(contentMetadata: CISContentMetadata) -> [String: String] {
+        var args: [String: String] = [:]
+        // content metadata
+        args["applicationName"] = contentMetadata.applicationName
+        args["viewerId"] = contentMetadata.viewerId
+        for key in contentMetadata.custom.allKeys {
+            if let keyString = key as? String {
+                if let value = contentMetadata.custom.value(forKey: keyString) as? String {
+                    args["custom:"+keyString] = value
+                }
+            }
+        }
+        args["assetName"] = contentMetadata.assetName
+
+        // update session metadata
+        args["duration"] = "\(contentMetadata.duration)"
+        args["streamType"] = "\(contentMetadata.streamType.rawValue)"
+        args["streamUrl"] = contentMetadata.streamUrl
+        args["encodedFramerate"] = "\(contentMetadata.encodedFramerate)"
+        args["defaultResource"] = contentMetadata.defaultResource
+
+        return args
+    }
 }

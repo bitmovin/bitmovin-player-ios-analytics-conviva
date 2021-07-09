@@ -59,6 +59,10 @@ extension BitmovinPlayerListener: PlayerListener {
         delegate?.onPlay()
     }
 
+    func onPlaying(_ event: PlayingEvent) {
+        delegate?.onPlaying()
+    }
+
     func onPaused(_ event: PausedEvent) {
         delegate?.onPaused()
     }
@@ -109,5 +113,17 @@ extension BitmovinPlayerListener: PlayerListener {
     func onAdError(_ event: AdErrorEvent) {
         delegate?.onAdError(event)
     }
+    
+    func onAdBreakStarted(_ event : AdBreakStartedEvent) {
+        delegate?.onAdBreakStarted(event)
+    }
+    
+    func onAdBreakFinished(_ event : AdBreakFinishedEvent) {
+        delegate?.onAdBreakFinished(event)
+    }
     #endif
+
+    func onDestroy(_ event: DestroyEvent) {
+        delegate?.onDestroy()
+    }
 }

@@ -15,7 +15,9 @@ class BitmovinPlayerTestDouble: BitmovinPlayer, TestDoubleDataSource {
     var fakeListener: PlayerListener?
 
     override init() {
-        super.init(configuration: PlayerConfiguration())
+        let config = PlayerConfiguration()
+        config.key = "foobar"
+        super.init(configuration: config)
     }
 
     func fakeReadyEvent() {

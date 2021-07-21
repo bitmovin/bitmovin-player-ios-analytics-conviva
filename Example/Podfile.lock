@@ -1,5 +1,5 @@
 PODS:
-  - BitmovinConvivaAnalytics (1.3.1):
+  - BitmovinConvivaAnalytics (1.4.0):
     - BitmovinPlayer (~> 2.57)
     - ConvivaSDK (~> 4.0)
   - BitmovinPlayer (2.64.0)
@@ -39,7 +39,7 @@ CHECKOUT OPTIONS:
     :tag: 2.64.0
 
 SPEC CHECKSUMS:
-  BitmovinConvivaAnalytics: 3229ffbf105f5e80a947bb569f1a679b967990f8
+  BitmovinConvivaAnalytics: f9fb3295fa721fce23f276c870beb79277675e49
   BitmovinPlayer: 9696532ec0ac122a28782c9072ad16130f6d4f32
   ConvivaSDK: 877abbdc0b2b77dcad4b709b03c2cd8a900a4e46
   GoogleAds-IMA-iOS-SDK: 3c01b8db7d01de6b4a3b1d58744d4bc426a2d821

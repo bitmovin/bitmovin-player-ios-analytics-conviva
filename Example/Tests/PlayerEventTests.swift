@@ -26,8 +26,15 @@ class PlayerEventsSpec: QuickSpec {
         context("player event handling") {
             var convivaAnalytics: ConvivaAnalytics!
             beforeEach {
+                let convivaConfig = ConvivaConfiguration()
+                convivaConfig.debugLoggingEnabled = true
+
                 do {
-                    convivaAnalytics = try ConvivaAnalytics(player: playerDouble, customerKey: "")
+                    convivaAnalytics = try ConvivaAnalytics(
+                        player: playerDouble,
+                        customerKey: "",
+                        config: convivaConfig
+                    )
                 } catch {
                     fail("ConvivaAnalytics failed with error: \(error)")
                 }

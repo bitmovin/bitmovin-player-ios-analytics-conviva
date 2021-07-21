@@ -134,6 +134,7 @@ class PlayerEventsSpec: QuickSpec {
 
                 context("after stalling") {
                     beforeEach {
+                        playerDouble.fakePlayingEvent()
                         playerDouble.fakeStallStartedEvent()
                     }
 

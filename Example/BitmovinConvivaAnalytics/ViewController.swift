@@ -9,6 +9,7 @@
 import UIKit
 import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import ConvivaSDK
 
 class ViewController: UIViewController {
     @IBOutlet weak var posterImageView: UIImageView!
@@ -41,7 +42,7 @@ class ViewController: UIViewController {
 
     func setupBitmovinPlayer() {
         // Setup Player
-        player = BitmovinPlayer()
+        player = BitmovinPlayer(configuration: playerConfiguration)
 
         let convivaConfig = ConvivaConfiguration()
 
@@ -55,6 +56,10 @@ class ViewController: UIViewController {
         var metadata = MetadataOverrides()
         metadata.applicationName = "Bitmovin iOS Conviva integration example app"
         metadata.viewerId = "awesomeViewerId"
+        metadata.assetName = "Test Asset"
+        metadata.streamType = StreamType.CONVIVA_STREAM_VOD
+        metadata.duration = 210
+        metadata.streamUrl = vodSourceItem.hlsSource?.url.absoluteString
         metadata.custom = ["contentType": "Episode"]
 
         do {
@@ -66,7 +71,7 @@ class ViewController: UIViewController {
             NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
         }
 
-        player?.setup(configuration: playerConfiguration)
+        //player?.setup(configuration: playerConfiguration)
 
         // Setup UI
         playerView = BMPBitmovinPlayerView(player: player!, frame: playerUIView.bounds)
@@ -78,11 +83,20 @@ class ViewController: UIViewController {
 
         playerView?.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         playerUIView.addSubview(playerView!)
+
+        do {
+            try convivaAnalytics?.initializeSession()
+        } catch {
+            NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
+        }
+
+        player?.load(sourceItem: vodSourceItem)
+
     }
 
     var playerConfiguration: PlayerConfiguration {
         let playerConfiguration = PlayerConfiguration()
-        playerConfiguration.sourceItem = vodSourceItem
+//        playerConfiguration.sourceItem = vodSourceItem
 //        playerConfiguration.sourceItem = vodSourceItemStartOffset
         if adsSwitch.isOn {
             playerConfiguration.advertisingConfiguration = adConfig

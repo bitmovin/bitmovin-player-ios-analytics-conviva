@@ -12,8 +12,8 @@ import BitmovinConvivaAnalytics
 
 class ViewController: UIViewController {
 
-    var player: BitmovinPlayer?
-    var playerView: BMPBitmovinPlayerView?
+    var player: Player?
+    var playerView: PlayerView?
     var fullScreen: Bool = false
 
     var convivaAnalytics: ConvivaAnalytics?

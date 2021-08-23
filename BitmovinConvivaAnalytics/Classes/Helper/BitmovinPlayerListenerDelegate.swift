@@ -13,7 +13,8 @@ protocol BitmovinPlayerListenerDelegate: AnyObject {
     func onEvent(_ event: PlayerEvent)
     func onSourceUnloaded()
     func onTimeChanged()
-    func onError(_ event: ErrorEvent)
+    func onPlayerError(_ event: PlayerErrorEvent)
+    func onSourceError(_ event: SourceErrorEvent)
 
     func onMuted(_ event: MutedEvent)
     func onUnmuted(_ event: UnmutedEvent)

@@ -19,10 +19,10 @@ final class BitmovinPlayerHelper: NSObject {
     }
 
     var streamType: String {
-        switch player.streamType {
-        case .DASH:
+        switch player.source?.sourceConfig.type {
+        case .dash:
             return "DASH"
-        case .HLS:
+        case .hls:
             return "HLS"
         case .progressive:
             return "progressive"
@@ -32,6 +32,9 @@ final class BitmovinPlayerHelper: NSObject {
     }
 
     var version: String? {
-        return Bundle(for: BitmovinPlayer.self).infoDictionary?["CFBundleShortVersionString"] as? String
+        let bundle = Bundle(for: BitmovinPlayer.self)
+        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String
+        //return Bundle(for: Player.self).infoDictionary?["CFBundleShortVersionString"] as? String
+        return version
     }
 }

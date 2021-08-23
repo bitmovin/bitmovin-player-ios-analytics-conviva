@@ -57,8 +57,13 @@ class PlayerEventsSpec: QuickSpec {
                     expect(spy).to(haveBeenCalled())
                 }
 
-                it("on error") {
-                    playerDouble.fakeErrorEvent()
+                it("on player error") {
+                    playerDouble.fakePlayerErrorEvent()
+                    expect(spy).to(haveBeenCalled())
+                }
+                
+                it("on source error") {
+                    playerDouble.fakeSourceErrorEvent()
                     expect(spy).to(haveBeenCalled())
                 }
             }
@@ -168,8 +173,13 @@ class PlayerEventsSpec: QuickSpec {
                     expect(spy).toEventually(haveBeenCalled())
                 }
 
-                it("on error") {
-                    playerDouble.fakeErrorEvent()
+                it("on player error") {
+                    playerDouble.fakePlayerErrorEvent()
+                    expect(spy).to(haveBeenCalled())
+                }
+                
+                it("on source error") {
+                    playerDouble.fakeSourceErrorEvent()
                     expect(spy).to(haveBeenCalled())
                 }
 
@@ -212,7 +222,7 @@ class PlayerEventsSpec: QuickSpec {
                         // default sdk error handling is to call unload and this will be triggered first
                         // but we want to track the error event in the same session
                         playerDouble.fakeSourceUnloadedEvent()
-                        playerDouble.fakeErrorEvent()
+                        playerDouble.fakePlayerErrorEvent()
 
                         expect(errorSpy).to(haveBeenCalled())
                         // should not be called while session is still valid (would be invalidated in end session)

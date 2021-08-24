@@ -357,7 +357,7 @@ public final class ConvivaAnalytics: NSObject {
 
 // MARK: - PlayerListener
 extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
-    func onEvent(_ event: PlayerEvent) {
+    func onEvent(_ event: Event) {
         logger.debugLog(message: "[ Player Event ] \(event.name)")
     }
 
@@ -425,7 +425,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onStallEnded() {
         isStalled = false
-        
+
         guard playbackStarted else { return }
         if player.isPlaying {
             onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)

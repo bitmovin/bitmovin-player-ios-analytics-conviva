@@ -61,8 +61,8 @@ class ContentMetadataSpec: QuickSpec {
                 it("set asset name") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
 
-                    let playerConfiguration = PlayerConfig()
-                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfiguration)
+                    let playerConfig = PlayerConfig()
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
 
                     let sourceConfig = SourceConfig(url: URL(string: "www.google.com.m3u8")!, type: .hls)
                     sourceConfig.title = "Art of Unit Test"
@@ -93,14 +93,13 @@ class ContentMetadataSpec: QuickSpec {
                 it("set stream url") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
 
-                    let playerConfiguration = PlayerConfig()
+                    let playerConfig = PlayerConfig()
                     let sourceConfig = SourceConfig(url: URL(string: "www.google.com.m3u8")!, type: .hls)
                     sourceConfig.title = "Art of Unit Test"
                     let source = SourceFactory.create(from: sourceConfig)
-                    playerDouble.load(source: source)
 
-                    //_ = TestDouble(aClass: playerDouble, name: "config", return: playerConfiguration)
-                    //_ = TestDouble(aClass: playerDouble, name: "streamType", return: BMPMediaSourceType.HLS)
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+                    _ = TestDouble(aClass: playerDouble, name: "source", return: source)
 
                     playerDouble.fakePlayEvent() // to initialize session
 
@@ -134,14 +133,13 @@ class ContentMetadataSpec: QuickSpec {
                 it("update stream url") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
 
-                    let playerConfiguration = PlayerConfig()
+                    let playerConfig = PlayerConfig()
                     let sourceConfig = SourceConfig(url: URL(string: "www.google.com.m3u8")!, type: .hls)
                     sourceConfig.title = "Art of Unit Test"
                     let source = SourceFactory.create(from: sourceConfig)
-                    playerDouble.load(source: source)
 
-                    //_ = TestDouble(aClass: playerDouble, name: "config", return: playerConfiguration)
-                    //_ = TestDouble(aClass: playerDouble, name: "streamType", return: BMPMediaSourceType.HLS)
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+                    _ = TestDouble(aClass: playerDouble, name: "source", return: source)
 
                     playerDouble.fakePlayEvent() // to initialize session
 

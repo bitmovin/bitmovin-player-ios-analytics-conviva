@@ -41,7 +41,7 @@ class ViewController: UIViewController {
 
     func setupBitmovinPlayer() {
         // Setup Player
-        player = PlayerFactory.create(playerConfig: playerConfiguration)
+        player = PlayerFactory.create(playerConfig: playerConfig)
 
         let convivaConfig = ConvivaConfiguration()
 
@@ -80,7 +80,7 @@ class ViewController: UIViewController {
         player?.load(source: SourceFactory.create(from: vodSourceConfig))
     }
 
-    var playerConfiguration: PlayerConfig {
+    var playerConfig: PlayerConfig {
         let playerConfig = PlayerConfig()
         if adsSwitch.isOn {
             playerConfig.advertisingConfig = adConfig

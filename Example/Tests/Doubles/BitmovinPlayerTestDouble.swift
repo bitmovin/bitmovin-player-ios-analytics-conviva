@@ -9,8 +9,6 @@
 import Foundation
 import BitmovinPlayer
 
-//typealias BitmovinPlayer = Player
-
 class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
 
     var fakeListener: PlayerListener?
@@ -18,8 +16,8 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
     var fakeSource: Source
 
     override init() {
-        let sourceConfig = SourceConfig(url: URL(string: "http://a.url")!, type: .hls)
-        sourceConfig.title = "MyTitle"
+        let sourceConfig = SourceConfig(url: URL(string: "http://fake.url")!, type: .hls)
+        sourceConfig.title = "FakeSource"
         fakeSource = SourceFactory.create(from: sourceConfig)
         super.init()
     }
@@ -70,14 +68,14 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onPlayerError = fakeListener?.onPlayerError else {
             return
         }
-        //onPlayerError(PlayerErrorEvent(code: 1000, message: "Test error", data: nil), self.player)
+        // onPlayerError(PlayerErrorEvent(code: 1000, message: "Test error", data: nil), self.player)
     }
 
     func fakeSourceErrorEvent() {
         guard let onSourceError = fakeListener?.onSourceError else {
             return
         }
-        //onSourceError(SourceErrorEvent(code: 1000, message: "Test Error", data: nil), player)
+        // onSourceError(SourceErrorEvent(code: 1000, message: "Test Error", data: nil), player)
     }
 
     func fakeAdStartedEvent(position: String? = "pre") {
@@ -91,8 +89,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
                                    timeOffset: 3,
                                    skipOffset: 4,
                                    position: position,
-                                   // swiftlint:disable:next force_cast
-                                   ad: (BitmovinPlayerTestAd() as! Ad)), player)
+                                   ad: (BitmovinPlayerTestAd() as Ad)), player)
     }
 
     func fakeTimeChangedEvent() {
@@ -113,16 +110,14 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onAdSkipped = fakeListener?.onAdSkipped else {
             return
         }
-        // swiftlint:disable:next force_cast
-        onAdSkipped(AdSkippedEvent(ad: BitmovinPlayerTestAd() as! Ad), player)
+        onAdSkipped(AdSkippedEvent(ad: BitmovinPlayerTestAd() as Ad), player)
     }
 
     func fakeAdFinishedEvent() {
         guard let onAdFinished = fakeListener?.onAdFinished else {
             return
         }
-        // swiftlint:disable:next force_cast
-        onAdFinished(AdFinishedEvent(ad: BitmovinPlayerTestAd() as! Ad), player)
+        onAdFinished(AdFinishedEvent(ad: BitmovinPlayerTestAd() as Ad), player)
     }
 
     func fakeAdErrorEvent() {
@@ -183,78 +178,71 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
     }
 
     override var isPlaying: Bool {
-        get {
-                if let mockedValue = mocks["isPlaying"] {
-                // swiftlint:disable:next force_cast
-                return mockedValue as! Bool
-            }
-            return true
+        if let mockedValue = mocks["isPlaying"] {
+            // swiftlint:disable:next force_cast
+            return mockedValue as! Bool
+
         }
+        return true
     }
 
     override var duration: TimeInterval {
-        get {
         if let mockedValue = mocks["duration"] {
             // swiftlint:disable:next force_cast
             return mockedValue as! TimeInterval
         }
         return 60
-        }
     }
 
     override var config: PlayerConfig {
-        get {
-            if let mockedValue = mocks["config"] {
-                // swiftlint:disable:next force_cast
-                return mockedValue as! PlayerConfig
-            }
-            return player.config
+        if let mockedValue = mocks["config"] {
+            // swiftlint:disable:next force_cast
+            return mockedValue as! PlayerConfig
         }
+        return player.config
+    }
+
+    override var source: Source {
+        if let mockedValue = mocks["source"] {
+            // swiftlint:disable:next force_cast
+            return mockedValue as! Source
+        }
+        return player.source ?? fakeSource
     }
 
     override var isLive: Bool {
-        get {
-            if let mockedValue = mocks["isLive"] {
-                // swiftlint:disable:next force_cast
-                return mockedValue as! Bool
-            }
-            return player.isLive
+        if let mockedValue = mocks["isLive"] {
+            // swiftlint:disable:next force_cast
+            return mockedValue as! Bool
         }
+        return player.isLive
     }
 
     override var videoQuality: VideoQuality? {
-        get {
-            if let mockedValue = mocks["videoQuality"] {
-                return mockedValue as? VideoQuality
-            }
-            return player.videoQuality
+        if let mockedValue = mocks["videoQuality"] {
+            return mockedValue as? VideoQuality
         }
+        return player.videoQuality
     }
 
     override var currentTime: TimeInterval {
-        get {
-            if let mockedValue = mocks["currentTime"] {
-                // swiftlint:disable:next force_cast
-                return mockedValue as! TimeInterval
-            }
-            return player.currentTime
+        if let mockedValue = mocks["currentTime"] {
+            // swiftlint:disable:next force_cast
+            return mockedValue as! TimeInterval
         }
+        return player.currentTime
     }
 }
 
 class BitmovinPlayerStub: Player {
     var isDestroyed: Bool {
-        get {
-            player.isDestroyed
-        }
+        player.isDestroyed
     }
-    
+
     var isMuted: Bool {
-        get {
-            player.isMuted
-        }
+        player.isMuted
     }
-    
+
     var volume: Int {
         get {
             player.volume
@@ -263,55 +251,39 @@ class BitmovinPlayerStub: Player {
             player.volume = newValue
         }
     }
-    
+
     var isPaused: Bool {
-        get {
-            player.isPaused
-        }
+        player.isPaused
     }
-    
+
     var isPlaying: Bool {
-        get {
-            player.isPlaying
-        }
+        player.isPlaying
     }
-    
+
     var isLive: Bool {
-        get {
-            player.isLive
-        }
+        player.isLive
     }
-    
+
     var duration: TimeInterval {
-        get {
-            player.duration
-        }
+        player.duration
     }
-    
+
     var currentTime: TimeInterval {
-        get {
             player.currentTime
-        }
     }
-    
+
     var config: PlayerConfig {
-        get {
-            player.config
-        }
+        player.config
     }
-    
+
     var source: Source? {
-        get {
-            player.source
-        }
+        player.source
     }
-    
+
     var maxTimeShift: TimeInterval {
-        get {
-            player.maxTimeShift
-        }
+        player.maxTimeShift
     }
-    
+
     var timeShift: TimeInterval {
         get {
             player.timeShift
@@ -320,61 +292,43 @@ class BitmovinPlayerStub: Player {
             player.timeShift = newValue
         }
     }
-    
+
     var availableSubtitles: [SubtitleTrack] {
-        get {
-            player.availableSubtitles
-        }
+        player.availableSubtitles
     }
-    
+
     var subtitle: SubtitleTrack {
-        get {
-            player.subtitle
-        }
+        player.subtitle
     }
-    
+
     var availableAudio: [AudioTrack] {
-        get {
-            player.availableAudio
-        }
+        player.availableAudio
     }
-    
+
     var audio: AudioTrack? {
-        get {
-            player.audio
-        }
+        player.audio
     }
-    
+
     var isAd: Bool {
-        get {
-            player.isAd
-        }
+        player.isAd
     }
-    
+
     var isAirPlayActive: Bool {
-        get {
-            player.isAirPlayActive
-        }
+        player.isAirPlayActive
     }
-    
+
     var isAirPlayAvailable: Bool {
-        get {
-            player.isAirPlayAvailable
-        }
+        player.isAirPlayAvailable
     }
-    
+
     var availableVideoQualities: [VideoQuality] {
-        get {
-            player.availableVideoQualities
-        }
+        player.availableVideoQualities
     }
-    
+
     var videoQuality: VideoQuality? {
-        get {
-            player.videoQuality
-        }
+        player.videoQuality
     }
-    
+
     var playbackSpeed: Float {
         get {
             player.playbackSpeed
@@ -383,7 +337,7 @@ class BitmovinPlayerStub: Player {
             player.playbackSpeed = newValue
         }
     }
-    
+
     var maxSelectableBitrate: UInt {
         get {
             player.maxSelectableBitrate
@@ -392,49 +346,35 @@ class BitmovinPlayerStub: Player {
             player.maxSelectableBitrate = newValue
         }
     }
-    
+
     var currentVideoFrameRate: Float {
-        get {
             player.currentVideoFrameRate
-        }
     }
-    
+
     var buffer: BufferApi {
-        get {
             player.buffer
-        }
     }
-    
+
     var playlist: PlaylistApi {
-        get {
-            player.playlist
-        }
+        player.playlist
     }
-    
+
     var isCasting: Bool {
-        get {
-            player.isCasting
-        }
+        player.isCasting
     }
-    
+
     var isWaitingForDevice: Bool {
-        get {
-            player.isWaitingForDevice
-        }
+        player.isWaitingForDevice
     }
-    
+
     var isCastAvailable: Bool {
-        get {
-            player.isCastAvailable
-        }
+        player.isCastAvailable
     }
-    
+
     var description: String {
-        get {
-            player.description
-        }
+        player.description
     }
-    
+
     var player: Player
 
     init() {
@@ -442,172 +382,170 @@ class BitmovinPlayerStub: Player {
         config.key = "foobar"
         player = PlayerFactory.create(playerConfig: config)
     }
-    
+
     func load(sourceConfig: SourceConfig) {
         player.load(sourceConfig: sourceConfig)
     }
-    
+
     func load(source: Source) {
         player.load(source: source)
     }
-    
+
     func load(playlistConfig: PlaylistConfig) {
         player.load(playlistConfig: playlistConfig)
     }
-    
+
     func unload() {
         player.unload()
     }
-    
+
     func destroy() {
         player.destroy()
     }
-    
+
     func play() {
         player.play()
     }
-    
+
     func pause() {
         player.pause()
     }
-    
+
     func seek(time: TimeInterval) {
         player.seek(time: time)
     }
-    
+
     func mute() {
         player.mute()
     }
-    
+
     func unmute() {
         player.unmute()
     }
-    
+
     func addSubtitle(track subtitleTrack: SubtitleTrack) {
         player.addSubtitle(track: subtitleTrack)
     }
-    
+
     func removeSubtitle(trackIdentifier subtitleTrackID: String) {
         player.removeSubtitle(trackIdentifier: subtitleTrackID)
     }
-    
+
     func setSubtitle(trackIdentifier subtitleTrackID: String?) {
         player.setSubtitle(trackIdentifier: subtitleTrackID)
     }
-    
+
     func setAudio(trackIdentifier audioTrackID: String) {
         player.setAudio(trackIdentifier: audioTrackID)
     }
-    
+
     func thumbnail(forTime time: TimeInterval) -> Thumbnail? {
         player.thumbnail(forTime: time)
     }
-    
+
     func skipAd() {
         player.skipAd()
     }
-    
+
     func scheduleAd(adItem: AdItem) {
         player.scheduleAd(adItem: adItem)
     }
-    
+
     func showAirPlayTargetPicker() {
         player.showAirPlayTargetPicker()
     }
-    
+
     func currentTime(_ timeMode: TimeMode) -> TimeInterval {
         return player.currentTime(timeMode)
     }
-    
+
     func register(_ playerLayer: AVPlayerLayer) {
         player.register(playerLayer)
     }
-    
+
     func unregisterPlayerLayer(_ playerLayer: AVPlayerLayer) {
         player.unregisterPlayerLayer(playerLayer)
     }
-    
+
     func register(_ playerViewController: AVPlayerViewController) {
         player.register(playerViewController)
     }
-    
+
     func unregisterPlayerViewController(_ playerViewController: AVPlayerViewController) {
         player.unregisterPlayerViewController(playerViewController)
     }
-    
+
     func registerAdContainer(_ adContainer: UIView) {
         player.registerAdContainer(adContainer)
     }
-    
+
     func setSubtitleStyles(_ subtitleStyles: [AVTextStyleRule]?) {
         player.setSubtitleStyles(subtitleStyles)
     }
-    
+
     func isEqual(_ object: Any?) -> Bool {
         false
     }
-    
+
     var hash: Int {
-        get {
-            player.hash
-        }
+        player.hash
+
     }
-    
+
     var superclass: AnyClass?
-    
+
     func `self`() -> Self {
         // swiftlint:disable:next force_cast
         return player.self as! Self
     }
-    
+
     func perform(_ aSelector: Selector!) -> Unmanaged<AnyObject>! {
         return nil
     }
-    
+
     func perform(_ aSelector: Selector!, with object: Any!) -> Unmanaged<AnyObject>! {
         return nil
     }
-    
+
     func perform(_ aSelector: Selector!, with object1: Any!, with object2: Any!) -> Unmanaged<AnyObject>! {
         return nil
     }
-    
+
     func isProxy() -> Bool {
         return false
     }
-    
+
     func isKind(of aClass: AnyClass) -> Bool {
         return false
     }
-    
+
     func isMember(of aClass: AnyClass) -> Bool {
         return false
     }
-    
+
     func conforms(to aProtocol: Protocol) -> Bool {
         return false
     }
-    
+
     func responds(to aSelector: Selector!) -> Bool {
         return false
     }
-    
+
     func add(listener: PlayerListener) {
         player.add(listener: listener)
     }
-    
+
     func remove(listener: PlayerListener) {
         player.remove(listener: listener)
     }
-    
+
     func castStop() {
         //
     }
-    
+
     func castVideo() {
         //
     }
-
 }
 
 class BitmovinPlayerTestAd: NSObject, Ad {

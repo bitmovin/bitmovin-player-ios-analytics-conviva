@@ -96,7 +96,7 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         try? convivaAnalytics.initializeSession()
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "A Override"]))
                     }
-                    
+
                     #if targetEnvironment(simulator)
                     // This test will only run on a simulator
                     // https://github.com/Quick/Nimble#swift-assertions

@@ -25,7 +25,7 @@ class BitmovinPlayerListener: NSObject {
 }
 
 extension BitmovinPlayerListener: PlayerListener {
-    func onEvent(_ event: PlayerEvent, player: Player?) {
+    func onEvent(_ event: Event, player: Player) {
         delegate?.onEvent(event)
     }
 

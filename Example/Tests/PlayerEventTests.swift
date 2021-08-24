@@ -61,7 +61,7 @@ class PlayerEventsSpec: QuickSpec {
                     playerDouble.fakePlayerErrorEvent()
                     expect(spy).to(haveBeenCalled())
                 }
-                
+
                 it("on source error") {
                     playerDouble.fakeSourceErrorEvent()
                     expect(spy).to(haveBeenCalled())
@@ -177,7 +177,7 @@ class PlayerEventsSpec: QuickSpec {
                     playerDouble.fakePlayerErrorEvent()
                     expect(spy).to(haveBeenCalled())
                 }
-                
+
                 it("on source error") {
                     playerDouble.fakeSourceErrorEvent()
                     expect(spy).to(haveBeenCalled())

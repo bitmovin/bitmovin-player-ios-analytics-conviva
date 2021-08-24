@@ -18,8 +18,6 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
     var fakeSource: Source
 
     override init() {
-        let config = PlayerConfiguration()
-        config.key = "foobar"
         let sourceConfig = SourceConfig(url: URL(string: "http://a.url")!, type: .hls)
         sourceConfig.title = "MyTitle"
         fakeSource = SourceFactory.create(from: sourceConfig)
@@ -440,7 +438,9 @@ class BitmovinPlayerStub: Player {
     var player: Player
 
     init() {
-        player = PlayerFactory.create(playerConfig: PlayerConfig())
+        let config = PlayerConfig()
+        config.key = "foobar"
+        player = PlayerFactory.create(playerConfig: config)
     }
     
     func load(sourceConfig: SourceConfig) {

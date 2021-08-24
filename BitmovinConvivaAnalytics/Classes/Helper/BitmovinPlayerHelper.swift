@@ -9,12 +9,10 @@
 import Foundation
 import BitmovinPlayer
 
-public typealias BitmovinPlayer = Player
-
 final class BitmovinPlayerHelper: NSObject {
-    let player: BitmovinPlayer
+    let player: Player
 
-    init(player: BitmovinPlayer) {
+    init(player: Player) {
         self.player = player
     }
 
@@ -32,9 +30,6 @@ final class BitmovinPlayerHelper: NSObject {
     }
 
     var version: String? {
-        let bundle = Bundle(for: BitmovinPlayer.self)
-        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String
-        //return Bundle(for: Player.self).infoDictionary?["CFBundleShortVersionString"] as? String
-        return version
+        return Bundle(for: PlayerFactory.self).infoDictionary?["CFBundleShortVersionString"] as? String
     }
 }

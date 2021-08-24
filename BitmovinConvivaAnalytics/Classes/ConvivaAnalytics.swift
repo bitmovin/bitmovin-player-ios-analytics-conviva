@@ -261,9 +261,9 @@ public final class ConvivaAnalytics: NSObject {
 
         playerStateManager.setCISIClientMeasureInterface?(self)
 
-        /*if let bitmovinPlayerVersion = playerHelper.version {
+        if let bitmovinPlayerVersion = playerHelper.version {
             playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
-        }*/
+        }
     }
 
     private func internalInitializeSession() {

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0]
+
+### Added
+
+- This is first version using Bitmovin Player iOS V3 SDK. This is not backward compatible with V2 player SDK.
+
 ## [1.4.0]
 
 ### Fixed

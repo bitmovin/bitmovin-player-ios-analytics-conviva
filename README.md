@@ -90,3 +90,7 @@ If you want to use the same player instance for multiple playback, just load a n
 ```swift
 player.load(…);
 ```
+
+## Limitations
+
+- The Playlist API and related use cases introduced in Player iOS SDK version 3.x.x are not supported.

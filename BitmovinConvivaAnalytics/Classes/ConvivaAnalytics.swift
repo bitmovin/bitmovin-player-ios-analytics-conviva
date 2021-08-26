@@ -64,8 +64,6 @@ public final class ConvivaAnalytics: NSObject {
     /**
      Initialize a new Bitmovin Conviva Analytics object to track metrics from BitmovinPlayer
 
-     **!! ConvivaAnalytics must be instantiated before calling player.setup() !!**
-
      - Parameters:
         - player: BitmovinPlayer instance to track
         - customerKey: Conviva customerKey
@@ -184,7 +182,6 @@ public final class ConvivaAnalytics: NSObject {
 
         if player.source?.sourceConfig.title == nil && contentMetadataBuilder.assetName == nil {
             throw ConvivaAnalyticsError(
-                // swiftlint:disable:next line_length
                 "AssetName is missing. Load player source (with title) first or set assetName via updateContentMetadata"
             )
         }
@@ -370,21 +367,20 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onPlayerError(_ event: PlayerErrorEvent) {
-        if !isSessionActive {
-            internalInitializeSession()
-        }
-
-        let message = "\(event.code) \(event.message)"
-        reportPlaybackDeficiency(message: message, severity: .ERROR_FATAL)
+        trackError(errorCode: event.code.rawValue, errorMessage: event.message)
     }
 
     func onSourceError(_ event: SourceErrorEvent) {
-        if !isSessionActive {
-            internalInitializeSession()
-        }
+        trackError(errorCode: event.code.rawValue, errorMessage: event.message)
+    }
 
-        let message = "\(event.code) \(event.message)"
-        reportPlaybackDeficiency(message: message, severity: .ERROR_FATAL)
+    func trackError(errorCode: Int, errorMessage: String) {
+         if !isSessionActive {
+             internalInitializeSession()
+         }
+
+         let message = "\(errorCode) \(errorMessage)"
+         reportPlaybackDeficiency(message: message, severity: .ERROR_FATAL)
     }
 
     func onMuted(_ event: MutedEvent) {

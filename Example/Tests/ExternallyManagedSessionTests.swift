@@ -65,7 +65,6 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         expect { try convivaAnalytics.initializeSession() }.to(throwError())
                         expect(spy).toNot(haveBeenCalled())
                     }
-
                     #endif
                 }
 
@@ -97,9 +96,6 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "A Override"]))
                     }
 
-                    #if targetEnvironment(simulator)
-                    // This test will only run on a simulator
-                    // https://github.com/Quick/Nimble#swift-assertions
                     it("throw error without title in the source and without asset name") {
                         let sourceConfig = SourceConfig(url: URL(string: "http://a.url")!, type: .hls)
                         let source = SourceFactory.create(from: sourceConfig)
@@ -107,7 +103,6 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         expect { try convivaAnalytics.initializeSession() }.to(throwError())
                         expect(spy).toNot(haveBeenCalled())
                     }
-                    #endif
                 }
 
                 it("no-opt if session is running") {

@@ -89,7 +89,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
                                    timeOffset: 3,
                                    skipOffset: 4,
                                    position: position,
-                                   ad: (BitmovinPlayerTestAd() as Ad)), player)
+                                   ad: BitmovinPlayerTestAd()), player)
     }
 
     func fakeTimeChangedEvent() {
@@ -181,7 +181,6 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         if let mockedValue = mocks["isPlaying"] {
             // swiftlint:disable:next force_cast
             return mockedValue as! Bool
-
         }
         return true
     }
@@ -234,7 +233,15 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
     }
 }
 
-class BitmovinPlayerStub: Player {
+class BitmovinPlayerStub: NSObject, Player {
+    var player: Player
+
+    override init() {
+        let config = PlayerConfig()
+        config.key = "foobar"
+        player = PlayerFactory.create(playerConfig: config)
+    }
+
     var isDestroyed: Bool {
         player.isDestroyed
     }
@@ -371,16 +378,8 @@ class BitmovinPlayerStub: Player {
         player.isCastAvailable
     }
 
-    var description: String {
+    override var description: String {
         player.description
-    }
-
-    var player: Player
-
-    init() {
-        let config = PlayerConfig()
-        config.key = "foobar"
-        player = PlayerFactory.create(playerConfig: config)
     }
 
     func load(sourceConfig: SourceConfig) {
@@ -481,54 +480,6 @@ class BitmovinPlayerStub: Player {
 
     func setSubtitleStyles(_ subtitleStyles: [AVTextStyleRule]?) {
         player.setSubtitleStyles(subtitleStyles)
-    }
-
-    func isEqual(_ object: Any?) -> Bool {
-        false
-    }
-
-    var hash: Int {
-        player.hash
-
-    }
-
-    var superclass: AnyClass?
-
-    func `self`() -> Self {
-        // swiftlint:disable:next force_cast
-        return player.self as! Self
-    }
-
-    func perform(_ aSelector: Selector!) -> Unmanaged<AnyObject>! {
-        return nil
-    }
-
-    func perform(_ aSelector: Selector!, with object: Any!) -> Unmanaged<AnyObject>! {
-        return nil
-    }
-
-    func perform(_ aSelector: Selector!, with object1: Any!, with object2: Any!) -> Unmanaged<AnyObject>! {
-        return nil
-    }
-
-    func isProxy() -> Bool {
-        return false
-    }
-
-    func isKind(of aClass: AnyClass) -> Bool {
-        return false
-    }
-
-    func isMember(of aClass: AnyClass) -> Bool {
-        return false
-    }
-
-    func conforms(to aProtocol: Protocol) -> Bool {
-        return false
-    }
-
-    func responds(to aSelector: Selector!) -> Bool {
-        return false
     }
 
     func add(listener: PlayerListener) {

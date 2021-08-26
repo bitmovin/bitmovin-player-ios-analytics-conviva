@@ -185,7 +185,7 @@ public final class ConvivaAnalytics: NSObject {
         if player.source?.sourceConfig.title == nil && contentMetadataBuilder.assetName == nil {
             throw ConvivaAnalyticsError(
                 // swiftlint:disable:next line_length
-                "AssetName is missing. Load player source (with itemTitle) first or set assetName via updateContentMetadata"
+                "AssetName is missing. Load player source (with title) first or set assetName via updateContentMetadata"
             )
         }
 

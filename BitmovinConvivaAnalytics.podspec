@@ -17,7 +17,7 @@ Conviva Analytics Integration for the Bitmovin Player iOS SDK
 
   s.source_files = 'BitmovinConvivaAnalytics/Classes/**/*.swift'
   s.resources = 'BitmovinConvivaAnalytics/Assets/*'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
   s.cocoapods_version = '>= 1.9.0'
 
   s.ios.dependency 'BitmovinPlayer', '~> 3.0'

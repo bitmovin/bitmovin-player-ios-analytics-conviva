@@ -68,14 +68,14 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onPlayerError = fakeListener?.onPlayerError else {
             return
         }
-        // onPlayerError(PlayerErrorEvent(code: 1000, message: "Test error", data: nil), self.player)
+        onPlayerError(PlayerErrorEvent(code: PlayerError.Code.networkGeneral, message: "Test player error", data: nil), player)
     }
 
     func fakeSourceErrorEvent() {
         guard let onSourceError = fakeListener?.onSourceError else {
             return
         }
-        // onSourceError(SourceErrorEvent(code: 1000, message: "Test Error", data: nil), player)
+        onSourceError(SourceErrorEvent(code: SourceError.Code.general, message: "Test source error", data: nil), player)
     }
 
     func fakeAdStartedEvent(position: String? = "pre") {

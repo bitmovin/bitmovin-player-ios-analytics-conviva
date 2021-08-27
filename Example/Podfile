@@ -3,7 +3,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 def shared_pods
   pod 'BitmovinConvivaAnalytics', path: '../'
-  pod 'BitmovinPlayer', '3.6.0'
+  pod 'BitmovinPlayer', '3.6.1-rc.2'
   pod 'ConvivaSDK', '4.0.13'
 
   pod 'SwiftLint'

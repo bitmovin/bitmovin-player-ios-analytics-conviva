@@ -93,4 +93,4 @@ player.load(…);
 
 ## Limitations
 
-- The Playlist API and related use cases introduced in Player iOS SDK version 3.x.x are not supported.
+- Tracking multiple sources within a Playlist, and related use cases, introduced in Player iOS SDK version `v3` are not supported.

@@ -71,6 +71,11 @@ extension BitmovinPlayerListener: PlayerListener {
         delegate?.onPaused()
     }
 
+    func onPlaylistTransition(_ event: PlaylistTransitionEvent, player: Player) {
+        // playlist is not supported yet, finish tracking for now
+        delegate?.onPlaybackFinished()
+    }
+
     func onPlaybackFinished(_ event: PlaybackFinishedEvent, player: Player) {
         delegate?.onPlaybackFinished()
     }

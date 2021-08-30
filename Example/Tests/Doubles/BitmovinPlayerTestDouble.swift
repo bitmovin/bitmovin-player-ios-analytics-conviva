@@ -110,14 +110,14 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onAdSkipped = fakeListener?.onAdSkipped else {
             return
         }
-        onAdSkipped(AdSkippedEvent(ad: BitmovinPlayerTestAd() as Ad), player)
+        onAdSkipped(AdSkippedEvent(ad: BitmovinPlayerTestAd()), player)
     }
 
     func fakeAdFinishedEvent() {
         guard let onAdFinished = fakeListener?.onAdFinished else {
             return
         }
-        onAdFinished(AdFinishedEvent(ad: BitmovinPlayerTestAd() as Ad), player)
+        onAdFinished(AdFinishedEvent(ad: BitmovinPlayerTestAd()), player)
     }
 
     func fakeAdErrorEvent() {
@@ -164,6 +164,13 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
             return
         }
         onPlaybackFinished(PlaybackFinishedEvent(), player)
+    }
+
+    func fakePlaylistTransitionEvent() {
+        guard let onPlaylistTransition = fakeListener?.onPlaylistTransition else {
+            return
+        }
+        onPlaylistTransition(PlaylistTransitionEvent(from: fakeSource, to: fakeSource), player)
     }
 
     func fakeDestroyEvent() {

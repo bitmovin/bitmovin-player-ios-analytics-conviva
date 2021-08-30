@@ -194,6 +194,17 @@ class PlayerEventsSpec: QuickSpec {
                     )
                 }
 
+                it("on playlist transition") {
+                    let playbackStateSpy = Spy(aClass: PlayerStateManagerTestDouble.self,
+                                               functionName: "setPlayerState")
+                    playerDouble.fakePlayEvent()
+                    playerDouble.fakePlaylistTransitionEvent()
+                    expect(spy).to(haveBeenCalled())
+                    expect(playbackStateSpy).to(
+                        haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_STOPPED.rawValue)"])
+                    )
+                }
+
                 it("on destroy") {
                     playerDouble.fakeDestroyEvent()
                     expect(spy).to(haveBeenCalled())

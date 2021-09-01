@@ -61,13 +61,13 @@ class ContentMetadataSpec: QuickSpec {
                 it("set asset name") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
 
-                    let playerConfiguration = PlayerConfiguration()
-                    let sourceItem = SourceItem(url: URL(string: "www.google.com.m3u8")!)!
-                    sourceItem.itemTitle = "Art of Unit Test"
-                    playerConfiguration.sourceItem = sourceItem
+                    let playerConfig = PlayerConfig()
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
 
-                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfiguration)
-
+                    let sourceConfig = SourceConfig(url: URL(string: "www.google.com.m3u8")!, type: .hls)
+                    sourceConfig.title = "Art of Unit Test"
+                    let source = SourceFactory.create(from: sourceConfig)
+                    playerDouble.load(source: source)
                     playerDouble.fakePlayEvent() // to initialize session
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["assetName": "Art of Unit Test"])
@@ -93,13 +93,13 @@ class ContentMetadataSpec: QuickSpec {
                 it("set stream url") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
 
-                    let playerConfiguration = PlayerConfiguration()
-                    let sourceItem = SourceItem(url: URL(string: "www.google.com.m3u8")!)!
-                    sourceItem.itemTitle = "Art of Unit Test"
-                    playerConfiguration.sourceItem = sourceItem
+                    let playerConfig = PlayerConfig()
+                    let sourceConfig = SourceConfig(url: URL(string: "www.google.com.m3u8")!, type: .hls)
+                    sourceConfig.title = "Art of Unit Test"
+                    let source = SourceFactory.create(from: sourceConfig)
 
-                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfiguration)
-                    _ = TestDouble(aClass: playerDouble, name: "streamType", return: BMPMediaSourceType.HLS)
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+                    _ = TestDouble(aClass: playerDouble, name: "source", return: source)
 
                     playerDouble.fakePlayEvent() // to initialize session
 
@@ -133,13 +133,13 @@ class ContentMetadataSpec: QuickSpec {
                 it("update stream url") {
                     let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
 
-                    let playerConfiguration = PlayerConfiguration()
-                    let sourceItem = SourceItem(url: URL(string: "www.google.com.m3u8")!)!
-                    sourceItem.itemTitle = "Art of Unit Test"
-                    playerConfiguration.sourceItem = sourceItem
+                    let playerConfig = PlayerConfig()
+                    let sourceConfig = SourceConfig(url: URL(string: "www.google.com.m3u8")!, type: .hls)
+                    sourceConfig.title = "Art of Unit Test"
+                    let source = SourceFactory.create(from: sourceConfig)
 
-                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfiguration)
-                    _ = TestDouble(aClass: playerDouble, name: "streamType", return: BMPMediaSourceType.HLS)
+                    _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
+                    _ = TestDouble(aClass: playerDouble, name: "source", return: source)
 
                     playerDouble.fakePlayEvent() // to initialize session
 
@@ -274,11 +274,12 @@ class ContentMetadataSpec: QuickSpec {
                     var spy: Spy!
                     beforeEach {
                         spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
-                        let playerConfig = PlayerConfiguration()
+                        let playerConfig = PlayerConfig()
 
-                        let hlsSource = HLSSource(url: URL(string: "http://a.url")!)
-                        playerConfig.sourceItem = SourceItem(hlsSource: hlsSource)
-                        playerConfig.sourceItem?.itemTitle = "MyTitle"
+                        let sourceConfig = SourceConfig(url: URL(string: "http://a.url")!, type: .hls)
+                        sourceConfig.title = "MyTitle"
+                        let source = SourceFactory.create(from: sourceConfig)
+                        playerDouble.load(source: source)
 
                         _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
 

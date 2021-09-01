@@ -2,24 +2,26 @@
 
 ## Installation
 
-BitmovinConvivaAnalytics is available through [CocoaPods](https://cocoapods.org). We depend on cocoapods version >= 1.4.
+BitmovinConvivaAnalytics is available through [CocoaPods](https://cocoapods.org). We depend on cocoapods version >= 1.9.0
 
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'BitmovinConvivaAnalytics', git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: '1.4.0'
+pod 'BitmovinConvivaAnalytics', git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: '2.0.0'
 ```
 
 Then, in your command line run:
 
 ```
+pod repo update
 pod install
 ```
 
 ### Compatibility
 
-The most recent version of the Conviva Analytics Integration depends on `BitmovinPlayer` version `>= 2.57.1`.
-For `BitmovinPlayer` version `>= 2.57.1` please use [v1.3.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.3.0) or later.
+The 2.x versions of the Conviva Analytics Integration depends on `BitmovinPlayer` version `>= 3.0.0`.
+
+For `BitmovinPlayer` version `>= 2.57.1` && `< 3.0.0` please use Conviva integration version `>= 1.3.0` && `< 2.0.0`
 
 If you need support for prior to `2.57.1` please use [v1.2.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.2.0).
 
@@ -27,7 +29,7 @@ If you need support for prior to `2.57.1` please use [v1.2.0](https://github.com
 
 ### Basic Setup
 
-The following example shows how to setup the BitmovinConvivaAnalytics:
+The following example shows how to setup the `BitmovinConvivaAnalytics`:
 
 ```swift
 do {
@@ -88,3 +90,7 @@ If you want to use the same player instance for multiple playback, just load a n
 ```swift
 player.load(…);
 ```
+
+## Limitations
+
+- Tracking multiple sources within a Playlist, and related use cases, introduced in Player iOS SDK version `v3` are not supported.

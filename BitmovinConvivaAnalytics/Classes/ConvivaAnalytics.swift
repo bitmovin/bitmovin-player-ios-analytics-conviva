@@ -12,7 +12,7 @@ import ConvivaSDK
 
 public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
-    let player: BitmovinPlayer
+    let player: Player
 
     // MARK: - Conviva related attributes
     let customerKey: String
@@ -38,9 +38,9 @@ public final class ConvivaAnalytics: NSObject {
 
     // MARK: - Public Attributes
     /**
-     Set the BMPBitmovinPlayerView to enable view triggered events like fullscreen state changes
+     Set the PlayerView to enable view triggered events like fullscreen state changes
      */
-    public var playerView: BMPBitmovinPlayerView? {
+    public var playerView: PlayerView? {
         didSet {
             playerView?.remove(listener: self)
             playerView?.add(listener: self)
@@ -62,18 +62,16 @@ public final class ConvivaAnalytics: NSObject {
 
     // MARK: - initializer
     /**
-     Initialize a new Bitmovin Conviva Analytics object to track metrics from BitmovinPlayer
-
-     **!! ConvivaAnalytics must be instantiated before calling player.setup() !!**
+     Initialize a new Bitmovin Conviva Analytics object to track metrics from Bitmovin Player
 
      - Parameters:
-        - player: BitmovinPlayer instance to track
+        - player: Bitmovin Player instance to track
         - customerKey: Conviva customerKey
         - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
 
      - Throws: Convivas `CISClientProtocol` and `CISClientSettingsProtocol` if an error occurs
      */
-    public init?(player: BitmovinPlayer,
+    public init?(player: Player,
                  customerKey: String,
                  config: ConvivaConfiguration = ConvivaConfiguration()) throws {
         self.player = player
@@ -182,10 +180,9 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
-        if player.config.sourceItem?.itemTitle == nil && contentMetadataBuilder.assetName == nil {
+        if player.source?.sourceConfig.title == nil && contentMetadataBuilder.assetName == nil {
             throw ConvivaAnalyticsError(
-                // swiftlint:disable:next line_length
-                "AssetName is missing. Load player source (with itemTitle) first or set assetName via updateContentMetadata"
+                "AssetName is missing. Load player source (with title) first or set assetName via updateContentMetadata"
             )
         }
 
@@ -316,8 +313,8 @@ public final class ConvivaAnalytics: NSObject {
 
     // MARK: - meta data handling
     private func buildContentMetadata() {
-        let sourceItem = player.config.sourceItem
-        contentMetadataBuilder.assetName = sourceItem?.itemTitle
+        let sourceConfig = player.source?.sourceConfig
+        contentMetadataBuilder.assetName = sourceConfig?.title
 
         let customInternTags: [String: Any] = [
             "streamType": playerHelper.streamType,
@@ -333,7 +330,7 @@ public final class ConvivaAnalytics: NSObject {
             contentMetadataBuilder.duration = Int(player.duration)
         }
         contentMetadataBuilder.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
-        contentMetadataBuilder.streamUrl = player.config.sourceItem?.url(forType: player.streamType)?.absoluteString
+        contentMetadataBuilder.streamUrl = player.source?.sourceConfig.url.absoluteString
     }
 
     private func customEvent(event: PlayerEvent, args: [String: String] = [:]) {
@@ -357,7 +354,7 @@ public final class ConvivaAnalytics: NSObject {
 
 // MARK: - PlayerListener
 extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
-    func onEvent(_ event: PlayerEvent) {
+    func onEvent(_ event: Event) {
         logger.debugLog(message: "[ Player Event ] \(event.name)")
     }
 
@@ -369,13 +366,21 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         updateSession()
     }
 
-    func onError(_ event: ErrorEvent) {
-        if !isSessionActive {
-            internalInitializeSession()
-        }
+    func onPlayerError(_ event: PlayerErrorEvent) {
+        trackError(errorCode: event.code.rawValue, errorMessage: event.message)
+    }
 
-        let message = "\(event.code) \(event.message)"
-        reportPlaybackDeficiency(message: message, severity: .ERROR_FATAL)
+    func onSourceError(_ event: SourceErrorEvent) {
+        trackError(errorCode: event.code.rawValue, errorMessage: event.message)
+    }
+
+    func trackError(errorCode: Int, errorMessage: String) {
+         if !isSessionActive {
+             internalInitializeSession()
+         }
+
+         let message = "\(errorCode) \(errorMessage)"
+         reportPlaybackDeficiency(message: message, severity: .ERROR_FATAL)
     }
 
     func onMuted(_ event: MutedEvent) {
@@ -416,7 +421,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onStallEnded() {
         isStalled = false
-        
+
         guard playbackStarted else { return }
         if player.isPlaying {
             onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
@@ -433,7 +438,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             return
         }
 
-        playerStateManager.setSeekStart!(Int64(event.seekTarget * 1000))
+        playerStateManager.setSeekStart!(Int64(event.to.time * 1000))
     }
 
     func onSeeked() {

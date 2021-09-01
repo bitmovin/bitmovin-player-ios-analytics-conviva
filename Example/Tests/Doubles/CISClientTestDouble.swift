@@ -54,7 +54,7 @@ class CISClientTestDouble: NSObject, CISClientProtocol, TestDoubleDataSource {
     func adStart(_ sessionKey: Int32, adStream: AdStream, adPlayer: AdPlayer, adPosition: AdPosition) {
         spy(functionName: "adStart", args: ["adPosition": "\(adPosition.rawValue)"])
     }
-    
+
     func adStart(_ sessionKey: Int32) {
         spy(functionName: "adStart")
     }

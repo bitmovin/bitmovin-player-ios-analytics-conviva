@@ -1,17 +1,17 @@
 PODS:
-  - BitmovinConvivaAnalytics (1.4.0):
-    - BitmovinPlayer (~> 2.57)
+  - BitmovinConvivaAnalytics (2.0.0):
+    - BitmovinPlayer (~> 3.0)
     - ConvivaSDK (~> 4.0)
-  - BitmovinPlayer (2.64.0)
+  - BitmovinPlayer (3.6.1)
   - ConvivaSDK (4.0.13)
   - GoogleAds-IMA-iOS-SDK (3.12.1)
   - Nimble (9.2.0)
   - Quick (4.0.0)
-  - SwiftLint (0.27.0)
+  - SwiftLint (0.43.1)
 
 DEPENDENCIES:
   - BitmovinConvivaAnalytics (from `../`)
-  - BitmovinPlayer (from `https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git`, tag `2.64.0`)
+  - BitmovinPlayer (= 3.6.1)
   - ConvivaSDK (= 4.0.13)
   - GoogleAds-IMA-iOS-SDK (= 3.12.1)
   - Nimble (~> 9.2.0)
@@ -19,7 +19,9 @@ DEPENDENCIES:
   - SwiftLint
 
 SPEC REPOS:
-  trunk:
+  https://github.com/bitmovin/cocoapod-specs.git:
+    - BitmovinPlayer
+  https://github.com/CocoaPods/Specs.git:
     - ConvivaSDK
     - GoogleAds-IMA-iOS-SDK
     - Nimble
@@ -29,24 +31,16 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   BitmovinConvivaAnalytics:
     :path: "../"
-  BitmovinPlayer:
-    :git: https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git
-    :tag: 2.64.0
-
-CHECKOUT OPTIONS:
-  BitmovinPlayer:
-    :git: https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod.git
-    :tag: 2.64.0
 
 SPEC CHECKSUMS:
-  BitmovinConvivaAnalytics: f9fb3295fa721fce23f276c870beb79277675e49
-  BitmovinPlayer: 9696532ec0ac122a28782c9072ad16130f6d4f32
+  BitmovinConvivaAnalytics: 09807355f58163015fe999fe283207a5d49c2744
+  BitmovinPlayer: 207f05f8744481113d092aa441ad5b6dfcfdf439
   ConvivaSDK: 877abbdc0b2b77dcad4b709b03c2cd8a900a4e46
   GoogleAds-IMA-iOS-SDK: 3c01b8db7d01de6b4a3b1d58744d4bc426a2d821
   Nimble: 4f4a345c80b503b3ea13606a4f98405974ee4d0b
   Quick: 6473349e43b9271a8d43839d9ba1c442ed1b7ac4
-  SwiftLint: 3207c1faa2240bf8973b191820a116113cd11073
+  SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: 57167fb681c43e6d0389e02d706dfafe5c6d60f5
+PODFILE CHECKSUM: 282f339d251324c0555ff0ae841c7ef443956965
 
 COCOAPODS: 1.10.1

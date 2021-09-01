@@ -9,20 +9,18 @@
 import Foundation
 import BitmovinPlayer
 
-public typealias BitmovinPlayer = Player
-
 final class BitmovinPlayerHelper: NSObject {
-    let player: BitmovinPlayer
+    let player: Player
 
-    init(player: BitmovinPlayer) {
+    init(player: Player) {
         self.player = player
     }
 
     var streamType: String {
-        switch player.streamType {
-        case .DASH:
+        switch player.source?.sourceConfig.type {
+        case .dash:
             return "DASH"
-        case .HLS:
+        case .hls:
             return "HLS"
         case .progressive:
             return "progressive"
@@ -32,6 +30,6 @@ final class BitmovinPlayerHelper: NSObject {
     }
 
     var version: String? {
-        return Bundle(for: BitmovinPlayer.self).infoDictionary?["CFBundleShortVersionString"] as? String
+        return Bundle(for: PlayerFactory.self).infoDictionary?["CFBundleShortVersionString"] as? String
     }
 }

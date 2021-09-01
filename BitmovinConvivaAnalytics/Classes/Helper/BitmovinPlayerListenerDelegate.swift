@@ -10,10 +10,11 @@ import Foundation
 import BitmovinPlayer
 
 protocol BitmovinPlayerListenerDelegate: AnyObject {
-    func onEvent(_ event: PlayerEvent)
+    func onEvent(_ event: Event)
     func onSourceUnloaded()
     func onTimeChanged()
-    func onError(_ event: ErrorEvent)
+    func onPlayerError(_ event: PlayerErrorEvent)
+    func onSourceError(_ event: SourceErrorEvent)
 
     func onMuted(_ event: MutedEvent)
     func onUnmuted(_ event: UnmutedEvent)

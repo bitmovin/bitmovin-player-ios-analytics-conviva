@@ -57,8 +57,13 @@ class PlayerEventsSpec: QuickSpec {
                     expect(spy).to(haveBeenCalled())
                 }
 
-                it("on error") {
-                    playerDouble.fakeErrorEvent()
+                it("on player error") {
+                    playerDouble.fakePlayerErrorEvent()
+                    expect(spy).to(haveBeenCalled())
+                }
+
+                it("on source error") {
+                    playerDouble.fakeSourceErrorEvent()
                     expect(spy).to(haveBeenCalled())
                 }
             }
@@ -168,8 +173,13 @@ class PlayerEventsSpec: QuickSpec {
                     expect(spy).toEventually(haveBeenCalled())
                 }
 
-                it("on error") {
-                    playerDouble.fakeErrorEvent()
+                it("on player error") {
+                    playerDouble.fakePlayerErrorEvent()
+                    expect(spy).to(haveBeenCalled())
+                }
+
+                it("on source error") {
+                    playerDouble.fakeSourceErrorEvent()
                     expect(spy).to(haveBeenCalled())
                 }
 
@@ -178,6 +188,17 @@ class PlayerEventsSpec: QuickSpec {
                                                functionName: "setPlayerState")
                     playerDouble.fakePlayEvent()
                     playerDouble.fakePlaybackFinishedEvent()
+                    expect(spy).to(haveBeenCalled())
+                    expect(playbackStateSpy).to(
+                        haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_STOPPED.rawValue)"])
+                    )
+                }
+
+                it("on playlist transition") {
+                    let playbackStateSpy = Spy(aClass: PlayerStateManagerTestDouble.self,
+                                               functionName: "setPlayerState")
+                    playerDouble.fakePlayEvent()
+                    playerDouble.fakePlaylistTransitionEvent()
                     expect(spy).to(haveBeenCalled())
                     expect(playbackStateSpy).to(
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_STOPPED.rawValue)"])
@@ -200,7 +221,7 @@ class PlayerEventsSpec: QuickSpec {
                 }
 
                 describe("with on source unloaded / on error workaround") {
-                    it("when on source unloaded is followed by on error") {
+                    it("when on source unloaded is followed by on player error") {
                         // simulating a mid stream error so simulate a session initialization first
                         playerDouble.fakePlayEvent()
 
@@ -212,7 +233,26 @@ class PlayerEventsSpec: QuickSpec {
                         // default sdk error handling is to call unload and this will be triggered first
                         // but we want to track the error event in the same session
                         playerDouble.fakeSourceUnloadedEvent()
-                        playerDouble.fakeErrorEvent()
+                        playerDouble.fakePlayerErrorEvent()
+
+                        expect(errorSpy).to(haveBeenCalled())
+                        // should not be called while session is still valid (would be invalidated in end session)
+                        expect(sessionSpy).toNot(haveBeenCalled())
+                    }
+
+                    it("when on source unloaded is followed by on source error") {
+                        // simulating a mid stream error so simulate a session initialization first
+                        playerDouble.fakePlayEvent()
+
+                        // reset spies to add ability to test against createSession has not been called
+                        TestHelper.shared.spyTracker.reset()
+                        let errorSpy = Spy(aClass: CISClientTestDouble.self, functionName: "reportError")
+                        let sessionSpy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+
+                        // default sdk error handling is to call unload and this will be triggered first
+                        // but we want to track the error event in the same session
+                        playerDouble.fakeSourceUnloadedEvent()
+                        playerDouble.fakeSourceErrorEvent()
 
                         expect(errorSpy).to(haveBeenCalled())
                         // should not be called while session is still valid (would be invalidated in end session)

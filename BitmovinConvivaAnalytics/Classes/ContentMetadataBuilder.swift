@@ -88,83 +88,83 @@ class ContentMetadataBuilder {
     }
 
     public var assetName: String? {
-        set {
-            metadata.assetName = newValue
-        }
         get {
             return metadataOverrides.assetName ?? metadata.assetName
+        }
+        set {
+            metadata.assetName = newValue
         }
     }
 
     public var viewerId: String? {
-        set {
-            metadata.viewerId = newValue
-        }
         get {
             return metadataOverrides.viewerId ?? metadata.viewerId
+        }
+        set {
+            metadata.viewerId = newValue
         }
     }
 
     public var streamType: StreamType? {
-        set {
-            metadata.streamType = newValue
-        }
         get {
             return metadataOverrides.streamType ?? metadata.streamType
+        }
+        set {
+            metadata.streamType = newValue
         }
     }
 
     public var applicationName: String? {
-        set {
-            metadata.applicationName = newValue
-        }
         get {
             return metadataOverrides.applicationName ?? metadata.applicationName
+        }
+        set {
+            metadata.applicationName = newValue
         }
     }
 
     public var custom: [String: Any]? {
-        set {
-            metadata.custom = newValue
-        }
         get {
             return mergeDictionaries(dict1: metadata.custom, dict2: metadataOverrides.custom)
+        }
+        set {
+            metadata.custom = newValue
         }
     }
 
     public var duration: Int? {
-        set {
-            metadata.duration = newValue
-        }
         get {
             return metadataOverrides.duration ?? metadata.duration
+        }
+        set {
+            metadata.duration = newValue
         }
     }
 
     public var encodedFramerate: Int? {
-        set {
-            metadata.encodedFramerate = newValue
-        }
         get {
             return metadataOverrides.encodedFramerate ?? metadata.encodedFramerate
+        }
+        set {
+            metadata.encodedFramerate = newValue
         }
     }
 
     public var defaultResource: String? {
-        set {
-            metadata.defaultResource = newValue
-        }
         get {
             return metadataOverrides.defaultResource ?? metadata.defaultResource
+        }
+        set {
+            metadata.defaultResource = newValue
         }
     }
 
     public var streamUrl: String? {
-        set {
-            metadata.streamUrl = newValue
-        }
         get {
             return metadataOverrides.streamUrl ?? metadata.streamUrl
+        }
+        set {
+            metadata.streamUrl = newValue
         }
     }
 

@@ -12,8 +12,8 @@ import BitmovinConvivaAnalytics
 
 class ViewController: UIViewController {
 
-    var player: BitmovinPlayer?
-    var playerView: BMPBitmovinPlayerView?
+    var player: Player?
+    var playerView: PlayerView?
     var fullScreen: Bool = false
 
     var convivaAnalytics: ConvivaAnalytics?
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
 
     func setupBitmovinPlayer() {
         // Setup Player
-        player = BitmovinPlayer()
+        player = PlayerFactory.create(playerConfig: playerConfig)
 
         let convivaConfig = ConvivaConfiguration()
 
@@ -40,22 +40,22 @@ class ViewController: UIViewController {
         }
         convivaConfig.debugLoggingEnabled = true
 
-        convivaConfig.applicationName = "Bitmovin tvOS Conviva integration example app"
-        convivaConfig.viewerId = "awesomeViewerId"
-        convivaConfig.customTags = ["contentType": "Episode"]
+        var metadata = MetadataOverrides()
+        metadata.applicationName = "Bitmovin tvOS Conviva integration example app"
+        metadata.viewerId = "awesomeViewerId"
+        metadata.custom = ["contentType": "Episode"]
 
         do {
             convivaAnalytics = try ConvivaAnalytics(player: player!,
                                                     customerKey: convivaCustomerKey,
                                                     config: convivaConfig)
+            convivaAnalytics?.updateContentMetadata(metadataOverrides: metadata)
         } catch {
             NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
         }
 
-        player?.setup(configuration: playerConfiguration)
-
         // Setup UI
-        playerView = BMPBitmovinPlayerView(player: player!, frame: .zero)
+        playerView = PlayerView(player: player!, frame: .zero)
         playerView?.frame = view.bounds
 
         if let convivaAnalytics = convivaAnalytics {
@@ -65,23 +65,23 @@ class ViewController: UIViewController {
         playerView?.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         view.addSubview(playerView!)
         view.bringSubviewToFront(playerView!)
+
+        player?.load(source: SourceFactory.create(from: vodSourceConfig))
     }
 
-    var playerConfiguration: PlayerConfiguration {
-        let playerConfiguration = PlayerConfiguration()
-        playerConfiguration.sourceItem = sourceItem
-
-        return playerConfiguration
+    var playerConfig: PlayerConfig {
+        let playerConfig = PlayerConfig()
+        let playbackConfig = PlaybackConfig()
+        playbackConfig.isAutoplayEnabled = true
+        playbackConfig.isMuted = true
+        playerConfig.playbackConfig = playbackConfig
+        return playerConfig
     }
 
-    var sourceItem: SourceItem? {
+    var vodSourceConfig: SourceConfig {
         let sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
-        guard let url = URL(string: sourceString),
-            let sourceItem = SourceItem(url: url) else {
-                return nil
-        }
-        sourceItem.posterSource = URL(string: "https://bitmovin-a.akamaihd.net/content/poster/hd/RedBull.jpg")
-        sourceItem.itemTitle = "Art of Motion"
-        return sourceItem
+        let sourceConfig = SourceConfig(url: URL(string: sourceString)!, type: .hls)
+        sourceConfig.title = "Art of Motion"
+        return sourceConfig
     }
 }

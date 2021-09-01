@@ -62,10 +62,10 @@ public final class ConvivaAnalytics: NSObject {
 
     // MARK: - initializer
     /**
-     Initialize a new Bitmovin Conviva Analytics object to track metrics from BitmovinPlayer
+     Initialize a new Bitmovin Conviva Analytics object to track metrics from Bitmovin Player
 
      - Parameters:
-        - player: BitmovinPlayer instance to track
+        - player: Bitmovin Player instance to track
         - customerKey: Conviva customerKey
         - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
 

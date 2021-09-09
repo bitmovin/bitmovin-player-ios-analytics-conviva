@@ -343,7 +343,7 @@ public final class ConvivaAnalytics: NSObject {
 
     private func onPlaybackStateChanged(playerState: PlayerState) {
         // do not report any playback state changes while player isStalled except buffering
-        if isStalled && playerState != .CONVIVA_BUFFERING {
+        if !isSessionActive || isStalled && playerState != .CONVIVA_BUFFERING {
             return
         }
 

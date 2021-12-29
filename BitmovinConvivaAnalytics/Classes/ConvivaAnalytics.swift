@@ -346,6 +346,13 @@ public final class ConvivaAnalytics: NSObject {
         if isStalled && playerState != .CONVIVA_BUFFERING {
             return
         }
+        // do not report any stalling when isStalled false (StallEnded trigered immediatelly after StallStarted)
+        else if !isStalled && playerState == .CONVIVA_BUFFERING {
+            self.logger.debugLog(
+                message: "[ ConvivaAnalytics ] false stalling, not registering to Conviva"
+            )
+            return;
+        }
 
         playerStateManager.setPlayerState!(playerState)
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
@@ -416,7 +423,12 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onStallStarted() {
         isStalled = true
-        onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+            self.logger.debugLog(
+                message: "[ ConvivaAnalytics ] calling StallStarted after 100 milliseconds"
+            )
+             self.onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
+             }
     }
 
     func onStallEnded() {

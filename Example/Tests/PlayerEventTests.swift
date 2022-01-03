@@ -129,12 +129,19 @@ class PlayerEventsSpec: QuickSpec {
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PAUSED.rawValue)"])
                     )
                 }
-
                 it("on stall started") {
                     playerDouble.fakeStallStartedEvent()
-                    expect(spy).to(
-                        haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_BUFFERING.rawValue)"])
-                    )
+                        expect(spy).toEventuallyNot(
+                            haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_BUFFERING.rawValue)"])
+                        )
+                }
+                it("on stall started") {
+                    playerDouble.fakeStallStartedEvent()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                        expect(spy).to(
+                            haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_BUFFERING.rawValue)"])
+                        )
+                    }
                 }
 
                 context("after stalling") {

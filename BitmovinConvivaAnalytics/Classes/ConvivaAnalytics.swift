@@ -425,7 +425,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         isStalled = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
             self.logger.debugLog(
-                message: "[ ConvivaAnalytics ] calling StallStarted after 100 milliseconds"
+                message: "[ ConvivaAnalytics ] calling StallStarted after 0.10 seconds"
             )
              self.onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
              }

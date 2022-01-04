@@ -129,11 +129,33 @@ class PlayerEventsSpec: QuickSpec {
                         haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PAUSED.rawValue)"])
                     )
                 }
-                it("on stall started") {
+                it("on stall started/ Stall Ended wait 0.10 seconds") {
+                    playerDouble.fakePlayingEvent()
                     playerDouble.fakeStallStartedEvent()
-                        expect(spy).toEventuallyNot(
+                    playerDouble.fakeStallEndedEvent()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                        expect(spy).notTo(
                             haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_BUFFERING.rawValue)"])
                         )
+                    }
+                }
+                it("on stall started/Stall Ended no wait") {
+                    playerDouble.fakePlayingEvent()
+                    playerDouble.fakeStallStartedEvent()
+                    playerDouble.fakeStallEndedEvent()
+                    expect(spy).toEventuallyNot(
+                            haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_BUFFERING.rawValue)"])
+                        )
+                }
+                it("on stall started / Stall Ended after 0.10 seconds") {
+                    playerDouble.fakePlayingEvent()
+                    playerDouble.fakeStallStartedEvent()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                        playerDouble.fakeStallEndedEvent()
+                    }
+                    expect(spy).to(
+                        haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
+                    )
                 }
                 it("on stall started") {
                     playerDouble.fakeStallStartedEvent()

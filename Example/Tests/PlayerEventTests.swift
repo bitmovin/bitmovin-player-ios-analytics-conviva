@@ -152,10 +152,11 @@ class PlayerEventsSpec: QuickSpec {
                     playerDouble.fakeStallStartedEvent()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
                         playerDouble.fakeStallEndedEvent()
+                        expect(spy).to(
+                            haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_BUFFERING.rawValue)"])
+                        )
                     }
-                    expect(spy).to(
-                        haveBeenCalled(withArgs: ["newState": "\(PlayerState.CONVIVA_PLAYING.rawValue)"])
-                    )
+                    
                 }
                 it("on stall started") {
                     playerDouble.fakeStallStartedEvent()

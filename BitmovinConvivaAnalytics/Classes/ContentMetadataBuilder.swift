@@ -69,7 +69,7 @@ class ContentMetadataBuilder {
             if let type = streamType {
                 contentMetadata.streamType = type
             }
-            if let duration = self.duration, self.duration ?? 0 > 0 {
+            if let duration = self.duration, duration > 0 {
                 contentMetadata.duration = duration
             }
             if let custom = self.custom {

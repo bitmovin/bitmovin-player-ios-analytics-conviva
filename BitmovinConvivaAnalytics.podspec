@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'BitmovinConvivaAnalytics'
-  s.version          = '2.0.2'
+  s.version          = '2.0.1'
   s.summary          = 'Conviva Analytics Integration for the Bitmovin Player iOS SDK'
 
   s.description      = <<-DESC

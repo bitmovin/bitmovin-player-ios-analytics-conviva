@@ -1,5 +1,5 @@
 source 'https://github.com/bitmovin/cocoapod-specs.git'
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 
 def shared_pods
   pod 'BitmovinConvivaAnalytics', path: '../'

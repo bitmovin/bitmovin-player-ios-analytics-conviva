@@ -351,7 +351,7 @@ public final class ConvivaAnalytics: NSObject {
             self.logger.debugLog(
                 message: "[ ConvivaAnalytics ] false stalling, not registering to Conviva"
             )
-            return;
+            return
         }
 
         playerStateManager.setPlayerState!(playerState)

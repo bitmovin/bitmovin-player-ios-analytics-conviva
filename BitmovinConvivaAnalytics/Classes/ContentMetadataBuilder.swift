@@ -69,11 +69,15 @@ class ContentMetadataBuilder {
             if let type = streamType {
                 contentMetadata.streamType = type
             }
-            if let duration = self.duration {
+            if let duration = self.duration, duration > 0 {
                 contentMetadata.duration = duration
             }
             if let custom = self.custom {
                 contentMetadata.custom = NSMutableDictionary(dictionary: custom)
+            }
+        } else {
+            if let duration = self.duration, duration > 0, contentMetadata.duration == 0 {
+                contentMetadata.duration = duration
             }
         }
 

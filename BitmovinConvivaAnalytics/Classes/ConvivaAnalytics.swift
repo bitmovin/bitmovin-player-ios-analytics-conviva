@@ -45,12 +45,12 @@ public final class ConvivaAnalytics: NSObject {
     /**
      Set the PlayerView to enable view triggered events like fullscreen state changes
 //     */
-//    public var playerView: PlayerView? {
-//        didSet {
-//            playerView?.remove(listener: self)
-//            playerView?.add(listener: self)
-//        }
-//    }
+    public var playerView: PlayerView? {
+        didSet {
+            playerView?.remove(listener: self)
+            playerView?.add(listener: self)
+        }
+    }
 
     public var version: String {
         var options: NSDictionary?
@@ -94,7 +94,7 @@ public final class ConvivaAnalytics: NSObject {
                 settings[CIS_SSDK_SETTINGS_GATEWAY_URL] = gatewayUrl.absoluteString
             }
             if config.debugLoggingEnabled {
-                settings[CIS_SSDK_SETTINGS_LOG_LEVEL] = LogLevel.LOGLEVEL_WARNING
+                settings[CIS_SSDK_SETTINGS_LOG_LEVEL] = LogLevel.LOGLEVEL_WARNING.rawValue
             }
             analytics = CISAnalyticsCreator.create(withCustomerKey: customerKey, settings: settings)
         } else {
@@ -226,6 +226,10 @@ public final class ConvivaAnalytics: NSObject {
         internalEndSession()
     }
 
+    public func release() {
+        videoAnalytics.cleanup()
+        analytics.cleanup()
+    }
     /**
      Sends a custom deficiency event during playback to Conviva's Player Insight. If no session is active it will NOT
      create one.
@@ -260,7 +264,9 @@ public final class ConvivaAnalytics: NSObject {
 //                       adPlayer: .ADPLAYER_SEPARATE,
 //                       adPosition: .ADPOSITION_PREROLL)
 //        client.detachPlayer(sessionKey)
-        let event: String = self.isBumper ? CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_STARTED) : CISConstants.getEventsStringValue(Events.USER_WAIT_STARTED)
+        let event: String = self.isBumper ?
+            CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_STARTED) :
+            CISConstants.getEventsStringValue(Events.USER_WAIT_STARTED)
         videoAnalytics.reportPlaybackEvent(event)
         logger.debugLog(message: "Tracking paused.")
     }
@@ -272,7 +278,9 @@ public final class ConvivaAnalytics: NSObject {
         // client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
         // AdEnd is the preferred way to resume tracking according to conviva.
         // client.adEnd(sessionKey)
-        let event: String = self.isBumper ? CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_STARTED) : CISConstants.getEventsStringValue(Events.USER_WAIT_STARTED)
+        let event: String = self.isBumper ?
+            CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_STARTED) :
+            CISConstants.getEventsStringValue(Events.USER_WAIT_STARTED)
         videoAnalytics.reportPlaybackEvent(event)
         logger.debugLog(message: "Tracking resumed.")
     }
@@ -288,8 +296,8 @@ public final class ConvivaAnalytics: NSObject {
 //        if let bitmovinPlayerVersion = playerHelper.version {
 //            playerStateManager.setPlayerVersion!(bitmovinPlayerVersion)
 //        }
-        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: PlayerState.CONVIVA_STOPPED)
-        var playerInfo = [String:Any]()
+        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: PlayerState.CONVIVA_STOPPED.rawValue)
+        var playerInfo = [String: Any]()
         playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin Player iOS"
         if let bitmovinPlayerVersion = playerHelper.version {
             playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = bitmovinPlayerVersion
@@ -311,6 +319,7 @@ public final class ConvivaAnalytics: NSObject {
         videoAnalytics.reportPlaybackRequested(contentMetadataBuilder.build())
         //client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
         logger.debugLog(message: "Session started")
+        isSessionActive = true
     }
 
     private func updateSession() {
@@ -323,7 +332,10 @@ public final class ConvivaAnalytics: NSObject {
        
         if let videoQuality = player.videoQuality {
             let bitrate = Int(videoQuality.bitrate) / 1000 // in kbps
-            let value = NSValue(cgSize: CGSize(width: CGFloat(videoQuality.width), height: CGFloat(videoQuality.height)))
+            let value = NSValue(cgSize: CGSize(
+                width: CGFloat(videoQuality.width),
+                height: CGFloat(videoQuality.height
+                )))
             videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
             videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_RESOLUTION, value: value.cgSizeValue)
             videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_RENDERED_FRAMERATE, value: player.currentVideoFrameRate)
@@ -393,8 +405,8 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
-        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState)
-        //playerStateManager.setPlayerState!(playerState)
+        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
+        // playerStateManager.setPlayerState!(playerState)
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }
 }
@@ -468,7 +480,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
                 message: "[ ConvivaAnalytics ] calling StallStarted after 0.10 seconds"
             )
              self.onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
-             }
+        }
     }
 
     func onStallEnded() {
@@ -529,33 +541,45 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent) {
         let adPosition: AdPosition = AdEventUtil.parseAdPosition(event: event, contentDuration: player.duration)
-        client.adStart(sessionKey, adStream: .ADSTREAM_SEPARATE, adPlayer: .ADPLAYER_CONTENT, adPosition: adPosition)
+        var adAttributes = [String: Any]()
+        adAttributes["c3.ad.position"] = adPosition
+        videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT, adType: AdTechnology.CLIENT_SIDE, adBreakInfo: adAttributes)
+         // client.adStart(sessionKey, adStream: .ADSTREAM_SEPARATE, adPlayer: .ADPLAYER_CONTENT, adPosition: adPosition)
     }
 
     func onAdFinished() {
-        client.adEnd(sessionKey)
+        videoAnalytics.reportAdBreakEnded()
+        // client.adEnd(sessionKey)
     }
 
     func onAdSkipped(_ event: AdSkippedEvent) {
         customEvent(event: event)
-        client.adEnd(sessionKey)
+        videoAnalytics.reportAdBreakEnded()
+        // client.adEnd(sessionKey)
     }
 
     func onAdError(_ event: AdErrorEvent) {
         customEvent(event: event)
-        client.adEnd(sessionKey)
+        videoAnalytics.reportAdBreakEnded()
+        // client.adEnd(sessionKey)
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {
         customEvent(event: event)
-        client.detachPlayer(sessionKey)
+        videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT, adType: AdTechnology.CLIENT_SIDE, adBreakInfo: [String: Any]())
+
+        videoAnalytics.reportPlaybackEnded()
+        // client.detachPlayer(sessionKey)
     }
 
     func onAdBreakFinished(_ event: AdBreakFinishedEvent) {
         customEvent(event: event)
-        if !client.isPlayerAttached(sessionKey) {
-            client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+        if(!isSessionActive) {
+            internalInitializeSession()
         }
+//        if !client.isPlayerAttached(sessionKey) {
+//            client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
+//        }
     }
     #endif
 
@@ -565,16 +589,16 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 }
 
 //// MARK: - UserInterfaceListener
-//extension ConvivaAnalytics: UserInterfaceListener {
-//    public func onFullscreenEnter(_ event: FullscreenEnterEvent) {
-//        customEvent(event: event)
-//    }
-//
-//    public func onFullscreenExit(_ event: FullscreenExitEvent) {
-//        customEvent(event: event)
-//    }
-//}
-//
+extension ConvivaAnalytics: UserInterfaceListener {
+    public func onFullscreenEnter(_ event: FullscreenEnterEvent) {
+        customEvent(event: event)
+    }
+
+    public func onFullscreenExit(_ event: FullscreenExitEvent) {
+        customEvent(event: event)
+    }
+}
+
 //extension ConvivaAnalytics: CISIClientMeasureInterface {
 //    public func getAverageFrames() -> Int {
 //        return Int(player.currentVideoFrameRate)

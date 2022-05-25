@@ -30,5 +30,7 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Automatic</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>User tracking</string>
 </dict>
 </plist>

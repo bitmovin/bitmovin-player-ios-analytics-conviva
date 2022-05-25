@@ -38,6 +38,11 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    deinit {
+        convivaAnalytics?.release()
+        NSLog("[ Example ] ConvivaAnalytics released")
+    }
 
     func setupBitmovinPlayer() {
         // Setup Player
@@ -128,11 +133,22 @@ class ViewController: UIViewController {
 
     // MARK: - actions
     @IBAction func setupPlayer(_ sender: Any) {
-        player?.load(source: SourceFactory.create(from: vodSourceConfig))
+        setupBitmovinPlayer()
     }
 
     @IBAction func destroyPlayer(_ sender: Any) {
+        convivaAnalytics?.release()
         player?.unload()
+    }
+    
+    @IBAction func pauseTracking(_ sender: Any) {
+        NSLog("[ Example ] Will pause tracking")
+        convivaAnalytics?.pauseTracking(isBumper: false)
+    }
+    
+    @IBAction func resumeTracking(_ sender: Any) {
+        NSLog("[ Example ] Will resume tracking")
+        convivaAnalytics?.resumeTracking()
     }
 
     @IBAction func sendCustomEvent(_ sender: Any) {

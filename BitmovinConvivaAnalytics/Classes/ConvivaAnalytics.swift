@@ -87,9 +87,8 @@ public final class ConvivaAnalytics: NSObject {
         // let systemInterFactory: CISSystemInterfaceProtocol = IOSSystemInterfaceFactory.initializeWithSystemInterface()
         // let setting: CISSystemSettings = CISSystemSettings()
 
-        
-        if(config.debugLoggingEnabled) {
-            var settings = [String:Any]()
+        if config.debugLoggingEnabled {
+            var settings = [String: Any]()
             if let gatewayUrl = config.gatewayUrl {
                 settings[CIS_SSDK_SETTINGS_GATEWAY_URL] = gatewayUrl.absoluteString
             }
@@ -265,8 +264,8 @@ public final class ConvivaAnalytics: NSObject {
 //                       adPosition: .ADPOSITION_PREROLL)
 //        client.detachPlayer(sessionKey)
         let event: String = self.isBumper ?
-            CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_STARTED) :
-            CISConstants.getEventsStringValue(Events.USER_WAIT_STARTED)
+        CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_STARTED.rawValue) :
+        CISConstants.getEventsStringValue(Events.USER_WAIT_STARTED.rawValue)
         videoAnalytics.reportPlaybackEvent(event)
         logger.debugLog(message: "Tracking paused.")
     }
@@ -279,8 +278,8 @@ public final class ConvivaAnalytics: NSObject {
         // AdEnd is the preferred way to resume tracking according to conviva.
         // client.adEnd(sessionKey)
         let event: String = self.isBumper ?
-            CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_STARTED) :
-            CISConstants.getEventsStringValue(Events.USER_WAIT_STARTED)
+        CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_STARTED.rawValue) :
+        CISConstants.getEventsStringValue(Events.USER_WAIT_STARTED.rawValue)
         videoAnalytics.reportPlaybackEvent(event)
         logger.debugLog(message: "Tracking resumed.")
     }
@@ -438,8 +437,8 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
              internalInitializeSession()
          }
 
-         let message = "\(errorCode) \(errorMessage)"
-         reportPlaybackDeficiency(message: message, severity: .ERROR_FATAL)
+        let message = "\(errorCode) \(errorMessage)"
+        reportPlaybackDeficiency(message: message, severity: .ERROR_FATAL.rawValue)
     }
 
     func onMuted(_ event: MutedEvent) {

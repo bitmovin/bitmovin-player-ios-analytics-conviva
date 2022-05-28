@@ -64,8 +64,6 @@ public final class ConvivaAnalytics: NSObject {
         - player: Bitmovin Player instance to track
         - customerKey: Conviva customerKey
         - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
-
-     - Throws: Convivas `CISClientProtocol` and `CISClientSettingsProtocol` if an error occurs
      */
     public init?(player: Player,
                  customerKey: String,
@@ -277,8 +275,7 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
         buildDynamicContentMetadata()
-        
-       
+
         if let videoQuality = player.videoQuality {
             let bitrate = Int(videoQuality.bitrate) / 1000 // in kbps
             let value = NSValue(cgSize: CGSize(
@@ -289,7 +286,7 @@ public final class ConvivaAnalytics: NSObject {
             videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_RESOLUTION, value: value.cgSizeValue)
             videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_RENDERED_FRAMERATE, value: player.currentVideoFrameRate)
         }
-        
+
         videoAnalytics.setContentInfo(contentMetadataBuilder.build())
     }
 

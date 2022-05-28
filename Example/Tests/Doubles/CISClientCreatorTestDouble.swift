@@ -9,9 +9,9 @@
 import Foundation
 import ConvivaSDK
 
-class CISClientCreatorTestDouble {
-    @objc static func create(withClientSettings: CISClientSettingProtocol,
-                             factory: CISSystemSettings) -> CISClientProtocol {
-        return CISClientTestDouble()
-    }
-}
+//class CISClientCreatorTestDouble {
+//    @objc static func create(withClientSettings: CISClientSettingProtocol,
+//                             factory: CISSystemSettings) -> CISClientProtocol {
+//        return CISClientTestDouble()
+//    }
+//}

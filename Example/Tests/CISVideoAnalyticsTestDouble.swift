@@ -10,6 +10,7 @@ import Foundation
 import ConvivaSDK
 
 class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoubleDataSource {
+    
     func setContentInfo(_ contentInfo: [AnyHashable: Any]) {
         spy(functionName: "setContentInfo", args: ["contentInfo": "\(String(describing: contentInfo))"])
     }
@@ -30,22 +31,37 @@ class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoub
     }
 
     func reportPlaybackError(_ errorMessage: String, errorSeverity severity: ErrorSeverity) {
+        spy(functionName: "reportPlaybackError", args: [
+            "errorMessage": errorMessage,
+            "errorSeverity": "\(String(describing: severity))"
+        ])
+
     }
 
     func reportPlaybackEvent(_ eventName: String, withAttributes attributes: [AnyHashable: Any]? = nil) {
     }
 
-    func reportAdBreakStarted(_ adPlayer: AdPlayer, adType: AdTechnology, adBreakInfo: [AnyHashable: Any]) {
+    func reportAdBreakStarted(_ adPlayer: AdPlayer, adType: AdTechnology, adBreakInfo: [AnyHashable : Any]) {
+        spy(functionName: "reportAdBreakStarted", args: [
+            "adPlayer": "\(String(describing: adPlayer))",
+            "adType": "\(String(describing: adType))",
+            "adBreakInfo": "\(adBreakInfo["c3.ad.position"] ?? "")"
+        ])
+        
     }
 
     func reportAdBreakEnded() {
+        spy(functionName: "reportAdBreakEnded")
     }
 
     func setPlayer(_ player: Any?) {
     }
 
     func reportPlaybackMetric(_ key: String, value: Any?) {
-        spy(functionName: "reportPlaybackMetric", args: ["value": "\(String(describing: value))"])
+        spy(functionName: "reportPlaybackMetric", args: [
+            "key": key,
+            "value": "\(String(describing: value))"
+        ])
     }
 
     func setAdAnalytics(_ adAnalytics: CISAdAnalytics) {

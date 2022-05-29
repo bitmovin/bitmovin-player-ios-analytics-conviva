@@ -214,7 +214,6 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         videoAnalytics.reportPlaybackError(message, errorSeverity: severity)
-        // client.reportError(sessionKey, errorMessage: message, errorSeverity: severity)
         if endSession {
             internalEndSession()
         }
@@ -477,7 +476,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     func onAdStarted(_ event: AdStartedEvent) {
         let adPosition: AdPosition = AdEventUtil.parseAdPosition(event: event, contentDuration: player.duration)
         var adAttributes = [String: Any]()
-        adAttributes["c3.ad.position"] = adPosition
+        adAttributes["c3.ad.position"] = adPosition.rawValue
         videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT, adType: AdTechnology.CLIENT_SIDE, adBreakInfo: adAttributes)
     }
 

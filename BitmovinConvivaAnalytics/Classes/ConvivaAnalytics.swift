@@ -22,7 +22,7 @@ public final class ConvivaAnalytics: NSObject {
     let contentMetadataBuilder: ContentMetadataBuilder
     var isSessionActive: Bool = false
     var isBumper: Bool = false
-    
+
     var listener: BitmovinPlayerListener?
 
     // MARK: - Helper
@@ -449,7 +449,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             // See comment in onSeek
             return
         }
-        
+
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED, value: Int64(player.currentTime * 1000))
     }
 
@@ -508,7 +508,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 }
 
-//// MARK: - UserInterfaceListener
+// MARK: - UserInterfaceListener
 extension ConvivaAnalytics: UserInterfaceListener {
     public func onFullscreenEnter(_ event: FullscreenEnterEvent) {
         customEvent(event: event)

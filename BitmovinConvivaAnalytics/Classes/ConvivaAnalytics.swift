@@ -168,7 +168,6 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
-        var playerTitle = player.source?.sourceConfig.title
         if player.source?.sourceConfig.title == nil && contentMetadataBuilder.assetName == nil {
             throw ConvivaAnalyticsError(
                 "AssetName is missing. Load player source (with title) first or set assetName via updateContentMetadata"

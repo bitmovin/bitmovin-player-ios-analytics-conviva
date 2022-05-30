@@ -62,55 +62,41 @@ class ContentMetadataBuilder {
     public func build() -> [String: Any] {
         if !playbackStarted {
             // Asset name is only allowed to be set once
-//            if contentMetadata.assetName == nil {
-//                contentMetadata.assetName = assetName
-//            }
-            
             if contentInfo[CIS_SSDK_METADATA_ASSET_NAME] == nil {
                 contentInfo[CIS_SSDK_METADATA_ASSET_NAME] = assetName
             }
 
-            // contentMetadata.viewerId = viewerId
             contentInfo[CIS_SSDK_METADATA_VIEWER_ID] = viewerId
-            // contentMetadata.applicationName = applicationName
             contentInfo[CIS_SSDK_METADATA_PLAYER_NAME] = applicationName
 
             if let type = streamType {
-                // contentMetadata.streamType = type
                 contentInfo[CIS_SSDK_METADATA_IS_LIVE] = type == StreamType.CONVIVA_STREAM_LIVE ? NSNumber(value: true) : NSNumber(value: false)
             }
             if let duration = self.duration, duration > 0 {
-                // contentMetadata.duration = duration
                 contentInfo[CIS_SSDK_METADATA_DURATION] = duration
             }
             if let custom = self.custom {
-                // contentMetadata.custom = NSMutableDictionary(dictionary: custom)
                 contentInfo.merge(custom, uniquingKeysWith: {(_, new) in new})
             }
         } else {
             if let duration = self.duration, duration > 0 {
-                // contentMetadata.duration = duration
                 if let newDuration = contentInfo[CIS_SSDK_METADATA_DURATION] as? Int {
                     if newDuration == 0 {
                         contentInfo[CIS_SSDK_METADATA_DURATION] = duration
                     }
                 }
-                
+
             }
         }
 
         if let framerate = encodedFramerate {
-            // contentMetadata.encodedFramerate = framerate
             contentInfo[CIS_SSDK_METADATA_ENCODED_FRAMERATE] = framerate
         }
 
-        // contentMetadata.defaultResource = defaultResource
         contentInfo[CIS_SSDK_METADATA_DEFAULT_RESOURCE] = defaultResource
-        
-        // contentMetadata.streamUrl = streamUrl
+
         contentInfo[CIS_SSDK_METADATA_STREAM_URL] = streamUrl
 
-        // return contentMetadata
         return contentInfo
     }
 
@@ -200,7 +186,6 @@ class ContentMetadataBuilder {
         metadata = MetadataOverrides()
         playbackStarted = false
         contentInfo = [String: Any]()
-        // contentMetadata = CISContentMetadata()
     }
 
     // Values from dict2 will override value from dict1

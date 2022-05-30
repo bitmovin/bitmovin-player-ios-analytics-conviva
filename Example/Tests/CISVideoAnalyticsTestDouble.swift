@@ -11,7 +11,14 @@ import ConvivaSDK
 
 class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoubleDataSource {
     func setContentInfo(_ contentInfo: [AnyHashable: Any]) {
-        spy(functionName: "setContentInfo", args: ["contentInfo": "\(String(describing: contentInfo))"])
+        spy(functionName: "setContentInfo", args: [
+            "applicationName": "\(contentInfo[CIS_SSDK_METADATA_PLAYER_NAME] ?? "")",
+            "assetName": "\(contentInfo[CIS_SSDK_METADATA_ASSET_NAME] ?? "")",
+            "duration": "\(contentInfo[CIS_SSDK_METADATA_DURATION] ?? "")",
+            "isLive": "\(contentInfo[CIS_SSDK_METADATA_IS_LIVE] ?? "")",
+            "streamUrl": "\(contentInfo[CIS_SSDK_METADATA_STREAM_URL] ?? "")",
+            "viewerId": "\(contentInfo[CIS_SSDK_METADATA_VIEWER_ID] ?? "")"
+        ])
     }
 
     func setPlayerInfo(_ playerInfo: [AnyHashable: Any]) {
@@ -19,7 +26,18 @@ class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoub
     }
 
     func reportPlaybackRequested(_ contentInfo: [AnyHashable: Any]?) {
-        spy(functionName: "reportPlaybackRequested", args: ["assetName": "\(contentInfo?["Conviva.assetName"] ?? "")" ])
+        spy(functionName: "reportPlaybackRequested", args: [
+            "applicationName": "\(contentInfo?[CIS_SSDK_METADATA_PLAYER_NAME] ?? "")",
+            "assetName": "\(contentInfo?[CIS_SSDK_METADATA_ASSET_NAME] ?? "")",
+            "duration": "\(contentInfo?[CIS_SSDK_METADATA_DURATION] ?? "")",
+            "isLive": "\(contentInfo?[CIS_SSDK_METADATA_IS_LIVE] ?? "")",
+            "streamUrl": "\(contentInfo?[CIS_SSDK_METADATA_STREAM_URL] ?? "")",
+            "viewerId": "\(contentInfo?[CIS_SSDK_METADATA_VIEWER_ID] ?? "")",
+            "defaultResource": "\(contentInfo?[CIS_SSDK_METADATA_DEFAULT_RESOURCE] ?? "")",
+            "contentType": "\(contentInfo?["contentType"] ?? "")",
+            "MyCustom": "\(contentInfo?["MyCustom"] ?? "")",
+            "streamType": "\(contentInfo?["streamType"] ?? "")"
+        ])
     }
 
     func reportPlaybackEnded() {

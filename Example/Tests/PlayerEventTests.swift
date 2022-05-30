@@ -263,16 +263,6 @@ class PlayerEventsSpec: QuickSpec {
                     expect(spy).to(haveBeenCalled())
                 }
 
-                it("calls end session only if a session is active") {
-                    playerDouble.fakeSourceUnloadedEvent()
-
-                    expect(spy).toEventually(haveBeenCalled())
-                    TestHelper.shared.spyTracker.reset()
-
-                    playerDouble.fakeDestroyEvent()
-                    expect(spy).toEventuallyNot(haveBeenCalled())
-                }
-
                 describe("with on source unloaded / on error workaround") {
                     it("when on source unloaded is followed by on player error") {
                         // simulating a mid stream error so simulate a session initialization first

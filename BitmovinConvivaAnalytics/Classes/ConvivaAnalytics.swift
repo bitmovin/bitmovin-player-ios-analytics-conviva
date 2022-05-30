@@ -168,6 +168,7 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
+        var playerTitle = player.source?.sourceConfig.title
         if player.source?.sourceConfig.title == nil && contentMetadataBuilder.assetName == nil {
             throw ConvivaAnalyticsError(
                 "AssetName is missing. Load player source (with title) first or set assetName via updateContentMetadata"
@@ -468,7 +469,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             // See comment in onSeek
             return
         }
-        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED, value: Int64(player.currentTime * 1000))
+        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED, value: Int64(-1))
     }
 
     #if !os(tvOS)

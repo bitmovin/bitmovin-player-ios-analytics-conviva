@@ -12,6 +12,7 @@ import BitmovinPlayer
 import BitmovinConvivaAnalytics
 import ConvivaSDK
 
+// swiftlint:disable:next type_body_length
 class PlayerEventsSpec: QuickSpec {
     // swiftlint:disable:next function_body_length
     override func spec() {
@@ -112,8 +113,7 @@ class PlayerEventsSpec: QuickSpec {
                         playerDouble.fakePlayEvent()
                         expect(spy).notTo(
                             haveBeenCalled(withArgs: [
-                                "key": "CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE",
-                                "value": "\(String(describing: Optional(PlayerState.CONVIVA_PLAYING.rawValue)))"
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PLAYING.rawValue)"
                             ])
                         )
                     }
@@ -123,7 +123,7 @@ class PlayerEventsSpec: QuickSpec {
                     playerDouble.fakePlayingEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: [
-                            "value": "\(String(describing: Optional(PlayerState.CONVIVA_PLAYING.rawValue)))"
+                            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PLAYING.rawValue)"
                         ])
                     )
                 }
@@ -132,7 +132,7 @@ class PlayerEventsSpec: QuickSpec {
                     playerDouble.fakePauseEvent()
                     expect(spy).to(
                         haveBeenCalled(withArgs: [
-                            "value": "\(String(describing: Optional(PlayerState.CONVIVA_PAUSED.rawValue)))"
+                            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PAUSED.rawValue)"
                         ])
                     )
                 }
@@ -143,7 +143,7 @@ class PlayerEventsSpec: QuickSpec {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
                         expect(spy).notTo(
                             haveBeenCalled(withArgs: [
-                                "value": "\(String(describing: Optional(PlayerState.CONVIVA_BUFFERING.rawValue)))"
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
                             ])
                         )
                     }
@@ -154,7 +154,7 @@ class PlayerEventsSpec: QuickSpec {
                     playerDouble.fakeStallEndedEvent()
                     expect(spy).toEventuallyNot(
                             haveBeenCalled(withArgs: [
-                                "value": "\(String(describing: Optional(PlayerState.CONVIVA_BUFFERING.rawValue)))"
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
                             ])
                         )
                 }
@@ -165,7 +165,7 @@ class PlayerEventsSpec: QuickSpec {
                         playerDouble.fakeStallEndedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: [
-                                "value": "\(String(describing: Optional(PlayerState.CONVIVA_BUFFERING.rawValue)))"
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
                             ])
                         )
                     }
@@ -176,7 +176,7 @@ class PlayerEventsSpec: QuickSpec {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
                         expect(spy).to(
                             haveBeenCalled(withArgs: [
-                                "value": "\(String(describing: Optional(PlayerState.CONVIVA_BUFFERING.rawValue)))"
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
                             ])
                         )
                     }
@@ -193,7 +193,7 @@ class PlayerEventsSpec: QuickSpec {
                         playerDouble.fakeStallEndedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: [
-                                "value": "\(String(describing: Optional(PlayerState.CONVIVA_PLAYING.rawValue)))"
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PLAYING.rawValue)"
                             ])
                         )
                     }
@@ -203,7 +203,7 @@ class PlayerEventsSpec: QuickSpec {
                         playerDouble.fakeStallEndedEvent()
                         expect(spy).to(
                             haveBeenCalled(withArgs: [
-                                "value": "\(String(describing: Optional(PlayerState.CONVIVA_PAUSED.rawValue)))"
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PAUSED.rawValue)"
                             ])
                         )
                     }
@@ -240,7 +240,7 @@ class PlayerEventsSpec: QuickSpec {
                     expect(spy).to(haveBeenCalled())
                     expect(playbackStateSpy).to(
                         haveBeenCalled(withArgs: [
-                            "value": "\(String(describing: Optional(PlayerState.CONVIVA_STOPPED.rawValue)))"
+                            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_STOPPED.rawValue)"
                         ])
                     )
                 }
@@ -253,7 +253,7 @@ class PlayerEventsSpec: QuickSpec {
                     expect(spy).to(haveBeenCalled())
                     expect(playbackStateSpy).to(
                         haveBeenCalled(withArgs: [
-                            "value": "\(String(describing: Optional(PlayerState.CONVIVA_STOPPED.rawValue)))"
+                            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_STOPPED.rawValue)"
                         ])
                     )
                 }

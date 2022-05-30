@@ -57,8 +57,7 @@ class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoub
 
     func reportPlaybackMetric(_ key: String, value: Any?) {
         spy(functionName: "reportPlaybackMetric", args: [
-            "key": key,
-            "value": "\(String(describing: value))"
+            key: "\(value ?? "")"
         ])
     }
 

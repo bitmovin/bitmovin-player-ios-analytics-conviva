@@ -21,9 +21,7 @@ pod install
 
 The 2.x versions of the Conviva Analytics Integration depends on `BitmovinPlayer` version `>= 3.0.0`.
 
-For `BitmovinPlayer` version `>= 2.57.1` && `< 3.0.0` please use Conviva integration version `>= 1.3.0` && `< 2.0.0`
-
-If you need support for prior to `2.57.1` please use [v1.2.0](https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva/tree/1.2.0).
+Note: `BitmovinPlayer` version `2.x.x` is not supported anymore. Please upgrade to `BitmovinPlayer` version `3.x.x`.
 
 ## Usage
 

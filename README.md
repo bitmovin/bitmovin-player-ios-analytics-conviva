@@ -40,6 +40,12 @@ do {
 }
 ```
 
+At the end of the application's lifecycle, release the integration with:
+
+```swift
+    convivaAnalytics.release()
+```
+
 Details about usage of `BitmovinPlayer` can be found [here](https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod).
 
 ### Content Metadata handling

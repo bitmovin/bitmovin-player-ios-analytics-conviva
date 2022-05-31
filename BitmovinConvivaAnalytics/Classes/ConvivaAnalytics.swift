@@ -127,14 +127,14 @@ public final class ConvivaAnalytics: NSObject {
     // MARK: - external session handling
 
     /**
-     Will update the contentMetadata which are tracked with conviva.
+     Will update the contentMetadata that are tracked with conviva.
 
      If there is an active session only permitted values will be updated and propagated immediately.
      If there is no active session the values will be set on session creation.
 
-     Attributes set via this method will override automatic tracked once.
+     Attributes set via this method will override automatically tracked attributes.
      - Parameters:
-        - metadataOverrides: Metadata attributes which will be used to track to conviva.
+        - metadataOverrides: Metadata attributes which will be used to track for Cconviva.
                              @see ContentMetadataBuilder for more information about permitted attributes
      */
     public func updateContentMetadata(metadataOverrides: MetadataOverrides) {
@@ -156,8 +156,8 @@ public final class ConvivaAnalytics: NSObject {
 
      Warning: The integration can only be validated without external session managing. So when using this method we can
      no longer ensure that the session is managed at the correct time. Additional: Since some metadata attributes
-     relies on the players source we can't ensure that all metadata attributes are present at session creation.
-     Therefore it could be that there will be a 'ContentMetadata created late' issue after conviva validation.
+     rely on the player's source we can't ensure that all metadata attributes are present at session creation.
+     Therefore it is possible that we receive a 'ContentMetadata created late' issue after conviva validation.
 
      If no source was loaded (or the itemTitle is missing) and no assetName was set via updateContentMetadata
      this method will throw an error.
@@ -220,7 +220,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     /**
-     Puts the session state in a notMonitored state.
+     Puts the session in a notMonitored state.
      */
     public func pauseTracking(isBumper: Bool) {
         self.isBumper = isBumper
@@ -232,7 +232,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     /**
-     Puts the session state from a notMonitored state into the last one tracked.
+     Changes the session statebfrom notMonitored state into the previous state.
      */
     public func resumeTracking() {
         let event: String = self.isBumper ?
@@ -244,7 +244,9 @@ public final class ConvivaAnalytics: NSObject {
 
     // MARK: - session handling
     private func setupPlayerStateManager() {
-        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: PlayerState.CONVIVA_STOPPED.rawValue)
+        videoAnalytics.reportPlaybackMetric(
+            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+            value: PlayerState.CONVIVA_STOPPED.rawValue)
         var playerInfo = [String: Any]()
         playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin Player iOS"
         if let bitmovinPlayerVersion = playerHelper.version {
@@ -282,8 +284,12 @@ public final class ConvivaAnalytics: NSObject {
                 height: CGFloat(videoQuality.height
                 )))
             videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
-            videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_RESOLUTION, value: value.cgSizeValue)
-            videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_RENDERED_FRAMERATE, value: player.currentVideoFrameRate)
+            videoAnalytics.reportPlaybackMetric(
+                CIS_SSDK_PLAYBACK_METRIC_RESOLUTION,
+                value: value.cgSizeValue)
+            videoAnalytics.reportPlaybackMetric(
+                CIS_SSDK_PLAYBACK_METRIC_RENDERED_FRAMERATE,
+                value: player.currentVideoFrameRate)
         }
 
         videoAnalytics.setContentInfo(contentMetadataBuilder.build())
@@ -337,7 +343,7 @@ public final class ConvivaAnalytics: NSObject {
         if isStalled && playerState != .CONVIVA_BUFFERING {
             return
         }
-        // do not report any stalling when isStalled false (StallEnded trigered immediatelly after StallStarted)
+        // do not report any stalling when isStalled false (StallEnded triggered immediatelly after StallStarted)
         else if !isStalled && playerState == .CONVIVA_BUFFERING {
             self.logger.debugLog(
                 message: "[ ConvivaAnalytics ] false stalling, not registering to Conviva"
@@ -477,7 +483,8 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         let adPosition: AdPosition = AdEventUtil.parseAdPosition(event: event, contentDuration: player.duration)
         var adAttributes = [String: Any]()
         adAttributes["c3.ad.position"] = adPosition.rawValue
-        videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT, adType: AdTechnology.CLIENT_SIDE, adBreakInfo: adAttributes)
+        videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT,
+                                            adType: AdTechnology.CLIENT_SIDE, adBreakInfo: adAttributes)
     }
 
     func onAdFinished() {

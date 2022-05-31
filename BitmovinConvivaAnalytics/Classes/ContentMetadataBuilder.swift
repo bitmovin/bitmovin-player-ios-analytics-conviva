@@ -31,7 +31,6 @@ public struct MetadataOverrides {
 class ContentMetadataBuilder {
 
     let logger: Logger
-    // var contentMetadata: CISContentMetadata
     var contentInfo: [String: Any]
 
     // internal metadata fields to enable merging / overriding
@@ -41,7 +40,6 @@ class ContentMetadataBuilder {
 
     init(logger: Logger) {
         self.logger = logger
-        // contentMetadata = CISContentMetadata()
         contentInfo = [String: Any]()
     }
 

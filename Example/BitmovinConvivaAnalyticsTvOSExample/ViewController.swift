@@ -26,12 +26,12 @@ class ViewController: UIViewController {
 
         setupBitmovinPlayer()
     }
-    
+
     deinit {
         convivaAnalytics?.release()
         NSLog("[ Example ] ConvivaAnalytics released")
     }
-    
+
     func setupBitmovinPlayer() {
         // Setup Player
         player = PlayerFactory.create(playerConfig: playerConfig)

@@ -38,7 +38,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+
     deinit {
         convivaAnalytics?.release()
         NSLog("[ Example ] ConvivaAnalytics released")
@@ -140,12 +140,12 @@ class ViewController: UIViewController {
         convivaAnalytics?.release()
         player?.unload()
     }
-    
+
     @IBAction func pauseTracking(_ sender: Any) {
         NSLog("[ Example ] Will pause tracking")
         convivaAnalytics?.pauseTracking(isBumper: false)
     }
-    
+
     @IBAction func resumeTracking(_ sender: Any) {
         NSLog("[ Example ] Will resume tracking")
         convivaAnalytics?.resumeTracking()

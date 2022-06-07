@@ -234,8 +234,8 @@ public final class ConvivaAnalytics: NSObject {
      */
     public func resumeTracking() {
         let event: String = self.isBumper ?
-        CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_STARTED) :
-        CISConstants.getEventsStringValue(Events.USER_WAIT_STARTED)
+        CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_ENDED) :
+        CISConstants.getEventsStringValue(Events.USER_WAIT_ENDED)
         videoAnalytics.reportPlaybackEvent(event)
         logger.debugLog(message: "Tracking resumed.")
     }

@@ -230,7 +230,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     /**
-     Changes the session statebfrom notMonitored state into the previous state.
+     Changes the session state from notMonitored state into the previous state.
      */
     public func resumeTracking() {
         let event: String = self.isBumper ?

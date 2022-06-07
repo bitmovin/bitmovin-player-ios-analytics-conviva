@@ -132,7 +132,7 @@ public final class ConvivaAnalytics: NSObject {
 
      Attributes set via this method will override automatically tracked attributes.
      - Parameters:
-        - metadataOverrides: Metadata attributes which will be used to track for Cconviva.
+        - metadataOverrides: Metadata attributes which will be used to track for Conviva.
                              @see ContentMetadataBuilder for more information about permitted attributes
      */
     public func updateContentMetadata(metadataOverrides: MetadataOverrides) {

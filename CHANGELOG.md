@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [3.0.0]
 
-- This is first version using Bitmovin Player iOS V4 SDK. This is not backward compatible with previous versions of the player SDK.
 - Utilises Conviva's Simple SDK instead of the old interface
 - Added `release()` method for use at end of app lifecycle
 - Internal changes to ConvivaAnalytics and related classes 

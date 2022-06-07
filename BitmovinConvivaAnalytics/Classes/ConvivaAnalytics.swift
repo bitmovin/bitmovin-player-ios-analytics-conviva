@@ -78,9 +78,7 @@ public final class ConvivaAnalytics: NSObject {
             if let gatewayUrl = config.gatewayUrl {
                 settings[CIS_SSDK_SETTINGS_GATEWAY_URL] = gatewayUrl.absoluteString
             }
-            if config.debugLoggingEnabled {
-                settings[CIS_SSDK_SETTINGS_LOG_LEVEL] = LogLevel.LOGLEVEL_WARNING.rawValue
-            }
+            settings[CIS_SSDK_SETTINGS_LOG_LEVEL] = LogLevel.LOGLEVEL_WARNING.rawValue
             analytics = CISAnalyticsCreator.create(withCustomerKey: customerKey, settings: settings)
         } else {
             analytics = CISAnalyticsCreator.create(withCustomerKey: customerKey)

@@ -274,6 +274,7 @@ public final class ConvivaAnalytics: NSObject {
 
         setupPlayerStateManager()
         updateSession()
+        logger.debugLog(message: "Creating session \(sessionKey) with metadata: \(contentMetadataBuilder)")
 
         client.attachPlayer(sessionKey, playerStateManager: playerStateManager)
         logger.debugLog(message: "Session started")
@@ -292,7 +293,8 @@ public final class ConvivaAnalytics: NSObject {
             playerStateManager.setVideoResolutionWidth!(videoQuality.width)
             playerStateManager.setVideoResolutionHeight!(videoQuality.height)
         }
-
+        
+        logger.debugLog(message: "Updating session \(sessionKey) with metadata: \(contentMetadataBuilder)")
         client.updateContentMetadata(sessionKey, metadata: contentMetadataBuilder.build())
     }
 
@@ -301,6 +303,7 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
+        logger.debugLog(message: "Ending session \(sessionKey)")
         client.detachPlayer(sessionKey)
         client.cleanupSession(sessionKey)
         playerStateManager.reset?()

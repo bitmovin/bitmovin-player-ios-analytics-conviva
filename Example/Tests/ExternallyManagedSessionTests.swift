@@ -58,7 +58,9 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyAsset"]))
                     }
 
-                    // TODO: Work out why this is needed!
+                    // This is needed because the throwError() Matcher is not available
+                    // on ARM based environments. So this does not work on M1 Macs as well.
+                    // Would need a bit of love to skip them there as well.
                     #if targetEnvironment(simulator)
                     // This test will only run on a simulator
                     // https://github.com/Quick/Nimble#swift-assertions
@@ -194,7 +196,8 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     context("session closing handling") {
                         var sessionEndSpy: Spy!
                         beforeEach {
-                            sessionEndSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackEnded")
+                            sessionEndSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
+                                                functionName: "reportPlaybackEnded")
                         }
                         it("closes session by default") {
                             convivaAnalytics.reportPlaybackDeficiency(message: "Test", severity: .ERROR_FATAL)

@@ -68,7 +68,8 @@ class ContentMetadataBuilder {
             contentInfo[CIS_SSDK_METADATA_PLAYER_NAME] = applicationName
 
             if let type = streamType {
-                contentInfo[CIS_SSDK_METADATA_IS_LIVE] = type == StreamType.CONVIVA_STREAM_LIVE ? NSNumber(value: true) : NSNumber(value: false)
+                contentInfo[CIS_SSDK_METADATA_IS_LIVE] = type
+                == StreamType.CONVIVA_STREAM_LIVE ? NSNumber(value: true) : NSNumber(value: false)
             }
             if let duration = self.duration, duration > 0 {
                 contentInfo[CIS_SSDK_METADATA_DURATION] = duration

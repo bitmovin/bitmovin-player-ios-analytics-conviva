@@ -7,7 +7,6 @@ import BitmovinConvivaAnalytics
 import ConvivaSDK
 
 class SeekTimeshiftSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 

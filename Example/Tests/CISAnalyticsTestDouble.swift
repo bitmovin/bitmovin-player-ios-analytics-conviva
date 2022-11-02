@@ -18,7 +18,7 @@ class CISAnalyticsTestDouble: NSObject, CISAnalyticsProtocol, TestDoubleDataSour
         return CISVideoAnalyticsTestDouble()
     }
 
-    func createVideoAnalytics(_ options: [AnyHashable : Any]) -> CISVideoAnalytics {
+    func createVideoAnalytics(_ options: [AnyHashable: Any]) -> CISVideoAnalytics {
         return CISVideoAnalyticsTestDouble()
     }
 

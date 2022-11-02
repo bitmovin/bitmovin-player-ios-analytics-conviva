@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 //
 //  ConvivaAnalytics.swift
 //  BitmovinConvivaAnalytics
@@ -454,7 +455,8 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             return
         }
 
-        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED, value: Int64(player.currentTime * 1000))
+        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED,
+                                            value: Int64(player.currentTime * 1000))
     }
 
     func onTimeShift(_ event: TimeShiftEvent) {

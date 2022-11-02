@@ -126,7 +126,7 @@ class ContentMetadataSpec: QuickSpec {
                 it("update stream type (VOD/Live)") {
                     playerDouble.fakePlayEvent() // to initialize session
                     var metadata = MetadataOverrides()
-                    metadata.streamType = StreamType.CONVIVA_STREAM_LIVE;
+                    metadata.streamType = StreamType.CONVIVA_STREAM_LIVE
                     convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
 

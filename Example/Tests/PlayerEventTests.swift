@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 //
 //  PlayerEventTests.swift
 //  BitmovinConvivaAnalytics_Tests
@@ -233,7 +234,8 @@ class PlayerEventsSpec: QuickSpec {
                 }
 
                 it("on playback finished") {
-                    let playbackStateSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackMetric")
+                    let playbackStateSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
+                                               functionName: "reportPlaybackMetric")
 
                     playerDouble.fakePlayEvent()
                     playerDouble.fakePlaybackFinishedEvent()
@@ -246,7 +248,8 @@ class PlayerEventsSpec: QuickSpec {
                 }
 
                 it("on playlist transition") {
-                    let playbackStateSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackMetric")
+                    let playbackStateSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
+                                               functionName: "reportPlaybackMetric")
 
                     playerDouble.fakePlayEvent()
                     playerDouble.fakePlaylistTransitionEvent()
@@ -270,8 +273,10 @@ class PlayerEventsSpec: QuickSpec {
 
                         // reset spies to add ability to test against createSession has not been called
                         TestHelper.shared.spyTracker.reset()
-                        let errorSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackError")
-                        let sessionSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
+                        let errorSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
+                                           functionName: "reportPlaybackError")
+                        let sessionSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
+                                             functionName: "reportPlaybackRequested")
 
                         // default sdk error handling is to call unload and this will be triggered first
                         // but we want to track the error event in the same session
@@ -289,8 +294,10 @@ class PlayerEventsSpec: QuickSpec {
 
                         // reset spies to add ability to test against createSession has not been called
                         TestHelper.shared.spyTracker.reset()
-                        let errorSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackError")
-                        let sessionSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
+                        let errorSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
+                                           functionName: "reportPlaybackError")
+                        let sessionSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
+                                             functionName: "reportPlaybackRequested")
 
                         // default sdk error handling is to call unload and this will be triggered first
                         // but we want to track the error event in the same session

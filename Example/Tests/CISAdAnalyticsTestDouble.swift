@@ -10,60 +10,60 @@ import Foundation
 import ConvivaSDK
 
 class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol {
-    func setAdInfo(_ adInfo: [AnyHashable : Any]) {
+    func setAdInfo(_ adInfo: [AnyHashable: Any]) {
     }
-    
-    func setAdPlayerInfo(_ adPlayerInfo: [AnyHashable : Any]) {
+
+    func setAdPlayerInfo(_ adPlayerInfo: [AnyHashable: Any]) {
     }
-    
-    func reportAdFailed(_ errorMessage: String, adInfo: [AnyHashable : Any]?) {
+
+    func reportAdFailed(_ errorMessage: String, adInfo: [AnyHashable: Any]?) {
     }
-    
-    func reportAdLoaded(_ adInfo: [AnyHashable : Any]?) {
+
+    func reportAdLoaded(_ adInfo: [AnyHashable: Any]?) {
     }
-    
-    func reportAdStarted(_ adInfo: [AnyHashable : Any]?) {
+
+    func reportAdStarted(_ adInfo: [AnyHashable: Any]?) {
     }
-    
+
     func reportAdEnded() {
     }
-    
+
     func reportAdError(_ errorMessage: String, severity: ErrorSeverity) {
     }
-    
+
     func reportAdSkipped() {
     }
-    
-    func reportAdPlayerEvent(_ eventType: String, details: [AnyHashable : Any]?) {
+
+    func reportAdPlayerEvent(_ eventType: String, details: [AnyHashable: Any]?) {
     }
-    
+
     func reportAdMetric(_ key: String, value: Any) {
     }
-    
+
     func setContentSessionID(_ sessionID: Int32) {
     }
-    
-    func setAdListener(_ adProxy: Any?, andInfo info: [AnyHashable : Any]) {
+
+    func setAdListener(_ adProxy: Any?, andInfo info: [AnyHashable: Any]) {
     }
-    
+
     func report(_ playerState: PlayerState) {
     }
-    
+
     func getSessionId() -> Int32 {
         return 0
     }
-    
+
     func getSessionKey() -> Int32 {
         return 1
     }
 
-    func getMetadataInfo() -> [AnyHashable : Any] {
-        return [AnyHashable : Any]()
+    func getMetadataInfo() -> [AnyHashable: Any] {
+        return [AnyHashable: Any]()
     }
 
     func reportPlaybackMetric(_ key: String, value: Any?) {
     }
-    
+
     func setUpdateHandler(_ updateHandler: @escaping UpdateHandler) {
     }
 

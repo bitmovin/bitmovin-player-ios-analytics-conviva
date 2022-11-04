@@ -152,6 +152,25 @@ class ContentMetadataSpec: QuickSpec {
                         haveBeenCalled(withArgs: ["streamUrl": "www.google.com.m3u8"])
                     )
                 }
+ 
+                it("update bitrate") {
+                     let videoQuality = VideoQuality(identifier: "Test",
+                                                     label: "test",
+                                                     bitrate: 4_000_000,
+                                                     codec: nil,
+                                                     width: 1900,
+                                                     height: 800)
+
+                    _ = TestDouble(aClass: playerDouble, name: "videoQuality", return: videoQuality)
+
+                    playerDouble.fakePlayEvent() // to initialize session
+                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackMetric")
+                    expect(spy).to(
+                        haveBeenCalled(withArgs: [
+                            CIS_SSDK_PLAYBACK_METRIC_BITRATE: "4000"
+                        ])
+                    )
+                 }
             }
 
             describe("overriding") {
@@ -211,6 +230,13 @@ class ContentMetadataSpec: QuickSpec {
                         ]
                         updateMetadataAndInitialize()
                         expect(spy).to(haveBeenCalled(withArgs: ["MyCustom": "Test Value"]))
+                    }
+
+                    it("set encoded framerate") {
+                         metadata.encodedFramerate = 55
+                         updateMetadataAndInitialize()
+                         expect(spy).to(haveBeenCalled(withArgs: ["encodedFramerate": "55"]))
+
                     }
 
                     it("set default resrouce") {

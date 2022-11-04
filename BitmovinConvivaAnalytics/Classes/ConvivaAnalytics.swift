@@ -36,7 +36,7 @@ public final class ConvivaAnalytics: NSObject {
     // MARK: - Public Attributes
     /**
      Set the PlayerView to enable view triggered events like fullscreen state changes
-//     */
+     */
     public var playerView: PlayerView? {
         didSet {
             playerView?.remove(listener: self)

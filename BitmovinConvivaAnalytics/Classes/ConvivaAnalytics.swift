@@ -236,6 +236,7 @@ public final class ConvivaAnalytics: NSObject {
         CISConstants.getEventsStringValue(Events.BUMPER_VIDEO_ENDED) :
         CISConstants.getEventsStringValue(Events.USER_WAIT_ENDED)
         videoAnalytics.reportPlaybackEvent(event)
+        self.isBumper = false
         logger.debugLog(message: "Tracking resumed.")
     }
 

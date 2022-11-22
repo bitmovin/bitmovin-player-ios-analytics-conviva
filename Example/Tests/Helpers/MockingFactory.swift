@@ -12,32 +12,32 @@ import ConvivaSDK
 class MockingFactory {
     func mockConviva() {
         // method swizzling
-        method_exchangeImplementations(createSettingMethod, mockedCreateSettingMethod)
-        method_exchangeImplementations(createClientMethod, mockedCreateClientMethod)
+        method_exchangeImplementations(createAnalyticsMethod, mockedCreateAnalyticsMethod)
+        method_exchangeImplementations(createAnalyticsMethod2, mockedCreateAnalyticsMethod2)
     }
 
     func undoConvivaMock() {
-        method_exchangeImplementations(mockedCreateSettingMethod, createSettingMethod)
-        method_exchangeImplementations(mockedCreateClientMethod, createClientMethod)
+        method_exchangeImplementations(mockedCreateAnalyticsMethod, createAnalyticsMethod)
+        method_exchangeImplementations(mockedCreateAnalyticsMethod2, createAnalyticsMethod2)
     }
 
-    var createSettingMethod: Method {
-        return class_getClassMethod(CISClientSettingCreator.self,
-                                    #selector(CISClientSettingCreator.create(withCustomerKey: )))!
+    var createAnalyticsMethod: Method {
+        return class_getClassMethod(CISAnalyticsCreator.self,
+                                    #selector(CISAnalyticsCreator.create(withCustomerKey:)))!
     }
 
-    var mockedCreateSettingMethod: Method {
-        return class_getClassMethod(CISClientSettingCreatorTestDouble.self,
-                                    #selector(CISClientSettingCreatorTestDouble.myCreate(withCustomerKey:)))!
+    var mockedCreateAnalyticsMethod: Method {
+        return class_getClassMethod(CISAnalyticsCreatorTestDouble.self,
+                                    #selector(CISAnalyticsCreatorTestDouble.create(withCustomerKey:)))!
     }
 
-    var createClientMethod: Method {
-        return class_getClassMethod(CISClientCreator.self,
-                                    #selector(CISClientCreator.create(withClientSettings:factory:)))!
+    var createAnalyticsMethod2: Method {
+        return class_getClassMethod(CISAnalyticsCreator.self,
+                                    #selector(CISAnalyticsCreator.create(withCustomerKey:settings:)))!
     }
 
-    var mockedCreateClientMethod: Method {
-        return class_getClassMethod(CISClientCreatorTestDouble.self,
-                                    #selector(CISClientCreatorTestDouble.create(withClientSettings:factory:)))!
+    var mockedCreateAnalyticsMethod2: Method {
+        return class_getClassMethod(CISAnalyticsCreatorTestDouble.self,
+                                    #selector(CISAnalyticsCreatorTestDouble.create(withCustomerKey:settings:)))!
     }
 }

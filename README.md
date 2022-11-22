@@ -19,7 +19,7 @@ pod install
 
 ### Compatibility
 
-The 2.x versions of the Conviva Analytics Integration depends on `BitmovinPlayer` version `>= 3.0.0`.
+The 2.x and higher versions of the Conviva Analytics Integration depends on `BitmovinPlayer` version `>= 3.0.0`.
 
 Note: `BitmovinPlayer` version `2.x.x` is not supported anymore. Please upgrade to `BitmovinPlayer` version `3.x.x`.
 
@@ -36,6 +36,12 @@ do {
 } catch {
     NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
 }
+```
+
+At the end of the application's lifecycle, release the integration with:
+
+```swift
+    convivaAnalytics.release()
 ```
 
 Details about usage of `BitmovinPlayer` can be found [here](https://github.com/bitmovin/bitmovin-player-ios-sdk-cocoapod).

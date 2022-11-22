@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 //
 //  BitmovinPlayerTestDouble.swift
 //  BitmovinConvivaAnalytics_Example
@@ -68,7 +69,8 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onPlayerError = fakeListener?.onPlayerError else {
             return
         }
-        onPlayerError(PlayerErrorEvent(code: PlayerError.Code.networkGeneral, message: "Test player error", data: nil), player)
+        onPlayerError(PlayerErrorEvent(code: PlayerError.Code.networkGeneral,
+                                       message: "Test player error", data: nil), player)
     }
 
     func fakeSourceErrorEvent() {
@@ -430,7 +432,6 @@ class BitmovinPlayerStub: NSObject, Player {
     }
 
     func addSubtitle(track subtitleTrack: SubtitleTrack) {
-        player.addSubtitle(track: subtitleTrack)
     }
 
     func removeSubtitle(trackIdentifier subtitleTrackID: String) {

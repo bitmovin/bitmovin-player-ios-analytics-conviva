@@ -51,7 +51,7 @@ class ContentMetadataSpec: QuickSpec {
             context("when initializing session") {
                 it("set application name") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
 
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["applicationName": "Unit Tests"])
@@ -59,7 +59,7 @@ class ContentMetadataSpec: QuickSpec {
                 }
 
                 it("set asset name") {
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
 
                     let playerConfig = PlayerConfig()
                     _ = TestDouble(aClass: playerDouble, name: "config", return: playerConfig)
@@ -76,22 +76,23 @@ class ContentMetadataSpec: QuickSpec {
 
                 it("set viewer id") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["viewerId": "TestViewer"])
                     )
                 }
 
-                it("set custom tags") {
+                // Custom tags are not set until updateContentMetadata is called *after* playback (new session) starts
+                it("don't set custom tags") {
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
-                    expect(spy).to(
+                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
+                    expect(spy).toNot(
                         haveBeenCalled(withArgs: ["custom:Custom": "Tags", "custom:TestRun": "Success"])
                     )
                 }
 
                 it("set stream url") {
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
 
                     let playerConfig = PlayerConfig()
                     let sourceConfig = SourceConfig(url: URL(string: "www.google.com.m3u8")!, type: .hls)
@@ -111,9 +112,11 @@ class ContentMetadataSpec: QuickSpec {
 
             context("when updating session") {
                 it("update video duration") {
-                    _ = TestDouble(aClass: playerDouble, name: "duration", return: TimeInterval(50))
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
+                    var metadata = MetadataOverrides()
+                    metadata.duration = 50
+                    convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
+                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
 
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["duration": "50"])
@@ -121,17 +124,19 @@ class ContentMetadataSpec: QuickSpec {
                 }
 
                 it("update stream type (VOD/Live)") {
-                    _ = TestDouble(aClass: playerDouble, name: "isLive", return: true)
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
+                    var metadata = MetadataOverrides()
+                    metadata.streamType = StreamType.CONVIVA_STREAM_LIVE
+                    convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
+                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
 
                     expect(spy).to(
-                        haveBeenCalled(withArgs: ["streamType": "\(StreamType.CONVIVA_STREAM_LIVE.rawValue)"])
+                        haveBeenCalled(withArgs: ["isLive": "\(StreamType.CONVIVA_STREAM_LIVE.rawValue)"])
                     )
                 }
 
                 it("update stream url") {
-                    let spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
+                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
 
                     let playerConfig = PlayerConfig()
                     let sourceConfig = SourceConfig(url: URL(string: "www.google.com.m3u8")!, type: .hls)
@@ -147,24 +152,25 @@ class ContentMetadataSpec: QuickSpec {
                         haveBeenCalled(withArgs: ["streamUrl": "www.google.com.m3u8"])
                     )
                 }
-
+ 
                 it("update bitrate") {
-                    let videoQuality = VideoQuality(identifier: "Test",
-                                                    label: "test",
-                                                    bitrate: 4_000_000,
-                                                    codec: nil,
-                                                    width: 1900,
-                                                    height: 800)
+                     let videoQuality = VideoQuality(identifier: "Test",
+                                                     label: "test",
+                                                     bitrate: 4_000_000,
+                                                     codec: nil,
+                                                     width: 1900,
+                                                     height: 800)
 
                     _ = TestDouble(aClass: playerDouble, name: "videoQuality", return: videoQuality)
 
                     playerDouble.fakePlayEvent() // to initialize session
-                    let spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setBitrateKbps")
-
+                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackMetric")
                     expect(spy).to(
-                        haveBeenCalled(withArgs: ["newBitrateKbps": "4000"])
+                        haveBeenCalled(withArgs: [
+                            CIS_SSDK_PLAYBACK_METRIC_BITRATE: "4000"
+                        ])
                     )
-                }
+                 }
             }
 
             describe("overriding") {
@@ -176,7 +182,7 @@ class ContentMetadataSpec: QuickSpec {
                 context("setting overrides before playback report them at session creation") {
                     var spy: Spy!
                     beforeEach {
-                        spy = Spy(aClass: CISClientTestDouble.self, functionName: "createSession")
+                        spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
                         metadata.assetName = "MyAsset"
 
                     }
@@ -209,7 +215,7 @@ class ContentMetadataSpec: QuickSpec {
                         let streamType = StreamType.CONVIVA_STREAM_LIVE
                         metadata.streamType = streamType
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["streamType": "\(streamType.rawValue)"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["isLive": "\(streamType.rawValue)"]))
                     }
 
                     it("set duration") {
@@ -223,13 +229,14 @@ class ContentMetadataSpec: QuickSpec {
                             "MyCustom": "Test Value"
                         ]
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["custom:MyCustom": "Test Value"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["MyCustom": "Test Value"]))
                     }
 
-                    it("set encoded frame rate") {
-                        metadata.encodedFramerate = 55
-                        updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["encodedFramerate": "55"]))
+                    it("set encoded framerate") {
+                         metadata.encodedFramerate = 55
+                         updateMetadataAndInitialize()
+                         expect(spy).to(haveBeenCalled(withArgs: ["encodedFramerate": "55"]))
+
                     }
 
                     it("set default resrouce") {
@@ -249,7 +256,7 @@ class ContentMetadataSpec: QuickSpec {
                             "streamType": "VOD"
                         ]
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["custom:streamType": "VOD"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["streamType": "VOD"]))
                     }
 
                     it("add extern custom tags") {
@@ -257,7 +264,7 @@ class ContentMetadataSpec: QuickSpec {
                             "contentType": "Episode"
                         ]
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["custom:contentType": "Episode"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["contentType": "Episode"]))
                     }
 
                     it("override intern and add extern custom tags") {
@@ -266,14 +273,16 @@ class ContentMetadataSpec: QuickSpec {
                             "contentType": "Episode"
                         ]
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["custom:streamType": "LIVE", "custom:contentType": "Episode"]))
+                        expect(spy).to(haveBeenCalled(withArgs: [
+                            "streamType": "LIVE",
+                            "contentType": "Episode"]))
                     }
                 }
 
                 context("setting overrides during playback reports just permitted immediately") {
                     var spy: Spy!
                     beforeEach {
-                        spy = Spy(aClass: CISClientTestDouble.self, functionName: "updateContentMetadata")
+                        spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
                         let playerConfig = PlayerConfig()
 
                         let sourceConfig = SourceConfig(url: URL(string: "http://a.url")!, type: .hls)
@@ -330,16 +339,10 @@ class ContentMetadataSpec: QuickSpec {
                         expect(spy).toNot(haveBeenCalled(withArgs: ["MyCustom": "Test Value"]))
                     }
 
-                    it("set encoded frame rate") {
-                        metadata.encodedFramerate = 55
-                        updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["encodedFramerate": "55"]))
-                    }
-
-                    it("set default resrouce") {
+                    it("set default resource") {
                         metadata.defaultResource = "MyResource"
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["defaultResource": "MyResource"]))
+                        expect(spy).toNot(haveBeenCalled(withArgs: ["defaultResource": "MyResource"]))
                     }
 
                     it("set stream Url") {

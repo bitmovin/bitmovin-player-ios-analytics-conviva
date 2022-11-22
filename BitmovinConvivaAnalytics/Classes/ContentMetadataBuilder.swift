@@ -30,7 +30,7 @@ public struct MetadataOverrides {
 
 class ContentMetadataBuilder : CustomStringConvertible {
     let logger: Logger
-    var contentMetadata: CISContentMetadata
+    var contentInfo: [String: Any]
 
     // internal metadata fields to enable merging / overriding
     var metadataOverrides: MetadataOverrides = MetadataOverrides()
@@ -49,7 +49,7 @@ class ContentMetadataBuilder : CustomStringConvertible {
     
     init(logger: Logger) {
         self.logger = logger
-        contentMetadata = CISContentMetadata()
+        contentInfo = [String: Any]()
     }
 
     public func setOverrides(_ metadataOverrides: MetadataOverrides) {
@@ -66,39 +66,46 @@ class ContentMetadataBuilder : CustomStringConvertible {
         self.playbackStarted = playbackStarted
     }
 
-    public func build() -> CISContentMetadata {
+    public func build() -> [String: Any] {
         if !playbackStarted {
             // Asset name is only allowed to be set once
-            if contentMetadata.assetName == nil {
-                contentMetadata.assetName = assetName
+            if contentInfo[CIS_SSDK_METADATA_ASSET_NAME] == nil {
+                contentInfo[CIS_SSDK_METADATA_ASSET_NAME] = assetName
             }
 
-            contentMetadata.viewerId = viewerId
-            contentMetadata.applicationName = applicationName
+            contentInfo[CIS_SSDK_METADATA_VIEWER_ID] = viewerId
+            contentInfo[CIS_SSDK_METADATA_PLAYER_NAME] = applicationName
 
             if let type = streamType {
-                contentMetadata.streamType = type
+                contentInfo[CIS_SSDK_METADATA_IS_LIVE] = type
+                == StreamType.CONVIVA_STREAM_LIVE ? NSNumber(value: true) : NSNumber(value: false)
             }
             if let duration = self.duration, duration > 0 {
-                contentMetadata.duration = duration
+                contentInfo[CIS_SSDK_METADATA_DURATION] = duration
             }
             if let custom = self.custom {
-                contentMetadata.custom = NSMutableDictionary(dictionary: custom)
+                contentInfo.merge(custom, uniquingKeysWith: {(_, new) in new})
             }
         } else {
-            if let duration = self.duration, duration > 0, contentMetadata.duration == 0 {
-                contentMetadata.duration = duration
+            if let duration = self.duration, duration > 0 {
+                if let newDuration = contentInfo[CIS_SSDK_METADATA_DURATION] as? Int {
+                    if newDuration == 0 {
+                        contentInfo[CIS_SSDK_METADATA_DURATION] = duration
+                    }
+                }
+
             }
         }
 
         if let framerate = encodedFramerate {
-            contentMetadata.encodedFramerate = framerate
+            contentInfo[CIS_SSDK_METADATA_ENCODED_FRAMERATE] = framerate
         }
 
-        contentMetadata.defaultResource = defaultResource
-        contentMetadata.streamUrl = streamUrl
+        contentInfo[CIS_SSDK_METADATA_DEFAULT_RESOURCE] = defaultResource
 
-        return contentMetadata
+        contentInfo[CIS_SSDK_METADATA_STREAM_URL] = streamUrl
+
+        return contentInfo
     }
 
     public var assetName: String? {
@@ -186,7 +193,7 @@ class ContentMetadataBuilder : CustomStringConvertible {
         metadataOverrides = MetadataOverrides()
         metadata = MetadataOverrides()
         playbackStarted = false
-        contentMetadata = CISContentMetadata()
+        contentInfo = [String: Any]()
     }
 
     // Values from dict2 will override value from dict1

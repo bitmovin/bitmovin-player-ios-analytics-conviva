@@ -28,8 +28,7 @@ public struct MetadataOverrides {
     public init() {}
 }
 
-class ContentMetadataBuilder {
-
+class ContentMetadataBuilder : CustomStringConvertible {
     let logger: Logger
     var contentInfo: [String: Any]
 
@@ -38,6 +37,16 @@ class ContentMetadataBuilder {
     var metadata: MetadataOverrides = MetadataOverrides()
     var playbackStarted: Bool = false
 
+    var description: String {
+        return """
+        <\(type(of: self)): \
+        contentMetadata = \(contentMetadata) \
+        metadata = \(metadata) \
+        metadataOverrieds = \(metadataOverrides) \
+        playbackStarted = \(playbackStarted)>
+        """
+    }
+    
     init(logger: Logger) {
         self.logger = logger
         contentInfo = [String: Any]()

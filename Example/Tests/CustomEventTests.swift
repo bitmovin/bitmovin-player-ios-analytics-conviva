@@ -34,30 +34,35 @@ class CustomEventsSpec: QuickSpec {
 
             afterEach {
                 if convivaAnalytics != nil {
+                    convivaAnalytics.release()
                     convivaAnalytics = nil
                 }
             }
 
             it("send custom playback event") {
-                let spy = Spy(aClass: CISClientTestDouble.self, functionName: "sendCustomEvent")
+                let spy = Spy(aClass: CISAnalyticsTestDouble.self, functionName: "reportAppEvent")
 
                 playerDouble.fakePlayEvent() // to initialize session
 
                 convivaAnalytics.sendCustomPlaybackEvent(name: "Playback Event",
                                                          attributes: ["Test Case": "Playback"])
                 expect(spy).to(
-                    haveBeenCalled(withArgs: ["eventName": "Playback Event", "Test Case": "Playback"])
+                    haveBeenCalled(withArgs: [
+                        "eventName": "Playback Event",
+                        "Test Case": "Playback"
+                    ])
                 )
             }
 
             it("send custom application event") {
-                let spy = Spy(aClass: CISClientTestDouble.self, functionName: "sendCustomEvent")
+                let spy = Spy(aClass: CISAnalyticsTestDouble.self, functionName: "reportAppEvent")
                 convivaAnalytics.sendCustomApplicationEvent(name: "Application Event",
                                                             attributes: ["Test Case": "Application"])
                 expect(spy).to(
-                    haveBeenCalled(withArgs: ["sessionKey": "\(NO_SESSION_KEY)",
+                    haveBeenCalled(withArgs: [
                         "eventName": "Application Event",
-                        "Test Case": "Application"])
+                        "Test Case": "Application"
+                    ])
                 )
             }
         }

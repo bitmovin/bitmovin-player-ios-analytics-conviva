@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ConvivaSDK
 
 public final class ConvivaConfiguration {
     /**
@@ -19,6 +20,8 @@ public final class ConvivaConfiguration {
      production or automated testing**.
      */
     public var gatewayUrl: URL?
+
+    public var convivaLogLevel: LogLevel = LogLevel.LOGLEVEL_WARNING
 
     public init() {}
 }

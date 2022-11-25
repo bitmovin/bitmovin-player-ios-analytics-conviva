@@ -7,7 +7,6 @@ import BitmovinConvivaAnalytics
 import ConvivaSDK
 
 class SeekTimeshiftSpec: QuickSpec {
-    // swiftlint:disable:next function_body_length
     override func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
@@ -26,7 +25,7 @@ class SeekTimeshiftSpec: QuickSpec {
                 } catch {
                     fail("ConvivaAnalytics failed with error: \(error)")
                 }
-                spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setSeekStart")
+                spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackMetric")
             }
 
             afterEach {
@@ -43,29 +42,28 @@ class SeekTimeshiftSpec: QuickSpec {
                 context("track seek start") {
                     it("on seek") {
                         playerDouble.fakeSeekEvent(position: 10, seekTarget: 51)
-                        expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "51000"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["playback_seek_started": "51000"]))
                     }
 
                     it("on timeshift") {
                         playerDouble.fakeTimeShiftEvent(position: 100)
-                        expect(spy).to(haveBeenCalled(withArgs: ["seekToPosition": "-1"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["playback_seek_started": "-1"]))
                     }
                 }
 
                 context("track seek finished") {
                     beforeEach {
-                        spy = Spy(aClass: PlayerStateManagerTestDouble.self, functionName: "setSeekEnd")
                         _ = TestDouble(aClass: playerDouble, name: "currentTime", return: TimeInterval(100))
                     }
 
                     it("on seeked") {
                         playerDouble.fakeSeekedEvent()
-                        expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "100000"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["playback_seek_ended": "100000"]))
                     }
 
                     it("on timeshifted") {
                         playerDouble.fakeTimeShiftedEvent()
-                        expect(spy).to(haveBeenCalled(withArgs: ["seekPosition": "-1"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["playback_seek_ended": "-1"]))
                     }
                 }
             }

@@ -2,7 +2,7 @@
 
 ## Installation
 
-BitmovinConvivaAnalytics is available through [CocoaPods](https://cocoapods.org). We depend on cocoapods version >= 1.4.
+BitmovinConvivaAnalytics is available through [CocoaPods](https://cocoapods.org). We depend on cocoapods version >= 1.9.0
 
 To install it, simply add the following line to your Podfile:
 

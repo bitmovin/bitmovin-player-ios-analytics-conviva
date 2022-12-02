@@ -40,7 +40,6 @@ class ContentMetadataBuilder : CustomStringConvertible {
     var description: String {
         return """
         <\(type(of: self)): \
-        contentMetadata = \(contentMetadata) \
         metadata = \(metadata) \
         metadataOverrieds = \(metadataOverrides) \
         playbackStarted = \(playbackStarted)>

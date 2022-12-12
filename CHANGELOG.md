@@ -5,10 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.1]
+
+### Fixed
+
+- Some errors introduced by recent logging changes
+
 ## [3.0.0]
 
-- Utilises Conviva's Simple SDK instead of the old interface
+### Added
+
 - Added `release()` method for use at end of app lifecycle
+
+### Changed
+
+- Utilises Conviva's Simple SDK instead of the old interface
 - Internal changes to ConvivaAnalytics and related classes 
 
 ### Fixed

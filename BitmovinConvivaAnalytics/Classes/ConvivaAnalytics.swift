@@ -265,7 +265,7 @@ public final class ConvivaAnalytics: NSObject {
         updateSession()
 
         videoAnalytics.reportPlaybackRequested(contentMetadataBuilder.build())
-        logger.debugLog(message: "Creating session \(sessionKey) with metadata: \(contentMetadataBuilder)")
+        logger.debugLog(message: "Creating session with metadata: \(contentMetadataBuilder)")
         logger.debugLog(message: "Session started")
         isSessionActive = true
     }
@@ -291,9 +291,9 @@ public final class ConvivaAnalytics: NSObject {
                 CIS_SSDK_PLAYBACK_METRIC_RENDERED_FRAMERATE,
                 value: player.currentVideoFrameRate)
         }
-        
+
         videoAnalytics.setContentInfo(contentMetadataBuilder.build())
-        logger.debugLog(message: "Updating session \(sessionKey) with metadata: \(contentMetadataBuilder)")
+        logger.debugLog(message: "Updating session with metadata: \(contentMetadataBuilder)")
     }
 
     private func internalEndSession() {
@@ -305,7 +305,7 @@ public final class ConvivaAnalytics: NSObject {
         videoAnalytics.reportPlaybackEnded()
 
         isSessionActive = false
-        logger.debugLog(message: "Ending session \(sessionKey)")
+        logger.debugLog(message: "Ending session")
 
         playbackStarted = false
         logger.debugLog(message: "Session ended")

@@ -7,11 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [3.0.1]
 
-- Fix some errors introduced by recent logging changes
+### Fixed
+
+- Some errors introduced by recent logging changes
+
 ## [3.0.0]
 
-- Utilises Conviva's Simple SDK instead of the old interface
+### Added
+
 - Added `release()` method for use at end of app lifecycle
+
+### Changed
+
+- Utilises Conviva's Simple SDK instead of the old interface
 - Internal changes to ConvivaAnalytics and related classes 
 
 ### Fixed

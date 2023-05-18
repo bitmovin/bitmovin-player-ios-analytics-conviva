@@ -202,7 +202,19 @@ public final class ConvivaAnalytics: NSObject {
 
         internalInitializeSession()
     }
-
+    /**
+     Sends a backgrounding events (for example, pressing home or power off buttons).
+     */
+    public func reportAppBackgrounded() {
+        analytics.reportAppBackgrounded()
+    }
+    
+    /**
+     Sends a foregrounding events.
+     */
+    public func reportAppForegrounded() {
+        analytics.reportAppForegrounded()
+    }
     /**
      Ends the current conviva tracking session.
      Results in a no-opt if there is no active session.

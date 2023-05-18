@@ -93,7 +93,7 @@ class AdMetadataBuilder : CustomStringConvertible {
         	contentInfo[CIS_SSDK_METADATA_STREAM_URL] = adUrl
         }
         if let adPosition = self.adPosition {
-        	contentInfo["c3.ad.position"] = assetNaadPositionme
+        	contentInfo["c3.ad.position"] = adPosition
         }
         
         //default set to N/A

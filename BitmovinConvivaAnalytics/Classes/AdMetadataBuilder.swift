@@ -10,17 +10,20 @@ import Foundation
 import ConvivaSDK
 
 public struct AdMetadataOverrides {
-    // Can only be set once
+	public var adType: String?
+    public var adIdentifier: String?
     public var assetName: String?
+    
 
-    // Can only be set before playback started
     public var custom: [String: Any]?
     public var duration: Int?
 
-    // Dynamic
     public var encodedFramerate: Int?
     public var defaultResource: String?
-    public var streamUrl: String?
+    
+    public var adSystem: String?
+    public var adUrl: String?
+    public var adPosition: String?
 
     public init() {}
 }
@@ -63,38 +66,62 @@ class AdMetadataBuilder : CustomStringConvertible {
     }
 
     public func build() -> [String: Any] {
-        if !playbackStarted {
-            // Asset name is only allowed to be set once
-            if contentInfo[CIS_SSDK_METADATA_ASSET_NAME] == nil {
-                contentInfo[CIS_SSDK_METADATA_ASSET_NAME] = assetName
-            }
-
-            if let duration = self.duration, duration > 0 {
-                contentInfo[CIS_SSDK_METADATA_DURATION] = duration
-            }
-            if let custom = self.custom {
-                contentInfo.merge(custom, uniquingKeysWith: {(_, new) in new})
-            }
-        } else {
-            if let duration = self.duration, duration > 0 {
-                if let newDuration = contentInfo[CIS_SSDK_METADATA_DURATION] as? Int {
-                    if newDuration == 0 {
-                        contentInfo[CIS_SSDK_METADATA_DURATION] = duration
-                    }
-                }
-
-            }
+        if let adType = self.adType {
+        	contentInfo["c3.ad.technology"] = adType
         }
-
-        if let framerate = encodedFramerate {
-            contentInfo[CIS_SSDK_METADATA_ENCODED_FRAMERATE] = framerate
+        if let adIdentifier = self.adIdentifier {
+        	contentInfo["c3.ad.id"] = adIdentifier
+        	contentInfo["c3.ad.firstAdId"] = adIdentifier
         }
-
-        contentInfo[CIS_SSDK_METADATA_DEFAULT_RESOURCE] = defaultResource
-
-        contentInfo[CIS_SSDK_METADATA_STREAM_URL] = streamUrl
+        if let assetName = self.assetName {
+        	contentInfo[CIS_SSDK_METADATA_ASSET_NAME] = assetName
+        }
+        if let duration = self.duration {
+        	contentInfo[CIS_SSDK_METADATA_DURATION] = duration
+        }
+        if let encodedFramerate = self.encodedFramerate {
+        	contentInfo[CIS_SSDK_METADATA_ENCODED_FRAMERATE] = encodedFramerate
+        }
+        if let defaultResource = self.defaultResource {
+        	contentInfo[CIS_SSDK_METADATA_DEFAULT_RESOURCE] = defaultResource
+        }
+        if let adSystem = self.adSystem {
+        	contentInfo["c3.ad.system"] = adSystem
+        	contentInfo["c3.ad.firstAdSystem"] = adSystem
+        }
+        if let adUrl = self.adUrl {
+        	contentInfo[CIS_SSDK_METADATA_STREAM_URL] = adUrl
+        }
+        if let adPosition = self.adPosition {
+        	contentInfo["c3.ad.position"] = assetNaadPositionme
+        }
+        
+        //default set to N/A
+        contentInfo["c3.ad.firstCreativeId"] = "N/A"
+        contentInfo["c3.ad.creativeId"] = "N/A"
+		
+        if let custom = self.custom {
+			contentInfo.merge(custom, uniquingKeysWith: {(_, new) in new})
+		}
 
         return contentInfo
+    }
+    
+    public var adType: String? {
+        get {
+            return metadataOverrides.adType ?? metadata.adType
+        }
+        set {
+            metadata.adType = newValue
+        }
+    }
+    public var adIdentifier: String? {
+        get {
+            return metadataOverrides.adIdentifier ?? metadata.adIdentifier
+        }
+        set {
+            metadata.adIdentifier = newValue
+        }
     }
 
     public var assetName: String? {
@@ -142,12 +169,30 @@ class AdMetadataBuilder : CustomStringConvertible {
         }
     }
 
-    public var streamUrl: String? {
+    public var adSystem: String? {
         get {
-            return metadataOverrides.streamUrl ?? metadata.streamUrl
+            return metadataOverrides.adSystem ?? metadata.adSystem
         }
         set {
-            metadata.streamUrl = newValue
+            metadata.adSystem = newValue
+        }
+    }
+    
+    public var adUrl: String? {
+        get {
+            return metadataOverrides.adUrl ?? metadata.adUrl
+        }
+        set {
+            metadata.adUrl = newValue
+        }
+    }
+    
+    public var adPosition: String? {
+        get {
+            return metadataOverrides.adPosition ?? metadata.adPosition
+        }
+        set {
+            metadata.adPosition = newValue
         }
     }
 

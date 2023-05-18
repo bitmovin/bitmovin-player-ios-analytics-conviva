@@ -86,7 +86,7 @@ public final class ConvivaAnalytics: NSObject {
         }
         logger = Logger(loggingEnabled: config.debugLoggingEnabled)
         self.contentMetadataBuilder = ContentMetadataBuilder(logger: logger)
-        self.adMetadataBuilder = ContentMetadataBuilder(logger: logger)
+        self.adMetadataBuilder = AdMetadataBuilder(logger: logger)
 
         videoAnalytics = analytics.createVideoAnalytics()
         adAnalytics = analytics.createAdAnalytics(withVideoAnalytics: videoAnalytics)

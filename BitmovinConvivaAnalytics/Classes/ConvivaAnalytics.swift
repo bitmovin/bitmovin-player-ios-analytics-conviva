@@ -21,6 +21,8 @@ public final class ConvivaAnalytics: NSObject {
     let analytics: CISAnalytics
     let videoAnalytics: CISVideoAnalytics
     let contentMetadataBuilder: ContentMetadataBuilder
+    let adAnalytics: CISAdAnalytics
+    let adMetadataBuilder: AdMetadataBuilder
     var isSessionActive: Bool = false
     var isBumper: Bool = false
 
@@ -84,8 +86,10 @@ public final class ConvivaAnalytics: NSObject {
         }
         logger = Logger(loggingEnabled: config.debugLoggingEnabled)
         self.contentMetadataBuilder = ContentMetadataBuilder(logger: logger)
+        self.adMetadataBuilder = AdMetadataBuilder(logger: logger)
 
         videoAnalytics = analytics.createVideoAnalytics()
+        adAnalytics = analytics.createAdAnalytics(withVideoAnalytics: videoAnalytics)
         super.init()
 
         listener = BitmovinPlayerListener(player: player)
@@ -147,6 +151,31 @@ public final class ConvivaAnalytics: NSObject {
         buildContentMetadata()
         updateSession()
     }
+    
+     /**
+     Will update the adMetadata that are tracked with conviva.
+
+     If there is an active session only permitted values will be updated and propagated immediately.
+     Should be called `onAdManifestLoaded` delegate
+
+     Attributes set via this method will override automatically tracked attributes.
+     - Parameters:
+        - metadataOverrides: Ad Metadata attributes which will be used to track for Conviva.
+                             @see AdMetadataBuilder for more information about permitted attributes
+     */
+    public func updateAdMetadata(metadataOverrides: AdMetadataOverrides) {
+    	adMetadataBuilder.setOverrides(metadataOverrides)
+    	
+    	if !isSessionActive {
+            logger.debugLog(
+                message: "[ ConvivaAnalytics ] no active session; Don\'t propagate content metadata to conviva."
+            )
+            return
+        }
+        
+        adAnalytics.setAdInfo(adMetadataBuilder.build())
+        logger.debugLog(message: "Updating session with ad metadata: \(adMetadataBuilder)")
+    }
 
     /**
      Initializes a new conviva tracking session.
@@ -205,6 +234,7 @@ public final class ConvivaAnalytics: NSObject {
     public func release() {
         videoAnalytics.cleanup()
         analytics.cleanup()
+        adAnalytics.cleanup()
     }
     /**
      Sends a custom deficiency event during playback to Conviva's Player Insight. If no session is active it will NOT
@@ -285,6 +315,15 @@ public final class ConvivaAnalytics: NSObject {
         }
         videoAnalytics.setPlayerInfo(playerInfo)
     }
+    
+    private func setupAdPlayerManager() {
+        var adPlayerInfo = [String: Any]()
+        adPlayerInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin Player iOS"
+        if let bitmovinPlayerVersion = playerHelper.version {
+            adPlayerInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = bitmovinPlayerVersion
+        }
+        adAnalytics.setAdPlayerInfo(adPlayerInfo)
+    }
 
     private func internalInitializeSession() {
         buildContentMetadata()
@@ -295,6 +334,7 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         setupPlayerStateManager()
+        setupAdPlayerManager()
         updateSession()
 
         videoAnalytics.reportPlaybackRequested(contentMetadataBuilder.build())
@@ -441,6 +481,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     func onPlaying() {
         playbackStarted = true
         contentMetadataBuilder.setPlaybackStarted(true)
+        adMetadataBuilder.setPlaybackStarted(true)
         updateSession()
         onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
     }
@@ -514,38 +555,35 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED, value: Int64(-1))
     }
 
-    #if !os(tvOS)
     // MARK: - Ad events
+    func onAdManifestLoaded(_ event: AdManifestLoadedEvent) {
+    	adAnalytics.reportAdLoaded(nil) //should set ad data with updateAdMetadata(adMetadataOverrides)
+    }
+    
     func onAdStarted(_ event: AdStartedEvent) {
-        let adPosition: AdPosition = AdEventUtil.parseAdPosition(event: event, contentDuration: player.duration)
-        var adAttributes = [String: Any]()
-        adAttributes["c3.ad.position"] = adPosition.rawValue
-        videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT,
-                                            adType: AdTechnology.CLIENT_SIDE, adBreakInfo: adAttributes)
+    	adAnalytics.reportAdStarted(nil) //should set ad data with updateAdMetadata(adMetadataOverrides)
     }
 
     func onAdFinished() {
-        videoAnalytics.reportAdBreakEnded()
+        adAnalytics.reportAdEnded()
     }
 
     func onAdSkipped(_ event: AdSkippedEvent) {
-        customEvent(event: event)
-        videoAnalytics.reportAdBreakEnded()
+        adAnalytics.reportAdSkipped()
     }
 
     func onAdError(_ event: AdErrorEvent) {
-        customEvent(event: event)
-        videoAnalytics.reportAdBreakEnded()
+        adAnalytics.reportAdError(event.message, severity: .ERROR_FATAL)
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {
-        customEvent(event: event)
+        videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT,
+                                            adType: AdTechnology.CLIENT_SIDE, adBreakInfo: [:])
     }
 
     func onAdBreakFinished(_ event: AdBreakFinishedEvent) {
-        customEvent(event: event)
+        videoAnalytics.reportAdBreakEnded()
     }
-    #endif
 
     func onDestroy() {
         internalEndSession()

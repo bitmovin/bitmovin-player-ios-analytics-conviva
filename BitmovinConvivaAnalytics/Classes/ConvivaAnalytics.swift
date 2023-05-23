@@ -229,6 +229,27 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     /**
+     Sends a playback failed event during playback to Conviva's Player Insight. If no session is active it will NOT
+     create one.
+
+     - Parameters:
+        - message: Message which will be send to conviva
+        - contentInfo: Additional infomation
+        - endSession: Boolean flag if session should be closed after reporting the deficiency (Default: true)
+     */
+    public func reportPlaybackFailed(message: String,
+                                     contentInfo: [AnyHashable: Any]?,
+                                     endSession: Bool = true) {
+        if !isSessionActive {
+            return
+        }
+        videoAnalytics.reportPlaybackFailed(message, contentInfo: contentInfo)
+        if endSession {
+            internalEndSession()
+        }
+    }
+
+    /**
      Puts the session in a notMonitored state.
      */
     public func pauseTracking(isBumper: Bool) {

@@ -438,9 +438,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         logger.debugLog(message: "[ Player Event ] \(event.name)")
     }
 
-    func onSourceUnloaded() {
-        internalEndSession()
-    }
+    func onSourceUnloaded() {}
 
     func onTimeChanged() {
         updateSession()

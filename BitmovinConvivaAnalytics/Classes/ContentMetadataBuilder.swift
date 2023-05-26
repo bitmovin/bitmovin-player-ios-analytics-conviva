@@ -10,20 +10,18 @@ import Foundation
 import ConvivaSDK
 
 public struct MetadataOverrides {
-    // Can only be set once
-    public var assetName: String?
-
     // Can only be set before playback started
     public var viewerId: String?
     public var streamType: StreamType?
     public var applicationName: String?
     public var custom: [String: Any]?
-    public var duration: Int?
 
     // Dynamic
     public var encodedFramerate: Int?
     public var defaultResource: String?
     public var streamUrl: String?
+    public var assetName: String?
+    public var duration: Int?
 
     public init() {}
 }
@@ -67,11 +65,6 @@ class ContentMetadataBuilder : CustomStringConvertible {
 
     public func build() -> [String: Any] {
         if !playbackStarted {
-            // Asset name is only allowed to be set once
-            if contentInfo[CIS_SSDK_METADATA_ASSET_NAME] == nil {
-                contentInfo[CIS_SSDK_METADATA_ASSET_NAME] = assetName
-            }
-
             contentInfo[CIS_SSDK_METADATA_VIEWER_ID] = viewerId
             contentInfo[CIS_SSDK_METADATA_PLAYER_NAME] = applicationName
 
@@ -79,20 +72,9 @@ class ContentMetadataBuilder : CustomStringConvertible {
                 contentInfo[CIS_SSDK_METADATA_IS_LIVE] = type
                 == StreamType.CONVIVA_STREAM_LIVE ? NSNumber(value: true) : NSNumber(value: false)
             }
-            if let duration = self.duration, duration > 0 {
-                contentInfo[CIS_SSDK_METADATA_DURATION] = duration
-            }
+
             if let custom = self.custom {
                 contentInfo.merge(custom, uniquingKeysWith: {(_, new) in new})
-            }
-        } else {
-            if let duration = self.duration, duration > 0 {
-                if let newDuration = contentInfo[CIS_SSDK_METADATA_DURATION] as? Int {
-                    if newDuration == 0 {
-                        contentInfo[CIS_SSDK_METADATA_DURATION] = duration
-                    }
-                }
-
             }
         }
 
@@ -100,6 +82,10 @@ class ContentMetadataBuilder : CustomStringConvertible {
             contentInfo[CIS_SSDK_METADATA_ENCODED_FRAMERATE] = framerate
         }
 
+        contentInfo[CIS_SSDK_METADATA_ASSET_NAME] = assetName
+        if let duration = self.duration, duration > 0 {
+            contentInfo[CIS_SSDK_METADATA_DURATION] = duration
+        }
         contentInfo[CIS_SSDK_METADATA_DEFAULT_RESOURCE] = defaultResource
 
         contentInfo[CIS_SSDK_METADATA_STREAM_URL] = streamUrl

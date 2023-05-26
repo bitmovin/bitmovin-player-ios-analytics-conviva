@@ -23,6 +23,7 @@ public final class ConvivaAnalytics: NSObject {
     let contentMetadataBuilder: ContentMetadataBuilder
     let adAnalytics: CISAdAnalytics
     let adMetadataBuilder: AdMetadataBuilder
+    let endSessionOnSourceUnloaded: Bool
     var isSessionActive: Bool = false
     var isBumper: Bool = false
 
@@ -70,11 +71,13 @@ public final class ConvivaAnalytics: NSObject {
      */
     public init?(player: Player,
                  customerKey: String,
-                 config: ConvivaConfiguration = ConvivaConfiguration()) throws {
+                 config: ConvivaConfiguration = ConvivaConfiguration(),
+                 endSessionOnSourceUnloaded: Bool = true) throws {
         self.player = player
         self.playerHelper = BitmovinPlayerHelper(player: player)
         self.customerKey = customerKey
         self.config = config
+        self.endSessionOnSourceUnloaded = endSessionOnSourceUnloaded
 
         if let gatewayUrl = config.gatewayUrl {
             var settings = [String: Any]()
@@ -438,7 +441,11 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         logger.debugLog(message: "[ Player Event ] \(event.name)")
     }
 
-    func onSourceUnloaded() {}
+    func onSourceUnloaded() {
+        if endSessionOnSourceUnloaded {
+            internalEndSession()
+        }
+    }
 
     func onTimeChanged() {
         updateSession()

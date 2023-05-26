@@ -19,9 +19,9 @@ final class BitmovinPlayerHelper: NSObject {
     var streamType: String {
         switch player.source?.sourceConfig.type {
         case .dash:
-            return "DASH"
+            return "dash"
         case .hls:
-            return "HLS"
+            return "hls"
         case .progressive:
             return "progressive"
         default:

@@ -64,6 +64,7 @@ class ContentMetadataBuilder : CustomStringConvertible {
     }
 
     public func build() -> [String: Any] {
+//        commeted for test update custom data for linear program change
 //        if !playbackStarted {
             contentInfo[CIS_SSDK_METADATA_VIEWER_ID] = viewerId
             contentInfo[CIS_SSDK_METADATA_PLAYER_NAME] = applicationName

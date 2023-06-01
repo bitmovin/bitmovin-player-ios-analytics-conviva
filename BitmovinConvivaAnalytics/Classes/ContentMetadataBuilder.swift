@@ -64,7 +64,7 @@ class ContentMetadataBuilder : CustomStringConvertible {
     }
 
     public func build() -> [String: Any] {
-        if !playbackStarted {
+//        if !playbackStarted {
             contentInfo[CIS_SSDK_METADATA_VIEWER_ID] = viewerId
             contentInfo[CIS_SSDK_METADATA_PLAYER_NAME] = applicationName
 
@@ -76,7 +76,7 @@ class ContentMetadataBuilder : CustomStringConvertible {
             if let custom = self.custom {
                 contentInfo.merge(custom, uniquingKeysWith: {(_, new) in new})
             }
-        }
+//        }
 
         if let framerate = encodedFramerate {
             contentInfo[CIS_SSDK_METADATA_ENCODED_FRAMERATE] = framerate

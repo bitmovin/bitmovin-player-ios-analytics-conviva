@@ -26,6 +26,8 @@ public final class ConvivaAnalytics: NSObject {
     let endSessionOnSourceUnloaded: Bool
     var isSessionActive: Bool = false
     var isBumper: Bool = false
+    // when `onPlay` is called, `isLive` from the player has not been updated yet
+    let isLive: Bool
 
     var listener: BitmovinPlayerListener?
 
@@ -72,12 +74,14 @@ public final class ConvivaAnalytics: NSObject {
     public init?(player: Player,
                  customerKey: String,
                  config: ConvivaConfiguration = ConvivaConfiguration(),
-                 endSessionOnSourceUnloaded: Bool = true) throws {
+                 endSessionOnSourceUnloaded: Bool = true,
+                 isLive: Bool) throws {
         self.player = player
         self.playerHelper = BitmovinPlayerHelper(player: player)
         self.customerKey = customerKey
         self.config = config
         self.endSessionOnSourceUnloaded = endSessionOnSourceUnloaded
+        self.isLive = isLive
 
         if let gatewayUrl = config.gatewayUrl {
             var settings = [String: Any]()
@@ -368,6 +372,10 @@ public final class ConvivaAnalytics: NSObject {
                 value: player.currentVideoFrameRate)
         }
 
+        if !isLive {
+            videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME, value: player.currentTime)
+        }
+
         videoAnalytics.setContentInfo(contentMetadataBuilder.build())
         logger.debugLog(message: "Updating session with metadata: \(contentMetadataBuilder)")
     }
@@ -402,10 +410,10 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func buildDynamicContentMetadata() {
-        if !player.isLive && player.duration.isFinite {
+        if !isLive && player.duration.isFinite {
             contentMetadataBuilder.duration = Int(player.duration)
         }
-        contentMetadataBuilder.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
+        contentMetadataBuilder.streamType = isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
         contentMetadataBuilder.streamUrl = player.source?.sourceConfig.url.absoluteString
     }
 

@@ -312,9 +312,9 @@ public final class ConvivaAnalytics: NSObject {
 
     // MARK: - session handling
     private func setupPlayerStateManager() {
-        videoAnalytics.reportPlaybackMetric(
-            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
-            value: PlayerState.CONVIVA_STOPPED.rawValue)
+//        videoAnalytics.reportPlaybackMetric(
+//            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+//            value: PlayerState.CONVIVA_STOPPED.rawValue)
         var playerInfo = [String: Any]()
         playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin Player iOS"
         if let bitmovinPlayerVersion = playerHelper.version {
@@ -492,9 +492,11 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onPlaying() {
+        // do not update if it's playing ad
+        guard !player.isAd else { return }
         playbackStarted = true
         contentMetadataBuilder.setPlaybackStarted(true)
-        adMetadataBuilder.setPlaybackStarted(true)
+        // adMetadataBuilder.setPlaybackStarted(true)
         updateSession()
         onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
     }

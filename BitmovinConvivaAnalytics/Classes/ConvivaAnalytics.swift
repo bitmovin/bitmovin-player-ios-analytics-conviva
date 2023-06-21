@@ -464,11 +464,13 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onPlayerError(_ event: PlayerErrorEvent) {
-        trackError(errorCode: event.code.rawValue, errorMessage: event.message)
+        // we are tracking errors manually in the bitmovin player
+        // trackError(errorCode: event.code.rawValue, errorMessage: event.message)
     }
 
     func onSourceError(_ event: SourceErrorEvent) {
-        trackError(errorCode: event.code.rawValue, errorMessage: event.message)
+        // we are tracking errors manually in the bitmovin player
+        // trackError(errorCode: event.code.rawValue, errorMessage: event.message)
     }
 
     func trackError(errorCode: Int, errorMessage: String) {

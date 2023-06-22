@@ -366,7 +366,7 @@ public final class ConvivaAnalytics: NSObject {
 
             // for VOD, bitrate will be used as the average bitrate
             // for live stream, until bitmovin expose `AVERAGE-BANDWIDTH` from the m3u8 file, we will report bitrate as the average bitrate
-            videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_AVERAGE_BITRATE, value: bitrate)
+            // videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_AVERAGE_BITRATE, value: bitrate)
             videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
             videoAnalytics.reportPlaybackMetric(
                 CIS_SSDK_PLAYBACK_METRIC_RESOLUTION,

@@ -333,6 +333,14 @@ public final class ConvivaAnalytics: NSObject {
         contentMetadataBuilder.streamUrl = player.source?.sourceConfig.url.absoluteString
     }
 
+    private func customEvent(event: PlayerViewEvent, args: [String: String] = [:]) {
+        if !isSessionActive {
+            return
+        }
+
+        sendCustomPlaybackEvent(name: event.name, attributes: args)
+    }
+
     private func customEvent(event: PlayerEvent, args: [String: String] = [:]) {
         if !isSessionActive {
             return

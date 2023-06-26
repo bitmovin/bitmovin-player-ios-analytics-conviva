@@ -371,6 +371,28 @@ class BitmovinPlayerStub: NSObject, Player {
             player.buffer
     }
 
+    @available(iOS 15.0, *)
+    var sharePlay: SharePlayApi {
+        player.sharePlay
+    }
+
+    var isOutputObscured: Bool {
+        player.isOutputObscured
+    }
+
+    // swiftlint:disable:next identifier_name
+    var _modules: BitmovinPlayerCore._PlayerModulesApi {
+        player._modules
+    }
+
+    var events: BitmovinPlayerCore.PlayerEventsApi {
+        player.events
+    }
+
+    func canPlay(atPlaybackSpeed playbackSpeed: Float) -> Bool {
+        player.canPlay(atPlaybackSpeed: playbackSpeed)
+    }
+
     var playlist: PlaylistApi {
         player.playlist
     }

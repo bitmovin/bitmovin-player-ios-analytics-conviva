@@ -429,6 +429,14 @@ public final class ConvivaAnalytics: NSObject {
         sendCustomPlaybackEvent(name: event.name, attributes: args)
     }
 
+    private func customEvent(event: PlayerViewEvent, args: [String: String] = [:]) {
+        if !isSessionActive {
+            return
+        }
+
+        sendCustomPlaybackEvent(name: event.name, attributes: args)
+    }
+
     private func onPlaybackStateChanged(playerState: PlayerState) {
         // do not report any playback state changes while player isStalled except buffering
         if isStalled && playerState != .CONVIVA_BUFFERING {

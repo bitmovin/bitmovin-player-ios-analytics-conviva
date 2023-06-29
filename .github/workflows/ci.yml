@@ -49,3 +49,4 @@ jobs:
           xcodebuild test
           -workspace Example/BitmovinConvivaAnalytics.xcworkspace
           -scheme BitmovinConvivaAnalytics_Tests
+          -sdk iphonesimulator

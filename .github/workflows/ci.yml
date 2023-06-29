@@ -28,6 +28,9 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
 
+      - name: Install Dependencies
+        run: pod install --repo-update
+
       - name: Unit tests
         run: xcodebuild \
               -workspace Example/BitmovinConvivaAnalytics.xcworkspace \

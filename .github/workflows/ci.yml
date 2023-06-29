@@ -28,7 +28,17 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
 
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-dependencies
+        with:
+          path: Example/Pods
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('Example/Podfile.lock') }}
+
       - name: Install Dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: cd Example && pod install --repo-update
 
       - name: Unit tests

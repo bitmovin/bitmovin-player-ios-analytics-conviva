@@ -453,6 +453,23 @@ public final class ConvivaAnalytics: NSObject {
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }
+
+    private func onAdPlaybackStateChanged(playerState: PlayerState) {
+        // do not report any playback state changes while player isStalled except buffering
+        if isStalled && playerState != .CONVIVA_BUFFERING {
+            return
+        }
+        // do not report any stalling when isStalled false (StallEnded triggered immediatelly after StallStarted)
+        else if !isStalled && playerState == .CONVIVA_BUFFERING {
+            self.logger.debugLog(
+                message: "[ ConvivaAnalytics ] false stalling, not registering to Conviva"
+            )
+            return
+        }
+
+        adAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
+        logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
+    }
 }
 
 // MARK: - PlayerListener
@@ -506,13 +523,15 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onPlaying() {
-        // do not update if it's playing ad
-        guard !player.isAd else { return }
-        playbackStarted = true
-        contentMetadataBuilder.setPlaybackStarted(true)
-        // adMetadataBuilder.setPlaybackStarted(true)
-        updateSession()
-        onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
+        if !player.isAd {
+            playbackStarted = true
+            contentMetadataBuilder.setPlaybackStarted(true)
+            // adMetadataBuilder.setPlaybackStarted(true)
+            updateSession()
+            onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
+        } else {
+            onAdPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
+        }
     }
 
     func onPaused() {
@@ -530,7 +549,11 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             self.logger.debugLog(
                 message: "[ ConvivaAnalytics ] calling StallStarted after 0.10 seconds"
             )
-            self.onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
+            if !self.player.isAd {
+                self.onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
+            } else {
+                self.onAdPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
+            }
         }
     }
 
@@ -538,11 +561,20 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         isStalled = false
 
         guard playbackStarted else { return }
-        if player.isPlaying {
-            onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
-        } else if player.isPaused {
-            onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
+        if !self.player.isAd {
+            if player.isPlaying {
+                onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
+            } else if player.isPaused {
+                onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
+            }
+        } else {
+            if player.isPlaying {
+                onAdPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
+            } else if player.isPaused {
+                onAdPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
+            }
         }
+
     }
 
     // MARK: - Seek / Timeshift events

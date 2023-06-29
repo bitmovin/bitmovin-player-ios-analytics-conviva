@@ -71,6 +71,17 @@
                ReferencedContainer = "container:BitmovinConvivaAnalytics.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "65F773A12A4D83A8009A6658"
+               BuildableName = "BitmovinConvivaAnalytics_ExampleTests.xctest"
+               BlueprintName = "BitmovinConvivaAnalytics_ExampleTests"
+               ReferencedContainer = "container:BitmovinConvivaAnalytics.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

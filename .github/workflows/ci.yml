@@ -39,7 +39,7 @@ jobs:
       - name: CocoaPods
         if: steps.cocoapods-cache.outputs.cache-hit != 'true'
         run: |
-          pod install
+          cd Example && pod install
 
       - name: View devices
         run: xcrun simctl list devices

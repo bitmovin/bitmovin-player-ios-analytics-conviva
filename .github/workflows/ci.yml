@@ -49,4 +49,3 @@ jobs:
           xcodebuild test
           -workspace Example/BitmovinConvivaAnalytics.xcworkspace
           -scheme BitmovinConvivaAnalytics_Tests
-          -destination 'platform=iOS Simulator,id=1562FB2C-D013-4E83-9F98-6F35FF177E8F'

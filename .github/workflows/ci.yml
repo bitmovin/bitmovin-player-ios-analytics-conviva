@@ -42,4 +42,8 @@ jobs:
         run: cd Example && pod install --repo-update
 
       - name: Unit tests
-        run: pwd && xcodebuild -workspace Example/BitmovinConvivaAnalytics.xcworkspace -scheme BitmovinConvivaAnalytics_Tests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=Any iOS Simulator Device' test
+        run: >-
+          xcodebuild test
+          -workspace Example/BitmovinConvivaAnalytics.xcworkspace
+          -scheme BitmovinConvivaAnalytics_Tests
+          -destination 'platform=iOS Simulator,name=Any iOS Simulator Device'

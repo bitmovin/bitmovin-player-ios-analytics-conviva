@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ['**']
+    paths-ignore:
+      - '*.md'
+
+  push:
+    branches: ['**']
+    paths-ignore:
+      - '*.md'
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests-player:
+    name: Unit tests for Bitmovin Conviva Integration
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Unit tests
+        run: xcodebuild \
+              -workspace Example/BitmovinConvivaAnalytics.xcworkspace \
+              -scheme BitmovinConvivaAnalytics_Tests \
+              -sdk iphonesimulator \
+              -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=17.0' \
+              test

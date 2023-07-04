@@ -369,7 +369,7 @@ public final class ConvivaAnalytics: NSObject {
             // videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_AVERAGE_BITRATE, value: bitrate)
             videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
             if player.isAd {
-                adAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
+                adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
             }
             videoAnalytics.reportPlaybackMetric(
                 CIS_SSDK_PLAYBACK_METRIC_RESOLUTION,
@@ -470,7 +470,7 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
-        adAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
+        adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
         logger.debugLog(message: "Player Ad state changed: \(playerState.rawValue)")
     }
 }

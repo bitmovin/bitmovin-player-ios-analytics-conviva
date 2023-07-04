@@ -368,6 +368,9 @@ public final class ConvivaAnalytics: NSObject {
             // for live stream, until bitmovin expose `AVERAGE-BANDWIDTH` from the m3u8 file, we will report bitrate as the average bitrate
             // videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_AVERAGE_BITRATE, value: bitrate)
             videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
+            if player.isAd {
+                adAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
+            }
             videoAnalytics.reportPlaybackMetric(
                 CIS_SSDK_PLAYBACK_METRIC_RESOLUTION,
                 value: value.cgSizeValue)
@@ -377,7 +380,7 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         if !isLive {
-            videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME, value: player.currentTime)
+            videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME, value: player.currentTime * 1000)
         }
 
         videoAnalytics.setContentInfo(contentMetadataBuilder.build())
@@ -462,13 +465,13 @@ public final class ConvivaAnalytics: NSObject {
         // do not report any stalling when isStalled false (StallEnded triggered immediatelly after StallStarted)
         else if !isStalled && playerState == .CONVIVA_BUFFERING {
             self.logger.debugLog(
-                message: "[ ConvivaAnalytics ] false stalling, not registering to Conviva"
+                message: "[ ConvivaAdAnalytics ] false stalling, not registering to Conviva"
             )
             return
         }
 
         adAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
-        logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
+        logger.debugLog(message: "Player Ad state changed: \(playerState.rawValue)")
     }
 }
 
@@ -535,7 +538,11 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onPaused() {
-        onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
+        if !player.isAd {
+            onPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
+        } else {
+            onAdPlaybackStateChanged(playerState: .CONVIVA_PAUSED)
+        }
     }
 
     func onPlaybackFinished() {
@@ -635,6 +642,9 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onAdError(_ event: AdErrorEvent) {
         adAnalytics.reportAdError(event.message, severity: .ERROR_FATAL)
+        // on any error, clean up the ad session
+        adAnalytics.reportAdEnded()
+        adAnalytics.cleanup()
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {

@@ -37,6 +37,7 @@ public final class ConvivaAnalytics: NSObject {
     // Workaround for player issue when onPlay is sent while player is stalled
     var isStalled: Bool = false
     var playbackStarted: Bool = false
+    private var hasAd: Bool = false
 
     // MARK: - Public Attributes
     /**
@@ -395,6 +396,12 @@ public final class ConvivaAnalytics: NSObject {
 
         videoAnalytics.reportPlaybackEnded()
 
+        if hasAd {
+            // also clean up the ad session
+            adAnalytics.reportAdEnded()
+            adAnalytics.cleanup()
+        }
+
         isSessionActive = false
         logger.debugLog(message: "Ending session")
 
@@ -624,6 +631,10 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     // MARK: - Ad events
+    func onAdManifestLoad(_ event: AdManifestLoadEvent) {
+        hasAd = true
+    }
+
     func onAdManifestLoaded(_ event: AdManifestLoadedEvent) {
     	adAnalytics.reportAdLoaded(nil) //should set ad data with updateAdMetadata(adMetadataOverrides)
     }

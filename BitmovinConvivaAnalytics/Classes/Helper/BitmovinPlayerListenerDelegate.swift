@@ -34,7 +34,8 @@ protocol BitmovinPlayerListenerDelegate: AnyObject {
     func onTimeShifted()
 
     // MARK: - Ad events
- 	func onAdManifestLoaded(_ event: AdManifestLoadedEvent)
+    func onAdManifestLoad(_ event: AdManifestLoadEvent)
+    func onAdManifestLoaded(_ event: AdManifestLoadedEvent)
     func onAdStarted(_ event: AdStartedEvent)
     func onAdFinished()
     func onAdSkipped(_ event: AdSkippedEvent)

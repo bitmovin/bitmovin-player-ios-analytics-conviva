@@ -106,6 +106,10 @@ extension BitmovinPlayerListener: PlayerListener {
     }
 
     // MARK: - Ad events
+    public func onAdManifestLoad(_ event: AdManifestLoadEvent, player: Player) {
+        delegate?.onAdManifestLoad(event)
+    }
+
     public func onAdManifestLoaded(_ event: AdManifestLoadedEvent, player: Player) {
     	delegate?.onAdManifestLoaded(event)
     }

@@ -54,9 +54,6 @@ jobs:
         run: |
           cd Example && pod install
 
-      - name: View devices
-        run: xcrun simctl list devices
-
       - name: Tests
         run: >-
           xcodebuild test

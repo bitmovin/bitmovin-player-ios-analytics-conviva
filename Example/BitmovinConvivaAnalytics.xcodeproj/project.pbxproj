@@ -18,6 +18,26 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
+		6230262EB95D66439D0C99FD /* Pods_BitmovinConvivaAnalytics_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71C2A9BDF6E4D13E9C58A85B /* Pods_BitmovinConvivaAnalytics_Tests.framework */; };
+		658A8DA62A66A65400834088 /* CustomEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EC1216F9AA50041806D /* CustomEventTests.swift */; };
+		658A8DA72A66A65400834088 /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CD1216B70650093F085 /* TestHelper.swift */; };
+		658A8DA82A66A65400834088 /* ContentMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EBF216F9A510041806D /* ContentMetadataTests.swift */; };
+		658A8DA92A66A65400834088 /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EC32170764E0041806D /* SpecHelper.swift */; };
+		658A8DAA2A66A65400834088 /* PlayerEventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EBD216F99C80041806D /* PlayerEventTests.swift */; };
+		658A8DAB2A66A65400834088 /* SeekTimeshiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* SeekTimeshiftTests.swift */; };
+		658A8DAC2A66A65400834088 /* ExternallyManagedSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */; };
+		658A8DAD2A66A65800834088 /* SpyTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB9216F8FD30041806D /* SpyTracker.swift */; };
+		658A8DAE2A66A65800834088 /* MockingFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB7216F8F010041806D /* MockingFactory.swift */; };
+		658A8DAF2A66A65800834088 /* TestDoubleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB3216F8E450041806D /* TestDoubleDataSource.swift */; };
+		658A8DB02A66A65800834088 /* CustomNimbleMatchers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB5216F8E700041806D /* CustomNimbleMatchers.swift */; };
+		658A8DB12A66A65800834088 /* MockTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EBB216F90020041806D /* MockTracker.swift */; };
+		658A8DB22A66A65800834088 /* TestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EAF216F8E0D0041806D /* TestDouble.swift */; };
+		658A8DB32A66A65800834088 /* Spy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB1216F8E2F0041806D /* Spy.swift */; };
+		658A8DBE2A66A6AF00834088 /* CISAdAnalyticsTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D4DC552841201F00C0BE9D /* CISAdAnalyticsTestDouble.swift */; };
+		658A8DBF2A66A6AF00834088 /* CISAnalyticsTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D4DC51284119E700C0BE9D /* CISAnalyticsTestDouble.swift */; };
+		658A8DC02A66A6AF00834088 /* CISVideoAnalyticsTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D4DC5328411DE400C0BE9D /* CISVideoAnalyticsTestDouble.swift */; };
+		658A8DC12A66A6AF00834088 /* BitmovinPlayerTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CC7216B6E3F0093F085 /* BitmovinPlayerTestDouble.swift */; };
+		658A8DC22A66A6AF00834088 /* CISAnalyticsCreatorTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D4DC4F2841032B00C0BE9D /* CISAnalyticsCreatorTestDouble.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +62,7 @@
 		3714F23F216DD51D00B446F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3714F241216DD52000B446F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3714F243216DD52000B446F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExternallyManagedSessionTests.swift; path = ../Tests/ExternallyManagedSessionTests.swift; sourceTree = "<group>"; };
+		37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExternallyManagedSessionTests.swift; path = Tests/ExternallyManagedSessionTests.swift; sourceTree = "<group>"; };
 		37756EAF216F8E0D0041806D /* TestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestDouble.swift; path = Helpers/TestDouble.swift; sourceTree = "<group>"; };
 		37756EB1216F8E2F0041806D /* Spy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Spy.swift; path = Helpers/Spy.swift; sourceTree = "<group>"; };
 		37756EB3216F8E450041806D /* TestDoubleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestDoubleDataSource.swift; path = Helpers/TestDoubleDataSource.swift; sourceTree = "<group>"; };
@@ -50,17 +70,17 @@
 		37756EB7216F8F010041806D /* MockingFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockingFactory.swift; path = Helpers/MockingFactory.swift; sourceTree = "<group>"; };
 		37756EB9216F8FD30041806D /* SpyTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpyTracker.swift; path = Helpers/SpyTracker.swift; sourceTree = "<group>"; };
 		37756EBB216F90020041806D /* MockTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockTracker.swift; path = Helpers/MockTracker.swift; sourceTree = "<group>"; };
-		37756EBD216F99C80041806D /* PlayerEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlayerEventTests.swift; path = ../Tests/PlayerEventTests.swift; sourceTree = "<group>"; };
-		37756EBF216F9A510041806D /* ContentMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentMetadataTests.swift; path = ../Tests/ContentMetadataTests.swift; sourceTree = "<group>"; };
-		37756EC1216F9AA50041806D /* CustomEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomEventTests.swift; path = ../Tests/CustomEventTests.swift; sourceTree = "<group>"; };
-		37756EC32170764E0041806D /* SpecHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpecHelper.swift; path = ../Tests/SpecHelper.swift; sourceTree = "<group>"; };
+		37756EBD216F99C80041806D /* PlayerEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlayerEventTests.swift; path = Tests/PlayerEventTests.swift; sourceTree = "<group>"; };
+		37756EBF216F9A510041806D /* ContentMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentMetadataTests.swift; path = Tests/ContentMetadataTests.swift; sourceTree = "<group>"; };
+		37756EC1216F9AA50041806D /* CustomEventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomEventTests.swift; path = Tests/CustomEventTests.swift; sourceTree = "<group>"; };
+		37756EC32170764E0041806D /* SpecHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpecHelper.swift; path = Tests/SpecHelper.swift; sourceTree = "<group>"; };
 		37EB3CC7216B6E3F0093F085 /* BitmovinPlayerTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BitmovinPlayerTestDouble.swift; path = Doubles/BitmovinPlayerTestDouble.swift; sourceTree = "<group>"; };
-		37EB3CD1216B70650093F085 /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestHelper.swift; path = ../Tests/TestHelper.swift; sourceTree = "<group>"; };
+		37EB3CD1216B70650093F085 /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestHelper.swift; path = Tests/TestHelper.swift; sourceTree = "<group>"; };
 		3C5797E6D291A3F208E7499E /* Pods_BitmovinConvivaAnalytics_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		44D4DC4F2841032B00C0BE9D /* CISAnalyticsCreatorTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CISAnalyticsCreatorTestDouble.swift; sourceTree = "<group>"; };
-		44D4DC51284119E700C0BE9D /* CISAnalyticsTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CISAnalyticsTestDouble.swift; sourceTree = "<group>"; };
-		44D4DC5328411DE400C0BE9D /* CISVideoAnalyticsTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CISVideoAnalyticsTestDouble.swift; sourceTree = "<group>"; };
-		44D4DC552841201F00C0BE9D /* CISAdAnalyticsTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CISAdAnalyticsTestDouble.swift; sourceTree = "<group>"; };
+		44D4DC4F2841032B00C0BE9D /* CISAnalyticsCreatorTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISAnalyticsCreatorTestDouble.swift; path = Doubles/CISAnalyticsCreatorTestDouble.swift; sourceTree = "<group>"; };
+		44D4DC51284119E700C0BE9D /* CISAnalyticsTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISAnalyticsTestDouble.swift; path = Doubles/CISAnalyticsTestDouble.swift; sourceTree = "<group>"; };
+		44D4DC5328411DE400C0BE9D /* CISVideoAnalyticsTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISVideoAnalyticsTestDouble.swift; path = Doubles/CISVideoAnalyticsTestDouble.swift; sourceTree = "<group>"; };
+		44D4DC552841201F00C0BE9D /* CISAdAnalyticsTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CISAdAnalyticsTestDouble.swift; path = Doubles/CISAdAnalyticsTestDouble.swift; sourceTree = "<group>"; };
 		45CD5012855AD308CAC3A093 /* Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		47FE069113EFD2395C9E2562 /* Pods_BitmovinConvivaAnalytics_TvOSExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_TvOSExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* BitmovinConvivaAnalytics_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BitmovinConvivaAnalytics_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,7 +90,7 @@
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* SeekTimeshiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SeekTimeshiftTests.swift; path = ../Tests/SeekTimeshiftTests.swift; sourceTree = "<group>"; };
+		607FACEB1AFB9204008FA782 /* SeekTimeshiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SeekTimeshiftTests.swift; path = Tests/SeekTimeshiftTests.swift; sourceTree = "<group>"; };
 		65F773AF2A4D844B009A6658 /* BitmovinConvivaAnalytics_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BitmovinConvivaAnalytics_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		71C2A9BDF6E4D13E9C58A85B /* Pods_BitmovinConvivaAnalytics_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BEA353F1EF3E281B7DFAAB9 /* Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -105,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6230262EB95D66439D0C99FD /* Pods_BitmovinConvivaAnalytics_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,7 +179,7 @@
 				44D4DC552841201F00C0BE9D /* CISAdAnalyticsTestDouble.swift */,
 			);
 			name = Doubles;
-			path = ../Tests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		43F46EC9B16756DCE0836354 /* Pods */ = {
@@ -300,9 +321,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 65F773B52A4D844C009A6658 /* Build configuration list for PBXNativeTarget "BitmovinConvivaAnalytics_Tests" */;
 			buildPhases = (
+				E19E5704B34E2689B7AB9B10 /* [CP] Check Pods Manifest.lock */,
 				65F773AB2A4D844B009A6658 /* Sources */,
 				65F773AC2A4D844B009A6658 /* Frameworks */,
 				65F773AD2A4D844B009A6658 /* Resources */,
+				4FA68F9BACC88A9A9F8743AE /* [CP] Embed Pods Frameworks */,
+				B6FA525623FFA560BE836671 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -332,7 +356,6 @@
 					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = MU9N7V8YCY;
 						LastSwiftMigration = "";
 					};
 					65F773AE2A4D844B009A6658 = {
@@ -450,6 +473,30 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
+		4FA68F9BACC88A9A9F8743AE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/BitmovinPlayer/BitmovinPlayer.framework/BitmovinPlayer",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/BitmovinPlayerCore/BitmovinPlayerCore.framework/BitmovinPlayerCore",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayerCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		71AF79FF2DD030172BD9667C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -512,6 +559,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B6FA525623FFA560BE836671 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-resources.sh",
+				"${PODS_ROOT}/../../BitmovinConvivaAnalytics/Assets/BitmovinConviva-Info.plist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BitmovinConviva-Info.plist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D8B401E42FFC63ADFCAA0D7C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -528,6 +593,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BitmovinConvivaAnalytics_Example/Pods-BitmovinConvivaAnalytics_Example-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E19E5704B34E2689B7AB9B10 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BitmovinConvivaAnalytics_Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E527C969E49D83A0FC4A83D9 /* [CP] Embed Pods Frameworks */ = {
@@ -575,6 +662,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				658A8DB02A66A65800834088 /* CustomNimbleMatchers.swift in Sources */,
+				658A8DA82A66A65400834088 /* ContentMetadataTests.swift in Sources */,
+				658A8DB32A66A65800834088 /* Spy.swift in Sources */,
+				658A8DBE2A66A6AF00834088 /* CISAdAnalyticsTestDouble.swift in Sources */,
+				658A8DAA2A66A65400834088 /* PlayerEventTests.swift in Sources */,
+				658A8DA62A66A65400834088 /* CustomEventTests.swift in Sources */,
+				658A8DAF2A66A65800834088 /* TestDoubleDataSource.swift in Sources */,
+				658A8DAE2A66A65800834088 /* MockingFactory.swift in Sources */,
+				658A8DB22A66A65800834088 /* TestDouble.swift in Sources */,
+				658A8DBF2A66A6AF00834088 /* CISAnalyticsTestDouble.swift in Sources */,
+				658A8DC22A66A6AF00834088 /* CISAnalyticsCreatorTestDouble.swift in Sources */,
+				658A8DB12A66A65800834088 /* MockTracker.swift in Sources */,
+				658A8DC02A66A6AF00834088 /* CISVideoAnalyticsTestDouble.swift in Sources */,
+				658A8DAD2A66A65800834088 /* SpyTracker.swift in Sources */,
+				658A8DC12A66A6AF00834088 /* BitmovinPlayerTestDouble.swift in Sources */,
+				658A8DA92A66A65400834088 /* SpecHelper.swift in Sources */,
+				658A8DA72A66A65400834088 /* TestHelper.swift in Sources */,
+				658A8DAB2A66A65400834088 /* SeekTimeshiftTests.swift in Sources */,
+				658A8DAC2A66A65400834088 /* ExternallyManagedSessionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -847,6 +953,7 @@
 		};
 		65F773B62A4D844C009A6658 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 45CD5012855AD308CAC3A093 /* Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -878,6 +985,7 @@
 		};
 		65F773B72A4D844C009A6658 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 23AA901C80A2F84D631B507E /* Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

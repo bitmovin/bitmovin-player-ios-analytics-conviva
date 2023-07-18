@@ -61,3 +61,4 @@ jobs:
           -scheme BitmovinConvivaAnalytics_Tests
           -destination 'platform=iOS Simulator,name=iPhone 14'
           -sdk iphonesimulator
+          | xcpretty

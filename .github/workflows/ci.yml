@@ -34,7 +34,7 @@ jobs:
   tests-player:
     name: Tests
     runs-on: macos-13
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v3

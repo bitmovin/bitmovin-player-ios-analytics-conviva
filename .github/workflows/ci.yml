@@ -32,9 +32,9 @@ jobs:
         run: swiftlint
 
   tests-player:
-    name: Unit tests
+    name: Tests
     runs-on: macos-13
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v3

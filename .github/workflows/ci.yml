@@ -57,9 +57,10 @@ jobs:
       - name: View devices
         run: xcrun simctl list devices
 
-      - name: Unit tests
+      - name: Tests
         run: >-
           xcodebuild test
           -workspace Example/BitmovinConvivaAnalytics.xcworkspace
           -scheme BitmovinConvivaAnalytics_Tests
+          -destination 'platform=iOS Simulator,name=iPhone 12'
           -sdk iphonesimulator

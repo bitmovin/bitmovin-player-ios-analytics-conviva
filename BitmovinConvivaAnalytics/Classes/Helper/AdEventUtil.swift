@@ -13,7 +13,7 @@ import ConvivaSDK
 final class AdEventUtil {
     static let positionRegexPattern = "pre|post|[0-9]+%|([0-9]+:)?([0-9]+:)?[0-9]+(\\.[0-9]+)?"
 
-    static func parseAdPosition(event: AdStartedEvent, contentDuration: TimeInterval) -> AdPosition {
+    static func parseAdPosition(event: AdStartedEvent, contentDuration: TimeInterval) -> ConvivaSDK.AdPosition {
         guard let position = event.position else {
             return .ADPOSITION_PREROLL
         }
@@ -33,7 +33,7 @@ final class AdEventUtil {
         return parseStringPosition(position: position)
     }
 
-    private static func parsePercentage(position: String) -> AdPosition {
+    private static func parsePercentage(position: String) -> ConvivaSDK.AdPosition {
         let position = position.replacingOccurrences(of: "%", with: "")
         let percentageValue = Double(position)
         if percentageValue == 0 {
@@ -45,7 +45,7 @@ final class AdEventUtil {
         }
     }
 
-    private static func parseTime(position: String, _ contentDuration: TimeInterval) -> AdPosition {
+    private static func parseTime(position: String, _ contentDuration: TimeInterval) -> ConvivaSDK.AdPosition {
         let stringParts = position.split(separator: ":")
         var seconds = 0.0
         let secondFactors: [Double] = [1, 60, 60 * 60, 60 * 60 * 24]
@@ -62,7 +62,7 @@ final class AdEventUtil {
         }
     }
 
-    private static func parseStringPosition(position: String) -> AdPosition {
+    private static func parseStringPosition(position: String) -> ConvivaSDK.AdPosition {
         switch position {
         case "pre":
             return .ADPOSITION_PREROLL

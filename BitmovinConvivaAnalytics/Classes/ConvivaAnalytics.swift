@@ -447,7 +447,7 @@ public final class ConvivaAnalytics: NSObject {
         sendCustomPlaybackEvent(name: event.name, attributes: args)
     }
 
-    private func onPlaybackStateChanged(playerState: PlayerState) {
+    private func onPlaybackStateChanged(playerState: ConvivaSDK.PlayerState) {
         // do not report any playback state changes while player isStalled except buffering
         if isStalled && playerState != .CONVIVA_BUFFERING {
             return
@@ -464,7 +464,7 @@ public final class ConvivaAnalytics: NSObject {
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }
 
-    private func onAdPlaybackStateChanged(playerState: PlayerState) {
+    private func onAdPlaybackStateChanged(playerState: ConvivaSDK.PlayerState) {
         // do not report any playback state changes while player isStalled except buffering
         if isStalled && playerState != .CONVIVA_BUFFERING {
             return

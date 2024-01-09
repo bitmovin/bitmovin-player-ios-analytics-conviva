@@ -636,7 +636,8 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onAdManifestLoaded(_ event: AdManifestLoadedEvent) {
-    	adAnalytics.reportAdLoaded(nil) //should set ad data with updateAdMetadata(adMetadataOverrides)
+        videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT,
+                                            adType: AdTechnology.CLIENT_SIDE, adBreakInfo: [:])
     }
     
     func onAdStarted(_ event: AdStartedEvent) {
@@ -659,8 +660,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {
-        videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT,
-                                            adType: AdTechnology.CLIENT_SIDE, adBreakInfo: [:])
+        adAnalytics.reportAdLoaded(nil) //should set ad data with updateAdMetadata(adMetadataOverrides)
     }
 
     func onAdBreakFinished(_ event: AdBreakFinishedEvent) {

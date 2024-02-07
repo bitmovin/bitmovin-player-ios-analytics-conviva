@@ -8,7 +8,7 @@
 //
 
 import Foundation
-import BitmovinPlayer
+import BitmovinPlayerCore
 import ConvivaSDK
 
 public final class ConvivaAnalytics: NSObject {

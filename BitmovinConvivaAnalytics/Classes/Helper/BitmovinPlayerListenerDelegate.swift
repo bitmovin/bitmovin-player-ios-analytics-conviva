@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import BitmovinPlayer
+import BitmovinPlayerCore
 
 protocol BitmovinPlayerListenerDelegate: AnyObject {
     func onEvent(_ event: Event)

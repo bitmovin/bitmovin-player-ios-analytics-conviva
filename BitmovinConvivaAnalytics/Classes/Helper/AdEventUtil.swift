@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import BitmovinPlayer
+import BitmovinPlayerCore
 import ConvivaSDK
 
 final class AdEventUtil {

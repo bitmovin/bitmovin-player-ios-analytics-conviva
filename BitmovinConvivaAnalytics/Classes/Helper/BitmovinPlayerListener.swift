@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import BitmovinPlayer
+import BitmovinPlayerCore
 
 class BitmovinPlayerListener: NSObject {
     let player: Player

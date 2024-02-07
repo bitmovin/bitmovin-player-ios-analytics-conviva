@@ -8,7 +8,7 @@
 
 import Quick
 import Nimble
-import BitmovinPlayer
+import BitmovinPlayerCore
 import BitmovinConvivaAnalytics
 import ConvivaSDK
 

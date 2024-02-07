@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import BitmovinPlayer
+import BitmovinPlayerCore
 import BitmovinConvivaAnalytics
 
 class ViewController: UIViewController {

@@ -8,7 +8,7 @@
 //
 
 import Foundation
-import BitmovinPlayer
+import BitmovinPlayerCore
 
 class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
 

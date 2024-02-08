@@ -24,9 +24,10 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "BitmovinConvivaAnalytics",
-            path: "BitmovinConvivaAnalytics"),
-        .testTarget(
-            name: "BitmovinConvivaAnalyticsTests",
-            dependencies: ["BitmovinConvivaAnalytics"]),
+            dependencies: [
+                .product(name: "ConvivaSDK", package: "conviva-ios-sdk-spm"),
+                .product(name: "BitmovinPlayerCore", package: "player-ios-core")
+            ],
+            path: "BitmovinConvivaAnalytics/Classes")
     ]
 )

@@ -656,7 +656,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         adAnalytics.reportAdError(event.message, severity: .ERROR_FATAL)
         // on any error, clean up the ad session
         adAnalytics.reportAdEnded()
-        adAnalytics.cleanup()
+        videoAnalytics.reportAdBreakEnded()
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {

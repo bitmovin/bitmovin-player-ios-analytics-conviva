@@ -365,6 +365,15 @@ public final class ConvivaAnalytics: NSObject {
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }
+    
+    private func reportPlayHeadTime() {
+        guard isSessionActive else { return }
+        
+        videoAnalytics.reportPlaybackMetric(
+            CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
+            value: Int64(player.currentTime(.relativeTime) * 1000)
+        )
+    }
 }
 
 // MARK: - PlayerListener
@@ -378,6 +387,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onTimeChanged() {
+        reportPlayHeadTime()
         updateSession()
     }
 

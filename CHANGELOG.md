@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 - iOS/tvOS 12 and 13 support
+
+### Added
+- Hook into `onTimeChanged` callback for reporting Play head time (PHT) to Conviva playback metric. 
+
 ## [3.0.1]
 
 ### Fixed

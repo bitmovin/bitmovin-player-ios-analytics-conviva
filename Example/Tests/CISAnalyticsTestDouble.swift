@@ -10,6 +10,18 @@ import Foundation
 import ConvivaSDK
 
 class CISAnalyticsTestDouble: NSObject, CISAnalyticsProtocol, TestDoubleDataSource {
+    func getGlobalSessionId() -> Int32 {
+        0
+    }
+
+    func getipv4SessionId() -> Int32 {
+        0
+    }
+
+    func getipv6SessionId() -> Int32 {
+        0
+    }
+
     func getClientId() -> String {
         ""
     }

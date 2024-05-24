@@ -10,6 +10,11 @@ import Foundation
 import ConvivaSDK
 
 class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoubleDataSource {
+    func isAirPlaying() -> Bool {
+        spy(functionName: "isAirPlaying")
+        return false
+    }
+
     func setContentInfo(_ contentInfo: [AnyHashable: Any]) {
         spy(functionName: "setContentInfo", args: [
             "applicationName": "\(contentInfo[CIS_SSDK_METADATA_PLAYER_NAME] ?? "")",

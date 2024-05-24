@@ -1,11 +1,16 @@
 PODS:
+  - BitmovinAnalyticsCollector/BitmovinPlayer (3.6.2):
+    - BitmovinAnalyticsCollector/Core
+    - BitmovinPlayerCore (~> 3.48)
+  - BitmovinAnalyticsCollector/Core (3.6.2)
   - BitmovinConvivaAnalytics (3.0.1):
     - BitmovinPlayer (~> 3.0)
     - ConvivaSDK (~> 4.0)
-  - BitmovinPlayer (3.41.0):
-    - BitmovinPlayerCore (= 3.41.0)
-  - BitmovinPlayerCore (3.41.0)
-  - ConvivaSDK (4.0.26)
+  - BitmovinPlayer (3.63.0):
+    - BitmovinAnalyticsCollector/BitmovinPlayer (~> 3.0)
+    - BitmovinPlayerCore (= 3.63.0)
+  - BitmovinPlayerCore (3.63.0)
+  - ConvivaSDK (4.0.49)
   - GoogleAds-IMA-iOS-SDK (3.18.4)
   - Nimble (9.2.0)
   - Quick (4.0.0)
@@ -13,8 +18,8 @@ PODS:
 
 DEPENDENCIES:
   - BitmovinConvivaAnalytics (from `../`)
-  - BitmovinPlayer (= 3.41.0)
-  - ConvivaSDK (= 4.0.26)
+  - BitmovinPlayer (= 3.63.0)
+  - ConvivaSDK (= 4.0.49)
   - GoogleAds-IMA-iOS-SDK (= 3.18.4)
   - Nimble (~> 9.2.0)
   - Quick (~> 4.0.0)
@@ -22,6 +27,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/bitmovin/cocoapod-specs.git:
+    - BitmovinAnalyticsCollector
     - BitmovinPlayer
     - BitmovinPlayerCore
   trunk:
@@ -36,15 +42,16 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  BitmovinAnalyticsCollector: 78308c1c02ee0390554c377204fcbab923369296
   BitmovinConvivaAnalytics: 7c92cfa10deb60f2c4ec75cd526f8e3d89dcb445
-  BitmovinPlayer: c8d7beb310c37df057191235cb6da5441cbe8bee
-  BitmovinPlayerCore: 13f01b25795969e312b1e5ba036789a12057eb27
-  ConvivaSDK: 9ed11bf46307bd5dfe33504e9a82eec937b80c44
+  BitmovinPlayer: f697e7c11554ee45e7f42f824359a4e9ebc81e0e
+  BitmovinPlayerCore: f50c383ea03927fadbdf85b585916461975192e3
+  ConvivaSDK: 5d10811e8611ed1fd99a5ab291bdcb1e795f8756
   GoogleAds-IMA-iOS-SDK: b01284e3bf3d64ba948de6692ffda531452c3713
   Nimble: 4f4a345c80b503b3ea13606a4f98405974ee4d0b
   Quick: 6473349e43b9271a8d43839d9ba1c442ed1b7ac4
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: b6d8a8a69554042f35044b763137167694c4b614
+PODFILE CHECKSUM: 4531741ebceb8fba38eb86ed44c488e8d4fe871f
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2

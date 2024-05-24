@@ -349,7 +349,7 @@ public final class ConvivaAnalytics: NSObject {
         sendCustomPlaybackEvent(name: event.name, attributes: args)
     }
 
-    private func onPlaybackStateChanged(playerState: PlayerState) {
+    private func onPlaybackStateChanged(playerState: ConvivaSDK.PlayerState) {
         // do not report any playback state changes while player isStalled except buffering
         if isStalled && playerState != .CONVIVA_BUFFERING {
             return
@@ -365,10 +365,10 @@ public final class ConvivaAnalytics: NSObject {
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }
-    
+
     private func reportPlayHeadTime() {
         guard isSessionActive else { return }
-        
+
         videoAnalytics.reportPlaybackMetric(
             CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
             value: Int64(player.currentTime(.relativeTime) * 1000)
@@ -502,7 +502,10 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     #if !os(tvOS)
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent) {
-        let adPosition: AdPosition = AdEventUtil.parseAdPosition(event: event, contentDuration: player.duration)
+        let adPosition: ConvivaSDK.AdPosition = AdEventUtil.parseAdPosition(
+            event: event,
+            contentDuration: player.duration
+        )
         var adAttributes = [String: Any]()
         adAttributes["c3.ad.position"] = adPosition.rawValue
         videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT,

@@ -15,7 +15,7 @@ Pull requests are welcome and pair well with bug reports and feature requests. H
 - Please do not introduce new project warnings and adhere to swiftlint styling
 - Make your changes in your fork.
 - Run tests locally via Xcode.
-- Validate your chances with the Convia Touchstone backend.
+- Validate your changes with the Convia Touchstone backend.
 - Add an entry to the [CHANGELOG.md](CHANGELOG.md) file in the `[Unreleased]` section to describe the changes to the project.
 - Submit a pull request to the main repository.
 

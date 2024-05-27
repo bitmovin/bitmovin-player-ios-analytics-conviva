@@ -243,7 +243,9 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
 }
 
 class BitmovinPlayerStub: NSObject, Player {
-    var latency: BitmovinPlayerCore.LatencyApi
+    var latency: BitmovinPlayerCore.LatencyApi {
+        player.latency
+    }
 
     var player: Player
 
@@ -251,7 +253,6 @@ class BitmovinPlayerStub: NSObject, Player {
         let config = PlayerConfig()
         config.key = "foobar"
         player = PlayerFactory.createPlayer(playerConfig: config)
-        latency = LatencyApi()
     }
 
     var isDestroyed: Bool {

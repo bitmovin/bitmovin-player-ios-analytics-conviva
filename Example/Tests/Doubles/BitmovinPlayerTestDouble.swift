@@ -243,12 +243,16 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
 }
 
 class BitmovinPlayerStub: NSObject, Player {
+    var latency: BitmovinPlayerCore.LatencyApi {
+        player.latency
+    }
+
     var player: Player
 
     override init() {
         let config = PlayerConfig()
         config.key = "foobar"
-        player = PlayerFactory.create(playerConfig: config)
+        player = PlayerFactory.createPlayer(playerConfig: config)
     }
 
     var isDestroyed: Bool {
@@ -530,6 +534,7 @@ class BitmovinPlayerStub: NSObject, Player {
 }
 
 class BitmovinPlayerTestAd: NSObject, Ad {
+    var clickThroughUrlOpened: (() -> Void)?
 
     var isLinear: Bool = false
 

@@ -243,12 +243,16 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
 }
 
 class BitmovinPlayerStub: NSObject, Player {
+    var latency: BitmovinPlayerCore.LatencyApi {
+        player.latency
+    }
+
     var player: Player
 
     override init() {
         let config = PlayerConfig()
         config.key = "foobar"
-        player = PlayerFactory.create(playerConfig: config)
+        player = PlayerFactory.createPlayer(playerConfig: config)
     }
 
     var isDestroyed: Bool {
@@ -369,6 +373,28 @@ class BitmovinPlayerStub: NSObject, Player {
 
     var buffer: BufferApi {
             player.buffer
+    }
+
+    @available(iOS 15.0, *)
+    var sharePlay: SharePlayApi {
+        player.sharePlay
+    }
+
+    var isOutputObscured: Bool {
+        player.isOutputObscured
+    }
+
+    // swiftlint:disable:next identifier_name
+    var _modules: BitmovinPlayerCore._PlayerModulesApi {
+        player._modules
+    }
+
+    var events: BitmovinPlayerCore.PlayerEventsApi {
+        player.events
+    }
+
+    func canPlay(atPlaybackSpeed playbackSpeed: Float) -> Bool {
+        player.canPlay(atPlaybackSpeed: playbackSpeed)
     }
 
     var playlist: PlaylistApi {
@@ -508,6 +534,7 @@ class BitmovinPlayerStub: NSObject, Player {
 }
 
 class BitmovinPlayerTestAd: NSObject, Ad {
+    var clickThroughUrlOpened: (() -> Void)?
 
     var isLinear: Bool = false
 

@@ -1,26 +1,35 @@
 PODS:
-  - BitmovinConvivaAnalytics (3.0.1):
-    - BitmovinPlayer (~> 3.0)
+  - BitmovinAnalyticsCollector/BitmovinPlayer (3.6.2):
+    - BitmovinAnalyticsCollector/Core
+    - BitmovinPlayerCore (~> 3.48)
+  - BitmovinAnalyticsCollector/Core (3.6.2)
+  - BitmovinConvivaAnalytics (3.1.0):
+    - BitmovinPlayer (~> 3.63)
     - ConvivaSDK (~> 4.0)
-  - BitmovinPlayer (3.11.0)
-  - ConvivaSDK (4.0.26)
-  - GoogleAds-IMA-iOS-SDK (3.12.1)
+  - BitmovinPlayer (3.63.0):
+    - BitmovinAnalyticsCollector/BitmovinPlayer (~> 3.0)
+    - BitmovinPlayerCore (= 3.63.0)
+  - BitmovinPlayerCore (3.63.0)
+  - ConvivaSDK (4.0.49)
+  - GoogleAds-IMA-iOS-SDK (3.18.4)
   - Nimble (9.2.0)
   - Quick (4.0.0)
   - SwiftLint (0.43.1)
 
 DEPENDENCIES:
   - BitmovinConvivaAnalytics (from `../`)
-  - BitmovinPlayer (= 3.11.0)
-  - ConvivaSDK (= 4.0.26)
-  - GoogleAds-IMA-iOS-SDK (= 3.12.1)
+  - BitmovinPlayer (= 3.63.0)
+  - ConvivaSDK (= 4.0.49)
+  - GoogleAds-IMA-iOS-SDK (= 3.18.4)
   - Nimble (~> 9.2.0)
   - Quick (~> 4.0.0)
   - SwiftLint
 
 SPEC REPOS:
   https://github.com/bitmovin/cocoapod-specs.git:
+    - BitmovinAnalyticsCollector
     - BitmovinPlayer
+    - BitmovinPlayerCore
   trunk:
     - ConvivaSDK
     - GoogleAds-IMA-iOS-SDK
@@ -33,14 +42,16 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BitmovinConvivaAnalytics: c92e09e4530dd7fe1c904dedea6b940a8f16ea25
-  BitmovinPlayer: 635b2038bccb66d77f259b76410a561a98dbfa02
-  ConvivaSDK: 9ed11bf46307bd5dfe33504e9a82eec937b80c44
-  GoogleAds-IMA-iOS-SDK: 3c01b8db7d01de6b4a3b1d58744d4bc426a2d821
+  BitmovinAnalyticsCollector: 78308c1c02ee0390554c377204fcbab923369296
+  BitmovinConvivaAnalytics: 46b30ae6fd30d526be14fff296cb9a92362b84b4
+  BitmovinPlayer: f697e7c11554ee45e7f42f824359a4e9ebc81e0e
+  BitmovinPlayerCore: f50c383ea03927fadbdf85b585916461975192e3
+  ConvivaSDK: 5d10811e8611ed1fd99a5ab291bdcb1e795f8756
+  GoogleAds-IMA-iOS-SDK: b01284e3bf3d64ba948de6692ffda531452c3713
   Nimble: 4f4a345c80b503b3ea13606a4f98405974ee4d0b
   Quick: 6473349e43b9271a8d43839d9ba1c442ed1b7ac4
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: cafe875c5cad560b6678ff592e763a298bee0847
+PODFILE CHECKSUM: 4531741ebceb8fba38eb86ed44c488e8d4fe871f
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.15.2

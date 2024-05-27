@@ -81,7 +81,7 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     it("uses item title") {
                         let sourceConfig = SourceConfig(url: URL(string: "http://a.url")!, type: .hls)
                         sourceConfig.title = "MyTitle"
-                        let source = SourceFactory.create(from: sourceConfig)
+                        let source = SourceFactory.createSource(from: sourceConfig)
                         playerDouble.load(source: source)
                         try? convivaAnalytics.initializeSession()
                         expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyTitle"]))
@@ -92,7 +92,7 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         metadata.assetName = "A Override"
                         convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
                         let sourceConfig = SourceConfig(url: URL(string: "http://a.url")!, type: .hls)
-                        let source = SourceFactory.create(from: sourceConfig)
+                        let source = SourceFactory.createSource(from: sourceConfig)
                         playerDouble.load(source: source)
 
                         try? convivaAnalytics.initializeSession()
@@ -101,7 +101,7 @@ class ExternallyManagedSessionSpec: QuickSpec {
 
                     it("throw error without title in the source and without asset name") {
                         let sourceConfig = SourceConfig(url: URL(string: "http://a.url")!, type: .hls)
-                        let source = SourceFactory.create(from: sourceConfig)
+                        let source = SourceFactory.createSource(from: sourceConfig)
                         playerDouble.load(source: source)
                         expect { try convivaAnalytics.initializeSession() }.to(throwError())
                         expect(spy).toNot(haveBeenCalled())
@@ -156,7 +156,7 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     // With source at second run
                     let sourceConfig = SourceConfig(url: URL(string: "http://a.url")!, type: .hls)
                     sourceConfig.title = "MyTitle"
-                    let source = SourceFactory.create(from: sourceConfig)
+                    let source = SourceFactory.createSource(from: sourceConfig)
                     playerDouble.load(source: source)
                     try? convivaAnalytics.initializeSession()
                     expect(spy).to(haveBeenCalled(withArgs: ["assetName": "MyTitle"]))

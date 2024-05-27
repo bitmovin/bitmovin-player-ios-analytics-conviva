@@ -10,6 +10,10 @@ import Foundation
 import ConvivaSDK
 
 class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol {
+    func isAirPlaying() -> Bool {
+        false
+    }
+
     func setAdInfo(_ adInfo: [AnyHashable: Any]) {
     }
 

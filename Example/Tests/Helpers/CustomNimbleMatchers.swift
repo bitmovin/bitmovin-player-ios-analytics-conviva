@@ -9,7 +9,7 @@
 import Foundation
 import Nimble
 
-public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Predicate<T> {
+public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Nimble.Predicate<T> {
     return Predicate { (actualExpression: Expression<T>) throws -> PredicateResult in
 
         if let functionName = (try? actualExpression.evaluate() as? Spy)??.functionName {

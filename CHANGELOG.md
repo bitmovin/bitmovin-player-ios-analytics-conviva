@@ -7,15 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.1.0] - 2024-05-27
+
+### Added
+- Hook into `onTimeChanged` callback for reporting Play head time (PHT) to Conviva playback metric. 
+
 ### Changed
 - Raised minimum deployment targets to iOS/tvOS 14.0
 - Updated minimum Bitmovin Player version to 3.63.0
 
 ### Removed
 - iOS/tvOS 12 and 13 support
-
-### Added
-- Hook into `onTimeChanged` callback for reporting Play head time (PHT) to Conviva playback metric. 
 
 ## [3.0.1]
 

@@ -15,7 +15,7 @@ import ConvivaSDK
 // swiftlint:disable:next type_body_length
 class ContentMetadataSpec: QuickSpec {
     // swiftlint:disable:next function_body_length
-    override func spec() {
+    override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {

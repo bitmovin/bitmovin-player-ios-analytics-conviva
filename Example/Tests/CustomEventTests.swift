@@ -13,7 +13,7 @@ import BitmovinConvivaAnalytics
 import ConvivaSDK
 
 class CustomEventsSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {

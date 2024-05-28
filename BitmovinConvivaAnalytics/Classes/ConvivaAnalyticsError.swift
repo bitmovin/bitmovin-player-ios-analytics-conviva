@@ -16,6 +16,6 @@ public struct ConvivaAnalyticsError: Error {
     }
 
     public var localizedDescription: String {
-        return message
+        message
     }
 }

@@ -38,7 +38,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
     var playbackStarted: Bool = false
 
     var description: String {
-        return """
+        """
         <\(type(of: self)): \
         metadata = \(metadata) \
         metadataOverrieds = \(metadataOverrides) \
@@ -51,7 +51,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
         contentInfo = [String: Any]()
     }
 
-    public func setOverrides(_ metadataOverrides: MetadataOverrides) {
+    func setOverrides(_ metadataOverrides: MetadataOverrides) {
         if playbackStarted {
             logger.debugLog(
                 message: "[ Conviva Analytics ] Playback has started. Only some metadata attributes will be updated"
@@ -61,11 +61,11 @@ class ContentMetadataBuilder: CustomStringConvertible {
         self.metadataOverrides = metadataOverrides
     }
 
-    public func setPlaybackStarted(_ playbackStarted: Bool) {
+    func setPlaybackStarted(_ playbackStarted: Bool) {
         self.playbackStarted = playbackStarted
     }
 
-    public func build() -> [String: Any] {
+    func build() -> [String: Any] {
         if !playbackStarted {
             // Asset name is only allowed to be set once
             if contentInfo[CIS_SSDK_METADATA_ASSET_NAME] == nil {
@@ -83,7 +83,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
                 contentInfo[CIS_SSDK_METADATA_DURATION] = duration
             }
             if let custom = self.custom {
-                contentInfo.merge(custom, uniquingKeysWith: {(_, new) in new})
+                contentInfo.merge(custom) { $1 }
             }
         } else {
             if let duration = self.duration, duration > 0 {
@@ -107,88 +107,88 @@ class ContentMetadataBuilder: CustomStringConvertible {
         return contentInfo
     }
 
-    public var assetName: String? {
+    var assetName: String? {
         get {
-            return metadataOverrides.assetName ?? metadata.assetName
+            metadataOverrides.assetName ?? metadata.assetName
         }
         set {
             metadata.assetName = newValue
         }
     }
 
-    public var viewerId: String? {
+    var viewerId: String? {
         get {
-            return metadataOverrides.viewerId ?? metadata.viewerId
+            metadataOverrides.viewerId ?? metadata.viewerId
         }
         set {
             metadata.viewerId = newValue
         }
     }
 
-    public var streamType: StreamType? {
+    var streamType: StreamType? {
         get {
-            return metadataOverrides.streamType ?? metadata.streamType
+            metadataOverrides.streamType ?? metadata.streamType
         }
         set {
             metadata.streamType = newValue
         }
     }
 
-    public var applicationName: String? {
+    var applicationName: String? {
         get {
-            return metadataOverrides.applicationName ?? metadata.applicationName
+            metadataOverrides.applicationName ?? metadata.applicationName
         }
         set {
             metadata.applicationName = newValue
         }
     }
 
-    public var custom: [String: Any]? {
+    var custom: [String: Any]? {
         get {
-            return mergeDictionaries(dict1: metadata.custom, dict2: metadataOverrides.custom)
+            mergeDictionaries(dict1: metadata.custom, dict2: metadataOverrides.custom)
         }
         set {
             metadata.custom = newValue
         }
     }
 
-    public var duration: Int? {
+    var duration: Int? {
         get {
-            return metadataOverrides.duration ?? metadata.duration
+            metadataOverrides.duration ?? metadata.duration
         }
         set {
             metadata.duration = newValue
         }
     }
 
-    public var encodedFramerate: Int? {
+    var encodedFramerate: Int? {
         get {
-            return metadataOverrides.encodedFramerate ?? metadata.encodedFramerate
+            metadataOverrides.encodedFramerate ?? metadata.encodedFramerate
         }
         set {
             metadata.encodedFramerate = newValue
         }
     }
 
-    public var defaultResource: String? {
+    var defaultResource: String? {
         get {
-            return metadataOverrides.defaultResource ?? metadata.defaultResource
+            metadataOverrides.defaultResource ?? metadata.defaultResource
         }
         set {
             metadata.defaultResource = newValue
         }
     }
 
-    public var streamUrl: String? {
+    var streamUrl: String? {
         get {
-            return metadataOverrides.streamUrl ?? metadata.streamUrl
+            metadataOverrides.streamUrl ?? metadata.streamUrl
         }
         set {
             metadata.streamUrl = newValue
         }
     }
 
-    public func reset() {
+    func reset() {
         metadataOverrides = MetadataOverrides()
         metadata = MetadataOverrides()
         playbackStarted = false

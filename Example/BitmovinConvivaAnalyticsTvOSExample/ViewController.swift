@@ -10,6 +10,9 @@ import UIKit
 import BitmovinPlayer
 import BitmovinConvivaAnalytics
 
+// Set this flag to false if you want to test without Ads
+private let enableAds = true
+
 class ViewController: UIViewController {
 
     var player: Player?
@@ -20,6 +23,13 @@ class ViewController: UIViewController {
 
     let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
     var convivaGatewayString: String?
+
+    var vodSourceConfig: SourceConfig {
+        let sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
+        let sourceConfig = SourceConfig(url: URL(string: sourceString)!, type: .hls)
+        sourceConfig.title = "Art of Motion"
+        return sourceConfig
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +44,8 @@ class ViewController: UIViewController {
 
     func setupBitmovinPlayer() {
         // Setup Player
-        player = PlayerFactory.create(playerConfig: playerConfig)
+        let playerConfig = buildDefaultPlayerConfig(enableAds: enableAds)
+        player = PlayerFactory.createPlayer(playerConfig: playerConfig)
 
         let convivaConfig = ConvivaConfiguration()
 
@@ -71,22 +82,6 @@ class ViewController: UIViewController {
         view.addSubview(playerView!)
         view.bringSubviewToFront(playerView!)
 
-        player?.load(source: SourceFactory.create(from: vodSourceConfig))
-    }
-
-    var playerConfig: PlayerConfig {
-        let playerConfig = PlayerConfig()
-        let playbackConfig = PlaybackConfig()
-        playbackConfig.isAutoplayEnabled = true
-        playbackConfig.isMuted = true
-        playerConfig.playbackConfig = playbackConfig
-        return playerConfig
-    }
-
-    var vodSourceConfig: SourceConfig {
-        let sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
-        let sourceConfig = SourceConfig(url: URL(string: sourceString)!, type: .hls)
-        sourceConfig.title = "Art of Motion"
-        return sourceConfig
+        player?.load(source: SourceFactory.createSource(from: vodSourceConfig))
     }
 }

@@ -12,6 +12,10 @@
 		3714F240216DD51D00B446F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3714F23E216DD51D00B446F2 /* Main.storyboard */; };
 		3714F242216DD52000B446F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3714F241216DD52000B446F2 /* Assets.xcassets */; };
 		37226EC922043A9D0072DE47 /* ExternallyManagedSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */; };
+		37495D462C06010800B49BBE /* DefaultAdConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37495D422C06010800B49BBE /* DefaultAdConfig.swift */; };
+		37495D472C06010800B49BBE /* DefaultPlayerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37495D432C06010800B49BBE /* DefaultPlayerConfig.swift */; };
+		37495D482C06014100B49BBE /* DefaultAdConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37495D422C06010800B49BBE /* DefaultAdConfig.swift */; };
+		37495D492C06014300B49BBE /* DefaultPlayerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37495D432C06010800B49BBE /* DefaultPlayerConfig.swift */; };
 		37756EB0216F8E0D0041806D /* TestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EAF216F8E0D0041806D /* TestDouble.swift */; };
 		37756EB2216F8E2F0041806D /* Spy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB1216F8E2F0041806D /* Spy.swift */; };
 		37756EB4216F8E450041806D /* TestDoubleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB3216F8E450041806D /* TestDoubleDataSource.swift */; };
@@ -63,6 +67,8 @@
 		3714F241216DD52000B446F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3714F243216DD52000B446F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37226EC822043A9D0072DE47 /* ExternallyManagedSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternallyManagedSessionTests.swift; sourceTree = "<group>"; };
+		37495D422C06010800B49BBE /* DefaultAdConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultAdConfig.swift; sourceTree = "<group>"; };
+		37495D432C06010800B49BBE /* DefaultPlayerConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPlayerConfig.swift; sourceTree = "<group>"; };
 		37756EAF216F8E0D0041806D /* TestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestDouble.swift; path = Helpers/TestDouble.swift; sourceTree = "<group>"; };
 		37756EB1216F8E2F0041806D /* Spy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Spy.swift; path = Helpers/Spy.swift; sourceTree = "<group>"; };
 		37756EB3216F8E450041806D /* TestDoubleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestDoubleDataSource.swift; path = Helpers/TestDoubleDataSource.swift; sourceTree = "<group>"; };
@@ -155,6 +161,23 @@
 			path = BitmovinConvivaAnalyticsTvOSExample;
 			sourceTree = "<group>";
 		};
+		37495D442C06010800B49BBE /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				37495D422C06010800B49BBE /* DefaultAdConfig.swift */,
+				37495D432C06010800B49BBE /* DefaultPlayerConfig.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		37495D452C06010800B49BBE /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				37495D442C06010800B49BBE /* Helper */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		37756EAE216F8DF00041806D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
+				37495D452C06010800B49BBE /* Shared */,
 				607FACD21AFB9204008FA782 /* BitmovinConvivaAnalyticsExample */,
 				3714F239216DD51D00B446F2 /* BitmovinConvivaAnalyticsTvOSExample */,
 				607FACE81AFB9204008FA782 /* Tests */,
@@ -649,6 +673,7 @@
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/BitmovinPlayer/BitmovinPlayer.framework/BitmovinPlayer",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/BitmovinPlayer/BitmovinPlayerAnalytics.framework/BitmovinPlayerAnalytics",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/BitmovinPlayerCore/BitmovinPlayerCore.framework/BitmovinPlayerCore",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAds-IMA-tvOS-SDK/GoogleInteractiveMediaAds.framework/GoogleInteractiveMediaAds",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -657,6 +682,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayerAnalytics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmovinPlayerCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleInteractiveMediaAds.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -670,7 +696,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37495D492C06014300B49BBE /* DefaultPlayerConfig.swift in Sources */,
 				3714F23D216DD51D00B446F2 /* ViewController.swift in Sources */,
+				37495D482C06014100B49BBE /* DefaultAdConfig.swift in Sources */,
 				3714F23B216DD51D00B446F2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -679,7 +707,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37495D472C06010800B49BBE /* DefaultPlayerConfig.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				37495D462C06010800B49BBE /* DefaultAdConfig.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -359,17 +359,14 @@
 				TargetAttributes = {
 					3714F237216DD51D00B446F2 = {
 						CreatedOnToolsVersion = 10.0;
-						DevelopmentTeam = MU9N7V8YCY;
 						ProvisioningStyle = Automatic;
 					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = MU9N7V8YCY;
 						LastSwiftMigration = "";
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = MU9N7V8YCY;
 						LastSwiftMigration = "";
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -767,7 +764,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = MU9N7V8YCY;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/BitmovinConvivaAnalytics-tvOS\"",
@@ -808,7 +805,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MU9N7V8YCY;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/BitmovinConvivaAnalytics-tvOS\"",
@@ -947,7 +944,7 @@
 			baseConfigurationReference = 18D9A1085FF475FC238B6545 /* Pods-BitmovinConvivaAnalytics_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MU9N7V8YCY;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BitmovinConvivaAnalytics/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -966,7 +963,7 @@
 			baseConfigurationReference = F4A0D5E02D9AD46C7E9BCAF6 /* Pods-BitmovinConvivaAnalytics_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MU9N7V8YCY;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BitmovinConvivaAnalytics/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -984,7 +981,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 45CD5012855AD308CAC3A093 /* Pods-BitmovinConvivaAnalytics_Tests.debug.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = MU9N7V8YCY;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1011,7 +1008,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 23AA901C80A2F84D631B507E /* Pods-BitmovinConvivaAnalytics_Tests.release.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = MU9N7V8YCY;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

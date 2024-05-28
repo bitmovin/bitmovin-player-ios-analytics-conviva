@@ -7,7 +7,7 @@ import BitmovinConvivaAnalytics
 import ConvivaSDK
 
 class SeekTimeshiftSpec: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {

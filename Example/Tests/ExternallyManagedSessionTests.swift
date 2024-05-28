@@ -14,7 +14,7 @@ import ConvivaSDK
 
 class ExternallyManagedSessionSpec: QuickSpec {
     // swiftlint:disable:next function_body_length
-    override func spec() {
+    override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {

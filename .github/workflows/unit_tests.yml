@@ -1,13 +1,7 @@
 name: Unit Tests
 
 on:
-  pull_request:
-    branches: ['**']
-    paths-ignore:
-      - '*.md'
-
   push:
-    branches: ['**']
     paths-ignore:
       - '*.md'
 

@@ -6,8 +6,8 @@
 //  Copyright (c) 2019 Bitmovin. All rights reserved.
 //
 
-import Foundation
 import ConvivaSDK
+import Foundation
 
 public struct MetadataOverrides {
     // Can only be set once
@@ -33,9 +33,9 @@ class ContentMetadataBuilder: CustomStringConvertible {
     var contentInfo: [String: Any]
 
     // internal metadata fields to enable merging / overriding
-    var metadataOverrides: MetadataOverrides = MetadataOverrides()
-    var metadata: MetadataOverrides = MetadataOverrides()
-    var playbackStarted: Bool = false
+    var metadataOverrides = MetadataOverrides()
+    var metadata = MetadataOverrides()
+    var playbackStarted = false
 
     var description: String {
         """
@@ -92,7 +92,6 @@ class ContentMetadataBuilder: CustomStringConvertible {
                         contentInfo[CIS_SSDK_METADATA_DURATION] = duration
                     }
                 }
-
             }
         }
 
@@ -202,9 +201,9 @@ class ContentMetadataBuilder: CustomStringConvertible {
         }
 
         var finalDictionary: [String: Any] = dict1 ?? [:]
-        dict2?.keys.forEach({ (key) in
+        dict2?.keys.forEach { key in
             finalDictionary[key] = dict2?[key]
-        })
+        }
 
         return finalDictionary
     }

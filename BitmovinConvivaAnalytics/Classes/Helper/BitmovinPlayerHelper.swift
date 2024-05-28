@@ -6,8 +6,8 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import Foundation
 import BitmovinPlayer
+import Foundation
 
 final class BitmovinPlayerHelper: NSObject {
     let player: Player
@@ -30,6 +30,6 @@ final class BitmovinPlayerHelper: NSObject {
     }
 
     var version: String? {
-        return Bundle(for: PlayerFactory.self).infoDictionary?["CFBundleShortVersionString"] as? String
+        Bundle(for: PlayerFactory.self).infoDictionary?["CFBundleShortVersionString"] as? String
     }
 }

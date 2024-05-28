@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,13 +19,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="el6-04-fsB">
-                                <rect key="frame" x="0.0" y="-8" width="383" height="683"/>
-                            </imageView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WoE-1D-LsJ">
-                                <rect key="frame" x="0.0" y="-8" width="375" height="683"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="1tT-Td-CXC">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="683"/>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WoE-1D-LsJ">
+                                <rect key="frame" x="0.0" y="12" width="375" height="643"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="1tT-Td-CXC">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="643"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="een-Ij-ecP">
@@ -54,7 +51,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zHK-Hj-jBm">
-                                            <rect key="frame" x="16" y="425" width="163.5" height="30"/>
+                                            <rect key="frame" x="16" y="425" width="164" height="30"/>
                                             <state key="normal" title="Pause tracking">
                                                 <color key="titleColor" red="0.1215686275" green="0.6705882353" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
@@ -139,20 +136,14 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="el6-04-fsB" firstAttribute="bottom" secondItem="WoE-1D-LsJ" secondAttribute="bottom" id="7mx-R9-fA4"/>
-                            <constraint firstItem="el6-04-fsB" firstAttribute="leading" secondItem="WoE-1D-LsJ" secondAttribute="leading" id="Orw-pz-eRA"/>
-                            <constraint firstItem="el6-04-fsB" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" constant="-8" id="TcW-qH-HP7"/>
                             <constraint firstItem="WoE-1D-LsJ" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="eAI-3o-3uT"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="el6-04-fsB" secondAttribute="trailing" constant="-24" id="ni5-rS-qJj"/>
                             <constraint firstItem="WoE-1D-LsJ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="qeq-tI-3iG"/>
-                            <constraint firstItem="WoE-1D-LsJ" firstAttribute="top" secondItem="el6-04-fsB" secondAttribute="top" id="qgo-Jo-whh"/>
                             <constraint firstItem="WoE-1D-LsJ" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="yE4-4i-IgG"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="adsSwitch" destination="zt9-sa-S3x" id="SR7-rW-Ez5"/>
                         <outlet property="playerUIView" destination="een-Ij-ecP" id="Jne-Bu-NQE"/>
-                        <outlet property="posterImageView" destination="el6-04-fsB" id="5sK-uw-mOl"/>
                         <outlet property="streamUrlTextField" destination="Y42-XQ-Sug" id="N1e-kV-YCg"/>
                         <outlet property="uiEventLabel" destination="isH-xM-r9B" id="kJC-tc-PDJ"/>
                     </connections>

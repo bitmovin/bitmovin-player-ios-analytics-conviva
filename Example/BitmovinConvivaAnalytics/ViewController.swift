@@ -11,7 +11,6 @@ import BitmovinPlayer
 import BitmovinConvivaAnalytics
 
 class ViewController: UIViewController {
-    @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var playerUIView: UIView!
     @IBOutlet weak var adsSwitch: UISwitch!
     @IBOutlet weak var streamUrlTextField: UITextField!
@@ -41,13 +40,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         setupBitmovinPlayer()
-
-        if let posterUrl = vodSourceConfig.posterSource {
-            // Be aware that this will be executed synchronously on the main thread (change to SDWebImage if needed)
-            if let data = try? Data(contentsOf: posterUrl) {
-                posterImageView.image = UIImage(data: data)
-            }
-        }
     }
 
     deinit {

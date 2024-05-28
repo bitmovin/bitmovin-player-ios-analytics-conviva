@@ -38,20 +38,10 @@ jobs:
         run: |
           cd Example && bundle exec pod install
 
-  run-unit-tests-ios:
-    name: Run Unit Tests iOS
-    runs-on: macos-latest
-    needs: prepare-dependencies
-    steps:
       - name: Run Unit Tests iOS
         run: |
           bundle exec fastlane unit_test
 
-  build_tvos:
-    name: tvOS sanity build
-    runs-on: macos-latest
-    needs: prepare-dependencies
-    steps:
-      - name: Build tvOS
+      - name: Sanity build tvOS
         run: |
           bundle exec fastlane build_tvos

@@ -6,8 +6,8 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import Foundation
 import BitmovinPlayer
+import Foundation
 
 protocol BitmovinPlayerListenerDelegate: AnyObject {
     func onEvent(_ event: Event)

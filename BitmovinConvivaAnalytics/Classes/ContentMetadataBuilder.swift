@@ -38,7 +38,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
     var playbackStarted: Bool = false
 
     var description: String {
-        return """
+        """
         <\(type(of: self)): \
         metadata = \(metadata) \
         metadataOverrieds = \(metadataOverrides) \
@@ -83,7 +83,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
                 contentInfo[CIS_SSDK_METADATA_DURATION] = duration
             }
             if let custom = self.custom {
-                contentInfo.merge(custom, uniquingKeysWith: {(_, new) in new})
+                contentInfo.merge(custom) { $1 }
             }
         } else {
             if let duration = self.duration, duration > 0 {
@@ -109,7 +109,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
 
     public var assetName: String? {
         get {
-            return metadataOverrides.assetName ?? metadata.assetName
+            metadataOverrides.assetName ?? metadata.assetName
         }
         set {
             metadata.assetName = newValue
@@ -118,7 +118,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
 
     public var viewerId: String? {
         get {
-            return metadataOverrides.viewerId ?? metadata.viewerId
+            metadataOverrides.viewerId ?? metadata.viewerId
         }
         set {
             metadata.viewerId = newValue
@@ -127,7 +127,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
 
     public var streamType: StreamType? {
         get {
-            return metadataOverrides.streamType ?? metadata.streamType
+            metadataOverrides.streamType ?? metadata.streamType
         }
         set {
             metadata.streamType = newValue
@@ -136,7 +136,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
 
     public var applicationName: String? {
         get {
-            return metadataOverrides.applicationName ?? metadata.applicationName
+            metadataOverrides.applicationName ?? metadata.applicationName
         }
         set {
             metadata.applicationName = newValue
@@ -145,7 +145,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
 
     public var custom: [String: Any]? {
         get {
-            return mergeDictionaries(dict1: metadata.custom, dict2: metadataOverrides.custom)
+            mergeDictionaries(dict1: metadata.custom, dict2: metadataOverrides.custom)
         }
         set {
             metadata.custom = newValue
@@ -154,7 +154,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
 
     public var duration: Int? {
         get {
-            return metadataOverrides.duration ?? metadata.duration
+            metadataOverrides.duration ?? metadata.duration
         }
         set {
             metadata.duration = newValue
@@ -163,7 +163,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
 
     public var encodedFramerate: Int? {
         get {
-            return metadataOverrides.encodedFramerate ?? metadata.encodedFramerate
+            metadataOverrides.encodedFramerate ?? metadata.encodedFramerate
         }
         set {
             metadata.encodedFramerate = newValue
@@ -172,7 +172,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
 
     public var defaultResource: String? {
         get {
-            return metadataOverrides.defaultResource ?? metadata.defaultResource
+            metadataOverrides.defaultResource ?? metadata.defaultResource
         }
         set {
             metadata.defaultResource = newValue
@@ -181,7 +181,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
 
     public var streamUrl: String? {
         get {
-            return metadataOverrides.streamUrl ?? metadata.streamUrl
+            metadataOverrides.streamUrl ?? metadata.streamUrl
         }
         set {
             metadata.streamUrl = newValue

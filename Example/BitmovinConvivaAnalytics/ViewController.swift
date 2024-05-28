@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     private var convivaGatewayString: String?
 
     var vodSourceConfig: SourceConfig {
+        // swiftlint:disable:next force_unwrapping
         var sourceUrl = URL(string: "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8")!
         if let streamString = streamUrlTextField.text, let url = URL(string: streamString) {
             sourceUrl = url

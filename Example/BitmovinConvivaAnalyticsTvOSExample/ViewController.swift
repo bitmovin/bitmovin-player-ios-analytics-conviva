@@ -22,8 +22,9 @@ class ViewController: UIViewController {
     private var convivaGatewayString: String?
 
     var vodSourceConfig: SourceConfig {
-        let sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
-        let sourceConfig = SourceConfig(url: URL(string: sourceString)!, type: .hls)
+        // swiftlint:disable:next force_unwrapping
+        let url = URL(string: "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8")!
+        let sourceConfig = SourceConfig(url: url, type: .hls)
         sourceConfig.title = "Art of Motion"
         return sourceConfig
     }

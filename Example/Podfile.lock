@@ -11,10 +11,20 @@ PODS:
     - BitmovinPlayerCore (= 3.63.0)
   - BitmovinPlayerCore (3.63.0)
   - ConvivaSDK (4.0.49)
+  - CwlCatchException (2.2.0):
+    - CwlCatchExceptionSupport (~> 2.2.0)
+  - CwlCatchExceptionSupport (2.2.0)
+  - CwlMachBadInstructionHandler (2.2.0)
+  - CwlPosixPreconditionTesting (2.2.0)
+  - CwlPreconditionTesting (2.2.1):
+    - CwlCatchException (~> 2.2.0)
+    - CwlMachBadInstructionHandler (~> 2.2.0)
+    - CwlPosixPreconditionTesting (~> 2.2.0)
   - GoogleAds-IMA-iOS-SDK (3.22.1)
   - GoogleAds-IMA-tvOS-SDK (4.12.0)
-  - Nimble (9.2.0)
-  - Quick (4.0.0)
+  - Nimble (13.3.0):
+    - CwlPreconditionTesting (~> 2.2.0)
+  - Quick (7.5.0)
   - SwiftLint (0.43.1)
 
 DEPENDENCIES:
@@ -23,8 +33,8 @@ DEPENDENCIES:
   - ConvivaSDK (= 4.0.49)
   - GoogleAds-IMA-iOS-SDK (= 3.22.1)
   - GoogleAds-IMA-tvOS-SDK (= 4.12.0)
-  - Nimble (~> 9.2.0)
-  - Quick (~> 4.0.0)
+  - Nimble (~> 13.3.0)
+  - Quick (~> 7.5.0)
   - SwiftLint
 
 SPEC REPOS:
@@ -34,6 +44,11 @@ SPEC REPOS:
     - BitmovinPlayerCore
   trunk:
     - ConvivaSDK
+    - CwlCatchException
+    - CwlCatchExceptionSupport
+    - CwlMachBadInstructionHandler
+    - CwlPosixPreconditionTesting
+    - CwlPreconditionTesting
     - GoogleAds-IMA-iOS-SDK
     - GoogleAds-IMA-tvOS-SDK
     - Nimble
@@ -50,12 +65,17 @@ SPEC CHECKSUMS:
   BitmovinPlayer: f697e7c11554ee45e7f42f824359a4e9ebc81e0e
   BitmovinPlayerCore: f50c383ea03927fadbdf85b585916461975192e3
   ConvivaSDK: 5d10811e8611ed1fd99a5ab291bdcb1e795f8756
+  CwlCatchException: 51bf8319009a31104ea6f0568730d1ecc25b6454
+  CwlCatchExceptionSupport: 1345d6adb01a505933f2bc972dab60dcb9ce3e50
+  CwlMachBadInstructionHandler: ea1030428925d9bf340882522af30712fb4bf356
+  CwlPosixPreconditionTesting: a125dee731883f2582715f548c6b6c92c7fde145
+  CwlPreconditionTesting: ccfd08aca58d14e04062b2a3dd2fd52e09857453
   GoogleAds-IMA-iOS-SDK: 160c3616b8371b58016e30aaf441e71d6d9e8f7d
   GoogleAds-IMA-tvOS-SDK: 81c4ded890c3312aafb2fbcdfa04c4008a4e3515
-  Nimble: 4f4a345c80b503b3ea13606a4f98405974ee4d0b
-  Quick: 6473349e43b9271a8d43839d9ba1c442ed1b7ac4
+  Nimble: 3ac6c6b0b7e9835d1540b6507d8054b12a415536
+  Quick: 2b651168441479b949ba987f3cee41a9cc53aa32
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: c1b835b08851e9e7f68190bb7f65a2249fc5dee6
+PODFILE CHECKSUM: 3f64f7c1c8ef71dda0f698d1a70671d6fe5c10de
 
 COCOAPODS: 1.15.2

@@ -17,20 +17,18 @@ class ViewController: UIViewController {
 
     private var player: Player!
     private var playerView: PlayerView!
-    private var fullScreen: Bool = false
 
     private var convivaAnalytics: ConvivaAnalytics?
     private let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
     private var convivaGatewayString: String?
 
     var vodSourceConfig: SourceConfig {
-        var sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
-        if let streamString = streamUrlTextField.text,
-           URL(string: streamString) != nil {
-            sourceString = streamString
+        var sourceUrl = URL(string: "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8")!
+        if let streamString = streamUrlTextField.text, let url = URL(string: streamString) {
+            sourceUrl = url
         }
 
-        let sourceConfig = SourceConfig(url: URL(string: sourceString)!, type: .hls)
+        let sourceConfig = SourceConfig(url: sourceUrl, type: .hls)
         sourceConfig.title = "Art of Motion"
         return sourceConfig
     }
@@ -77,14 +75,14 @@ class ViewController: UIViewController {
         }
 
         // Setup UI
-        playerView = PlayerView(player: player!, frame: playerUIView.bounds)
+        playerView = PlayerView(player: player, frame: playerUIView.bounds)
 
         if let convivaAnalytics = convivaAnalytics {
             convivaAnalytics.playerView = playerView
         }
 
         playerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        playerUIView.addSubview(playerView!)
+        playerUIView.addSubview(playerView)
 
         player.load(source: SourceFactory.createSource(from: vodSourceConfig))
     }
@@ -110,12 +108,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func sendCustomEvent(_ sender: Any) {
-        if let player = player {
-            convivaAnalytics?.sendCustomPlaybackEvent(
-                name: "Custom Event",
-                attributes: ["at Time": "\(Int(player.currentTime))"]
-            )
-        }
+        guard let player else { return }
+
+        convivaAnalytics?.sendCustomPlaybackEvent(
+            name: "Custom Event",
+            attributes: ["at Time": "\(Int(player.currentTime))"]
+        )
     }
 
 }

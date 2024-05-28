@@ -14,7 +14,6 @@ import BitmovinConvivaAnalytics
 private let enableAds = true
 
 class ViewController: UIViewController {
-
     private var player: Player!
     private var playerView: PlayerView!
 
@@ -71,7 +70,7 @@ class ViewController: UIViewController {
         }
 
         // Setup UI
-        playerView = PlayerView(player: player!, frame: .zero)
+        playerView = PlayerView(player: player, frame: .zero)
         playerView.frame = view.bounds
 
         if let convivaAnalytics = convivaAnalytics {
@@ -79,9 +78,9 @@ class ViewController: UIViewController {
         }
 
         playerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        view.addSubview(playerView!)
-        view.bringSubviewToFront(playerView!)
+        view.addSubview(playerView)
+        view.bringSubviewToFront(playerView)
 
-        player?.load(source: SourceFactory.createSource(from: vodSourceConfig))
+        player.load(source: SourceFactory.createSource(from: vodSourceConfig))
     }
 }

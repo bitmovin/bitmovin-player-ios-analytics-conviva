@@ -43,5 +43,6 @@ jobs:
           bundle exec fastlane unit_test
 
       - name: Sanity build tvOS
+        if: success() || failure()
         run: |
           bundle exec fastlane build_tvos

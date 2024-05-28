@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Internal
+- Added a Gemfile to pin the CocoaPods version to 1.15.2
+
 ## [3.1.0] - 2024-05-27
 
 ### Added
-- Hook into `onTimeChanged` callback for reporting Play head time (PHT) to Conviva playback metric. 
+- Hook into `onTimeChanged` callback for reporting Play head time (PHT) to Conviva playback metric.
 
 ### Changed
 - Raised minimum deployment targets to iOS/tvOS 14.0
@@ -34,7 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Utilises Conviva's Simple SDK instead of the old interface
-- Internal changes to ConvivaAnalytics and related classes 
+- Internal changes to ConvivaAnalytics and related classes
 
 ### Fixed
 

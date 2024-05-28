@@ -17,14 +17,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var streamUrlTextField: UITextField!
     @IBOutlet weak var uiEventLabel: UILabel!
 
-    var player: Player?
-    var playerView: PlayerView?
-    var fullScreen: Bool = false
+    private var player: Player!
+    private var playerView: PlayerView!
+    private var fullScreen: Bool = false
 
-    var convivaAnalytics: ConvivaAnalytics?
-
-    let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
-    var convivaGatewayString: String?
+    private var convivaAnalytics: ConvivaAnalytics?
+    private let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
+    private var convivaGatewayString: String?
 
     var vodSourceConfig: SourceConfig {
         var sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
@@ -76,9 +75,11 @@ class ViewController: UIViewController {
         metadata.custom = ["contentType": "Episode"]
 
         do {
-            convivaAnalytics = try ConvivaAnalytics(player: player!,
-                                                    customerKey: convivaCustomerKey,
-                                                    config: convivaConfig)
+            convivaAnalytics = try ConvivaAnalytics(
+                player: player,
+                customerKey: convivaCustomerKey,
+                config: convivaConfig
+            )
             convivaAnalytics?.updateContentMetadata(metadataOverrides: metadata)
         } catch {
             NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
@@ -86,16 +87,16 @@ class ViewController: UIViewController {
 
         // Setup UI
         playerView = PlayerView(player: player!, frame: playerUIView.bounds)
-        playerView?.fullscreenHandler = self
+        playerView.fullscreenHandler = self
 
         if let convivaAnalytics = convivaAnalytics {
             convivaAnalytics.playerView = playerView
         }
 
-        playerView?.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        playerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         playerUIView.addSubview(playerView!)
 
-        player?.load(source: SourceFactory.createSource(from: vodSourceConfig))
+        player.load(source: SourceFactory.createSource(from: vodSourceConfig))
     }
 
     // MARK: - actions
@@ -120,8 +121,10 @@ class ViewController: UIViewController {
 
     @IBAction func sendCustomEvent(_ sender: Any) {
         if let player = player {
-            convivaAnalytics?.sendCustomPlaybackEvent(name: "Custom Event",
-                                                      attributes: ["at Time": "\(Int(player.currentTime))"])
+            convivaAnalytics?.sendCustomPlaybackEvent(
+                name: "Custom Event",
+                attributes: ["at Time": "\(Int(player.currentTime))"]
+            )
         }
     }
 

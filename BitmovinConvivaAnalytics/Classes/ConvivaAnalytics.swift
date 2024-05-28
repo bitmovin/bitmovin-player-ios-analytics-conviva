@@ -499,7 +499,6 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED, value: Int64(-1))
     }
 
-    #if !os(tvOS)
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent) {
         let adPosition: ConvivaSDK.AdPosition = AdEventUtil.parseAdPosition(
@@ -533,7 +532,6 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     func onAdBreakFinished(_ event: AdBreakFinishedEvent) {
         customEvent(event: event)
     }
-    #endif
 
     func onDestroy() {
         internalEndSession()

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Ad tracking support on tvOS
+
 ### Internal
 - Added a Gemfile to pin the CocoaPods version to 1.15.2
 

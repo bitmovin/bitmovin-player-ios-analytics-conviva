@@ -28,7 +28,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQh-KT-xoi">
-                                <rect key="frame" x="226" y="404.33333333333331" width="184" height="35"/>
+                                <rect key="frame" x="223" y="404.33333333333331" width="187" height="35"/>
                                 <state key="normal" title="Destroy">
                                     <color key="titleColor" red="0.1215686275" green="0.6705882353" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -38,7 +38,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jOh-oJ-5HR">
-                                <rect key="frame" x="20" y="455.33333333333331" width="187.33333333333334" height="35"/>
+                                <rect key="frame" x="20" y="455.33333333333331" width="187" height="35"/>
                                 <state key="normal" title="Pause tracking">
                                     <color key="titleColor" red="0.1215686275" green="0.6705882353" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -48,7 +48,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CH6-Cy-ZzH">
-                                <rect key="frame" x="223.33333333333337" y="455.33333333333331" width="186.66666666666663" height="35"/>
+                                <rect key="frame" x="223" y="455.33333333333331" width="187" height="35"/>
                                 <state key="normal" title="Resume Tracking">
                                     <color key="titleColor" red="0.1215686275" green="0.6705882353" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -82,7 +82,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Dd-hJ-36w">
-                                <rect key="frame" x="20" y="404.33333333333331" width="190" height="35"/>
+                                <rect key="frame" x="20" y="404.33333333333331" width="187" height="35"/>
                                 <state key="normal" title="Setup">
                                     <color key="titleColor" red="0.1215686275" green="0.6705882353" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -95,7 +95,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="fQh-KT-xoi" firstAttribute="leading" secondItem="8Dd-hJ-36w" secondAttribute="trailing" constant="16" id="2s6-Zp-qr9"/>
-                            <constraint firstItem="CH6-Cy-ZzH" firstAttribute="width" secondItem="jOh-oJ-5HR" secondAttribute="width" multiplier="0.997967" id="4Al-Jy-elQ"/>
+                            <constraint firstItem="CH6-Cy-ZzH" firstAttribute="width" secondItem="jOh-oJ-5HR" secondAttribute="width" id="4Al-Jy-elQ"/>
                             <constraint firstItem="HrS-Ed-xzX" firstAttribute="leading" secondItem="3QL-eh-ZrN" secondAttribute="leading" id="8WE-bu-Vds"/>
                             <constraint firstItem="Jhg-y7-hrv" firstAttribute="leading" secondItem="3QL-eh-ZrN" secondAttribute="trailing" constant="16" id="AnS-ck-AK3"/>
                             <constraint firstItem="Jhg-y7-hrv" firstAttribute="centerY" secondItem="3QL-eh-ZrN" secondAttribute="centerY" id="BFP-rg-Gmw"/>
@@ -103,6 +103,7 @@
                             <constraint firstItem="3QL-eh-ZrN" firstAttribute="leading" secondItem="0nJ-z5-CEq" secondAttribute="leading" id="DcK-nf-9P3"/>
                             <constraint firstItem="0nJ-z5-CEq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" symbolic="YES" id="EWL-KI-wgP"/>
                             <constraint firstItem="fQh-KT-xoi" firstAttribute="trailing" secondItem="HrS-Ed-xzX" secondAttribute="trailing" id="Fui-2s-o5V"/>
+                            <constraint firstItem="8Dd-hJ-36w" firstAttribute="width" secondItem="fQh-KT-xoi" secondAttribute="width" id="J7c-zH-aD3"/>
                             <constraint firstAttribute="trailing" secondItem="0nJ-z5-CEq" secondAttribute="trailing" constant="20" symbolic="YES" id="LT2-fy-lrn"/>
                             <constraint firstItem="0nJ-z5-CEq" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="16" id="Pyp-Fy-NMk"/>
                             <constraint firstItem="Sdv-DY-6Hj" firstAttribute="leading" secondItem="jOh-oJ-5HR" secondAttribute="leading" id="ROO-SH-Z4i"/>
@@ -115,7 +116,6 @@
                             <constraint firstItem="Sdv-DY-6Hj" firstAttribute="top" secondItem="jOh-oJ-5HR" secondAttribute="bottom" constant="16" id="bOZ-OY-PfM"/>
                             <constraint firstItem="CH6-Cy-ZzH" firstAttribute="leading" secondItem="jOh-oJ-5HR" secondAttribute="trailing" constant="16" id="et0-ek-4Xs"/>
                             <constraint firstItem="Jhg-y7-hrv" firstAttribute="top" secondItem="0nJ-z5-CEq" secondAttribute="bottom" constant="16" id="isJ-67-sFZ"/>
-                            <constraint firstItem="fQh-KT-xoi" firstAttribute="width" secondItem="8Dd-hJ-36w" secondAttribute="width" multiplier="0.96875" id="jan-k7-zey"/>
                             <constraint firstItem="jOh-oJ-5HR" firstAttribute="top" secondItem="8Dd-hJ-36w" secondAttribute="bottom" constant="16" id="phJ-IH-9lH"/>
                             <constraint firstItem="8Dd-hJ-36w" firstAttribute="leading" secondItem="HrS-Ed-xzX" secondAttribute="leading" id="prr-Ti-jp2"/>
                             <constraint firstItem="8Dd-hJ-36w" firstAttribute="top" secondItem="HrS-Ed-xzX" secondAttribute="bottom" constant="16" id="uwM-7T-LZq"/>

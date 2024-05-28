@@ -14,7 +14,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var playerUIView: UIView!
     @IBOutlet weak var adsSwitch: UISwitch!
     @IBOutlet weak var streamUrlTextField: UITextField!
-    @IBOutlet weak var uiEventLabel: UILabel!
 
     private var player: Player!
     private var playerView: PlayerView!
@@ -79,7 +78,6 @@ class ViewController: UIViewController {
 
         // Setup UI
         playerView = PlayerView(player: player!, frame: playerUIView.bounds)
-        playerView.fullscreenHandler = self
 
         if let convivaAnalytics = convivaAnalytics {
             convivaAnalytics.playerView = playerView
@@ -120,20 +118,4 @@ class ViewController: UIViewController {
         }
     }
 
-}
-
-extension ViewController: FullscreenHandler {
-    var isFullscreen: Bool {
-        return fullScreen
-    }
-
-    func onFullscreenRequested() {
-        fullScreen = true
-        uiEventLabel.text = "enterFullscreen"
-    }
-
-    func onFullscreenExitRequested() {
-        fullScreen = false
-        uiEventLabel.text = "exitFullscreen"
-    }
 }

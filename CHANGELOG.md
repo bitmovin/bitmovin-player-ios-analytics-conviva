@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Internal
-- Added a Gemfile to pin the CocoPods version to 1.15.2
+- Added a Gemfile to pin the CocoaPods version to 1.15.2
 
 ## [3.1.0] - 2024-05-27
 

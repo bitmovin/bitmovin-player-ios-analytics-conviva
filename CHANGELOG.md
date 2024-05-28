@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Ad tracking support on tvOS
+
 ## [3.1.0] - 2024-05-27
 
 ### Added

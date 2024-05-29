@@ -25,12 +25,7 @@ public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Nimble.Predi
                     spyResult = spyTracker.hasCalledFunction(functionName, withArgs: expectedArgs)
                     argsAreMatching = spyResult.success
 
-                    let messageString: String!
-                    if let trackedArgs = spyResult.trackedArgs {
-                        messageString = "have called <\(functionName)> with args<\(expectedArgs)> got <\(trackedArgs)>"
-                    } else {
-                        messageString = "have called <\(functionName)> with args<\(expectedArgs)> got <nil>"
-                    }
+                    let messageString = "have called <\(functionName)> with args<\(expectedArgs)> got <\(spyResult.trackedArgs)>"
                     message = ExpectationMessage.expectedTo(messageString)
                 } else {
                     // Success message (will never be shown but is needed)

@@ -98,7 +98,7 @@ class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoub
     }
 
     func getMetadataInfo() -> [AnyHashable: Any] {
-        [AnyHashable: Any]()
+        [:]
     }
 
     func setUpdateHandler(_ updateHandler: @escaping UpdateHandler) {

@@ -62,7 +62,7 @@ class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol {
     }
 
     func getMetadataInfo() -> [AnyHashable: Any] {
-        [AnyHashable: Any]()
+        [:]
     }
 
     func reportPlaybackMetric(_ key: String, value: Any?) {

@@ -15,8 +15,10 @@ class SpyTracker {
         spies[functionName] = args
     }
 
-    func hasCalledFunction(_ name: String,
-                           withArgs: [String: String]? = nil) -> (success: Bool, trackedArgs: [String: String]?) {
+    func hasCalledFunction(
+        _ name: String,
+        withArgs: [String: String]? = nil
+    ) -> (success: Bool, trackedArgs: [String: String]?) {
         let called = spies.keys.contains(name)
         if !called {
             return (false, nil)
@@ -28,7 +30,7 @@ class SpyTracker {
                 for key in expectedArgs.keys {
                     containsExpectedArgs = containsExpectedArgs && (calledArgs?[key] == expectedArgs[key])
                 }
-                return (containsExpectedArgs, spies[name] ?? nil)
+                return (containsExpectedArgs, spies[name]) // swiftlint:disable:this redundant_nil_coalescing
             }
 
             return (false, nil)

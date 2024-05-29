@@ -15,7 +15,7 @@ protocol TestDoubleDataSource {
 
 extension TestDoubleDataSource {
     var mocks: [String: Any] {
-        return TestHelper.shared.mockTracker.mocks
+        TestHelper.shared.mockTracker.mocks
     }
 
     func spy(functionName: String, args: [String: String]? = nil) {

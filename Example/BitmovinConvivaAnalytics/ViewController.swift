@@ -6,17 +6,19 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import UIKit
-import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import BitmovinPlayer
+import UIKit
 
 class ViewController: UIViewController {
+    // swiftlint:disable implicitly_unwrapped_optional
     @IBOutlet weak var playerUIView: UIView!
     @IBOutlet weak var adsSwitch: UISwitch!
     @IBOutlet weak var streamUrlTextField: UITextField!
 
     private var player: Player!
     private var playerView: PlayerView!
+    // swiftlint:enable implicitly_unwrapped_optional
 
     private var convivaAnalytics: ConvivaAnalytics?
     private let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
@@ -116,5 +118,4 @@ class ViewController: UIViewController {
             attributes: ["at Time": "\(Int(player.currentTime))"]
         )
     }
-
 }

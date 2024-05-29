@@ -6,13 +6,13 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import Quick
-import Nimble
-import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import BitmovinPlayer
 import ConvivaSDK
+import Nimble
+import Quick
 
-class ExternallyManagedSessionSpec: QuickSpec {
+class ExternallyManagedSessionTest: QuickSpec {
     // swiftlint:disable:next function_body_length
     override func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
@@ -51,7 +51,7 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     }
 
                     it("with asset name provided") {
-                        var metadata: MetadataOverrides = MetadataOverrides()
+                        var metadata = MetadataOverrides()
                         metadata.assetName = "MyAsset"
                         convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
                         try? convivaAnalytics.initializeSession()
@@ -168,7 +168,6 @@ class ExternallyManagedSessionSpec: QuickSpec {
 
                 beforeEach {
                     spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackError")
-
                 }
 
                 it("no-opt if no session is running") {
@@ -196,8 +195,10 @@ class ExternallyManagedSessionSpec: QuickSpec {
                     context("session closing handling") {
                         var sessionEndSpy: Spy!
                         beforeEach {
-                            sessionEndSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
-                                                functionName: "reportPlaybackEnded")
+                            sessionEndSpy = Spy(
+                                aClass: CISVideoAnalyticsTestDouble.self,
+                                functionName: "reportPlaybackEnded"
+                            )
                         }
                         it("closes session by default") {
                             convivaAnalytics.reportPlaybackDeficiency(message: "Test", severity: .ERROR_FATAL)
@@ -210,9 +211,11 @@ class ExternallyManagedSessionSpec: QuickSpec {
                         }
 
                         it("not closes session if set to false") {
-                            convivaAnalytics.reportPlaybackDeficiency(message: "Test",
-                                                                      severity: .ERROR_FATAL,
-                                                                      endSession: false)
+                            convivaAnalytics.reportPlaybackDeficiency(
+                                message: "Test",
+                                severity: .ERROR_FATAL,
+                                endSession: false
+                            )
                             expect(sessionEndSpy).toNot(haveBeenCalled())
                         }
                     }

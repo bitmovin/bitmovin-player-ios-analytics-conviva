@@ -6,16 +6,18 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import UIKit
-import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import BitmovinPlayer
+import UIKit
 
 // Set this flag to false if you want to test without Ads
 private let enableAds = true
 
 class ViewController: UIViewController {
+    // swiftlint:disable implicitly_unwrapped_optional
     private var player: Player!
     private var playerView: PlayerView!
+    // swiftlint:enable implicitly_unwrapped_optional
 
     private var convivaAnalytics: ConvivaAnalytics?
     private let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"

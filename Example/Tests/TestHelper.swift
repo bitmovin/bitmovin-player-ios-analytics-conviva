@@ -14,7 +14,7 @@ class TestHelper: NSObject {
     let mockTracker: MockTracker
     let factory: MockingFactory
 
-    private override init() {
+    override private init() {
         self.spyTracker = SpyTracker()
         self.factory = MockingFactory()
         self.mockTracker = MockTracker()

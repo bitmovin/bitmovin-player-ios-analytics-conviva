@@ -7,14 +7,14 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import Quick
-import Nimble
-import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import BitmovinPlayer
 import ConvivaSDK
+import Nimble
+import Quick
 
 // swiftlint:disable:next type_body_length
-class PlayerEventsSpec: QuickSpec {
+class PlayerEventsTest: QuickSpec {
     // swiftlint:disable:next function_body_length
     override func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
@@ -132,9 +132,11 @@ class PlayerEventsSpec: QuickSpec {
                 it("on pause") {
                     playerDouble.fakePauseEvent()
                     expect(spy).to(
-                        haveBeenCalled(withArgs: [
-                            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PAUSED.rawValue)"
-                        ])
+                        haveBeenCalled(
+                            withArgs: [
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PAUSED.rawValue)"
+                            ]
+                        )
                     )
                 }
                 it("on stall started/ Stall Ended wait 0.10 seconds") {
@@ -143,9 +145,11 @@ class PlayerEventsSpec: QuickSpec {
                     playerDouble.fakeStallEndedEvent()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
                         expect(spy).notTo(
-                            haveBeenCalled(withArgs: [
-                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
-                            ])
+                            haveBeenCalled(
+                                withArgs: [
+                                    CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
+                                ]
+                            )
                         )
                     }
                 }
@@ -154,9 +158,11 @@ class PlayerEventsSpec: QuickSpec {
                     playerDouble.fakeStallStartedEvent()
                     playerDouble.fakeStallEndedEvent()
                     expect(spy).toEventuallyNot(
-                            haveBeenCalled(withArgs: [
-                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
-                            ])
+                            haveBeenCalled(
+                                withArgs: [
+                                    CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
+                                ]
+                            )
                         )
                 }
                 it("on stall started / Stall Ended after 0.10 seconds") {
@@ -165,20 +171,23 @@ class PlayerEventsSpec: QuickSpec {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
                         playerDouble.fakeStallEndedEvent()
                         expect(spy).to(
-                            haveBeenCalled(withArgs: [
-                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
-                            ])
+                            haveBeenCalled(
+                                withArgs: [
+                                    CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
+                                ]
+                            )
                         )
                     }
-
                 }
                 it("on stall started") {
                     playerDouble.fakeStallStartedEvent()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
                         expect(spy).to(
-                            haveBeenCalled(withArgs: [
-                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
-                            ])
+                            haveBeenCalled(
+                                withArgs: [
+                                    CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
+                                ]
+                            )
                         )
                     }
                 }
@@ -193,9 +202,11 @@ class PlayerEventsSpec: QuickSpec {
                         _ = TestDouble(aClass: playerDouble, name: "isPlaying", return: true)
                         playerDouble.fakeStallEndedEvent()
                         expect(spy).to(
-                            haveBeenCalled(withArgs: [
-                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PLAYING.rawValue)"
-                            ])
+                            haveBeenCalled(
+                                withArgs: [
+                                    CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PLAYING.rawValue)"
+                                ]
+                            )
                         )
                     }
 
@@ -203,9 +214,11 @@ class PlayerEventsSpec: QuickSpec {
                         _ = TestDouble(aClass: playerDouble, name: "isPlaying", return: false)
                         playerDouble.fakeStallEndedEvent()
                         expect(spy).to(
-                            haveBeenCalled(withArgs: [
-                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PAUSED.rawValue)"
-                            ])
+                            haveBeenCalled(
+                                withArgs: [
+                                    CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_PAUSED.rawValue)"
+                                ]
+                            )
                         )
                     }
                 }
@@ -234,8 +247,10 @@ class PlayerEventsSpec: QuickSpec {
                 }
 
                 it("on playback finished") {
-                    let playbackStateSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
-                                               functionName: "reportPlaybackMetric")
+                    let playbackStateSpy = Spy(
+                        aClass: CISVideoAnalyticsTestDouble.self,
+                        functionName: "reportPlaybackMetric"
+                    )
 
                     playerDouble.fakePlayEvent()
                     playerDouble.fakePlaybackFinishedEvent()
@@ -248,8 +263,10 @@ class PlayerEventsSpec: QuickSpec {
                 }
 
                 it("on playlist transition") {
-                    let playbackStateSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
-                                               functionName: "reportPlaybackMetric")
+                    let playbackStateSpy = Spy(
+                        aClass: CISVideoAnalyticsTestDouble.self,
+                        functionName: "reportPlaybackMetric"
+                    )
 
                     playerDouble.fakePlayEvent()
                     playerDouble.fakePlaylistTransitionEvent()
@@ -273,10 +290,14 @@ class PlayerEventsSpec: QuickSpec {
 
                         // reset spies to add ability to test against createSession has not been called
                         TestHelper.shared.spyTracker.reset()
-                        let errorSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
-                                           functionName: "reportPlaybackError")
-                        let sessionSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
-                                             functionName: "reportPlaybackRequested")
+                        let errorSpy = Spy(
+                            aClass: CISVideoAnalyticsTestDouble.self,
+                            functionName: "reportPlaybackError"
+                        )
+                        let sessionSpy = Spy(
+                            aClass: CISVideoAnalyticsTestDouble.self,
+                            functionName: "reportPlaybackRequested"
+                        )
 
                         // default sdk error handling is to call unload and this will be triggered first
                         // but we want to track the error event in the same session
@@ -294,10 +315,14 @@ class PlayerEventsSpec: QuickSpec {
 
                         // reset spies to add ability to test against createSession has not been called
                         TestHelper.shared.spyTracker.reset()
-                        let errorSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
-                                           functionName: "reportPlaybackError")
-                        let sessionSpy = Spy(aClass: CISVideoAnalyticsTestDouble.self,
-                                             functionName: "reportPlaybackRequested")
+                        let errorSpy = Spy(
+                            aClass: CISVideoAnalyticsTestDouble.self,
+                            functionName: "reportPlaybackError"
+                        )
+                        let sessionSpy = Spy(
+                            aClass: CISVideoAnalyticsTestDouble.self,
+                            functionName: "reportPlaybackRequested"
+                        )
 
                         // default sdk error handling is to call unload and this will be triggered first
                         // but we want to track the error event in the same session
@@ -321,9 +346,11 @@ class PlayerEventsSpec: QuickSpec {
                     it("with string") {
                         playerDouble.fakeAdStartedEvent(position: "pre")
                         expect(spy).to(
-                            haveBeenCalled(withArgs: ["adBreakInfo":
-                                                        "\(AdPosition.ADPOSITION_PREROLL.rawValue)"
-                                                     ])
+                            haveBeenCalled(
+                                withArgs: [
+                                    "adBreakInfo": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"
+                                ]
+                            )
                         )
                     }
 

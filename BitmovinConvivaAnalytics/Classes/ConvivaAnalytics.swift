@@ -252,9 +252,7 @@ public final class ConvivaAnalytics: NSObject {
         )
         var playerInfo = [String: Any]()
         playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin Player iOS"
-        if let bitmovinPlayerVersion = playerHelper.version {
-            playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = bitmovinPlayerVersion
-        }
+        playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = playerHelper.version
         videoAnalytics.setPlayerInfo(playerInfo)
     }
 

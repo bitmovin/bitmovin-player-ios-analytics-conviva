@@ -29,7 +29,7 @@ final class BitmovinPlayerHelper: NSObject {
         }
     }
 
-    var version: String? {
-        Bundle(for: PlayerFactory.self).infoDictionary?["CFBundleShortVersionString"] as? String
+    var version: String {
+        PlayerFactory.sdkVersion
     }
 }

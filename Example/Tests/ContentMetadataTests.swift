@@ -164,6 +164,7 @@ class ContentMetadataSpec: QuickSpec {
                     _ = TestDouble(aClass: playerDouble!, name: "videoQuality", return: videoQuality)
 
                     playerDouble.fakePlayEvent() // to initialize session
+                    playerDouble.fakePlayingEvent() // to update session
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackMetric")
                     expect(spy).to(
                         haveBeenCalled(withArgs: [

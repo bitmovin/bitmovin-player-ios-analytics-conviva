@@ -33,6 +33,7 @@ jobs:
           cd Example && bundle exec pod install
 
       - name: Run Unit Tests iOS
+        timeout-minutes: 10
         run: |
           bundle exec fastlane unit_test
 

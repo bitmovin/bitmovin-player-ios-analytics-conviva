@@ -236,7 +236,7 @@ class ContentMetadataSpec: QuickSpec {
                     it("set encoded framerate") {
                          metadata.encodedFramerate = 55
                          updateMetadataAndInitialize()
-                         expect(spy).to(haveBeenCalled(withArgs: ["encodedFramerate": "55"]))
+                         expect(spy).to(haveBeenCalled(withArgs: ["encodedFrameRate": "55"]))
 
                     }
 

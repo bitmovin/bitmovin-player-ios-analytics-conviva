@@ -30,7 +30,7 @@ class SpyTracker {
                 for key in expectedArgs.keys {
                     containsExpectedArgs = containsExpectedArgs && (calledArgs?[key] == expectedArgs[key])
                 }
-                return (containsExpectedArgs, spies[name]) // swiftlint:disable:this redundant_nil_coalescing
+                return (containsExpectedArgs, spies[name] ?? nil) // swiftlint:disable:this redundant_nil_coalescing
             }
 
             return (false, nil)

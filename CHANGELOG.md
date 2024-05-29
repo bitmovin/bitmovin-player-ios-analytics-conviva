@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Internal
 - Added a Gemfile to pin the CocoaPods version to 1.15.2
+- Added a Github Actions workflow to validate code style using SwiftLint
 
 ## [3.1.0] - 2024-05-27
 

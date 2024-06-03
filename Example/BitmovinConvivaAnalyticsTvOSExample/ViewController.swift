@@ -14,15 +14,12 @@ import BitmovinConvivaAnalytics
 private let enableAds = true
 
 class ViewController: UIViewController {
+    private var player: Player!
+    private var playerView: PlayerView!
 
-    var player: Player?
-    var playerView: PlayerView?
-    var fullScreen: Bool = false
-
-    var convivaAnalytics: ConvivaAnalytics?
-
-    let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
-    var convivaGatewayString: String?
+    private var convivaAnalytics: ConvivaAnalytics?
+    private let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
+    private var convivaGatewayString: String?
 
     var vodSourceConfig: SourceConfig {
         let sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
@@ -62,26 +59,28 @@ class ViewController: UIViewController {
         metadata.custom = ["contentType": "Episode"]
 
         do {
-            convivaAnalytics = try ConvivaAnalytics(player: player!,
-                                                    customerKey: convivaCustomerKey,
-                                                    config: convivaConfig)
+            convivaAnalytics = try ConvivaAnalytics(
+                player: player,
+                customerKey: convivaCustomerKey,
+                config: convivaConfig
+            )
             convivaAnalytics?.updateContentMetadata(metadataOverrides: metadata)
         } catch {
             NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
         }
 
         // Setup UI
-        playerView = PlayerView(player: player!, frame: .zero)
-        playerView?.frame = view.bounds
+        playerView = PlayerView(player: player, frame: .zero)
+        playerView.frame = view.bounds
 
         if let convivaAnalytics = convivaAnalytics {
             convivaAnalytics.playerView = playerView
         }
 
-        playerView?.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        view.addSubview(playerView!)
-        view.bringSubviewToFront(playerView!)
+        playerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        view.addSubview(playerView)
+        view.bringSubviewToFront(playerView)
 
-        player?.load(source: SourceFactory.createSource(from: vodSourceConfig))
+        player.load(source: SourceFactory.createSource(from: vodSourceConfig))
     }
 }

@@ -15,7 +15,7 @@ PODS:
   - GoogleAds-IMA-tvOS-SDK (4.12.0)
   - Nimble (9.2.0)
   - Quick (4.0.0)
-  - SwiftLint (0.43.1)
+  - SwiftLint (0.55.1)
 
 DEPENDENCIES:
   - BitmovinConvivaAnalytics (from `../`)
@@ -25,7 +25,7 @@ DEPENDENCIES:
   - GoogleAds-IMA-tvOS-SDK (= 4.12.0)
   - Nimble (~> 9.2.0)
   - Quick (~> 4.0.0)
-  - SwiftLint
+  - SwiftLint (= 0.55.1)
 
 SPEC REPOS:
   https://github.com/bitmovin/cocoapod-specs.git:
@@ -54,8 +54,8 @@ SPEC CHECKSUMS:
   GoogleAds-IMA-tvOS-SDK: 81c4ded890c3312aafb2fbcdfa04c4008a4e3515
   Nimble: 4f4a345c80b503b3ea13606a4f98405974ee4d0b
   Quick: 6473349e43b9271a8d43839d9ba1c442ed1b7ac4
-  SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
+  SwiftLint: 3fe909719babe5537c552ee8181c0031392be933
 
-PODFILE CHECKSUM: c1b835b08851e9e7f68190bb7f65a2249fc5dee6
+PODFILE CHECKSUM: 0f2ddc690114664aa2362295cf20e6ed028b2c84
 
 COCOAPODS: 1.15.2

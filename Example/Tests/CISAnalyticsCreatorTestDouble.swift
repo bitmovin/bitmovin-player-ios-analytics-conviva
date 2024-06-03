@@ -6,16 +6,17 @@
 //  Copyright © 2022 CocoaPods. All rights reserved.
 //
 
-import Foundation
 import ConvivaSDK
+import Foundation
 
 class CISAnalyticsCreatorTestDouble: NSObject {
-    @objc static func create(withCustomerKey: String, settings: [String: Any] ) -> CISAnalyticsProtocol {
-        return CISAnalyticsTestDouble()
+    @objc
+    static func create(withCustomerKey: String, settings: [String: Any] ) -> CISAnalyticsProtocol {
+        CISAnalyticsTestDouble()
     }
 
-    @objc static func create(withCustomerKey: String) -> CISAnalyticsProtocol {
-        return CISAnalyticsTestDouble()
+    @objc
+    static func create(withCustomerKey: String) -> CISAnalyticsProtocol {
+        CISAnalyticsTestDouble()
     }
-
 }

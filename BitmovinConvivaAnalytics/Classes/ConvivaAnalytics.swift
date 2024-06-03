@@ -7,9 +7,9 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import Foundation
 import BitmovinPlayer
 import ConvivaSDK
+import Foundation
 
 public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
@@ -21,8 +21,8 @@ public final class ConvivaAnalytics: NSObject {
     let analytics: CISAnalytics
     let videoAnalytics: CISVideoAnalytics
     let contentMetadataBuilder: ContentMetadataBuilder
-    var isSessionActive: Bool = false
-    var isBumper: Bool = false
+    var isSessionActive = false
+    var isBumper = false
 
     var listener: BitmovinPlayerListener?
 
@@ -30,8 +30,8 @@ public final class ConvivaAnalytics: NSObject {
     let logger: Logger
     let playerHelper: BitmovinPlayerHelper
     // Workaround for player issue when onPlay is sent while player is stalled
-    var isStalled: Bool = false
-    var playbackStarted: Bool = false
+    var isStalled = false
+    var playbackStarted = false
 
     // MARK: - Public Attributes
     /**
@@ -66,9 +66,11 @@ public final class ConvivaAnalytics: NSObject {
         - customerKey: Conviva customerKey
         - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
      */
-    public init?(player: Player,
-                 customerKey: String,
-                 config: ConvivaConfiguration = ConvivaConfiguration()) throws {
+    public init?(
+        player: Player,
+        customerKey: String,
+        config: ConvivaConfiguration = ConvivaConfiguration()
+    ) throws {
         self.player = player
         self.playerHelper = BitmovinPlayerHelper(player: player)
         self.customerKey = customerKey
@@ -203,9 +205,11 @@ public final class ConvivaAnalytics: NSObject {
         - severity: One of FATAL or WARNING
         - endSession: Boolean flag if session should be closed after reporting the deficiency (Default: true)
      */
-    public func reportPlaybackDeficiency(message: String,
-                                         severity: ErrorSeverity,
-                                         endSession: Bool = true) {
+    public func reportPlaybackDeficiency(
+        message: String,
+        severity: ErrorSeverity,
+        endSession: Bool = true
+    ) {
         if !isSessionActive {
             return
         }
@@ -244,12 +248,11 @@ public final class ConvivaAnalytics: NSObject {
     private func setupPlayerStateManager() {
         videoAnalytics.reportPlaybackMetric(
             CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
-            value: PlayerState.CONVIVA_STOPPED.rawValue)
+            value: PlayerState.CONVIVA_STOPPED.rawValue
+        )
         var playerInfo = [String: Any]()
         playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin Player iOS"
-        if let bitmovinPlayerVersion = playerHelper.version {
-            playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = bitmovinPlayerVersion
-        }
+        playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = playerHelper.version
         videoAnalytics.setPlayerInfo(playerInfo)
     }
 
@@ -278,18 +281,22 @@ public final class ConvivaAnalytics: NSObject {
         buildDynamicContentMetadata()
 
         if let videoQuality = player.videoQuality {
-            let bitrate = Int(videoQuality.bitrate) / 1000 // in kbps
-            let value = NSValue(cgSize: CGSize(
-                width: CGFloat(videoQuality.width),
-                height: CGFloat(videoQuality.height
-                )))
+            let bitrate = Int(videoQuality.bitrate) / 1_000 // in kbps
+            let value = NSValue(
+                cgSize: CGSize(
+                    width: CGFloat(videoQuality.width),
+                    height: CGFloat(videoQuality.height)
+                )
+            )
             videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
             videoAnalytics.reportPlaybackMetric(
                 CIS_SSDK_PLAYBACK_METRIC_RESOLUTION,
-                value: value.cgSizeValue)
+                value: value.cgSizeValue
+            )
             videoAnalytics.reportPlaybackMetric(
                 CIS_SSDK_PLAYBACK_METRIC_RENDERED_FRAMERATE,
-                value: player.currentVideoFrameRate)
+                value: player.currentVideoFrameRate
+            )
         }
 
         videoAnalytics.setContentInfo(contentMetadataBuilder.build())
@@ -371,7 +378,7 @@ public final class ConvivaAnalytics: NSObject {
 
         videoAnalytics.reportPlaybackMetric(
             CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
-            value: Int64(player.currentTime(.relativeTime) * 1000)
+            value: Int64(player.currentTime(.relativeTime) * 1_000)
         )
     }
 }
@@ -468,7 +475,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             return
         }
 
-        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_STARTED, value: Int64(event.to.time * 1000))
+        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_STARTED, value: Int64(event.to.time * 1_000))
     }
 
     func onSeeked() {
@@ -477,8 +484,10 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             return
         }
 
-        videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED,
-                                            value: Int64(player.currentTime * 1000))
+        videoAnalytics.reportPlaybackMetric(
+            CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED,
+            value: Int64(player.currentTime * 1_000)
+        )
     }
 
     func onTimeShift(_ event: TimeShiftEvent) {
@@ -507,8 +516,11 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         )
         var adAttributes = [String: Any]()
         adAttributes["c3.ad.position"] = adPosition.rawValue
-        videoAnalytics.reportAdBreakStarted(AdPlayer.ADPLAYER_CONTENT,
-                                            adType: AdTechnology.CLIENT_SIDE, adBreakInfo: adAttributes)
+        videoAnalytics.reportAdBreakStarted(
+            AdPlayer.ADPLAYER_CONTENT,
+            adType: AdTechnology.CLIENT_SIDE,
+            adBreakInfo: adAttributes
+        )
     }
 
     func onAdFinished() {

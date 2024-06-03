@@ -11,9 +11,4 @@ import Foundation
 struct Spy {
     let aClass: Any
     let functionName: String
-
-    init(aClass: Any, functionName: String) {
-        self.aClass = aClass
-        self.functionName = functionName
-    }
 }

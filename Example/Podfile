@@ -6,7 +6,7 @@ def shared_pods
   pod 'BitmovinPlayer', '3.63.0'
   pod 'ConvivaSDK', '4.0.49'
 
-  pod 'SwiftLint'
+  pod 'SwiftLint', '0.55.1'
 end
 
 target 'BitmovinConvivaAnalytics_Example' do

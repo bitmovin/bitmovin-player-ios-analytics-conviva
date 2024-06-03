@@ -15,8 +15,10 @@ class SpyTracker {
         spies[functionName, default: []].append(args)
     }
 
-    func hasCalledFunction(_ name: String,
-                           withArgs: [String: String]? = nil) -> (success: Bool, trackedArgs: [[String: String]?]) {
+    func hasCalledFunction(
+        _ name: String,
+        withArgs: [String: String]? = nil
+    ) -> (success: Bool, trackedArgs: [[String: String]?]) {
         let called = spies.keys.contains(name)
         if !called {
             return (false, [])

@@ -6,8 +6,8 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import Foundation
 import BitmovinPlayer
+import Foundation
 
 class BitmovinPlayerListener: NSObject {
     let player: Player

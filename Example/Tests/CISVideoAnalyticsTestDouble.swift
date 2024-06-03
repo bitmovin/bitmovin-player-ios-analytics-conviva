@@ -6,8 +6,8 @@
 //  Copyright © 2022 CocoaPods. All rights reserved.
 //
 
-import Foundation
 import ConvivaSDK
+import Foundation
 
 class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoubleDataSource {
     func isAirPlaying() -> Bool {
@@ -58,7 +58,6 @@ class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoub
             "errorMessage": errorMessage,
             "errorSeverity": "\(severity.rawValue)"
         ])
-
     }
 
     func reportPlaybackEvent(_ eventName: String, withAttributes attributes: [AnyHashable: Any]? = nil) {
@@ -92,26 +91,26 @@ class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoub
     }
 
     func getSessionId() -> Int32 {
-        return 1
+        1
     }
 
     func getSessionKey() -> Int32 {
-        return 1
+        1
     }
 
     func getMetadataInfo() -> [AnyHashable: Any] {
-        return [AnyHashable: Any]()
+        [:]
     }
 
     func setUpdateHandler(_ updateHandler: @escaping UpdateHandler) {
     }
 
     func isAdAnalytics() -> Bool {
-        return false
+        false
     }
 
     func isVideoAnalytics() -> Bool {
-        return true
+        true
     }
 
     func cleanup() {

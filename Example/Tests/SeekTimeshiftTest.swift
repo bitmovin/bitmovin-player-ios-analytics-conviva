@@ -1,12 +1,12 @@
 // https://github.com/Quick/Quick
 
-import Quick
-import Nimble
-import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import BitmovinPlayer
 import ConvivaSDK
+import Nimble
+import Quick
 
-class SeekTimeshiftSpec: QuickSpec {
+class SeekTimeshiftTest: QuickSpec {
     override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 

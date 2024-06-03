@@ -6,24 +6,27 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import UIKit
-import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import BitmovinPlayer
+import UIKit
 
 // Set this flag to false if you want to test without Ads
 private let enableAds = true
 
 class ViewController: UIViewController {
+    // swiftlint:disable implicitly_unwrapped_optional
     private var player: Player!
     private var playerView: PlayerView!
+    // swiftlint:enable implicitly_unwrapped_optional
 
     private var convivaAnalytics: ConvivaAnalytics?
     private let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
     private var convivaGatewayString: String?
 
     var vodSourceConfig: SourceConfig {
-        let sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
-        let sourceConfig = SourceConfig(url: URL(string: sourceString)!, type: .hls)
+        // swiftlint:disable:next force_unwrapping
+        let url = URL(string: "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8")!
+        let sourceConfig = SourceConfig(url: url, type: .hls)
         sourceConfig.title = "Art of Motion"
         return sourceConfig
     }

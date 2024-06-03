@@ -6,8 +6,8 @@
 //  Copyright © 2022 CocoaPods. All rights reserved.
 //
 
-import Foundation
 import ConvivaSDK
+import Foundation
 
 class CISAnalyticsTestDouble: NSObject, CISAnalyticsProtocol, TestDoubleDataSource {
     func getGlobalSessionId() -> Int32 {
@@ -27,26 +27,26 @@ class CISAnalyticsTestDouble: NSObject, CISAnalyticsProtocol, TestDoubleDataSour
     }
 
     func createVideoAnalytics() -> CISVideoAnalytics {
-        return CISVideoAnalyticsTestDouble()
+        CISVideoAnalyticsTestDouble()
     }
 
     func createVideoAnalytics(_ options: [AnyHashable: Any]) -> CISVideoAnalytics {
-        return CISVideoAnalyticsTestDouble()
+        CISVideoAnalyticsTestDouble()
     }
 
     func createAdAnalytics() -> CISAdAnalytics {
-        return CISAdAnalyticsTestDouble()
+        CISAdAnalyticsTestDouble()
     }
 
     func createAdAnalytics(withVideoAnalytics videoAnalytics: CISVideoAnalytics) -> CISAdAnalytics {
-        return CISAdAnalyticsTestDouble()
+        CISAdAnalyticsTestDouble()
     }
 
     func reportAppEvent(_ event: String, details: [AnyHashable: Any]) {
         var args: [String: String] = [:]
         args["eventName"] = event
         // swiftlint:disable:next force_cast
-        args.merge(details as! [String: String]) { (_, new) in new }
+        args.merge(details as! [String: String]) { _, new in new }
 
         spy(functionName: "reportAppEvent", args: args)
     }

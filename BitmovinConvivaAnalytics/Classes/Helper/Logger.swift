@@ -9,7 +9,7 @@
 import Foundation
 
 final class Logger: NSObject {
-    var loggingEnabled: Bool = false
+    var loggingEnabled = false
 
     init(loggingEnabled: Bool) {
         self.loggingEnabled = loggingEnabled

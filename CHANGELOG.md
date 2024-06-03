@@ -9,9 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Ad tracking support on tvOS
+- The IMA SDK and sample ads to the tvOS sample app
 
 ### Internal
 - Added a Gemfile to pin the CocoaPods version to 1.15.2
+- Added a Github Actions workflow to validate code style using SwiftLint
 - Added a Github Actions workflow to run the unit tests
 
 ## [3.1.0] - 2024-05-27

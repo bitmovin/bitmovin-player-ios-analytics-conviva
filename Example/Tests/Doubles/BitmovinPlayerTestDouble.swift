@@ -7,13 +7,11 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import Foundation
 import BitmovinPlayer
+import Foundation
 
 class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
-
     var fakeListener: PlayerListener?
-
     var fakeSource: Source
 
     override init() {
@@ -69,8 +67,14 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onPlayerError = fakeListener?.onPlayerError else {
             return
         }
-        onPlayerError(PlayerErrorEvent(code: PlayerError.Code.networkGeneral,
-                                       message: "Test player error", data: nil), player)
+        onPlayerError(
+            PlayerErrorEvent(
+                code: PlayerError.Code.networkGeneral,
+                message: "Test player error",
+                data: nil
+            ),
+            player
+        )
     }
 
     func fakeSourceErrorEvent() {
@@ -84,14 +88,19 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onAdStarted = fakeListener?.onAdStarted else {
             return
         }
-        onAdStarted(AdStartedEvent(clickThroughUrl: URL(string: "www.google.com")!,
-                                   clientType: .ima,
-                                   indexInQueue: 1,
-                                   duration: 2,
-                                   timeOffset: 3,
-                                   skipOffset: 4,
-                                   position: position,
-                                   ad: BitmovinPlayerTestAd()), player)
+        onAdStarted(
+            AdStartedEvent(
+                clickThroughUrl: URL(string: "www.google.com")!,
+                clientType: .ima,
+                indexInQueue: 1,
+                duration: 2,
+                timeOffset: 3,
+                skipOffset: 4,
+                position: position,
+                ad: BitmovinPlayerTestAd()
+            ),
+            player
+        )
     }
 
     func fakeTimeChangedEvent() {
@@ -126,7 +135,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onAdError = fakeListener?.onAdError else {
             return
         }
-        onAdError(AdErrorEvent(adItem: nil, code: 1000, message: "Error Message", adConfig: nil), player)
+        onAdError(AdErrorEvent(adItem: nil, code: 1_000, message: "Error Message", adConfig: nil), player)
     }
 
     func fakeSeekEvent(position: TimeInterval = 0, seekTarget: TimeInterval = 0) {
@@ -289,7 +298,7 @@ class BitmovinPlayerStub: NSObject, Player {
     }
 
     var currentTime: TimeInterval {
-            player.currentTime
+        player.currentTime
     }
 
     var config: PlayerConfig {
@@ -489,7 +498,7 @@ class BitmovinPlayerStub: NSObject, Player {
     }
 
     func currentTime(_ timeMode: TimeMode) -> TimeInterval {
-        return player.currentTime(timeMode)
+        player.currentTime(timeMode)
     }
 
     func register(_ playerLayer: AVPlayerLayer) {
@@ -536,7 +545,7 @@ class BitmovinPlayerStub: NSObject, Player {
 class BitmovinPlayerTestAd: NSObject, Ad {
     var clickThroughUrlOpened: (() -> Void)?
 
-    var isLinear: Bool = false
+    var isLinear = false
 
     var width: Int = 0
 
@@ -552,17 +561,17 @@ class BitmovinPlayerTestAd: NSObject, Ad {
 
     // swiftlint:disable:next identifier_name
     func _toJsonString() throws -> String {
-        return ""
+        ""
     }
 
     // swiftlint:disable:next identifier_name
     func _toJsonData() -> [AnyHashable: Any] {
-        return [:]
+        [:]
     }
 
     // swiftlint:disable:next identifier_name
     static func _fromJsonData(_ jsonData: [AnyHashable: Any]) throws -> Self {
         // swiftlint:disable:next force_cast
-        return BitmovinPlayerTestAd() as! Self
+        BitmovinPlayerTestAd() as! Self
     }
 }

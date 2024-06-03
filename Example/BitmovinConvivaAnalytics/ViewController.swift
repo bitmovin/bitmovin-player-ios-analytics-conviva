@@ -6,23 +6,26 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import UIKit
-import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import BitmovinPlayer
+import UIKit
 
 class ViewController: UIViewController {
+    // swiftlint:disable implicitly_unwrapped_optional
     @IBOutlet weak var playerUIView: UIView!
     @IBOutlet weak var adsSwitch: UISwitch!
     @IBOutlet weak var streamUrlTextField: UITextField!
 
     private var player: Player!
     private var playerView: PlayerView!
+    // swiftlint:enable implicitly_unwrapped_optional
 
     private var convivaAnalytics: ConvivaAnalytics?
     private let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
     private var convivaGatewayString: String?
 
     var vodSourceConfig: SourceConfig {
+        // swiftlint:disable:next force_unwrapping
         var sourceUrl = URL(string: "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8")!
         if let streamString = streamUrlTextField.text, let url = URL(string: streamString) {
             sourceUrl = url
@@ -115,5 +118,4 @@ class ViewController: UIViewController {
             attributes: ["at Time": "\(Int(player.currentTime))"]
         )
     }
-
 }

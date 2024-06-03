@@ -13,7 +13,7 @@ import Nimble
 import Quick
 
 class CustomEventsTest: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {

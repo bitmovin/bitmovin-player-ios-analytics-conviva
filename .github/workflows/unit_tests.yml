@@ -1,0 +1,43 @@
+name: Unit Tests
+
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prepare-dependencies:
+    name: Unit Tests
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install HomeBrew Packages
+        run: brew bundle check || brew bundle install --no-lock
+        shell: bash
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: 1
+
+      - name: Prepare Ruby dependencies
+        run: |
+          bundle install
+
+      - name: Install CocoaPods depenedencies
+        run: |
+          cd Example && bundle exec pod install
+
+      - name: Run Unit Tests iOS
+        timeout-minutes: 10
+        run: |
+          bundle exec fastlane unit_test
+
+      - name: Sanity build tvOS
+        if: success() || failure()
+        run: |
+          bundle exec fastlane build_tvos

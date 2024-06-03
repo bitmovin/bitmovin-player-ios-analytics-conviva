@@ -9,34 +9,42 @@
 import Foundation
 
 class SpyTracker {
-    var spies: [String: [String: String]?] = [:]
+    var spies: [String: [[String: String]?]] = [:]
 
     func track(functionName: String, args: [String: String]? = nil) {
-        spies[functionName] = args
+        spies[functionName, default: []].append(args)
     }
 
     func hasCalledFunction(
         _ name: String,
         withArgs: [String: String]? = nil
-    ) -> (success: Bool, trackedArgs: [String: String]?) {
+    ) -> (success: Bool, trackedArgs: [[String: String]?]) {
         let called = spies.keys.contains(name)
         if !called {
-            return (false, nil)
+            return (false, [])
         }
 
         if let expectedArgs = withArgs {
-            if let calledArgs = spies[name] {
-                var containsExpectedArgs = true
-                for key in expectedArgs.keys {
-                    containsExpectedArgs = containsExpectedArgs && (calledArgs?[key] == expectedArgs[key])
+            if let spyCalls = spies[name] {
+                for calledArgs in spyCalls {
+                    guard let calledArgs else { continue }
+
+                    var containsExpectedArgs = true
+                    for key in expectedArgs.keys {
+                        containsExpectedArgs = containsExpectedArgs && (calledArgs[key] == expectedArgs[key])
+                    }
+                    if containsExpectedArgs {
+                        return (containsExpectedArgs, [calledArgs])
+                    }
                 }
-                return (containsExpectedArgs, spies[name] ?? nil) // swiftlint:disable:this redundant_nil_coalescing
+
+                return (false, spyCalls)
             }
 
-            return (false, nil)
+            return (false, [nil])
         }
 
-        return (called, nil)
+        return (called, [nil])
     }
 
     func reset() {

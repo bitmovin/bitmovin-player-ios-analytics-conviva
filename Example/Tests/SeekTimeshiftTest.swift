@@ -7,7 +7,7 @@ import Nimble
 import Quick
 
 class SeekTimeshiftTest: QuickSpec {
-    override func spec() {
+    override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {

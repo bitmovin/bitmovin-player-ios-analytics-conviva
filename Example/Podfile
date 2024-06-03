@@ -30,6 +30,6 @@ target 'BitmovinConvivaAnalytics_Tests' do
   platform :ios, '14.0'
   shared_pods
 
-  pod 'Quick', '~> 4.0.0'
-  pod 'Nimble', '~> 9.2.0'
+  pod 'Quick', '~> 7.5.0'
+  pod 'Nimble', '~> 13.3.0'
 end

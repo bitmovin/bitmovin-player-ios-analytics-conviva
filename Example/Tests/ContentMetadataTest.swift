@@ -15,7 +15,7 @@ import Quick
 // swiftlint:disable:next type_body_length
 class ContentMetadataTest: QuickSpec {
     // swiftlint:disable:next function_body_length
-    override func spec() {
+    override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {
@@ -168,6 +168,7 @@ class ContentMetadataTest: QuickSpec {
                     _ = TestDouble(aClass: playerDouble!, name: "videoQuality", return: videoQuality)
 
                     playerDouble.fakePlayEvent() // to initialize session
+                    playerDouble.fakePlayingEvent() // to update session
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackMetric")
                     expect(spy).to(
                         haveBeenCalled(withArgs: [
@@ -238,7 +239,7 @@ class ContentMetadataTest: QuickSpec {
                     it("set encoded framerate") {
                          metadata.encodedFramerate = 55
                          updateMetadataAndInitialize()
-                         expect(spy).to(haveBeenCalled(withArgs: ["encodedFramerate": "55"]))
+                         expect(spy).to(haveBeenCalled(withArgs: ["encodedFrameRate": "55"]))
                     }
 
                     it("set default resrouce") {

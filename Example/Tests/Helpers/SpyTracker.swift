@@ -12,11 +12,7 @@ class SpyTracker {
     var spies: [String: [[String: String]?]] = [:]
 
     func track(functionName: String, args: [String: String]? = nil) {
-        if spies[functionName] == nil {
-            spies[functionName] = []
-        }
-
-        spies[functionName]?.append(args)
+        spies[functionName, default: []].append(args)
     }
 
     func hasCalledFunction(_ name: String,

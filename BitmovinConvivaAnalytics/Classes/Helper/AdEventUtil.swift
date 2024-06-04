@@ -24,7 +24,7 @@ enum AdEventUtil {
             .ADPOSITION_MIDROLL
         }
     }
-    
+
     static func parseAdPosition(event: AdStartedEvent, contentDuration: TimeInterval) -> ConvivaSDK.AdPosition {
         guard let position = event.position else {
             return .ADPOSITION_PREROLL

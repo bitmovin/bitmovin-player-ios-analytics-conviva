@@ -257,6 +257,7 @@ public final class ConvivaAnalytics: NSObject {
         playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin Player iOS"
         playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = playerHelper.version
         videoAnalytics.setPlayerInfo(playerInfo)
+        adAnalytics.setAdPlayerInfo(playerInfo)
     }
 
     private func internalInitializeSession() {
@@ -384,6 +385,24 @@ public final class ConvivaAnalytics: NSObject {
             value: Int64(player.currentTime(.relativeTime) * 1_000)
         )
     }
+
+    private func adToAdInfo(ad: Ad) -> [String: Any] {
+        var adInfo = [String: Any]()
+        adInfo["c3.ad.technology"] = "Client Side"
+
+        if ad.mediaFileUrl != nil {
+            adInfo[CIS_SSDK_METADATA_STREAM_URL] = ad.mediaFileUrl
+        }
+        if ad.identifier != nil {
+            adInfo["c3.ad.id"] = ad.identifier
+        }
+
+        let vastAdData = ad.data as? VastAdData
+        if vastAdData?.adTitle != nil {
+            adInfo[CIS_SSDK_METADATA_ASSET_NAME] = vastAdData?.adTitle
+        }
+        return adInfo
+    }
 }
 
 // MARK: - PlayerListener
@@ -510,17 +529,22 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         }
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED, value: Int64(-1))
     }
-    
+
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent) {
+        var adInfo = adToAdInfo(ad: event.ad)
         let adPosition: ConvivaSDK.AdPosition = AdEventUtil.parseAdPosition(
             event: event,
             contentDuration: player.duration
         )
-        var adInfo = [String: Any]()
         adInfo["c3.ad.position"] = adPosition.rawValue
+
         adAnalytics.reportAdLoaded(adInfo)
         adAnalytics.reportAdStarted(adInfo)
+        adAnalytics.reportAdMetric(
+            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+            value: PlayerState.CONVIVA_PLAYING.rawValue
+        )
     }
 
     func onAdFinished() {
@@ -538,7 +562,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {
         var adAttributes = [String: Any]()
         adAttributes["c3.ad.position"] = AdEventUtil.parseAdPosition(
-            event:event,
+            event: event,
             contentDuration: player.duration
         ).rawValue
         videoAnalytics.reportAdBreakStarted(

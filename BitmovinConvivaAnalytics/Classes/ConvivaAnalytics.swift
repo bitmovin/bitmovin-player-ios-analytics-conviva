@@ -510,15 +510,37 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         }
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_ENDED, value: Int64(-1))
     }
-
+    
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent) {
         let adPosition: ConvivaSDK.AdPosition = AdEventUtil.parseAdPosition(
             event: event,
             contentDuration: player.duration
         )
+        var adInfo = [String: Any]()
+        adInfo["c3.ad.position"] = adPosition.rawValue
+        adAnalytics.reportAdLoaded(adInfo)
+        adAnalytics.reportAdStarted(adInfo)
+    }
+
+    func onAdFinished() {
+        adAnalytics.reportAdEnded()
+    }
+
+    func onAdSkipped(_ event: AdSkippedEvent) {
+        adAnalytics.reportAdSkipped()
+    }
+
+    func onAdError(_ event: AdErrorEvent) {
+        adAnalytics.reportAdFailed(event.message, adInfo: nil)
+    }
+
+    func onAdBreakStarted(_ event: AdBreakStartedEvent) {
         var adAttributes = [String: Any]()
-        adAttributes["c3.ad.position"] = adPosition.rawValue
+        adAttributes["c3.ad.position"] = AdEventUtil.parseAdPosition(
+            event:event,
+            contentDuration: player.duration
+        ).rawValue
         videoAnalytics.reportAdBreakStarted(
             AdPlayer.ADPLAYER_CONTENT,
             adType: AdTechnology.CLIENT_SIDE,
@@ -526,26 +548,8 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         )
     }
 
-    func onAdFinished() {
-        videoAnalytics.reportAdBreakEnded()
-    }
-
-    func onAdSkipped(_ event: AdSkippedEvent) {
-        customEvent(event: event)
-        videoAnalytics.reportAdBreakEnded()
-    }
-
-    func onAdError(_ event: AdErrorEvent) {
-        customEvent(event: event)
-        videoAnalytics.reportAdBreakEnded()
-    }
-
-    func onAdBreakStarted(_ event: AdBreakStartedEvent) {
-        customEvent(event: event)
-    }
-
     func onAdBreakFinished(_ event: AdBreakFinishedEvent) {
-        customEvent(event: event)
+        videoAnalytics.reportAdBreakEnded()
     }
 
     func onDestroy() {

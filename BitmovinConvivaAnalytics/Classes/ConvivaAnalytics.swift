@@ -20,6 +20,7 @@ public final class ConvivaAnalytics: NSObject {
     let config: ConvivaConfiguration
     let analytics: CISAnalytics
     let videoAnalytics: CISVideoAnalytics
+    let adAnalytics: CISAdAnalytics
     let contentMetadataBuilder: ContentMetadataBuilder
     var isSessionActive = false
     var isBumper = false
@@ -88,6 +89,7 @@ public final class ConvivaAnalytics: NSObject {
         self.contentMetadataBuilder = ContentMetadataBuilder(logger: logger)
 
         videoAnalytics = analytics.createVideoAnalytics()
+        adAnalytics = analytics.createAdAnalytics()
         super.init()
 
         listener = BitmovinPlayerListener(player: player)
@@ -194,6 +196,7 @@ public final class ConvivaAnalytics: NSObject {
 
     public func release() {
         videoAnalytics.cleanup()
+        adAnalytics.cleanup()
         analytics.cleanup()
     }
     /**

@@ -385,19 +385,21 @@ public final class ConvivaAnalytics: NSObject {
             value: Int64(player.currentTime(.relativeTime) * 1_000)
         )
     }
+}
 
-    private func adToAdInfo(ad: Ad) -> [String: Any] {
+private extension Ad {
+    var adInfo: [String: Any] {
         var adInfo = [String: Any]()
         adInfo["c3.ad.technology"] = "Client Side"
 
-        if ad.mediaFileUrl != nil {
-            adInfo[CIS_SSDK_METADATA_STREAM_URL] = ad.mediaFileUrl
+        if mediaFileUrl != nil {
+            adInfo[CIS_SSDK_METADATA_STREAM_URL] = mediaFileUrl
         }
-        if ad.identifier != nil {
-            adInfo["c3.ad.id"] = ad.identifier
+        if identifier != nil {
+            adInfo["c3.ad.id"] = identifier
         }
 
-        let vastAdData = ad.data as? VastAdData
+        let vastAdData = data as? VastAdData
         if vastAdData?.adTitle != nil {
             adInfo[CIS_SSDK_METADATA_ASSET_NAME] = vastAdData?.adTitle
         }
@@ -532,7 +534,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent) {
-        var adInfo = adToAdInfo(ad: event.ad)
+        var adInfo = event.ad.adInfo
         let adPosition: ConvivaSDK.AdPosition = AdEventUtil.parseAdPosition(
             event: event,
             contentDuration: player.duration

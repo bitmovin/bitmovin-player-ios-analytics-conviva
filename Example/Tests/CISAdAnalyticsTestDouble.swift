@@ -72,7 +72,7 @@ class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol, TestDoubleData
 
     func setAdListener(_ adProxy: Any?, andInfo info: [AnyHashable: Any]) {
         var args = info.mapKeyAndValuesToString()
-        args["adProxy"] = "\(adProxy ?? "nil")"
+        args["adProxy"] = "\(adProxy ?? "")"
         spy(functionName: "setAdListener", args: args)
     }
 
@@ -97,7 +97,7 @@ class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol, TestDoubleData
     func reportPlaybackMetric(_ key: String, value: Any?) {
         spy(functionName: "reportPlaybackMetric", args: [
                "key": key,
-               "value": "\(value ?? "nil")"
+               "value": "\(value ?? "")"
            ])
     }
 

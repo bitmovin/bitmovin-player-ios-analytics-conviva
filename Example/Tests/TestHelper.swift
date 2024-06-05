@@ -35,7 +35,7 @@ extension Dictionary where Key: Comparable {
     /// Converts the dictionary to a string with keys in stable order.
     /// - Returns: A string representation of the dictionary with sorted keys.
     func toStringWithStableOrder() -> String {
-        let sortedKeyValuePairs = self.sorted { $0.key < $1.key }
+        let sortedKeyValuePairs = sorted { $0.key < $1.key }
         let keyValuePairsString = sortedKeyValuePairs.map { "\($0.key): \($0.value)" }.joined(separator: ", ")
         return "[\(keyValuePairsString)]"
     }

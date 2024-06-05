@@ -103,6 +103,30 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         )
     }
 
+    func fakeAdBreakStartedEvent(position: Double = 0.0) {
+        guard let onAdBreakStarted = fakeListener?.onAdBreakStarted else {
+            return
+        }
+        onAdBreakStarted(
+            AdBreakStartedEvent(
+                adBreak: TestAdBreak(position: position)
+            ),
+            player
+        )
+    }
+
+    func fakeAdBreakFinishedEvent(position: Double = 0.0) {
+        guard let onAdBreakFinished = fakeListener?.onAdBreakFinished else {
+            return
+        }
+        onAdBreakFinished(
+            AdBreakFinishedEvent(
+                adBreak: TestAdBreak(position: position)
+            ),
+            player
+        )
+    }
+
     func fakeTimeChangedEvent() {
         guard let onTimeChanged = fakeListener?.onTimeChanged else {
             return
@@ -248,6 +272,47 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
             return mockedValue as! TimeInterval
         }
         return player.currentTime
+    }
+}
+
+class TestAdBreak: NSObject, AdBreak {
+    var identifier: String
+    var scheduleTime: TimeInterval
+    var ads: [any Ad]
+    var totalNumberOfAds: UInt
+    var replaceContentDuration: TimeInterval
+
+    convenience init(position: Double) {
+        self.init(scheduleTime: TimeInterval(floatLiteral: position))
+    }
+
+    init(
+        identifier: String = "testAdbreak",
+        scheduleTime: TimeInterval = TimeInterval(floatLiteral: 0.0),
+        ads: [any Ad] = [any Ad](),
+        totalNumberOfAds: UInt = 0,
+        replaceContentDuration: TimeInterval = TimeInterval(floatLiteral: 0.0)
+    ) {
+        self.identifier = identifier
+        self.scheduleTime = scheduleTime
+        self.ads = ads
+        self.totalNumberOfAds = totalNumberOfAds
+        self.replaceContentDuration = replaceContentDuration
+    }
+
+    func register(_ adItem: any Ad) {
+        ads.append(adItem)
+        totalNumberOfAds = UInt(ads.count)
+    }
+
+    // swiftlint:disable:next identifier_name unavailable_function
+    func _toJsonString() throws -> String {
+        fatalError("Not Implemented")
+    }
+
+    // swiftlint:disable:next identifier_name unavailable_function
+    func _toJsonData() -> [AnyHashable: Any] {
+        fatalError("Not Implemented")
     }
 }
 

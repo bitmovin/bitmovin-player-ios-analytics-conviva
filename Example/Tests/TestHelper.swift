@@ -49,10 +49,4 @@ extension Dictionary {
         forEach { key, value in args[String(describing: key)] = String(describing: value) }
         return args
     }
-
-    /// Converts the dictionary to a string with keys in stable order.
-    /// - Returns: A string representation of the dictionary with sorted keys.
-    func toStringWithStableOrder() -> String {
-        mapKeyAndValuesToString().toStringWithStableOrder()
-    }
 }

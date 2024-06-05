@@ -385,25 +385,61 @@ public final class ConvivaAnalytics: NSObject {
             value: Int64(player.currentTime(.relativeTime) * 1_000)
         )
     }
-}
 
-private extension Ad {
-    var adInfo: [String: Any] {
+    private func buildAdInfo(adStartedEvent: AdStartedEvent) -> [String: Any] {
         var adInfo = [String: Any]()
+
+        adInfo["c3.ad.id"] = "NA"
+        adInfo["c3.ad.system"] = "NA"
+        adInfo["c3.ad.mediaFileApiFramework"] = "NA"
+        adInfo["c3.ad.firstAdSystem"] = "NA"
+        adInfo["c3.ad.firstAdId"] = "NA"
+        adInfo["c3.ad.firstCreativeId"] = "NA"
+
         adInfo["c3.ad.technology"] = "Client Side"
-
-        if mediaFileUrl != nil {
-            adInfo[CIS_SSDK_METADATA_STREAM_URL] = mediaFileUrl
+        if adStartedEvent.clientType == AdSourceType.ima {
+            adInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Google IMA SDK"
+            adInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = contentMetadataBuilder.metadataOverrides.imaSdkVerison ?? "NA"
+        } else {
+            adInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin"
+            adInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = playerHelper.version
         }
-        if identifier != nil {
-            adInfo["c3.ad.id"] = identifier
-        }
 
-        let vastAdData = data as? VastAdData
-        if vastAdData?.adTitle != nil {
-            adInfo[CIS_SSDK_METADATA_ASSET_NAME] = vastAdData?.adTitle
+        adInfo["c3.ad.position"] = AdEventUtil.parseAdPosition(
+            event: adStartedEvent,
+            contentDuration: player.duration
+        ).rawValue
+        adInfo[CIS_SSDK_METADATA_DURATION] = adStartedEvent.duration
+        adInfo[CIS_SSDK_METADATA_IS_LIVE] = videoAnalytics.getMetadataInfo()[CIS_SSDK_METADATA_IS_LIVE]
+
+        let ad = adStartedEvent.ad
+        if ad.mediaFileUrl != nil {
+            adInfo[CIS_SSDK_METADATA_STREAM_URL] = ad.mediaFileUrl
+        }
+        if ad.identifier != nil {
+            adInfo["c3.ad.id"] = ad.identifier
+        }
+        if let vastAdData = ad.data as? VastAdData {
+            setVastAdMetadata(adInfo: &adInfo, vastAdData: vastAdData)
         }
         return adInfo
+    }
+
+    private func setVastAdMetadata(adInfo: inout [String: Any], vastAdData: VastAdData) {
+        adInfo["c3.ad.description"] = vastAdData.description
+
+        if let adTitle = vastAdData.adTitle {
+            adInfo[CIS_SSDK_METADATA_ASSET_NAME] = adTitle
+        }
+        if let adId = vastAdData.creative?.adId {
+            adInfo["c3.ad.creativeId"] = adId
+        }
+        if let adSystem = vastAdData.adSystem {
+            adInfo["c3.ad.system"] = adSystem
+        }
+        if !vastAdData.wrapperAdIds.isEmpty {
+            adInfo["c3.ad.firstAdId"] = vastAdData.wrapperAdIds.last
+        }
     }
 }
 
@@ -534,13 +570,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent) {
-        var adInfo = event.ad.adInfo
-        let adPosition: ConvivaSDK.AdPosition = AdEventUtil.parseAdPosition(
-            event: event,
-            contentDuration: player.duration
-        )
-        adInfo["c3.ad.position"] = adPosition.rawValue
-
+        let adInfo = buildAdInfo(adStartedEvent: event)
         adAnalytics.reportAdLoaded(adInfo)
         adAnalytics.reportAdStarted(adInfo)
         adAnalytics.reportAdMetric(

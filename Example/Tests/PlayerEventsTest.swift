@@ -343,6 +343,19 @@ class PlayerEventsTest: QuickSpec {
                 let adLoadedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdLoaded")
                 let adMetricSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdMetric")
 
+                let baseAdInfo = [
+                    "c3.ad.technology": "Client Side",
+                    "Conviva.duration": 2.0,
+                    "Conviva.frameworkName": "Google IMA SDK",
+                    "Conviva.frameworkVersion": "NA",
+                    "c3.ad.firstAdId": "NA",
+                    "c3.ad.firstAdSystem": "NA",
+                    "c3.ad.firstCreativeId": "NA",
+                    "c3.ad.id": "NA",
+                    "c3.ad.mediaFileApiFramework": "NA",
+                    "c3.ad.system": "NA"
+                ]
+
                 context("report ad break start") {
                     it("on ad break started event") {
                         let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportAdBreakStarted")
@@ -372,10 +385,9 @@ class PlayerEventsTest: QuickSpec {
                 }
 
                 context("track preroll ad") {
-                    let expectedAdInfo = [
-                        "c3.ad.position": "\(AdPosition.ADPOSITION_PREROLL.rawValue)",
-                        "c3.ad.technology": "Client Side"
-                    ]
+                    var expectedAdInfo = baseAdInfo
+                    expectedAdInfo["c3.ad.position"] = "\(AdPosition.ADPOSITION_PREROLL.rawValue)"
+
                     let expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
 
                     it("with string") {
@@ -455,10 +467,9 @@ class PlayerEventsTest: QuickSpec {
                 }
 
                 context("track midroll ad") {
-                    let expectedAdInfo = [
-                        "c3.ad.position": "\(AdPosition.ADPOSITION_MIDROLL.rawValue)",
-                        "c3.ad.technology": "Client Side"
-                    ]
+                    var expectedAdInfo = baseAdInfo
+                    expectedAdInfo["c3.ad.position"] = "\(AdPosition.ADPOSITION_MIDROLL.rawValue)"
+
                     let expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
 
                     it("with percentage") {
@@ -494,10 +505,9 @@ class PlayerEventsTest: QuickSpec {
                 }
 
                 context("track postroll ad") {
-                    let expectedAdInfo = [
-                        "c3.ad.position": "\(AdPosition.ADPOSITION_POSTROLL.rawValue)",
-                        "c3.ad.technology": "Client Side"
-                    ]
+                    var expectedAdInfo = baseAdInfo
+                    expectedAdInfo["c3.ad.position"] = "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"
+
                     let expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
 
                     it("with string") {

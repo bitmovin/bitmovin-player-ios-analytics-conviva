@@ -12,6 +12,7 @@ import Foundation
 public struct MetadataOverrides {
     // Can only be set once
     public var assetName: String?
+    public var imaSdkVerison: String?
 
     // Can only be set before playback started
     public var viewerId: String?

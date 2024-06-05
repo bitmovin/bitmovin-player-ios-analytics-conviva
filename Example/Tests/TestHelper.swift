@@ -46,9 +46,7 @@ extension Dictionary {
     /// - Returns: A new dictionary with string keys and values.
     func mapKeyAndValuesToString() -> [String: String] {
         var args = [String: String]()
-        for (key, value) in self {
-            args[String(describing: key)] = String(describing: value)
-        }
+        forEach { key, value in args[String(describing: key)] = String(describing: value) }
         return args
     }
 

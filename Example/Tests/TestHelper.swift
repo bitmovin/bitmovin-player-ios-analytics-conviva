@@ -30,3 +30,23 @@ class TestHelper: NSObject {
         TestHelper.shared.mockTracker.addMock(name, returnValue: returnValue)
     }
 }
+
+extension Dictionary where Key: Comparable {
+    /// Converts the dictionary to a string with keys in stable order.
+    /// - Returns: A string representation of the dictionary with sorted keys.
+    func toStringWithStableOrder() -> String {
+        let sortedKeyValuePairs = sorted { $0.key < $1.key }
+        let keyValuePairsString = sortedKeyValuePairs.map { "\($0.key): \($0.value)" }.joined(separator: ", ")
+        return "[\(keyValuePairsString)]"
+    }
+}
+
+extension Dictionary {
+    /// Maps the keys and values of the dictionary to their string representations.
+    /// - Returns: A new dictionary with string keys and values.
+    func mapKeyAndValuesToString() -> [String: String] {
+        var args = [String: String]()
+        forEach { key, value in args[String(describing: key)] = String(describing: value) }
+        return args
+    }
+}

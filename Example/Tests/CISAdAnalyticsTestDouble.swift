@@ -15,34 +15,25 @@ class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol, TestDoubleData
     }
 
     func setAdInfo(_ adInfo: [AnyHashable: Any]) {
-        var args = [String: String]()
-        adInfo.forEach { key, value in args[String(describing: key)] = String(describing: value) }
-        spy(functionName: "setAdInfo", args: args)
+        spy(functionName: "setAdInfo", args: adInfo.mapKeyAndValuesToString())
     }
 
     func setAdPlayerInfo(_ adPlayerInfo: [AnyHashable: Any]) {
-        var args = [String: String]()
-        adPlayerInfo.forEach { key, value in args[String(describing: key)] = String(describing: value) }
-        spy(functionName: "setAdPlayerInfo", args: args)
+        spy(functionName: "setAdPlayerInfo", args: adPlayerInfo.mapKeyAndValuesToString())
     }
 
     func reportAdFailed(_ errorMessage: String, adInfo: [AnyHashable: Any]?) {
-        var args = [String: String]()
+        var args = adInfo?.mapKeyAndValuesToString() ?? [String: String]()
         args["errorMessage"] = errorMessage
-        adInfo?.forEach { key, value in args[String(describing: key)] = String(describing: value) }
         spy(functionName: "reportAdFailed", args: args)
     }
 
     func reportAdLoaded(_ adInfo: [AnyHashable: Any]?) {
-        var args = [String: String]()
-        adInfo?.forEach { key, value in args[String(describing: key)] = String(describing: value) }
-        spy(functionName: "reportAdLoaded", args: args)
+        spy(functionName: "reportAdLoaded", args: adInfo?.mapKeyAndValuesToString())
     }
 
     func reportAdStarted(_ adInfo: [AnyHashable: Any]?) {
-        var args = [String: String]()
-        adInfo?.forEach { key, value in args[String(describing: key)] = String(describing: value) }
-        spy(functionName: "reportAdStarted", args: args)
+        spy(functionName: "reportAdStarted", args: adInfo?.mapKeyAndValuesToString())
     }
 
     func reportAdEnded() {
@@ -61,9 +52,8 @@ class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol, TestDoubleData
     }
 
     func reportAdPlayerEvent(_ eventType: String, details: [AnyHashable: Any]?) {
-        var args = [String: String]()
+        var args = details?.mapKeyAndValuesToString() ?? [String: String]()
         args["eventType"] = eventType
-        details?.forEach { key, value in args[String(describing: key)] = String(describing: value) }
         spy(functionName: "reportAdPlayerEvent", args: args)
     }
 
@@ -81,9 +71,8 @@ class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol, TestDoubleData
     }
 
     func setAdListener(_ adProxy: Any?, andInfo info: [AnyHashable: Any]) {
-        var args = [String: String]()
+        var args = info.mapKeyAndValuesToString()
         args["adProxy"] = "\(adProxy ?? "nil")"
-        info.forEach { key, value in args[String(describing: key)] = String(describing: value) }
         spy(functionName: "setAdListener", args: args)
     }
 
@@ -125,5 +114,15 @@ class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol, TestDoubleData
 
     func cleanup() {
         spy(functionName: "cleanup")
+    }
+}
+
+private extension Dictionary where Key == AnyHashable, Value == Any {
+    func mapKeyAndValuesToString() -> [String: String] {
+        var args = [String: String]()
+        forEach { key, value in
+            args[String(describing: key)] = String(describing: value)
+        }
+        return args
     }
 }

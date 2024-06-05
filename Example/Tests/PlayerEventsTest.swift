@@ -343,6 +343,34 @@ class PlayerEventsTest: QuickSpec {
                 let adLoadedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdLoaded")
                 let adMetricSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdMetric")
 
+                context("report ad break start") {
+                    it("on ad break started event") {
+                        let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportAdBreakStarted")
+
+                        playerDouble.fakeAdBreakStartedEvent(position: 0.0)
+
+                        expect(spy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "adPlayer": "\(AdPlayer.ADPLAYER_CONTENT)",
+                                    "adType": "\(AdTechnology.CLIENT_SIDE)",
+                                    "adBreakInfo": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"
+                                ]
+                            )
+                        )
+                    }
+                }
+
+                context("report ad break ended") {
+                    it("on ad break finished event") {
+                        let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportAdBreakEnded")
+
+                        playerDouble.fakeAdBreakFinishedEvent()
+
+                        expect(spy).to(haveBeenCalled())
+                    }
+                }
+
                 context("track preroll ad") {
                     let expectedAdInfo = [
                         "c3.ad.position": "\(AdPosition.ADPOSITION_PREROLL.rawValue)",

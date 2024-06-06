@@ -28,6 +28,11 @@ jobs:
         run: |
           bundle install
 
+      - name: Select Xcode
+        uses: ./.github/actions/select-xcode
+        with:
+          version: 15.4
+
       - name: Install CocoaPods depenedencies
         run: |
           cd Example && bundle exec pod install

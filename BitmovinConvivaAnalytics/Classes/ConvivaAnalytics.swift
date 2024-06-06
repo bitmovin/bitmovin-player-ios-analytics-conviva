@@ -555,10 +555,12 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onAdSkipped(_ event: AdSkippedEvent) {
         adAnalytics.reportAdSkipped()
+        customEvent(event: event)
     }
 
     func onAdError(_ event: AdErrorEvent) {
         adAnalytics.reportAdFailed(event.message, adInfo: nil)
+        customEvent(event: event)
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {
@@ -567,10 +569,12 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             adType: AdTechnology.CLIENT_SIDE,
             adBreakInfo: [AnyHashable: Any]()
         )
+        customEvent(event: event)
     }
 
     func onAdBreakFinished(_ event: AdBreakFinishedEvent) {
         videoAnalytics.reportAdBreakEnded()
+        customEvent(event: event)
     }
 
     func onDestroy() {

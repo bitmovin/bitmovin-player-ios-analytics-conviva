@@ -42,7 +42,8 @@ class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoub
             "encodedFrameRate": "\(contentInfo?[CIS_SSDK_METADATA_ENCODED_FRAMERATE] ?? "")",
             "contentType": "\(contentInfo?["contentType"] ?? "")",
             "MyCustom": "\(contentInfo?["MyCustom"] ?? "")",
-            "streamType": "\(contentInfo?["streamType"] ?? "")"
+            "streamType": "\(contentInfo?["streamType"] ?? "")",
+            "AdditionalStandardTag": "\(contentInfo?["AdditionalStandardTag"] ?? "")"
         ])
     }
 

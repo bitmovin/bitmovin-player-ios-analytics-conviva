@@ -354,7 +354,6 @@ class PlayerEventsTest: QuickSpec {
                                 withArgs: [
                                     "adPlayer": "\(AdPlayer.ADPLAYER_CONTENT)",
                                     "adType": "\(AdTechnology.CLIENT_SIDE)",
-                                    "adBreakInfo": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"
                                 ]
                             )
                         )

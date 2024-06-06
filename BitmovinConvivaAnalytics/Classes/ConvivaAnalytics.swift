@@ -39,7 +39,7 @@ public final class ConvivaAnalytics: NSObject {
      */
     public var playerView: PlayerView? {
         didSet {
-            playerView?.remove(listener: self)
+            oldValue?.remove(listener: self)
             playerView?.add(listener: self)
         }
     }

@@ -31,7 +31,7 @@ jobs:
       - name: Select Xcode
         uses: ./.github/actions/select-xcode
         with:
-          version: 15.4
+          version: 15.2
 
       - name: Install CocoaPods depenedencies
         run: |

@@ -11,6 +11,8 @@ import BitmovinPlayer
 import ConvivaSDK
 import Foundation
 
+private let notAvailable = "NA"
+
 // swiftlint:disable:next type_body_length
 public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
@@ -390,17 +392,17 @@ public final class ConvivaAnalytics: NSObject {
     private func buildAdInfo(adStartedEvent: AdStartedEvent) -> [String: Any] {
         var adInfo = [String: Any]()
 
-        adInfo["c3.ad.id"] = "NA"
-        adInfo["c3.ad.system"] = "NA"
-        adInfo["c3.ad.mediaFileApiFramework"] = "NA"
-        adInfo["c3.ad.firstAdSystem"] = "NA"
-        adInfo["c3.ad.firstAdId"] = "NA"
-        adInfo["c3.ad.firstCreativeId"] = "NA"
+        adInfo["c3.ad.id"] = notAvailable
+        adInfo["c3.ad.system"] = notAvailable
+        adInfo["c3.ad.mediaFileApiFramework"] = notAvailable
+        adInfo["c3.ad.firstAdSystem"] = notAvailable
+        adInfo["c3.ad.firstAdId"] = notAvailable
+        adInfo["c3.ad.firstCreativeId"] = notAvailable
 
         adInfo["c3.ad.technology"] = "Client Side"
         if adStartedEvent.clientType == AdSourceType.ima {
             adInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Google IMA SDK"
-            adInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = contentMetadataBuilder.metadataOverrides.imaSdkVerison ?? "NA"
+            adInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = contentMetadataBuilder.metadataOverrides.imaSdkVerison ?? notAvailable
         } else {
             adInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin"
             adInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = playerHelper.version

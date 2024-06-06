@@ -15,9 +15,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Ad break started and ended is now reported with `AdBreakStartedEvent` and `AdBreakFinishedEvent`
 
-### Removed
-- Custom event for `AdSkippedEvent` and `AdErrorEvent`. Replaced by Conviva build in tracking
-
 ### Internal
 - Added a Gemfile to pin the CocoaPods version to 1.15.2
 - Added a Github Actions workflow to validate code style using SwiftLint

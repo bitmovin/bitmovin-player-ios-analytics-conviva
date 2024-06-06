@@ -562,15 +562,10 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {
-        var adAttributes = [String: Any]()
-        adAttributes["c3.ad.position"] = AdEventUtil.parseAdPosition(
-            event: event,
-            contentDuration: player.duration
-        ).rawValue
         videoAnalytics.reportAdBreakStarted(
             AdPlayer.ADPLAYER_CONTENT,
             adType: AdTechnology.CLIENT_SIDE,
-            adBreakInfo: adAttributes
+            adBreakInfo: [AnyHashable: Any]()
         )
     }
 

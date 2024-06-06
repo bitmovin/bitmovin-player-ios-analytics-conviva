@@ -11,12 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Ad analytics for ad event reporting
 - Ad tracking support on tvOS
 - The IMA SDK and sample ads to the tvOS sample app
+- `MetadataOverrides.additionalStandardTags` that allows to set additional standard tags for the session. The List of tags can be found here: [Pre-defined Video and Content Metadata](https://pulse.conviva.com/learning-center/content/sensor_developer_center/sensor_integration/ios/ios_stream_sensor.html#Predefined_video_meta)
 
 ### Changed
 - Ad break started and ended is now reported with `AdBreakStartedEvent` and `AdBreakFinishedEvent`
-
-### Removed
-- Custom event for `AdSkippedEvent` and `AdErrorEvent`. Replaced by Conviva build in tracking
 
 ### Internal
 - Added a Gemfile to pin the CocoaPods version to 1.15.2

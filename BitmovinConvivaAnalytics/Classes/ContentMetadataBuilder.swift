@@ -20,6 +20,12 @@ public struct MetadataOverrides {
     public var applicationName: String?
     public var custom: [String: Any]?
     public var duration: Int?
+    // swiftlint:disable line_length
+    /// Standard Conviva tags that aren't covered by the other fields in this class.
+    /// List of tags can be found here:
+    /// [Pre-defined Video and Content Metadata](https://pulse.conviva.com/learning-center/content/sensor_developer_center/sensor_integration/ios/ios_stream_sensor.html#Predefined_video_meta)
+    public var additionalStandardTags: [String: Any]?
+    // swiftlint:enable line_length
 
     // Dynamic
     public var encodedFramerate: Int?
@@ -85,6 +91,9 @@ class ContentMetadataBuilder: CustomStringConvertible {
             }
             if let custom = self.custom {
                 contentInfo.merge(custom) { $1 }
+            }
+            if let additionalStandardTags = self.additionalStandardTags {
+                contentInfo.merge(additionalStandardTags) { $1 }
             }
         } else {
             if let duration = self.duration, duration > 0 {
@@ -158,6 +167,15 @@ class ContentMetadataBuilder: CustomStringConvertible {
         }
         set {
             metadata.duration = newValue
+        }
+    }
+
+    var additionalStandardTags: [String: Any]? {
+        get {
+            mergeDictionaries(dict1: metadata.additionalStandardTags, dict2: metadataOverrides.additionalStandardTags)
+        }
+        set {
+            metadata.additionalStandardTags = newValue
         }
     }
 

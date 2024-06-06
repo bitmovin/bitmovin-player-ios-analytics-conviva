@@ -43,7 +43,7 @@ public final class ConvivaAnalytics: NSObject {
      */
     public var playerView: PlayerView? {
         didSet {
-            playerView?.remove(listener: self)
+            oldValue?.remove(listener: self)
             playerView?.add(listener: self)
         }
     }
@@ -590,27 +590,26 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onAdSkipped(_ event: AdSkippedEvent) {
         adAnalytics.reportAdSkipped()
+        customEvent(event: event)
     }
 
     func onAdError(_ event: AdErrorEvent) {
         adAnalytics.reportAdFailed(event.message, adInfo: nil)
+        customEvent(event: event)
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {
-        var adAttributes = [String: Any]()
-        adAttributes["c3.ad.position"] = AdEventUtil.parseAdPosition(
-            event: event,
-            contentDuration: player.duration
-        ).rawValue
         videoAnalytics.reportAdBreakStarted(
             AdPlayer.ADPLAYER_CONTENT,
             adType: AdTechnology.CLIENT_SIDE,
-            adBreakInfo: adAttributes
+            adBreakInfo: [AnyHashable: Any]()
         )
+        customEvent(event: event)
     }
 
     func onAdBreakFinished(_ event: AdBreakFinishedEvent) {
         videoAnalytics.reportAdBreakEnded()
+        customEvent(event: event)
     }
 
     func onDestroy() {

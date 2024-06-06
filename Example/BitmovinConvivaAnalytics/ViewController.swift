@@ -65,6 +65,9 @@ class ViewController: UIViewController {
         metadata.applicationName = "Bitmovin iOS Conviva integration example app"
         metadata.viewerId = "awesomeViewerId"
         metadata.custom = ["contentType": "Episode"]
+        metadata.custom = ["custom_tag": "Episode"]
+        metadata.additionalStandardTags = ["c3.cm.contentType": "VOD"]
+
         #if os(tvOS)
         let imaSdkVersion = "4.12.0"
         #else

@@ -18,36 +18,34 @@ class PlayerEventsTest: QuickSpec {
     // swiftlint:disable:next function_body_length
     override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
+        var convivaAnalytics: ConvivaAnalytics!
 
         beforeEach {
             playerDouble = BitmovinPlayerTestDouble()
             TestHelper.shared.spyTracker.reset()
             TestHelper.shared.mockTracker.reset()
+
+            let convivaConfig = ConvivaConfiguration()
+            convivaConfig.debugLoggingEnabled = true
+
+            do {
+                convivaAnalytics = try ConvivaAnalytics(
+                    player: playerDouble,
+                    customerKey: "",
+                    config: convivaConfig
+                )
+            } catch {
+                fail("ConvivaAnalytics failed with error: \(error)")
+            }
+        }
+
+        afterEach {
+            if convivaAnalytics != nil {
+                convivaAnalytics = nil
+            }
         }
 
         context("player event handling") {
-            var convivaAnalytics: ConvivaAnalytics!
-            beforeEach {
-                let convivaConfig = ConvivaConfiguration()
-                convivaConfig.debugLoggingEnabled = true
-
-                do {
-                    convivaAnalytics = try ConvivaAnalytics(
-                        player: playerDouble,
-                        customerKey: "",
-                        config: convivaConfig
-                    )
-                } catch {
-                    fail("ConvivaAnalytics failed with error: \(error)")
-                }
-            }
-
-            afterEach {
-                if convivaAnalytics != nil {
-                    convivaAnalytics = nil
-                }
-            }
-
             context("initialize session") {
                 var spy: Spy!
                 beforeEach {
@@ -81,15 +79,19 @@ class PlayerEventsTest: QuickSpec {
             context("initialize player state manager") {
                 it("on play") {
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setPlayerInfo")
+                    let adAnalyticsSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "setPlayerInfo")
                     playerDouble.fakePlayEvent()
                     expect(spy).to(haveBeenCalled())
+                    expect(adAnalyticsSpy).to(haveBeenCalled())
                 }
             }
 
             context("not initialize player state manager") {
                 it("when initializing conviva analytics") {
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setPlayerInfo")
+                    let adAnalyticsSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "setPlayerInfo")
                     expect(spy).toNot(haveBeenCalled())
+                    expect(adAnalyticsSpy).toNot(haveBeenCalled())
                 }
             }
 
@@ -337,18 +339,54 @@ class PlayerEventsTest: QuickSpec {
             }
 
             describe("ads") {
-                var spy: Spy!
-                beforeEach {
-                    spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportAdBreakStarted")
-                }
+                let adStartedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdStarted")
+                let adLoadedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdLoaded")
+                let adMetricSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdMetric")
 
-                context("track preroll ad") {
-                    it("with string") {
-                        playerDouble.fakeAdStartedEvent(position: "pre")
+                context("report ad break start") {
+                    it("on ad break started event") {
+                        let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportAdBreakStarted")
+
+                        playerDouble.fakeAdBreakStartedEvent(position: 0.0)
+
                         expect(spy).to(
                             haveBeenCalled(
                                 withArgs: [
-                                    "adBreakInfo": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"
+                                    "adPlayer": "\(AdPlayer.ADPLAYER_CONTENT)",
+                                    "adType": "\(AdTechnology.CLIENT_SIDE)"
+                                ]
+                            )
+                        )
+                    }
+                }
+
+                context("report ad break ended") {
+                    it("on ad break finished event") {
+                        let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportAdBreakEnded")
+
+                        playerDouble.fakeAdBreakFinishedEvent()
+
+                        expect(spy).to(haveBeenCalled())
+                    }
+                }
+
+                context("track preroll ad") {
+                    let expectedAdInfo = [
+                        "c3.ad.position": "\(AdPosition.ADPOSITION_PREROLL.rawValue)",
+                        "c3.ad.technology": "Client Side"
+                    ]
+                    let expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
+
+                    it("with string") {
+                        playerDouble.fakeAdStartedEvent(position: "pre")
+
+                        expect(adStartedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adLoadedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adMetricSpy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "key": CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+                                    "value": "\(PlayerState.CONVIVA_PLAYING.rawValue)"
                                 ]
                             )
                         )
@@ -356,94 +394,215 @@ class PlayerEventsTest: QuickSpec {
 
                     it("with percentage") {
                         playerDouble.fakeAdStartedEvent(position: "0%")
-                        expect(spy).to(
-                            haveBeenCalled(withArgs: ["adBreakInfo": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"])
+
+                        expect(adStartedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adLoadedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adMetricSpy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "key": CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+                                    "value": "\(PlayerState.CONVIVA_PLAYING.rawValue)"
+                                ]
+                            )
                         )
                     }
 
                     it("with timestamp") {
                         playerDouble.fakeAdStartedEvent(position: "00:00:00.000")
-                        expect(spy).to(
-                            haveBeenCalled(withArgs: ["adBreakInfo": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"])
+
+                        expect(adStartedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adLoadedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adMetricSpy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "key": CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+                                    "value": "\(PlayerState.CONVIVA_PLAYING.rawValue)"
+                                ]
+                            )
                         )
                     }
 
                     it("with invalid position") {
                         playerDouble.fakeAdStartedEvent(position: "start")
-                        expect(spy).to(
-                            haveBeenCalled(withArgs: ["adBreakInfo": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"])
+
+                        expect(adStartedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adLoadedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adMetricSpy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "key": CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+                                    "value": "\(PlayerState.CONVIVA_PLAYING.rawValue)"
+                                ]
+                            )
                         )
                     }
 
                     it("without position") {
                         playerDouble.fakeAdStartedEvent(position: nil)
-                        expect(spy).to(
-                            haveBeenCalled(withArgs: ["adBreakInfo": "\(AdPosition.ADPOSITION_PREROLL.rawValue)"])
+
+                        expect(adStartedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adLoadedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adMetricSpy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "key": CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+                                    "value": "\(PlayerState.CONVIVA_PLAYING.rawValue)"
+                                ]
+                            )
                         )
                     }
                 }
 
                 context("track midroll ad") {
+                    let expectedAdInfo = [
+                        "c3.ad.position": "\(AdPosition.ADPOSITION_MIDROLL.rawValue)",
+                        "c3.ad.technology": "Client Side"
+                    ]
+                    let expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
+
                     it("with percentage") {
                         playerDouble.fakeAdStartedEvent(position: "10%")
-                        expect(spy).to(
-                            haveBeenCalled(withArgs: ["adBreakInfo": "\(AdPosition.ADPOSITION_MIDROLL.rawValue)"])
+
+                        expect(adStartedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adLoadedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adMetricSpy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "key": CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+                                    "value": "\(PlayerState.CONVIVA_PLAYING.rawValue)"
+                                ]
+                            )
                         )
                     }
 
                     it("with timestamp") {
                         _ = TestDouble(aClass: playerDouble, name: "duration", return: TimeInterval(120))
                         playerDouble.fakeAdStartedEvent(position: "00:01:00.000")
-                        expect(spy).to(
-                            haveBeenCalled(withArgs: ["adBreakInfo": "\(AdPosition.ADPOSITION_MIDROLL.rawValue)"])
+
+                        expect(adStartedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adLoadedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adMetricSpy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "key": CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+                                    "value": "\(PlayerState.CONVIVA_PLAYING.rawValue)"
+                                ]
+                            )
                         )
                     }
                 }
 
                 context("track postroll ad") {
+                    let expectedAdInfo = [
+                        "c3.ad.position": "\(AdPosition.ADPOSITION_POSTROLL.rawValue)",
+                        "c3.ad.technology": "Client Side"
+                    ]
+                    let expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
+
                     it("with string") {
                         playerDouble.fakeAdStartedEvent(position: "post")
-                        expect(spy).to(
-                            haveBeenCalled(withArgs: ["adBreakInfo": "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"])
+
+                        expect(adStartedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adLoadedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adMetricSpy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "key": CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+                                    "value": "\(PlayerState.CONVIVA_PLAYING.rawValue)"
+                                ]
+                            )
                         )
                     }
 
                     it("with percentage") {
                         playerDouble.fakeAdStartedEvent(position: "100%")
-                        expect(spy).to(
-                            haveBeenCalled(withArgs: ["adBreakInfo": "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"])
+
+                        expect(adStartedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adLoadedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adMetricSpy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "key": CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+                                    "value": "\(PlayerState.CONVIVA_PLAYING.rawValue)"
+                                ]
+                            )
                         )
                     }
 
                     it("with timestamp") {
                         _ = TestDouble(aClass: playerDouble, name: "duration", return: TimeInterval(120))
                         playerDouble.fakeAdStartedEvent(position: "00:02:00.000")
-                        expect(spy).to(
-                            haveBeenCalled(withArgs: ["adBreakInfo": "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"])
+
+                        expect(adStartedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adLoadedSpy).to(haveBeenCalled(withArgs: expectedAdInfoArgs))
+                        expect(adMetricSpy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "key": CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+                                    "value": "\(PlayerState.CONVIVA_PLAYING.rawValue)"
+                                ]
+                            )
                         )
                     }
                 }
 
                 context("track ad end") {
+                    let adEndedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdEnded")
+
                     beforeEach {
                         playerDouble.fakePlayEvent()
-                        spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportAdBreakEnded")
-                    }
-
-                    it("on ad skipped") {
-                        playerDouble.fakeAdSkippedEvent()
-                        expect(spy).to(haveBeenCalled())
                     }
 
                     it("on ad finished") {
                         playerDouble.fakeAdFinishedEvent()
-                        expect(spy).to(haveBeenCalled())
+                        expect(adEndedSpy).to(haveBeenCalled())
+                    }
+                }
+
+                context("track ad skipped") {
+                    let adSkippedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdSkipped")
+
+                    beforeEach {
+                        playerDouble.fakePlayEvent()
+                    }
+
+                    it("on ad skipped") {
+                        playerDouble.fakeAdSkippedEvent()
+                        expect(adSkippedSpy).to(haveBeenCalled())
+                    }
+                }
+
+                context("track ad failed") {
+                    let adFailedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdFailed")
+
+                    beforeEach {
+                        playerDouble.fakePlayEvent()
                     }
 
                     it("on ad error") {
                         playerDouble.fakeAdErrorEvent()
-                        expect(spy).to(haveBeenCalled())
+                        expect(adFailedSpy).to(haveBeenCalled(withArgs: ["errorMessage": "Error Message"]))
                     }
+                }
+            }
+        }
+
+        describe("releasing") {
+            describe("does a cleanup") {
+                beforeEach {
+                    convivaAnalytics.release()
+                }
+
+                it("on the video analytics") {
+                    expect(Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "cleanup")).to(haveBeenCalled())
+                }
+
+                it("on the ad analytics") {
+                    expect(Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "cleanup")).to(haveBeenCalled())
+                }
+
+                it("on the analytics") {
+                    expect(Spy(aClass: CISAnalyticsTestDouble.self, functionName: "cleanup")).to(haveBeenCalled())
                 }
             }
         }

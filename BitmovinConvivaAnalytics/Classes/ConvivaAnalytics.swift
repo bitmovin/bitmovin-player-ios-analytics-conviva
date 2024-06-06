@@ -20,6 +20,7 @@ public final class ConvivaAnalytics: NSObject {
     let config: ConvivaConfiguration
     let analytics: CISAnalytics
     let videoAnalytics: CISVideoAnalytics
+    let adAnalytics: CISAdAnalytics
     let contentMetadataBuilder: ContentMetadataBuilder
     var isSessionActive = false
     var isBumper = false
@@ -88,6 +89,7 @@ public final class ConvivaAnalytics: NSObject {
         self.contentMetadataBuilder = ContentMetadataBuilder(logger: logger)
 
         videoAnalytics = analytics.createVideoAnalytics()
+        adAnalytics = analytics.createAdAnalytics()
         super.init()
 
         listener = BitmovinPlayerListener(player: player)
@@ -194,6 +196,7 @@ public final class ConvivaAnalytics: NSObject {
 
     public func release() {
         videoAnalytics.cleanup()
+        adAnalytics.cleanup()
         analytics.cleanup()
     }
     /**
@@ -254,6 +257,7 @@ public final class ConvivaAnalytics: NSObject {
         playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin Player iOS"
         playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = playerHelper.version
         videoAnalytics.setPlayerInfo(playerInfo)
+        adAnalytics.setAdPlayerInfo(playerInfo)
     }
 
     private func internalInitializeSession() {
@@ -380,6 +384,26 @@ public final class ConvivaAnalytics: NSObject {
             CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
             value: Int64(player.currentTime(.relativeTime) * 1_000)
         )
+    }
+}
+
+private extension Ad {
+    var adInfo: [String: Any] {
+        var adInfo = [String: Any]()
+        adInfo["c3.ad.technology"] = "Client Side"
+
+        if mediaFileUrl != nil {
+            adInfo[CIS_SSDK_METADATA_STREAM_URL] = mediaFileUrl
+        }
+        if identifier != nil {
+            adInfo["c3.ad.id"] = identifier
+        }
+
+        let vastAdData = data as? VastAdData
+        if vastAdData?.adTitle != nil {
+            adInfo[CIS_SSDK_METADATA_ASSET_NAME] = vastAdData?.adTitle
+        }
+        return adInfo
     }
 }
 
@@ -510,38 +534,46 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent) {
+        var adInfo = event.ad.adInfo
         let adPosition: ConvivaSDK.AdPosition = AdEventUtil.parseAdPosition(
             event: event,
             contentDuration: player.duration
         )
-        var adAttributes = [String: Any]()
-        adAttributes["c3.ad.position"] = adPosition.rawValue
-        videoAnalytics.reportAdBreakStarted(
-            AdPlayer.ADPLAYER_CONTENT,
-            adType: AdTechnology.CLIENT_SIDE,
-            adBreakInfo: adAttributes
+        adInfo["c3.ad.position"] = adPosition.rawValue
+
+        adAnalytics.reportAdLoaded(adInfo)
+        adAnalytics.reportAdStarted(adInfo)
+        adAnalytics.reportAdMetric(
+            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
+            value: PlayerState.CONVIVA_PLAYING.rawValue
         )
     }
 
     func onAdFinished() {
-        videoAnalytics.reportAdBreakEnded()
+        adAnalytics.reportAdEnded()
     }
 
     func onAdSkipped(_ event: AdSkippedEvent) {
+        adAnalytics.reportAdSkipped()
         customEvent(event: event)
-        videoAnalytics.reportAdBreakEnded()
     }
 
     func onAdError(_ event: AdErrorEvent) {
+        adAnalytics.reportAdFailed(event.message, adInfo: nil)
         customEvent(event: event)
-        videoAnalytics.reportAdBreakEnded()
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {
+        videoAnalytics.reportAdBreakStarted(
+            AdPlayer.ADPLAYER_CONTENT,
+            adType: AdTechnology.CLIENT_SIDE,
+            adBreakInfo: [AnyHashable: Any]()
+        )
         customEvent(event: event)
     }
 
     func onAdBreakFinished(_ event: AdBreakFinishedEvent) {
+        videoAnalytics.reportAdBreakEnded()
         customEvent(event: event)
     }
 

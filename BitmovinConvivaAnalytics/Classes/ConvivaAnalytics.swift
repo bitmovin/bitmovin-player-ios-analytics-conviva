@@ -382,6 +382,8 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func handleAdUpdateRequest() {
+        guard player.isAd else { return }
+
         adAnalytics.reportPlaybackMetric(
             CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
             value: Int64(player.currentTime(.relativeTime) * 1_000)

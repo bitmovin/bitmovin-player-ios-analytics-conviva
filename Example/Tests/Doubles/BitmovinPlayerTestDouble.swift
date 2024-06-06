@@ -278,7 +278,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
 class TestAdBreak: NSObject, AdBreak {
     var identifier: String
     var scheduleTime: TimeInterval
-    var ads: [any Ad]
+    var ads: [Ad]
     var totalNumberOfAds: UInt
     var replaceContentDuration: TimeInterval
 
@@ -289,7 +289,7 @@ class TestAdBreak: NSObject, AdBreak {
     init(
         identifier: String = "testAdbreak",
         scheduleTime: TimeInterval = TimeInterval(floatLiteral: 0.0),
-        ads: [any Ad] = [any Ad](),
+        ads: [Ad] = [Ad](),
         totalNumberOfAds: UInt = 0,
         replaceContentDuration: TimeInterval = TimeInterval(floatLiteral: 0.0)
     ) {
@@ -300,7 +300,7 @@ class TestAdBreak: NSObject, AdBreak {
         self.replaceContentDuration = replaceContentDuration
     }
 
-    func register(_ adItem: any Ad) {
+    func register(_ adItem: Ad) {
         ads.append(adItem)
         totalNumberOfAds = UInt(ads.count)
     }

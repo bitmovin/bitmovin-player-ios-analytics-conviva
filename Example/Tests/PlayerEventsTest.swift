@@ -353,7 +353,7 @@ class PlayerEventsTest: QuickSpec {
                             haveBeenCalled(
                                 withArgs: [
                                     "adPlayer": "\(AdPlayer.ADPLAYER_CONTENT)",
-                                    "adType": "\(AdTechnology.CLIENT_SIDE)",
+                                    "adType": "\(AdTechnology.CLIENT_SIDE)"
                                 ]
                             )
                         )

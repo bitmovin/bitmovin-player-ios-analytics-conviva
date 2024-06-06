@@ -11,6 +11,7 @@ import BitmovinPlayer
 import ConvivaSDK
 import Foundation
 
+// swiftlint:disable type_body_length
 public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
     let player: Player

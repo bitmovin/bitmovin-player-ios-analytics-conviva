@@ -13,18 +13,6 @@ import Foundation
 enum AdEventUtil {
     static let positionRegexPattern = "pre|post|[0-9]+%|([0-9]+:)?([0-9]+:)?[0-9]+(\\.[0-9]+)?"
 
-    static func parseAdPosition(event: AdBreakStartedEvent, contentDuration: TimeInterval) -> ConvivaSDK.AdPosition {
-        let position = event.adBreak.scheduleTime
-
-        return if position == 0.0 {
-             .ADPOSITION_PREROLL
-        } else if position == contentDuration {
-             .ADPOSITION_POSTROLL
-        } else {
-            .ADPOSITION_MIDROLL
-        }
-    }
-
     static func parseAdPosition(event: AdStartedEvent, contentDuration: TimeInterval) -> ConvivaSDK.AdPosition {
         guard let position = event.position else {
             return .ADPOSITION_PREROLL

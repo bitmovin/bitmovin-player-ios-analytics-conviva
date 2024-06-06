@@ -236,13 +236,21 @@ class ContentMetadataTest: QuickSpec {
                         expect(spy).to(haveBeenCalled(withArgs: ["MyCustom": "Test Value"]))
                     }
 
+                    it("set additionalStandardTags") {
+                        metadata.additionalStandardTags = [
+                            "AdditionalStandardTag": "VOD"
+                        ]
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["AdditionalStandardTag": "VOD"]))
+                    }
+
                     it("set encoded framerate") {
                          metadata.encodedFramerate = 55
                          updateMetadataAndInitialize()
                          expect(spy).to(haveBeenCalled(withArgs: ["encodedFrameRate": "55"]))
                     }
 
-                    it("set default resrouce") {
+                    it("set default resource") {
                         metadata.defaultResource = "MyResource"
                         updateMetadataAndInitialize()
                         expect(spy).to(haveBeenCalled(withArgs: ["defaultResource": "MyResource"]))
@@ -345,6 +353,14 @@ class ContentMetadataTest: QuickSpec {
                         ]
                         updateMetadataAndInitialize()
                         expect(spy).toNot(haveBeenCalled(withArgs: ["MyCustom": "Test Value"]))
+                    }
+
+                    it("set additionalStandardTags") {
+                        metadata.additionalStandardTags = [
+                            "AdditionalStandardTag": "VOD"
+                        ]
+                        updateMetadataAndInitialize()
+                        expect(spy).toNot(haveBeenCalled(withArgs: ["AdditionalStandardTag": "VOD"]))
                     }
 
                     it("set default resource") {

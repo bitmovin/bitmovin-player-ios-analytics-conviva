@@ -94,6 +94,7 @@ public final class ConvivaAnalytics: NSObject {
 
         listener = BitmovinPlayerListener(player: player)
         listener?.delegate = self
+        adAnalytics.setUpdateHandler(handleAdUpdateRequest)
     }
 
     deinit {
@@ -374,7 +375,19 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
+        if player.isAd {
+            adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
+        }
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
+    }
+
+    private func handleAdUpdateRequest() {
+        guard player.isAd else { return }
+
+        adAnalytics.reportPlaybackMetric(
+            CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
+            value: Int64(player.currentTime(.relativeTime) * 1_000)
+        )
     }
 
     private func reportPlayHeadTime() {
@@ -547,6 +560,17 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
             value: PlayerState.CONVIVA_PLAYING.rawValue
         )
+        // swiftlint:disable:next identifier_name
+        let ad = event.ad
+        if ad.width > 0 && ad.height > 0 {
+            adAnalytics.reportAdMetric(
+                CIS_SSDK_PLAYBACK_METRIC_RESOLUTION,
+                value: NSValue(cgSize: CGSize(width: ad.width, height: ad.height))
+            )
+        }
+        if let bitrate = ad.data?.bitrate {
+            adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
+        }
     }
 
     func onAdFinished() {

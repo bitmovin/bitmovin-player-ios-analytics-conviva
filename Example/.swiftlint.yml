@@ -89,6 +89,3 @@ deployment_target:
   tvOS_deployment_target: 14.0
 line_length:
   ignores_urls: true
-identifier_name:
-  excluded:
-    - ad

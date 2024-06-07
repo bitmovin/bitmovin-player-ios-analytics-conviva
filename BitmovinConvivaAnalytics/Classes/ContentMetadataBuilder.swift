@@ -19,12 +19,10 @@ public struct MetadataOverrides {
     public var applicationName: String?
     public var custom: [String: Any]?
     public var duration: Int?
-    // swiftlint:disable line_length
     /// Standard Conviva tags that aren't covered by the other fields in this class.
     /// List of tags can be found here:
     /// [Pre-defined Video and Content Metadata](https://pulse.conviva.com/learning-center/content/sensor_developer_center/sensor_integration/ios/ios_stream_sensor.html#Predefined_video_meta)
     public var additionalStandardTags: [String: Any]?
-    // swiftlint:enable line_length
 
     // Dynamic
     public var encodedFramerate: Int?

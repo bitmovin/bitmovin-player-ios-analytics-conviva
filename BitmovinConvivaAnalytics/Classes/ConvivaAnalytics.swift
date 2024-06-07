@@ -412,7 +412,7 @@ public final class ConvivaAnalytics: NSObject {
         adInfo["c3.ad.firstCreativeId"] = notAvailable
 
         adInfo["c3.ad.technology"] = "Client Side"
-        if adStartedEvent.clientType == AdSourceType.ima {
+        if adStartedEvent.clientType == .ima {
             adInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Google IMA SDK"
             adInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = contentMetadataBuilder
                 .metadataOverrides

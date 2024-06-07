@@ -74,6 +74,9 @@ metadata.applicationName = "Bitmovin iOS Conviva integration example app"
 metadata.viewerId = "awesomeViewerId"
 metadata.additionalStandardTags = ["c3.cm.contentType": "VOD"]
 metadata.custom = ["custom_tag": "value"]
+metadata.additionalStandardTags = ["c3.cm.contentType": "VOD"]
+
+metadata.imaSdkVerison = Bundle(for: IMAAdsManager.self).infoDictionary?["CFBundleShortVersionString"] as? String
 
 // …
 // Initialize ConvivaAnalytics

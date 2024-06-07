@@ -417,6 +417,7 @@ public final class ConvivaAnalytics: NSObject {
         adInfo[CIS_SSDK_METADATA_DURATION] = adStartedEvent.duration
         adInfo[CIS_SSDK_METADATA_IS_LIVE] = videoAnalytics.getMetadataInfo()[CIS_SSDK_METADATA_IS_LIVE]
 
+        // swiftlint:disable:next identifier_name
         let ad = adStartedEvent.ad
         if ad.mediaFileUrl != nil {
             adInfo[CIS_SSDK_METADATA_STREAM_URL] = ad.mediaFileUrl

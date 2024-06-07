@@ -7,10 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.2.0] - 2024-06-07
+
+### Added
+- Ad analytics for ad event reporting
+- Ad tracking support on tvOS
+- The IMA SDK and sample ads to the tvOS sample app
+- `MetadataOverrides.additionalStandardTags` that allows to set additional standard tags for the session. The List of tags can be found here: [Pre-defined Video and Content Metadata](https://pulse.conviva.com/learning-center/content/sensor_developer_center/sensor_integration/ios/ios_stream_sensor.html#Predefined_video_meta)
+
+### Changed
+- Ad break started and ended is now reported with `AdBreakStartedEvent` and `AdBreakFinishedEvent`
+
+### Internal
+- Added a Gemfile to pin the CocoaPods version to 1.15.2
+- Added a Github Actions workflow to validate code style using SwiftLint
+- Added a Github Actions workflow to run the unit tests
+
 ## [3.1.0] - 2024-05-27
 
 ### Added
-- Hook into `onTimeChanged` callback for reporting Play head time (PHT) to Conviva playback metric. 
+- Hook into `onTimeChanged` callback for reporting Play head time (PHT) to Conviva playback metric.
 
 ### Changed
 - Raised minimum deployment targets to iOS/tvOS 14.0
@@ -34,7 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Utilises Conviva's Simple SDK instead of the old interface
-- Internal changes to ConvivaAnalytics and related classes 
+- Internal changes to ConvivaAnalytics and related classes
 
 ### Fixed
 

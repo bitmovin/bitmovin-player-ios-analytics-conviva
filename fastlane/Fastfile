@@ -1,0 +1,29 @@
+default_platform(:ios)
+
+skip_docs
+
+platform :ios do
+  desc 'Run unit tests'
+  lane :unit_test do
+    scan(
+      scheme: 'BitmovinConvivaAnalytics-Example',
+      parallel_testing: false,
+      clean: true,
+      workspace: './Example/BitmovinConvivaAnalytics.xcworkspace',
+      code_coverage: true,
+      xcodebuild_formatter: 'xcbeautify --renderer github-actions',
+      device: 'iPhone 15 Pro'
+    )
+  end
+
+  desc 'Build tvOS'
+  lane :build_tvos do
+    scan(
+      scheme: 'BitmovinConvivaAnalytics_TvOSExample',
+      clean: true,
+      workspace: './Example/BitmovinConvivaAnalytics.xcworkspace',
+      build_for_testing: true,
+      xcodebuild_formatter: 'xcbeautify --renderer github-actions'
+    )
+  end
+end

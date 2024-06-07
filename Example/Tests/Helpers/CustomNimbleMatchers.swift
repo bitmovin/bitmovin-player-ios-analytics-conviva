@@ -10,14 +10,13 @@ import Foundation
 import Nimble
 
 public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Nimble.Predicate<T> {
-    return Predicate { (actualExpression: Expression<T>) throws -> PredicateResult in
-
+    Predicate { (actualExpression: Expression<T>) throws -> PredicateResult in
         if let functionName = (try? actualExpression.evaluate() as? Spy)??.functionName {
             let spyTracker = TestHelper.shared.spyTracker
 
             var spyResult = spyTracker.hasCalledFunction(functionName)
             let spyWasCalled: Bool = spyResult.success
-            var argsAreMatching: Bool = true // expect best case for the case no args where expected
+            var argsAreMatching = true // expect best case for the case no args where expected
 
             let message: ExpectationMessage!
             if spyWasCalled {
@@ -25,12 +24,10 @@ public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Nimble.Predi
                     spyResult = spyTracker.hasCalledFunction(functionName, withArgs: expectedArgs)
                     argsAreMatching = spyResult.success
 
-                    let messageString: String!
-                    if let trackedArgs = spyResult.trackedArgs {
-                        messageString = "have called <\(functionName)> with args<\(expectedArgs)> got <\(trackedArgs)>"
-                    } else {
-                        messageString = "have called <\(functionName)> with args<\(expectedArgs)> got <nil>"
-                    }
+                    let messageString = """
+                                        have called <\(functionName)> with args<\(expectedArgs)> \
+                                        got <\(spyResult.trackedArgs)>
+                                        """
                     message = ExpectationMessage.expectedTo(messageString)
                 } else {
                     // Success message (will never be shown but is needed)
@@ -40,8 +37,10 @@ public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Nimble.Predi
                 message = ExpectationMessage.expectedTo("have called <\(functionName)> but was not called")
             }
 
-            return PredicateResult(bool: spyWasCalled && argsAreMatching,
-                                   message: message)
+            return PredicateResult(
+                bool: spyWasCalled && argsAreMatching,
+                message: message
+            )
         }
 
         let message = ExpectationMessage.fail("Invalid Spy")

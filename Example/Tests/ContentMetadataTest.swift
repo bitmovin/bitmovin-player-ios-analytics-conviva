@@ -6,16 +6,16 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import Quick
-import Nimble
-import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import BitmovinPlayer
 import ConvivaSDK
+import Nimble
+import Quick
 
 // swiftlint:disable:next type_body_length
-class ContentMetadataSpec: QuickSpec {
+class ContentMetadataTest: QuickSpec {
     // swiftlint:disable:next function_body_length
-    override func spec() {
+    override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {
@@ -30,9 +30,11 @@ class ContentMetadataSpec: QuickSpec {
                 do {
                     let convivaConfig = ConvivaConfiguration()
 
-                    convivaAnalytics = try ConvivaAnalytics(player: playerDouble,
-                                                            customerKey: "",
-                                                            config: convivaConfig)
+                    convivaAnalytics = try ConvivaAnalytics(
+                        player: playerDouble,
+                        customerKey: "",
+                        config: convivaConfig
+                    )
 
                     var metadata = MetadataOverrides()
                     metadata.applicationName = "Unit Tests"
@@ -154,23 +156,26 @@ class ContentMetadataSpec: QuickSpec {
                 }
 
                 it("update bitrate") {
-                     let videoQuality = VideoQuality(identifier: "Test",
-                                                     label: "test",
-                                                     bitrate: 4_000_000,
-                                                     codec: nil,
-                                                     width: 1900,
-                                                     height: 800)
+                     let videoQuality = VideoQuality(
+                        identifier: "Test",
+                        label: "test",
+                        bitrate: 4_000_000,
+                        codec: nil,
+                        width: 1_900,
+                        height: 800
+                     )
 
                     _ = TestDouble(aClass: playerDouble!, name: "videoQuality", return: videoQuality)
 
                     playerDouble.fakePlayEvent() // to initialize session
+                    playerDouble.fakePlayingEvent() // to update session
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackMetric")
                     expect(spy).to(
                         haveBeenCalled(withArgs: [
                             CIS_SSDK_PLAYBACK_METRIC_BITRATE: "4000"
                         ])
                     )
-                 }
+                }
             }
 
             describe("overriding") {
@@ -184,7 +189,6 @@ class ContentMetadataSpec: QuickSpec {
                     beforeEach {
                         spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
                         metadata.assetName = "MyAsset"
-
                     }
 
                     func updateMetadataAndInitialize() {
@@ -232,14 +236,21 @@ class ContentMetadataSpec: QuickSpec {
                         expect(spy).to(haveBeenCalled(withArgs: ["MyCustom": "Test Value"]))
                     }
 
+                    it("set additionalStandardTags") {
+                        metadata.additionalStandardTags = [
+                            "AdditionalStandardTag": "VOD"
+                        ]
+                        updateMetadataAndInitialize()
+                        expect(spy).to(haveBeenCalled(withArgs: ["AdditionalStandardTag": "VOD"]))
+                    }
+
                     it("set encoded framerate") {
                          metadata.encodedFramerate = 55
                          updateMetadataAndInitialize()
-                         expect(spy).to(haveBeenCalled(withArgs: ["encodedFramerate": "55"]))
-
+                         expect(spy).to(haveBeenCalled(withArgs: ["encodedFrameRate": "55"]))
                     }
 
-                    it("set default resrouce") {
+                    it("set default resource") {
                         metadata.defaultResource = "MyResource"
                         updateMetadataAndInitialize()
                         expect(spy).to(haveBeenCalled(withArgs: ["defaultResource": "MyResource"]))
@@ -273,9 +284,14 @@ class ContentMetadataSpec: QuickSpec {
                             "contentType": "Episode"
                         ]
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: [
-                            "streamType": "LIVE",
-                            "contentType": "Episode"]))
+                        expect(spy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    "streamType": "LIVE",
+                                    "contentType": "Episode"
+                                ]
+                            )
+                        )
                     }
                 }
 
@@ -337,6 +353,14 @@ class ContentMetadataSpec: QuickSpec {
                         ]
                         updateMetadataAndInitialize()
                         expect(spy).toNot(haveBeenCalled(withArgs: ["MyCustom": "Test Value"]))
+                    }
+
+                    it("set additionalStandardTags") {
+                        metadata.additionalStandardTags = [
+                            "AdditionalStandardTag": "VOD"
+                        ]
+                        updateMetadataAndInitialize()
+                        expect(spy).toNot(haveBeenCalled(withArgs: ["AdditionalStandardTag": "VOD"]))
                     }
 
                     it("set default resource") {

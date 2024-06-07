@@ -6,20 +6,30 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import UIKit
-import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import BitmovinPlayer
+import UIKit
+
+// Set this flag to false if you want to test without Ads
+private let enableAds = true
 
 class ViewController: UIViewController {
+    // swiftlint:disable implicitly_unwrapped_optional
+    private var player: Player!
+    private var playerView: PlayerView!
+    // swiftlint:enable implicitly_unwrapped_optional
 
-    var player: Player?
-    var playerView: PlayerView?
-    var fullScreen: Bool = false
+    private var convivaAnalytics: ConvivaAnalytics?
+    private let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
+    private var convivaGatewayString: String?
 
-    var convivaAnalytics: ConvivaAnalytics?
-
-    let convivaCustomerKey: String = "YOUR-CONVIVA-CUSTOMER-KEY"
-    var convivaGatewayString: String?
+    var vodSourceConfig: SourceConfig {
+        // swiftlint:disable:next force_unwrapping
+        let url = URL(string: "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8")!
+        let sourceConfig = SourceConfig(url: url, type: .hls)
+        sourceConfig.title = "Art of Motion"
+        return sourceConfig
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +44,8 @@ class ViewController: UIViewController {
 
     func setupBitmovinPlayer() {
         // Setup Player
-        player = PlayerFactory.create(playerConfig: playerConfig)
+        let playerConfig = buildDefaultPlayerConfig(enableAds: enableAds)
+        player = PlayerFactory.createPlayer(playerConfig: playerConfig)
 
         let convivaConfig = ConvivaConfiguration()
 
@@ -48,45 +59,32 @@ class ViewController: UIViewController {
         var metadata = MetadataOverrides()
         metadata.applicationName = "Bitmovin tvOS Conviva integration example app"
         metadata.viewerId = "awesomeViewerId"
-        metadata.custom = ["contentType": "Episode"]
+        metadata.custom = ["custom_tag": "Episode"]
+        metadata.additionalStandardTags = ["c3.cm.contentType": "VOD"]
 
         do {
-            convivaAnalytics = try ConvivaAnalytics(player: player!,
-                                                    customerKey: convivaCustomerKey,
-                                                    config: convivaConfig)
+            convivaAnalytics = try ConvivaAnalytics(
+                player: player,
+                customerKey: convivaCustomerKey,
+                config: convivaConfig
+            )
             convivaAnalytics?.updateContentMetadata(metadataOverrides: metadata)
         } catch {
             NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
         }
 
         // Setup UI
-        playerView = PlayerView(player: player!, frame: .zero)
-        playerView?.frame = view.bounds
+        playerView = PlayerView(player: player, frame: .zero)
+        playerView.frame = view.bounds
 
         if let convivaAnalytics = convivaAnalytics {
             convivaAnalytics.playerView = playerView
         }
 
-        playerView?.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        view.addSubview(playerView!)
-        view.bringSubviewToFront(playerView!)
+        playerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        view.addSubview(playerView)
+        view.bringSubviewToFront(playerView)
 
-        player?.load(source: SourceFactory.create(from: vodSourceConfig))
-    }
-
-    var playerConfig: PlayerConfig {
-        let playerConfig = PlayerConfig()
-        let playbackConfig = PlaybackConfig()
-        playbackConfig.isAutoplayEnabled = true
-        playbackConfig.isMuted = true
-        playerConfig.playbackConfig = playbackConfig
-        return playerConfig
-    }
-
-    var vodSourceConfig: SourceConfig {
-        let sourceString = "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8"
-        let sourceConfig = SourceConfig(url: URL(string: sourceString)!, type: .hls)
-        sourceConfig.title = "Art of Motion"
-        return sourceConfig
+        player.load(source: SourceFactory.createSource(from: vodSourceConfig))
     }
 }

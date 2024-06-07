@@ -25,7 +25,7 @@ BitmovinConvivaAnalytics is available through [CocoaPods](https://cocoapods.org)
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'BitmovinConvivaAnalytics', git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: '3.1.0'
+pod 'BitmovinConvivaAnalytics', git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: '3.2.0'
 ```
 
 Then, in your command line run:
@@ -66,13 +66,17 @@ Details about usage of `BitmovinPlayer` can be found [here](https://github.com/b
 
 ### Content Metadata handling
 
-If you want to override some content metadata attributes you can do so by adding the following:
+If you want to override some content metadata attributes or track additional custom or standard tags you can do so by adding the following:
 
 ```swift
 var metadata = BitmovinConvivaAnalytics.Metadata()
 metadata.applicationName = "Bitmovin iOS Conviva integration example app"
 metadata.viewerId = "awesomeViewerId"
-metadata.custom = ["contentType": "Episode"]
+metadata.additionalStandardTags = ["c3.cm.contentType": "VOD"]
+metadata.custom = ["custom_tag": "value"]
+metadata.additionalStandardTags = ["c3.cm.contentType": "VOD"]
+
+metadata.imaSdkVerison = Bundle(for: IMAAdsManager.self).infoDictionary?["CFBundleShortVersionString"] as? String
 
 // …
 // Initialize ConvivaAnalytics

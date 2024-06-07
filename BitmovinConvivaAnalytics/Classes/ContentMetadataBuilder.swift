@@ -6,12 +6,13 @@
 //  Copyright (c) 2019 Bitmovin. All rights reserved.
 //
 
-import Foundation
 import ConvivaSDK
+import Foundation
 
 public struct MetadataOverrides {
     // Can only be set once
     public var assetName: String?
+    public var imaSdkVerison: String?
 
     // Can only be set before playback started
     public var viewerId: String?
@@ -19,6 +20,10 @@ public struct MetadataOverrides {
     public var applicationName: String?
     public var custom: [String: Any]?
     public var duration: Int?
+    /// Standard Conviva tags that aren't covered by the other fields in this class.
+    /// List of tags can be found here:
+    /// [Pre-defined Video and Content Metadata](https://pulse.conviva.com/learning-center/content/sensor_developer_center/sensor_integration/ios/ios_stream_sensor.html#Predefined_video_meta)
+    public var additionalStandardTags: [String: Any]?
 
     // Dynamic
     public var encodedFramerate: Int?
@@ -33,12 +38,12 @@ class ContentMetadataBuilder: CustomStringConvertible {
     var contentInfo: [String: Any]
 
     // internal metadata fields to enable merging / overriding
-    var metadataOverrides: MetadataOverrides = MetadataOverrides()
-    var metadata: MetadataOverrides = MetadataOverrides()
-    var playbackStarted: Bool = false
+    var metadataOverrides = MetadataOverrides()
+    var metadata = MetadataOverrides()
+    var playbackStarted = false
 
     var description: String {
-        return """
+        """
         <\(type(of: self)): \
         metadata = \(metadata) \
         metadataOverrieds = \(metadataOverrides) \
@@ -51,7 +56,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
         contentInfo = [String: Any]()
     }
 
-    public func setOverrides(_ metadataOverrides: MetadataOverrides) {
+    func setOverrides(_ metadataOverrides: MetadataOverrides) {
         if playbackStarted {
             logger.debugLog(
                 message: "[ Conviva Analytics ] Playback has started. Only some metadata attributes will be updated"
@@ -61,11 +66,11 @@ class ContentMetadataBuilder: CustomStringConvertible {
         self.metadataOverrides = metadataOverrides
     }
 
-    public func setPlaybackStarted(_ playbackStarted: Bool) {
+    func setPlaybackStarted(_ playbackStarted: Bool) {
         self.playbackStarted = playbackStarted
     }
 
-    public func build() -> [String: Any] {
+    func build() -> [String: Any] {
         if !playbackStarted {
             // Asset name is only allowed to be set once
             if contentInfo[CIS_SSDK_METADATA_ASSET_NAME] == nil {
@@ -83,7 +88,10 @@ class ContentMetadataBuilder: CustomStringConvertible {
                 contentInfo[CIS_SSDK_METADATA_DURATION] = duration
             }
             if let custom = self.custom {
-                contentInfo.merge(custom, uniquingKeysWith: {(_, new) in new})
+                contentInfo.merge(custom) { $1 }
+            }
+            if let additionalStandardTags = self.additionalStandardTags {
+                contentInfo.merge(additionalStandardTags) { $1 }
             }
         } else {
             if let duration = self.duration, duration > 0 {
@@ -92,7 +100,6 @@ class ContentMetadataBuilder: CustomStringConvertible {
                         contentInfo[CIS_SSDK_METADATA_DURATION] = duration
                     }
                 }
-
             }
         }
 
@@ -107,88 +114,97 @@ class ContentMetadataBuilder: CustomStringConvertible {
         return contentInfo
     }
 
-    public var assetName: String? {
+    var assetName: String? {
         get {
-            return metadataOverrides.assetName ?? metadata.assetName
+            metadataOverrides.assetName ?? metadata.assetName
         }
         set {
             metadata.assetName = newValue
         }
     }
 
-    public var viewerId: String? {
+    var viewerId: String? {
         get {
-            return metadataOverrides.viewerId ?? metadata.viewerId
+            metadataOverrides.viewerId ?? metadata.viewerId
         }
         set {
             metadata.viewerId = newValue
         }
     }
 
-    public var streamType: StreamType? {
+    var streamType: StreamType? {
         get {
-            return metadataOverrides.streamType ?? metadata.streamType
+            metadataOverrides.streamType ?? metadata.streamType
         }
         set {
             metadata.streamType = newValue
         }
     }
 
-    public var applicationName: String? {
+    var applicationName: String? {
         get {
-            return metadataOverrides.applicationName ?? metadata.applicationName
+            metadataOverrides.applicationName ?? metadata.applicationName
         }
         set {
             metadata.applicationName = newValue
         }
     }
 
-    public var custom: [String: Any]? {
+    var custom: [String: Any]? {
         get {
-            return mergeDictionaries(dict1: metadata.custom, dict2: metadataOverrides.custom)
+            mergeDictionaries(dict1: metadata.custom, dict2: metadataOverrides.custom)
         }
         set {
             metadata.custom = newValue
         }
     }
 
-    public var duration: Int? {
+    var duration: Int? {
         get {
-            return metadataOverrides.duration ?? metadata.duration
+            metadataOverrides.duration ?? metadata.duration
         }
         set {
             metadata.duration = newValue
         }
     }
 
-    public var encodedFramerate: Int? {
+    var additionalStandardTags: [String: Any]? {
         get {
-            return metadataOverrides.encodedFramerate ?? metadata.encodedFramerate
+            mergeDictionaries(dict1: metadata.additionalStandardTags, dict2: metadataOverrides.additionalStandardTags)
+        }
+        set {
+            metadata.additionalStandardTags = newValue
+        }
+    }
+
+    var encodedFramerate: Int? {
+        get {
+            metadataOverrides.encodedFramerate ?? metadata.encodedFramerate
         }
         set {
             metadata.encodedFramerate = newValue
         }
     }
 
-    public var defaultResource: String? {
+    var defaultResource: String? {
         get {
-            return metadataOverrides.defaultResource ?? metadata.defaultResource
+            metadataOverrides.defaultResource ?? metadata.defaultResource
         }
         set {
             metadata.defaultResource = newValue
         }
     }
 
-    public var streamUrl: String? {
+    var streamUrl: String? {
         get {
-            return metadataOverrides.streamUrl ?? metadata.streamUrl
+            metadataOverrides.streamUrl ?? metadata.streamUrl
         }
         set {
             metadata.streamUrl = newValue
         }
     }
 
-    public func reset() {
+    func reset() {
         metadataOverrides = MetadataOverrides()
         metadata = MetadataOverrides()
         playbackStarted = false
@@ -202,9 +218,9 @@ class ContentMetadataBuilder: CustomStringConvertible {
         }
 
         var finalDictionary: [String: Any] = dict1 ?? [:]
-        dict2?.keys.forEach({ (key) in
+        dict2?.keys.forEach { key in
             finalDictionary[key] = dict2?[key]
-        })
+        }
 
         return finalDictionary
     }

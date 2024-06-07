@@ -6,8 +6,8 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import Foundation
 import ConvivaSDK
+import Foundation
 
 class MockingFactory {
     func mockConviva() {
@@ -22,22 +22,30 @@ class MockingFactory {
     }
 
     var createAnalyticsMethod: Method {
-        return class_getClassMethod(CISAnalyticsCreator.self,
-                                    #selector(CISAnalyticsCreator.create(withCustomerKey:)))!
+        class_getClassMethod(
+            CISAnalyticsCreator.self,
+            #selector(CISAnalyticsCreator.create(withCustomerKey:))
+        )!
     }
 
     var mockedCreateAnalyticsMethod: Method {
-        return class_getClassMethod(CISAnalyticsCreatorTestDouble.self,
-                                    #selector(CISAnalyticsCreatorTestDouble.create(withCustomerKey:)))!
+        class_getClassMethod(
+            CISAnalyticsCreatorTestDouble.self,
+            #selector(CISAnalyticsCreatorTestDouble.create(withCustomerKey:))
+        )!
     }
 
     var createAnalyticsMethod2: Method {
-        return class_getClassMethod(CISAnalyticsCreator.self,
-                                    #selector(CISAnalyticsCreator.create(withCustomerKey:settings:)))!
+        class_getClassMethod(
+            CISAnalyticsCreator.self,
+            #selector(CISAnalyticsCreator.create(withCustomerKey:settings:))
+        )!
     }
 
     var mockedCreateAnalyticsMethod2: Method {
-        return class_getClassMethod(CISAnalyticsCreatorTestDouble.self,
-                                    #selector(CISAnalyticsCreatorTestDouble.create(withCustomerKey:settings:)))!
+        class_getClassMethod(
+            CISAnalyticsCreatorTestDouble.self,
+            #selector(CISAnalyticsCreatorTestDouble.create(withCustomerKey:settings:))
+        )!
     }
 }

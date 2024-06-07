@@ -6,14 +6,14 @@
 //  Copyright (c) 2018 Bitmovin. All rights reserved.
 //
 
-import Quick
-import Nimble
-import BitmovinPlayer
 import BitmovinConvivaAnalytics
+import BitmovinPlayer
 import ConvivaSDK
+import Nimble
+import Quick
 
-class CustomEventsSpec: QuickSpec {
-    override func spec() {
+class CustomEventsTest: QuickSpec {
+    override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
 
         beforeEach {
@@ -44,8 +44,10 @@ class CustomEventsSpec: QuickSpec {
 
                 playerDouble.fakePlayEvent() // to initialize session
 
-                convivaAnalytics.sendCustomPlaybackEvent(name: "Playback Event",
-                                                         attributes: ["Test Case": "Playback"])
+                convivaAnalytics.sendCustomPlaybackEvent(
+                    name: "Playback Event",
+                    attributes: ["Test Case": "Playback"]
+                )
                 expect(spy).to(
                     haveBeenCalled(withArgs: [
                         "eventName": "Playback Event",
@@ -56,8 +58,10 @@ class CustomEventsSpec: QuickSpec {
 
             it("send custom application event") {
                 let spy = Spy(aClass: CISAnalyticsTestDouble.self, functionName: "reportAppEvent")
-                convivaAnalytics.sendCustomApplicationEvent(name: "Application Event",
-                                                            attributes: ["Test Case": "Application"])
+                convivaAnalytics.sendCustomApplicationEvent(
+                    name: "Application Event",
+                    attributes: ["Test Case": "Application"]
+                )
                 expect(spy).to(
                     haveBeenCalled(withArgs: [
                         "eventName": "Application Event",
@@ -67,5 +71,4 @@ class CustomEventsSpec: QuickSpec {
             }
         }
     }
-
 }

@@ -8,6 +8,7 @@
 
 import BitmovinConvivaAnalytics
 import BitmovinPlayer
+import GoogleInteractiveMediaAds
 import UIKit
 
 class ViewController: UIViewController {
@@ -67,13 +68,8 @@ class ViewController: UIViewController {
         metadata.custom = ["custom_tag": "Episode"]
         metadata.additionalStandardTags = ["c3.cm.contentType": "VOD"]
 
-#if os(tvOS)
-        let imaSdkVersion = "4.12.0"
-#else
-        let imaSdkVersion = "3.22.1"
-#endif
-
-        metadata.imaSdkVerison = imaSdkVersion
+        metadata.imaSdkVerison = Bundle(for: IMAAdsManager.self)
+            .infoDictionary?["CFBundleShortVersionString"] as? String
 
         do {
             convivaAnalytics = try ConvivaAnalytics(

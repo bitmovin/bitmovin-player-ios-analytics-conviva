@@ -560,6 +560,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
             value: PlayerState.CONVIVA_PLAYING.rawValue
         )
+        // swiftlint:disable:next identifier_name
         let ad = event.ad
         if ad.width > 0 && ad.height > 0 {
             adAnalytics.reportAdMetric(

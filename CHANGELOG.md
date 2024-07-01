@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- `MetadataOverrides.imaSdkVersion` as a replacement for `MetadataOverrides.imaSdkVerison` to set the IMA SDK version
+
+### Deprecated
+- `MetadataOverrides.imaSdkVerison` in favor of `MetadataOverrides.imaSdkVersion`
+
 ## [3.2.0] - 2024-06-07
 
 ### Added

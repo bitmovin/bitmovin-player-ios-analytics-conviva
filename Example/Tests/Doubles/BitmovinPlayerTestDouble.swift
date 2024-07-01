@@ -17,7 +17,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
     override init() {
         let sourceConfig = SourceConfig(url: URL(string: "http://fake.url")!, type: .hls)
         sourceConfig.title = "FakeSource"
-        fakeSource = SourceFactory.create(from: sourceConfig)
+        fakeSource = SourceFactory.createSource(from: sourceConfig)
         super.init()
     }
 

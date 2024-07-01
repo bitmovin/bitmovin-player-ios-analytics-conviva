@@ -68,8 +68,7 @@ class ViewController: UIViewController {
         metadata.custom = ["custom_tag": "Episode"]
         metadata.additionalStandardTags = ["c3.cm.contentType": "VOD"]
 
-        metadata.imaSdkVerison = Bundle(for: IMAAdsManager.self)
-            .infoDictionary?["CFBundleShortVersionString"] as? String
+        metadata.imaSdkVersion = IMAAdsLoader.sdkVersion()
 
         do {
             convivaAnalytics = try ConvivaAnalytics(

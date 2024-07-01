@@ -417,7 +417,7 @@ public final class ConvivaAnalytics: NSObject {
             adInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Google IMA SDK"
             adInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = contentMetadataBuilder
                 .metadataOverrides
-                .imaSdkVerison ?? notAvailable
+                .imaSdkVersion ?? notAvailable
         } else {
             adInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin"
             adInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = playerHelper.version

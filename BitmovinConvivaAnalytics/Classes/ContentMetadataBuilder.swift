@@ -12,7 +12,16 @@ import Foundation
 public struct MetadataOverrides {
     // Can only be set once
     public var assetName: String?
-    public var imaSdkVerison: String?
+    @available(*, deprecated, message: "Use imaSdkVersion instead", renamed: "imaSdkVersion")
+    public var imaSdkVerison: String? {
+        get {
+            imaSdkVersion
+        }
+        set {
+            imaSdkVersion = newValue
+        }
+    }
+    public var imaSdkVersion: String?
 
     // Can only be set before playback started
     public var viewerId: String?

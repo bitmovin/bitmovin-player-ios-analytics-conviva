@@ -16,26 +16,26 @@ private let notAvailable = "NA"
 // swiftlint:disable:next type_body_length
 public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
-    let player: Player
+    private let player: Player
 
     // MARK: - Conviva related attributes
-    let customerKey: String
-    let config: ConvivaConfiguration
-    let analytics: CISAnalytics
-    let videoAnalytics: CISVideoAnalytics
-    let adAnalytics: CISAdAnalytics
-    let contentMetadataBuilder: ContentMetadataBuilder
-    var isSessionActive = false
-    var isBumper = false
+    private let customerKey: String
+    private let config: ConvivaConfiguration
+    private let analytics: CISAnalytics
+    private let videoAnalytics: CISVideoAnalytics
+    private let adAnalytics: CISAdAnalytics
+    private let contentMetadataBuilder: ContentMetadataBuilder
+    private var isSessionActive = false
+    private var isBumper = false
 
-    var listener: BitmovinPlayerListener?
+    private var listener: BitmovinPlayerListener?
 
     // MARK: - Helper
-    let logger: Logger
-    let playerHelper: BitmovinPlayerHelper
+    private let logger: Logger
+    private let playerHelper: BitmovinPlayerHelper
     // Workaround for player issue when onPlay is sent while player is stalled
-    var isStalled = false
-    var playbackStarted = false
+    private var isStalled = false
+    private var playbackStarted = false
 
     // MARK: - Public Attributes
     /**

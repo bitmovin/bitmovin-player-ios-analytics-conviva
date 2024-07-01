@@ -12,6 +12,7 @@ platform :ios do
       workspace: './Example/BitmovinConvivaAnalytics.xcworkspace',
       code_coverage: true,
       xcodebuild_formatter: 'xcbeautify --renderer github-actions',
+      output_types: '',
       device: 'iPhone 15 Pro'
     )
   end

@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 - `MetadataOverrides.imaSdkVerison` in favor of `MetadataOverrides.imaSdkVersion`
 
+### Internal
+- `ConvivaAnalytics` internal state is now stored in private properties
+
 ## [3.2.0] - 2024-06-07
 
 ### Added

@@ -9,7 +9,7 @@
 import Foundation
 import Nimble
 
-public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Nimble.Matcher<T> {
+public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Matcher<T> {
     Matcher { (actualExpression: Nimble.Expression<T>) throws -> MatcherResult in
         if let functionName = (try? actualExpression.evaluate() as? Spy)??.functionName {
             let spyTracker = TestHelper.shared.spyTracker

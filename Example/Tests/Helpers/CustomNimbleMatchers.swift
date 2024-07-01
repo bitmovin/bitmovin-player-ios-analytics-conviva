@@ -9,8 +9,8 @@
 import Foundation
 import Nimble
 
-public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Nimble.Predicate<T> {
-    Predicate { (actualExpression: Expression<T>) throws -> PredicateResult in
+public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Nimble.Matcher<T> {
+    Matcher { (actualExpression: Nimble.Expression<T>) throws -> MatcherResult in
         if let functionName = (try? actualExpression.evaluate() as? Spy)??.functionName {
             let spyTracker = TestHelper.shared.spyTracker
 
@@ -37,13 +37,13 @@ public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Nimble.Predi
                 message = ExpectationMessage.expectedTo("have called <\(functionName)> but was not called")
             }
 
-            return PredicateResult(
+            return MatcherResult(
                 bool: spyWasCalled && argsAreMatching,
                 message: message
             )
         }
 
         let message = ExpectationMessage.fail("Invalid Spy")
-        return PredicateResult(bool: false, message: message)
+        return MatcherResult(bool: false, message: message)
     }
 }

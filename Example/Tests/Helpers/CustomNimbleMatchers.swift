@@ -9,7 +9,7 @@
 import Foundation
 import Nimble
 
-public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Matcher<T> {
+public func haveBeenCalled<T>(withArgs args: [String: String]? = nil) -> Matcher<T> {
     Matcher { (actualExpression: Nimble.Expression<T>) throws -> MatcherResult in
         if let functionName = (try? actualExpression.evaluate() as? Spy)??.functionName {
             let spyTracker = TestHelper.shared.spyTracker
@@ -20,12 +20,13 @@ public func haveBeenCalled<T>(withArgs: [String: String]? = nil) -> Matcher<T> {
 
             let message: ExpectationMessage!
             if spyWasCalled {
-                if let expectedArgs = withArgs {
+                if let expectedArgs = args {
                     spyResult = spyTracker.hasCalledFunction(functionName, withArgs: expectedArgs)
                     argsAreMatching = spyResult.success
 
                     let messageString = """
-                                        have called <\(functionName)> with args<\(expectedArgs)> \
+                                        have called <\(functionName)> \
+                                        with args<\(expectedArgs.toStringWithStableOrder())> \
                                         got <\(spyResult.trackedArgs)>
                                         """
                     message = ExpectationMessage.expectedTo(messageString)

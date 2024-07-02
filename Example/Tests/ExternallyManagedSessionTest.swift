@@ -3,7 +3,7 @@
 //  BitmovinConvivaAnalytics_Tests
 //
 //  Created by Bitmovin on 30.01.19.
-//  Copyright © 2019 CocoaPods. All rights reserved.
+//  Copyright © 2019 Bitmovin. All rights reserved.
 //
 
 import BitmovinConvivaAnalytics

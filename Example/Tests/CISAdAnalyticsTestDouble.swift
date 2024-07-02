@@ -76,9 +76,15 @@ class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol, TestDoubleData
     }
 
     func reportAdMetric(_ key: String, value: Any) {
+        let valueToTrack: String
+        if let size = value as? CGSize {
+            valueToTrack = "\(size.width)x\(size.height)"
+        } else {
+            valueToTrack = "\(value)"
+        }
         spy(functionName: "reportAdMetric", args: [
             "key": key,
-            "value": "\(value)"
+            "value": valueToTrack
         ])
     }
 

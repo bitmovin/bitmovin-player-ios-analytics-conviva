@@ -17,14 +17,14 @@ class SpyTracker {
 
     func hasCalledFunction(
         _ name: String,
-        withArgs: [String: String]? = nil
+        withArgs args: [String: String]? = nil
     ) -> (success: Bool, trackedArgs: [[String: String]?]) {
         let called = spies.keys.contains(name)
         if !called {
             return (false, [])
         }
 
-        if let expectedArgs = withArgs {
+        if let expectedArgs = args {
             if let spyCalls = spies[name] {
                 for calledArgs in spyCalls {
                     guard let calledArgs else { continue }

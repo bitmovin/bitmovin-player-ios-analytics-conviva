@@ -356,6 +356,9 @@ private extension ConvivaAnalytics {
         }
 
         videoAnalytics.reportPlaybackEnded()
+        if isSsaiAdBreakActive {
+            adAnalytics.reportAdEnded()
+        }
 
         isSessionActive = false
         logger.debugLog(message: "Ending session")

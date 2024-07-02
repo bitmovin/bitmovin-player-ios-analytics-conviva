@@ -13,7 +13,6 @@ import Foundation
 
 private let notAvailable = "NA"
 
-// swiftlint:disable:next type_body_length
 public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
     private let player: Player
@@ -36,6 +35,7 @@ public final class ConvivaAnalytics: NSObject {
     // Workaround for player issue when onPlay is sent while player is stalled
     private var isStalled = false
     private var playbackStarted = false
+    private var isSsaiAdBreakActive = false
 
     // MARK: - Public Attributes
     /**
@@ -47,6 +47,8 @@ public final class ConvivaAnalytics: NSObject {
             playerView?.add(listener: self)
         }
     }
+
+    public let ssai = SsaiApi()
 
     public var version: String {
         var options: NSDictionary?
@@ -97,7 +99,11 @@ public final class ConvivaAnalytics: NSObject {
 
         listener = BitmovinPlayerListener(player: player)
         listener?.delegate = self
-        adAnalytics.setUpdateHandler(handleAdUpdateRequest)
+        adAnalytics.setUpdateHandler { [weak self] in
+            self?.handleAdUpdateRequest()
+        }
+
+        ssai.delegate = self
     }
 
     deinit {
@@ -173,7 +179,7 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
-        if player.source?.sourceConfig.title == nil && contentMetadataBuilder.assetName == nil {
+        if player.source?.sourceConfig.title == nil, contentMetadataBuilder.assetName == nil {
             throw ConvivaAnalyticsError(
                 "AssetName is missing. Load player source (with title) first or set assetName via updateContentMetadata"
             )
@@ -222,6 +228,9 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         videoAnalytics.reportPlaybackError(message, errorSeverity: severity)
+        if isSsaiAdBreakActive {
+            adAnalytics.reportAdError(message, severity: severity)
+        }
         if endSession {
             internalEndSession()
         }
@@ -249,6 +258,23 @@ public final class ConvivaAnalytics: NSObject {
         videoAnalytics.reportPlaybackEvent(event)
         self.isBumper = false
         logger.debugLog(message: "Tracking resumed.")
+    }
+}
+
+private extension ConvivaAnalytics {
+    private var isAd: Bool {
+        player.isAd || isSsaiAdBreakActive
+    }
+
+    private var currentPlayerState: ConvivaSDK.PlayerState {
+        if player.isPaused {
+            return .CONVIVA_PAUSED
+        }
+        if isStalled {
+            return .CONVIVA_BUFFERING
+        }
+
+        return .CONVIVA_PLAYING
     }
 
     // MARK: - session handling
@@ -305,6 +331,18 @@ public final class ConvivaAnalytics: NSObject {
                 CIS_SSDK_PLAYBACK_METRIC_RENDERED_FRAMERATE,
                 value: player.currentVideoFrameRate
             )
+
+            if isSsaiAdBreakActive {
+                adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
+                adAnalytics.reportAdMetric(
+                    CIS_SSDK_PLAYBACK_METRIC_RESOLUTION,
+                    value: value.cgSizeValue
+                )
+                adAnalytics.reportAdMetric(
+                    CIS_SSDK_PLAYBACK_METRIC_RENDERED_FRAMERATE,
+                    value: player.currentVideoFrameRate
+                )
+            }
         }
 
         videoAnalytics.setContentInfo(contentMetadataBuilder.build())
@@ -323,6 +361,8 @@ public final class ConvivaAnalytics: NSObject {
         logger.debugLog(message: "Ending session")
 
         playbackStarted = false
+        isStalled = false
+        isSsaiAdBreakActive = false
         logger.debugLog(message: "Session ended")
     }
 
@@ -341,7 +381,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func buildDynamicContentMetadata() {
-        if !player.isLive && player.duration.isFinite {
+        if !player.isLive, player.duration.isFinite {
             contentMetadataBuilder.duration = Int(player.duration)
         }
         contentMetadataBuilder.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
@@ -366,11 +406,11 @@ public final class ConvivaAnalytics: NSObject {
 
     private func onPlaybackStateChanged(playerState: ConvivaSDK.PlayerState) {
         // do not report any playback state changes while player isStalled except buffering
-        if isStalled && playerState != .CONVIVA_BUFFERING {
+        if isStalled, playerState != .CONVIVA_BUFFERING {
             return
         }
         // do not report any stalling when isStalled false (StallEnded triggered immediatelly after StallStarted)
-        else if !isStalled && playerState == .CONVIVA_BUFFERING {
+        else if !isStalled, playerState == .CONVIVA_BUFFERING {
             self.logger.debugLog(
                 message: "[ ConvivaAnalytics ] false stalling, not registering to Conviva"
             )
@@ -378,14 +418,14 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
-        if player.isAd {
+        if isAd {
             adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
         }
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }
 
     private func handleAdUpdateRequest() {
-        guard player.isAd else { return }
+        guard isAd else { return }
 
         adAnalytics.reportPlaybackMetric(
             CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
@@ -596,7 +636,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             value: PlayerState.CONVIVA_PLAYING.rawValue
         )
         let ad = event.ad
-        if ad.width > 0 && ad.height > 0 {
+        if ad.width > 0, ad.height > 0 {
             adAnalytics.reportAdMetric(
                 CIS_SSDK_PLAYBACK_METRIC_RESOLUTION,
                 value: NSValue(cgSize: CGSize(width: ad.width, height: ad.height))
@@ -625,7 +665,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         videoAnalytics.reportAdBreakStarted(
             AdPlayer.ADPLAYER_CONTENT,
             adType: AdTechnology.CLIENT_SIDE,
-            adBreakInfo: [AnyHashable: Any]()
+            adBreakInfo: [:]
         )
         customEvent(event: event)
     }
@@ -648,5 +688,119 @@ extension ConvivaAnalytics: UserInterfaceListener {
 
     public func onFullscreenExit(_ event: FullscreenExitEvent) {
         customEvent(event: event)
+    }
+}
+
+extension ConvivaAnalytics: SsaiApiDelegate {
+    // swiftlint:disable:next identifier_name
+    var ssaiApi_isAdBreakActive: Bool {
+        isSsaiAdBreakActive
+    }
+
+    func ssaiApi_reportAdBreakStarted() {
+        ssaiApi_reportAdBreakStarted(adBreakInfo: [:])
+    }
+
+    func ssaiApi_reportAdBreakStarted(adBreakInfo: [String: Any]?) {
+        guard !isSsaiAdBreakActive else { return }
+        isSsaiAdBreakActive = true
+
+        print("[dev] adbreakstarted")
+        videoAnalytics.reportAdBreakStarted(
+            .ADPLAYER_CONTENT,
+            adType: .SERVER_SIDE,
+            adBreakInfo: adBreakInfo ?? [:]
+        )
+    }
+
+    func ssaiApi_reportAdBreakFinished() {
+        guard isSsaiAdBreakActive else { return }
+
+        isSsaiAdBreakActive = false
+        videoAnalytics.reportAdBreakEnded()
+    }
+
+    func ssaiApi_reportAdStarted(adInfo: SsaiAdInfo) {
+        guard isSsaiAdBreakActive else { return }
+
+        print("[dev] adstarted")
+
+        adAnalytics.reportAdStarted(adInfo.convivaAdInfo(basedOn: contentMetadataBuilder))
+        adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: currentPlayerState.rawValue)
+        updateSession()
+    }
+
+    func ssaiApi_reportAdFinished() {
+        guard isSsaiAdBreakActive else { return }
+
+        adAnalytics.reportAdEnded()
+    }
+
+    func ssaiApi_reportAdSkipped() {
+        guard isSsaiAdBreakActive else { return }
+
+        adAnalytics.reportAdSkipped()
+    }
+
+    func ssaiApi_update(adInfo: SsaiAdInfo) {
+        guard isSsaiAdBreakActive else { return }
+
+        adAnalytics.setAdInfo(adInfo.convivaAdInfo(basedOn: contentMetadataBuilder))
+    }
+}
+
+private extension SsaiAdInfo {
+    func convivaAdInfo(basedOn contentMetadataBuilder: ContentMetadataBuilder) -> [String: Any] {
+        var adInfo = [String: Any]()
+        adInfo["c3.ad.id"] = notAvailable
+        adInfo["c3.ad.system"] = notAvailable
+        adInfo["c3.ad.mediaFileApiFramework"] = notAvailable
+        adInfo["c3.ad.firstAdSystem"] = notAvailable
+        adInfo["c3.ad.firstAdId"] = notAvailable
+        adInfo["c3.ad.firstCreativeId"] = notAvailable
+        adInfo["c3.ad.technology"] = "Server Side"
+
+        adInfo["c3.ad.isSlate"] = isSlate ? "true" : "false"
+
+        if let title {
+            adInfo[CIS_SSDK_METADATA_ASSET_NAME] = title
+        }
+        if let duration {
+            adInfo[CIS_SSDK_METADATA_DURATION] = duration
+        }
+        if let id {
+            adInfo["c3.ad.id"] = id
+        }
+        if let adSystem {
+            adInfo["c3.ad.system"] = adSystem
+        }
+        if let position {
+            adInfo["c3.ad.position"] = position.convivaAdPosition.rawValue
+        }
+        if let adStitcher {
+            adInfo["c3.ad.stitcher"] = adStitcher
+        }
+
+        additionalMetadata?.forEach { key, value in
+            adInfo[key] = value
+        }
+
+        let mergedAdInfo = contentMetadataBuilder
+            .build()
+            .merging(adInfo) { $1 }
+        return mergedAdInfo
+    }
+}
+
+private extension SsaiAdPosition {
+    var convivaAdPosition: ConvivaSDK.AdPosition {
+        switch self {
+        case .preroll:
+            return .ADPOSITION_PREROLL
+        case .midroll:
+            return .ADPOSITION_MIDROLL
+        case .postroll:
+            return .ADPOSITION_POSTROLL
+        }
     }
 }

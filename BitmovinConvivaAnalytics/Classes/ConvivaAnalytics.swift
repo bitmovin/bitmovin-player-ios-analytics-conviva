@@ -708,7 +708,6 @@ extension ConvivaAnalytics: SsaiApiDelegate {
         guard !isSsaiAdBreakActive else { return }
         isSsaiAdBreakActive = true
 
-        print("[dev] adbreakstarted")
         videoAnalytics.reportAdBreakStarted(
             .ADPLAYER_CONTENT,
             adType: .SERVER_SIDE,
@@ -725,8 +724,6 @@ extension ConvivaAnalytics: SsaiApiDelegate {
 
     func ssaiApi_reportAdStarted(adInfo: SsaiAdInfo) {
         guard isSsaiAdBreakActive else { return }
-
-        print("[dev] adstarted")
 
         adAnalytics.reportAdStarted(adInfo.convivaAdInfo(basedOn: contentMetadataBuilder))
         adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: currentPlayerState.rawValue)

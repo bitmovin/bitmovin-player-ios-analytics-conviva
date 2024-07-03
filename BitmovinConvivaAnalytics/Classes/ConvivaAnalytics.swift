@@ -48,6 +48,7 @@ public final class ConvivaAnalytics: NSObject {
         }
     }
 
+    /// Namespace for reporting server-side ad breaks and ads.
     public let ssai = SsaiApi()
 
     public var version: String {

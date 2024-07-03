@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Enables reporting of server-side ad breaks and ads.
 public class SsaiApi {
     internal weak var delegate: SsaiApiDelegate?
 

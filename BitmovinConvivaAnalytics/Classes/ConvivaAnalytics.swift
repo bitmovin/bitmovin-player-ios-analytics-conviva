@@ -455,8 +455,14 @@ public final class ConvivaAnalytics: NSObject {
         if let adSystem = vastAdData.adSystem {
             adInfo["c3.ad.system"] = adSystem
         }
-        if !vastAdData.wrapperAdIds.isEmpty {
-            adInfo["c3.ad.firstAdId"] = vastAdData.wrapperAdIds.last
+        if let firstAdId = vastAdData.wrapperAdIds.last {
+            adInfo["c3.ad.firstAdId"] = firstAdId
+        }
+        if let firstCreativeId = vastAdData.wrapperCreativeIds.last {
+            adInfo["c3.ad.firstCreativeId"] = firstCreativeId
+        }
+        if let firstAdSystem = vastAdData.wrapperAdSystems.last {
+            adInfo["c3.ad.firstAdSystem"] = firstAdSystem
         }
     }
 }

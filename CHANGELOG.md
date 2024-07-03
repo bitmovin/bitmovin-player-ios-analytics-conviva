@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - `MetadataOverrides.imaSdkVersion` as a replacement for `MetadataOverrides.imaSdkVerison` to set the IMA SDK version
+- `ConvivaAnalytics.ssai` namespace of type `SsaiApi` for reporting SSAI ad breaks and ads
+  - `SsaiApi.isAdBreakActive` for checking if an SSAI ad break is active
+  - `SsaiApi.reportAdBreakStarted()` for reporting SSAI ad break started events
+  - `SsaiApi.reportAdBreakFinished()` for reporting SSAI ad break finished events
+  - `SsaiApi.reportAdStarted()` for reporting SSAI ad started events
+  - `SsaiApi.reportAdFinished()` for reporting SSAI ad finished events
+  - `SsaiApi.reportAdSkipped()` for reporting SSAI ad skipped events
+  - `SsaiApi.update(adInfo: )` for updating the ad info
 
 ### Deprecated
 - `MetadataOverrides.imaSdkVerison` in favor of `MetadataOverrides.imaSdkVersion`

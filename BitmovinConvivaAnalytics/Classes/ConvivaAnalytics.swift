@@ -444,7 +444,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func setVastAdMetadata(adInfo: inout [String: Any], vastAdData: VastAdData) {
-        adInfo["c3.ad.description"] = vastAdData.description
+        adInfo["c3.ad.description"] = vastAdData.adDescription
 
         if let adTitle = vastAdData.adTitle {
             adInfo[CIS_SSDK_METADATA_ASSET_NAME] = adTitle
@@ -455,8 +455,14 @@ public final class ConvivaAnalytics: NSObject {
         if let adSystem = vastAdData.adSystem {
             adInfo["c3.ad.system"] = adSystem
         }
-        if !vastAdData.wrapperAdIds.isEmpty {
-            adInfo["c3.ad.firstAdId"] = vastAdData.wrapperAdIds.last
+        if let firstAdId = vastAdData.wrapperAdIds.last {
+            adInfo["c3.ad.firstAdId"] = firstAdId
+        }
+        if let firstCreativeId = vastAdData.wrapperCreativeIds.last {
+            adInfo["c3.ad.firstCreativeId"] = firstCreativeId
+        }
+        if let firstAdSystem = vastAdData.wrapperAdSystems.last {
+            adInfo["c3.ad.firstAdSystem"] = firstAdSystem
         }
     }
 }

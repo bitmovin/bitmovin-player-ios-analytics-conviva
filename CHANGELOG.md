@@ -9,9 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - `MetadataOverrides.imaSdkVersion` as a replacement for `MetadataOverrides.imaSdkVerison` to set the IMA SDK version
+- Tracking of `c3.ad.firstCreativeId` and `c3.ad.firstAdSystem` tags for VAST client side ads
+
+### Changed
+- Updated minimum Bitmovin Player version to 3.64.0
 
 ### Deprecated
 - `MetadataOverrides.imaSdkVerison` in favor of `MetadataOverrides.imaSdkVersion`
+
+### Fixed
+- Wrong value tracked for `c3.ad.description` for VAST client side ads
 
 ### Internal
 - `ConvivaAnalytics` internal state is now stored in private properties

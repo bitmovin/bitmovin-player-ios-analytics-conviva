@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 - `MetadataOverrides.imaSdkVerison` in favor of `MetadataOverrides.imaSdkVersion`
 
+### Fixed
+- Wrong value tracked for `c3.ad.description` for VAST client side ads
+
 ### Internal
 - `ConvivaAnalytics` internal state is now stored in private properties
 

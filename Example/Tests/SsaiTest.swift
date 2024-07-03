@@ -425,6 +425,19 @@ class SsaiTest: QuickSpec {
                                 )
                             expect(spy).to(haveBeenCalled())
                         }
+                        it("reports ad break ended") {
+                            let spy = Spy(
+                                aClass: CISVideoAnalyticsTestDouble.self,
+                                functionName: "reportAdBreakEnded"
+                            )
+                            convivaAnalytics
+                                .reportPlaybackDeficiency(
+                                    message: "error",
+                                    severity: .ERROR_FATAL,
+                                    endSession: true
+                                )
+                            expect(spy).to(haveBeenCalled())
+                        }
                         it("resets ad break state") {
                             convivaAnalytics
                                 .reportPlaybackDeficiency(

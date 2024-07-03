@@ -355,10 +355,11 @@ private extension ConvivaAnalytics {
             return
         }
 
-        videoAnalytics.reportPlaybackEnded()
         if isSsaiAdBreakActive {
             adAnalytics.reportAdEnded()
+            videoAnalytics.reportAdBreakEnded()
         }
+        videoAnalytics.reportPlaybackEnded()
 
         isSessionActive = false
         logger.debugLog(message: "Ending session")

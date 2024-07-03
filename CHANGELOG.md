@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - `SsaiApi.reportAdStarted()` for reporting SSAI ad started events
   - `SsaiApi.reportAdFinished()` for reporting SSAI ad finished events
   - `SsaiApi.reportAdSkipped()` for reporting SSAI ad skipped events
-  - `SsaiApi.update(adInfo: )` for updating the ad info
+  - `SsaiApi.update(adInfo:)` for updating the ad info
 - Tracking of `c3.ad.firstCreativeId` and `c3.ad.firstAdSystem` tags for VAST client side ads
 
 ### Changed

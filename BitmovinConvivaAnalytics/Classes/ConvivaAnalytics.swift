@@ -384,6 +384,23 @@ private extension ConvivaAnalytics {
         buildDynamicContentMetadata()
     }
 
+    private func buildAdMetadata() -> [String: Any] {
+        let includedTags: Set<String> = [
+            CIS_SSDK_METADATA_STREAM_URL,
+            CIS_SSDK_METADATA_IS_LIVE,
+            CIS_SSDK_METADATA_DEFAULT_RESOURCE,
+            CIS_SSDK_METADATA_ENCODED_FRAMERATE,
+            "streamType",
+            "integrationVersion",
+            CIS_SSDK_METADATA_VIEWER_ID,
+            CIS_SSDK_METADATA_PLAYER_NAME,
+        ]
+        return contentMetadataBuilder.build()
+            .filter { key, _ in
+                includedTags.contains(key)
+            }
+    }
+
     private func buildDynamicContentMetadata() {
         if !player.isLive, player.duration.isFinite {
             contentMetadataBuilder.duration = Int(player.duration)
@@ -726,7 +743,7 @@ extension ConvivaAnalytics: SsaiApiDelegate {
     func ssaiApi_reportAdStarted(adInfo: SsaiAdInfo) {
         guard isSsaiAdBreakActive else { return }
 
-        adAnalytics.reportAdStarted(adInfo.convivaAdInfo(basedOn: contentMetadataBuilder))
+        adAnalytics.reportAdStarted(adInfo.convivaAdInfo(mainContentTags: buildAdMetadata()))
         adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: currentPlayerState.rawValue)
         updateSession()
     }
@@ -746,12 +763,12 @@ extension ConvivaAnalytics: SsaiApiDelegate {
     func ssaiApi_update(adInfo: SsaiAdInfo) {
         guard isSsaiAdBreakActive else { return }
 
-        adAnalytics.setAdInfo(adInfo.convivaAdInfo(basedOn: contentMetadataBuilder))
+        adAnalytics.setAdInfo(adInfo.convivaAdInfo(mainContentTags: buildAdMetadata()))
     }
 }
 
 private extension SsaiAdInfo {
-    func convivaAdInfo(basedOn contentMetadataBuilder: ContentMetadataBuilder) -> [String: Any] {
+    func convivaAdInfo(mainContentTags: [String: Any]) -> [String: Any] {
         var adInfo = [String: Any]()
         adInfo["c3.ad.id"] = notAvailable
         adInfo["c3.ad.system"] = notAvailable
@@ -786,9 +803,7 @@ private extension SsaiAdInfo {
             adInfo[key] = value
         }
 
-        let mergedAdInfo = contentMetadataBuilder
-            .build()
-            .merging(adInfo) { $1 }
+        let mergedAdInfo = mainContentTags.merging(adInfo) { $1 }
         return mergedAdInfo
     }
 }

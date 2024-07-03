@@ -38,6 +38,11 @@ class SsaiTest: QuickSpec {
             }
             var metadata = MetadataOverrides()
             metadata.assetName = "MyAsset"
+            metadata.viewerId = "test viewer ID"
+            metadata.applicationName = "test application name"
+            metadata.encodedFramerate = 30
+            metadata.defaultResource = "test resource"
+            metadata.custom = ["custom metadata override": "test"]
 
             convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
             try convivaAnalytics.initializeSession()
@@ -135,7 +140,7 @@ class SsaiTest: QuickSpec {
                         position: .midroll,
                         isSlate: false,
                         adStitcher: "bitmovin",
-                        additionalMetadata: ["custom": 10]
+                        additionalMetadata: ["custom ad info tag": 10]
                     )
                 }
                 context("when no ad break is active") {
@@ -196,9 +201,13 @@ class SsaiTest: QuickSpec {
                                 CIS_SSDK_METADATA_DURATION: 5.0,
                                 "c3.ad.position": AdPosition.ADPOSITION_MIDROLL.rawValue,
                                 "c3.ad.stitcher": "bitmovin",
-                                "custom": 10,
+                                "custom ad info tag": 10,
                                 CIS_SSDK_METADATA_IS_LIVE: 0,
                                 CIS_SSDK_METADATA_STREAM_URL: playerDouble.fakeSource.sourceConfig.url.absoluteString,
+                                CIS_SSDK_METADATA_PLAYER_NAME: "test application name",
+                                CIS_SSDK_METADATA_VIEWER_ID: "test viewer ID",
+                                CIS_SSDK_METADATA_DEFAULT_RESOURCE: "test resource",
+                                CIS_SSDK_METADATA_ENCODED_FRAMERATE: 30,
                                 "streamType": "HLS",
                                 "integrationVersion": convivaAnalytics.version,
                             ].toStringWithStableOrder()
@@ -323,7 +332,7 @@ class SsaiTest: QuickSpec {
                         position: .midroll,
                         isSlate: false,
                         adStitcher: "bitmovin",
-                        additionalMetadata: ["custom": 10]
+                        additionalMetadata: ["custom ad info tag": 10]
                     )
                 }
                 context("when no ad break is active") {
@@ -360,9 +369,13 @@ class SsaiTest: QuickSpec {
                                 CIS_SSDK_METADATA_DURATION: 5.0,
                                 "c3.ad.position": AdPosition.ADPOSITION_MIDROLL.rawValue,
                                 "c3.ad.stitcher": "bitmovin",
-                                "custom": 10,
+                                "custom ad info tag": 10,
                                 CIS_SSDK_METADATA_IS_LIVE: 0,
                                 CIS_SSDK_METADATA_STREAM_URL: playerDouble.fakeSource.sourceConfig.url.absoluteString,
+                                CIS_SSDK_METADATA_PLAYER_NAME: "test application name",
+                                CIS_SSDK_METADATA_VIEWER_ID: "test viewer ID",
+                                CIS_SSDK_METADATA_DEFAULT_RESOURCE: "test resource",
+                                CIS_SSDK_METADATA_ENCODED_FRAMERATE: 30,
                                 "streamType": "HLS",
                                 "integrationVersion": convivaAnalytics.version,
                             ].toStringWithStableOrder()

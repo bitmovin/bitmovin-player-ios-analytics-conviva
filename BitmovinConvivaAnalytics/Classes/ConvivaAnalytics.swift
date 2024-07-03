@@ -97,7 +97,9 @@ public final class ConvivaAnalytics: NSObject {
 
         listener = BitmovinPlayerListener(player: player)
         listener?.delegate = self
-        adAnalytics.setUpdateHandler(handleAdUpdateRequest)
+        adAnalytics.setUpdateHandler { [weak self] in
+            self?.handleAdUpdateRequest()
+        }
     }
 
     deinit {
@@ -173,7 +175,7 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
-        if player.source?.sourceConfig.title == nil && contentMetadataBuilder.assetName == nil {
+        if player.source?.sourceConfig.title == nil, contentMetadataBuilder.assetName == nil {
             throw ConvivaAnalyticsError(
                 "AssetName is missing. Load player source (with title) first or set assetName via updateContentMetadata"
             )
@@ -321,6 +323,7 @@ public final class ConvivaAnalytics: NSObject {
 
         isSessionActive = false
         logger.debugLog(message: "Ending session")
+        isStalled = false
 
         playbackStarted = false
         logger.debugLog(message: "Session ended")
@@ -341,7 +344,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     private func buildDynamicContentMetadata() {
-        if !player.isLive && player.duration.isFinite {
+        if !player.isLive, player.duration.isFinite {
             contentMetadataBuilder.duration = Int(player.duration)
         }
         contentMetadataBuilder.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
@@ -366,11 +369,11 @@ public final class ConvivaAnalytics: NSObject {
 
     private func onPlaybackStateChanged(playerState: ConvivaSDK.PlayerState) {
         // do not report any playback state changes while player isStalled except buffering
-        if isStalled && playerState != .CONVIVA_BUFFERING {
+        if isStalled, playerState != .CONVIVA_BUFFERING {
             return
         }
         // do not report any stalling when isStalled false (StallEnded triggered immediatelly after StallStarted)
-        else if !isStalled && playerState == .CONVIVA_BUFFERING {
+        else if !isStalled, playerState == .CONVIVA_BUFFERING {
             self.logger.debugLog(
                 message: "[ ConvivaAnalytics ] false stalling, not registering to Conviva"
             )
@@ -602,7 +605,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             value: PlayerState.CONVIVA_PLAYING.rawValue
         )
         let ad = event.ad
-        if ad.width > 0 && ad.height > 0 {
+        if ad.width > 0, ad.height > 0 {
             adAnalytics.reportAdMetric(
                 CIS_SSDK_PLAYBACK_METRIC_RESOLUTION,
                 value: NSValue(cgSize: CGSize(width: ad.width, height: ad.height))
@@ -631,7 +634,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         videoAnalytics.reportAdBreakStarted(
             AdPlayer.ADPLAYER_CONTENT,
             adType: AdTechnology.CLIENT_SIDE,
-            adBreakInfo: [AnyHashable: Any]()
+            adBreakInfo: [:]
         )
         customEvent(event: event)
     }

@@ -364,9 +364,8 @@ private extension ConvivaAnalytics {
 
         isSessionActive = false
         logger.debugLog(message: "Ending session")
-
-        playbackStarted = false
         isStalled = false
+        playbackStarted = false
         isSsaiAdBreakActive = false
         logger.debugLog(message: "Session ended")
     }

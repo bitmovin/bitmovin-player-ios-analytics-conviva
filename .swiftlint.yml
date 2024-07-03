@@ -45,7 +45,6 @@ opt_in_rules:
   - override_in_extension
   - quick_discouraged_call
   - quick_discouraged_focused_test
-  - unused_import
   - yoda_condition
 
   #style

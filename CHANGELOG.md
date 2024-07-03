@@ -17,9 +17,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - `SsaiApi.reportAdFinished()` for reporting SSAI ad finished events
   - `SsaiApi.reportAdSkipped()` for reporting SSAI ad skipped events
   - `SsaiApi.update(adInfo: )` for updating the ad info
+- Tracking of `c3.ad.firstCreativeId` and `c3.ad.firstAdSystem` tags for VAST client side ads
+
+### Changed
+- Updated minimum Bitmovin Player version to 3.64.0
 
 ### Deprecated
 - `MetadataOverrides.imaSdkVerison` in favor of `MetadataOverrides.imaSdkVersion`
+
+### Fixed
+- Wrong value tracked for `c3.ad.description` for VAST client side ads
 
 ### Internal
 - `ConvivaAnalytics` internal state is now stored in private properties

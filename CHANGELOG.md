@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - `MetadataOverrides.imaSdkVersion` as a replacement for `MetadataOverrides.imaSdkVerison` to set the IMA SDK version
 
+### Changed
+- Updated minimum Bitmovin Player version to 3.64.0
+
 ### Deprecated
 - `MetadataOverrides.imaSdkVerison` in favor of `MetadataOverrides.imaSdkVersion`
 

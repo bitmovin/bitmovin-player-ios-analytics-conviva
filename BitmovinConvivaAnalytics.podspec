@@ -20,8 +20,8 @@ Conviva Analytics Integration for the Bitmovin Player iOS SDK
   s.swift_version = '5.0'
   s.cocoapods_version = '>= 1.9.0'
 
-  s.ios.dependency 'BitmovinPlayer', '~> 3.63'
-  s.tvos.dependency 'BitmovinPlayer', '~> 3.63'
+  s.ios.dependency 'BitmovinPlayer', '~> 3.64'
+  s.tvos.dependency 'BitmovinPlayer', '~> 3.64'
   s.ios.dependency 'ConvivaSDK', '~> 4.0'
   s.tvos.dependency 'ConvivaSDK', '~> 4.0'
 

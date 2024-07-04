@@ -386,6 +386,7 @@ private extension ConvivaAnalytics {
 
     private func buildAdMetadata() -> [String: Any] {
         let includedTags: Set<String> = [
+            CIS_SSDK_METADATA_ASSET_NAME,
             CIS_SSDK_METADATA_STREAM_URL,
             CIS_SSDK_METADATA_IS_LIVE,
             CIS_SSDK_METADATA_DEFAULT_RESOURCE,

@@ -384,7 +384,7 @@ private extension ConvivaAnalytics {
         buildDynamicContentMetadata()
     }
 
-    private func buildAdMetadata() -> [String: Any] {
+    private func buildSsaiAdMetadata() -> [String: Any] {
         let includedTags: Set<String> = [
             CIS_SSDK_METADATA_ASSET_NAME,
             CIS_SSDK_METADATA_STREAM_URL,
@@ -750,7 +750,7 @@ extension ConvivaAnalytics: SsaiApiDelegate {
     func ssaiApi_reportAdStarted(adInfo: SsaiAdInfo) {
         guard isSsaiAdBreakActive else { return }
 
-        adAnalytics.reportAdStarted(adInfo.convivaAdInfo(mainContentTags: buildAdMetadata()))
+        adAnalytics.reportAdStarted(adInfo.convivaAdInfo(baseSsaiAdMetadata: buildSsaiAdMetadata()))
         adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: currentPlayerState.rawValue)
         updateSession()
     }
@@ -770,12 +770,12 @@ extension ConvivaAnalytics: SsaiApiDelegate {
     func ssaiApi_update(adInfo: SsaiAdInfo) {
         guard isSsaiAdBreakActive else { return }
 
-        adAnalytics.setAdInfo(adInfo.convivaAdInfo(mainContentTags: buildAdMetadata()))
+        adAnalytics.setAdInfo(adInfo.convivaAdInfo(baseSsaiAdMetadata: buildSsaiAdMetadata()))
     }
 }
 
 private extension SsaiAdInfo {
-    func convivaAdInfo(mainContentTags: [String: Any]) -> [String: Any] {
+    func convivaAdInfo(baseSsaiAdMetadata: [String: Any]) -> [String: Any] {
         var adInfo = [String: Any]()
         adInfo["c3.ad.id"] = notAvailable
         adInfo["c3.ad.system"] = notAvailable
@@ -810,7 +810,7 @@ private extension SsaiAdInfo {
             adInfo[key] = value
         }
 
-        let mergedAdInfo = mainContentTags.merging(adInfo) { $1 }
+        let mergedAdInfo = baseSsaiAdMetadata.merging(adInfo) { $1 }
         return mergedAdInfo
     }
 }

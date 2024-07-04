@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.3.0] - 2024-07-04
+
 ### Added
 - `MetadataOverrides.imaSdkVersion` as a replacement for `MetadataOverrides.imaSdkVerison` to set the IMA SDK version
 - Tracking of `c3.ad.firstCreativeId` and `c3.ad.firstAdSystem` tags for VAST client side ads

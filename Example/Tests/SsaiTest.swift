@@ -60,7 +60,7 @@ class SsaiTest: QuickSpec {
 
             TestHelper.shared.spyTracker.reset()
         }
-        describe("Ssai API") {
+        describe("SSAI API") {
             describe("isAdBreakActive") {
                 context("when no ad break is active") {
                     it("returns false") {

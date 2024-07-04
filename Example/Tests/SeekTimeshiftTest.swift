@@ -1,4 +1,10 @@
-// https://github.com/Quick/Quick
+//
+//  CustomEventTests.swift
+//  BitmovinConvivaAnalytics_Tests
+//
+//  Created by Bitmovin on 12.10.18.
+//  Copyright (c) 2018 Bitmovin. All rights reserved.
+//
 
 import BitmovinConvivaAnalytics
 import BitmovinPlayer

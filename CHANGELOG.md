@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - `MetadataOverrides.imaSdkVersion` as a replacement for `MetadataOverrides.imaSdkVerison` to set the IMA SDK version
 - Tracking of `c3.ad.firstCreativeId` and `c3.ad.firstAdSystem` tags for VAST client side ads
+- `ConvivaAnalytics.ssai` namespace to enable server side ad tracking
 
 ### Changed
 - Updated minimum Bitmovin Player version to 3.64.0

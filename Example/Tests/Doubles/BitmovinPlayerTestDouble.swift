@@ -219,6 +219,10 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         self.fakeListener = listener
     }
 
+    override var currentVideoFrameRate: Float {
+        25
+    }
+
     override var isPlaying: Bool {
         if let mockedValue = mocks["isPlaying"] {
             // swiftlint:disable:next force_cast
@@ -442,11 +446,11 @@ class BitmovinPlayerStub: NSObject, Player {
     }
 
     var currentVideoFrameRate: Float {
-            player.currentVideoFrameRate
+        player.currentVideoFrameRate
     }
 
     var buffer: BufferApi {
-            player.buffer
+        player.buffer
     }
 
     @available(iOS 15.0, *)

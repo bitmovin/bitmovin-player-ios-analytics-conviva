@@ -42,6 +42,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* SeekTimeshiftTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* SeekTimeshiftTest.swift */; };
+		A8ECFE362C348BC50037C9D7 /* SsaiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8ECFE352C348BC50037C9D7 /* SsaiTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 		8BEA353F1EF3E281B7DFAAB9 /* Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		A325221B74D53FE9D6847CBB /* Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		A5278C86509C94C0D6B2A159 /* Pods-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_ExampleTests/Pods-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A8ECFE352C348BC50037C9D7 /* SsaiTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SsaiTest.swift; sourceTree = "<group>"; };
 		AB2C684C23DE1A58904C40EF /* Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests/Pods-BitmovinConvivaAnalytics_Example-BitmovinConvivaAnalytics_ExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B0D6D92D5D0682BEB6A2AE76 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		BE302B93B26F5254AC33B8FB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				37756EBD216F99C80041806D /* PlayerEventsTest.swift */,
+				A8ECFE352C348BC50037C9D7 /* SsaiTest.swift */,
 				37756EBF216F9A510041806D /* ContentMetadataTest.swift */,
 				37756EC1216F9AA50041806D /* CustomEventsTest.swift */,
 				607FACEB1AFB9204008FA782 /* SeekTimeshiftTest.swift */,
@@ -728,6 +731,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				44D4DC562841201F00C0BE9D /* CISAdAnalyticsTestDouble.swift in Sources */,
+				A8ECFE362C348BC50037C9D7 /* SsaiTest.swift in Sources */,
 				44D4DC502841032B00C0BE9D /* CISAnalyticsCreatorTestDouble.swift in Sources */,
 				37756EBC216F90020041806D /* MockTracker.swift in Sources */,
 				37756EC42170764E0041806D /* SpecHelper.swift in Sources */,

@@ -68,7 +68,7 @@ class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoub
         spy(functionName: "reportAdBreakStarted", args: [
             "adPlayer": "\(String(describing: adPlayer))",
             "adType": "\(String(describing: adType))",
-            "adBreakInfo": "\(adBreakInfo["c3.ad.position"] ?? "")"
+            "adBreakInfo": "\(adBreakInfo.toStringWithStableOrder())"
         ])
     }
 

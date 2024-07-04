@@ -13,7 +13,6 @@ import Foundation
 
 private let notAvailable = "NA"
 
-// swiftlint:disable:next type_body_length
 public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
     private let player: Player
@@ -36,6 +35,7 @@ public final class ConvivaAnalytics: NSObject {
     // Workaround for player issue when onPlay is sent while player is stalled
     private var isStalled = false
     private var playbackStarted = false
+    private var isSsaiAdBreakActive = false
 
     // MARK: - Public Attributes
     /**
@@ -47,6 +47,9 @@ public final class ConvivaAnalytics: NSObject {
             playerView?.add(listener: self)
         }
     }
+
+    /// Namespace for reporting server-side ad breaks and ads.
+    public let ssai = SsaiApi()
 
     public var version: String {
         var options: NSDictionary?
@@ -100,6 +103,8 @@ public final class ConvivaAnalytics: NSObject {
         adAnalytics.setUpdateHandler { [weak self] in
             self?.handleAdUpdateRequest()
         }
+
+        ssai.delegate = self
     }
 
     deinit {
@@ -224,6 +229,9 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         videoAnalytics.reportPlaybackError(message, errorSeverity: severity)
+        if isSsaiAdBreakActive {
+            adAnalytics.reportAdError(message, severity: severity)
+        }
         if endSession {
             internalEndSession()
         }
@@ -251,6 +259,23 @@ public final class ConvivaAnalytics: NSObject {
         videoAnalytics.reportPlaybackEvent(event)
         self.isBumper = false
         logger.debugLog(message: "Tracking resumed.")
+    }
+}
+
+private extension ConvivaAnalytics {
+    private var isAd: Bool {
+        player.isAd || isSsaiAdBreakActive
+    }
+
+    private var currentPlayerState: ConvivaSDK.PlayerState {
+        if player.isPaused {
+            return .CONVIVA_PAUSED
+        }
+        if isStalled {
+            return .CONVIVA_BUFFERING
+        }
+
+        return .CONVIVA_PLAYING
     }
 
     // MARK: - session handling
@@ -307,6 +332,18 @@ public final class ConvivaAnalytics: NSObject {
                 CIS_SSDK_PLAYBACK_METRIC_RENDERED_FRAMERATE,
                 value: player.currentVideoFrameRate
             )
+
+            if isSsaiAdBreakActive {
+                adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_BITRATE, value: bitrate)
+                adAnalytics.reportAdMetric(
+                    CIS_SSDK_PLAYBACK_METRIC_RESOLUTION,
+                    value: value.cgSizeValue
+                )
+                adAnalytics.reportAdMetric(
+                    CIS_SSDK_PLAYBACK_METRIC_RENDERED_FRAMERATE,
+                    value: player.currentVideoFrameRate
+                )
+            }
         }
 
         videoAnalytics.setContentInfo(contentMetadataBuilder.build())
@@ -319,13 +356,17 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
+        if isSsaiAdBreakActive {
+            adAnalytics.reportAdEnded()
+            videoAnalytics.reportAdBreakEnded()
+        }
         videoAnalytics.reportPlaybackEnded()
 
         isSessionActive = false
         logger.debugLog(message: "Ending session")
         isStalled = false
-
         playbackStarted = false
+        isSsaiAdBreakActive = false
         logger.debugLog(message: "Session ended")
     }
 
@@ -341,6 +382,24 @@ public final class ConvivaAnalytics: NSObject {
 
         contentMetadataBuilder.custom = customInternTags
         buildDynamicContentMetadata()
+    }
+
+    private func buildSsaiAdMetadata() -> [String: Any] {
+        let includedTags: Set<String> = [
+            CIS_SSDK_METADATA_ASSET_NAME,
+            CIS_SSDK_METADATA_STREAM_URL,
+            CIS_SSDK_METADATA_IS_LIVE,
+            CIS_SSDK_METADATA_DEFAULT_RESOURCE,
+            CIS_SSDK_METADATA_ENCODED_FRAMERATE,
+            "streamType",
+            "integrationVersion",
+            CIS_SSDK_METADATA_VIEWER_ID,
+            CIS_SSDK_METADATA_PLAYER_NAME,
+        ]
+        return contentMetadataBuilder.build()
+            .filter { key, _ in
+                includedTags.contains(key)
+            }
     }
 
     private func buildDynamicContentMetadata() {
@@ -381,14 +440,14 @@ public final class ConvivaAnalytics: NSObject {
         }
 
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
-        if player.isAd {
+        if isAd {
             adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: playerState.rawValue)
         }
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }
 
     private func handleAdUpdateRequest() {
-        guard player.isAd else { return }
+        guard isAd else { return }
 
         adAnalytics.reportPlaybackMetric(
             CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
@@ -657,5 +716,114 @@ extension ConvivaAnalytics: UserInterfaceListener {
 
     public func onFullscreenExit(_ event: FullscreenExitEvent) {
         customEvent(event: event)
+    }
+}
+
+extension ConvivaAnalytics: SsaiApiDelegate {
+    // swiftlint:disable:next identifier_name
+    var ssaiApi_isAdBreakActive: Bool {
+        isSsaiAdBreakActive
+    }
+
+    func ssaiApi_reportAdBreakStarted() {
+        ssaiApi_reportAdBreakStarted(adBreakInfo: [:])
+    }
+
+    func ssaiApi_reportAdBreakStarted(adBreakInfo: [String: Any]?) {
+        guard !isSsaiAdBreakActive else { return }
+        isSsaiAdBreakActive = true
+
+        videoAnalytics.reportAdBreakStarted(
+            .ADPLAYER_CONTENT,
+            adType: .SERVER_SIDE,
+            adBreakInfo: adBreakInfo ?? [:]
+        )
+    }
+
+    func ssaiApi_reportAdBreakFinished() {
+        guard isSsaiAdBreakActive else { return }
+
+        isSsaiAdBreakActive = false
+        videoAnalytics.reportAdBreakEnded()
+    }
+
+    func ssaiApi_reportAdStarted(adInfo: SsaiAdInfo) {
+        guard isSsaiAdBreakActive else { return }
+
+        adAnalytics.reportAdStarted(adInfo.convivaAdInfo(baseSsaiAdMetadata: buildSsaiAdMetadata()))
+        adAnalytics.reportAdMetric(CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE, value: currentPlayerState.rawValue)
+        updateSession()
+    }
+
+    func ssaiApi_reportAdFinished() {
+        guard isSsaiAdBreakActive else { return }
+
+        adAnalytics.reportAdEnded()
+    }
+
+    func ssaiApi_reportAdSkipped() {
+        guard isSsaiAdBreakActive else { return }
+
+        adAnalytics.reportAdSkipped()
+    }
+
+    func ssaiApi_update(adInfo: SsaiAdInfo) {
+        guard isSsaiAdBreakActive else { return }
+
+        adAnalytics.setAdInfo(adInfo.convivaAdInfo(baseSsaiAdMetadata: buildSsaiAdMetadata()))
+    }
+}
+
+private extension SsaiAdInfo {
+    func convivaAdInfo(baseSsaiAdMetadata: [String: Any]) -> [String: Any] {
+        var adInfo = [String: Any]()
+        adInfo["c3.ad.id"] = notAvailable
+        adInfo["c3.ad.system"] = notAvailable
+        adInfo["c3.ad.mediaFileApiFramework"] = notAvailable
+        adInfo["c3.ad.firstAdSystem"] = notAvailable
+        adInfo["c3.ad.firstAdId"] = notAvailable
+        adInfo["c3.ad.firstCreativeId"] = notAvailable
+        adInfo["c3.ad.technology"] = "Server Side"
+
+        adInfo["c3.ad.isSlate"] = isSlate ? "true" : "false"
+
+        if let title {
+            adInfo[CIS_SSDK_METADATA_ASSET_NAME] = title
+        }
+        if let duration {
+            adInfo[CIS_SSDK_METADATA_DURATION] = duration
+        }
+        if let id {
+            adInfo["c3.ad.id"] = id
+        }
+        if let adSystem {
+            adInfo["c3.ad.system"] = adSystem
+        }
+        if let position {
+            adInfo["c3.ad.position"] = position.convivaAdPosition.rawValue
+        }
+        if let adStitcher {
+            adInfo["c3.ad.stitcher"] = adStitcher
+        }
+
+        additionalMetadata?.forEach { key, value in
+            adInfo[key] = value
+        }
+
+        let mergedAdInfo = baseSsaiAdMetadata.merging(adInfo) { $1 }
+        return mergedAdInfo
+    }
+}
+
+private extension SsaiAdPosition {
+    var convivaAdPosition: ConvivaSDK.AdPosition {
+        switch self {
+        case .preroll:
+            return .ADPOSITION_PREROLL
+        case .midroll:
+            return .ADPOSITION_MIDROLL
+        case .postroll:
+            return .ADPOSITION_POSTROLL
+        }
     }
 }

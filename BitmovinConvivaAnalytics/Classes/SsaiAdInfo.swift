@@ -6,6 +6,7 @@
 // and conditions of the applicable license agreement.
 //
 
+/// Represents metadata for an ad.
 public struct SsaiAdInfo {
     /// The title of the ad.
     public var title: String?

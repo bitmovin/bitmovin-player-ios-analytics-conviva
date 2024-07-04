@@ -9,15 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - `MetadataOverrides.imaSdkVersion` as a replacement for `MetadataOverrides.imaSdkVerison` to set the IMA SDK version
-- `ConvivaAnalytics.ssai` namespace of type `SsaiApi` for reporting SSAI ad breaks and ads
-  - `SsaiApi.isAdBreakActive` for checking if an SSAI ad break is active
-  - `SsaiApi.reportAdBreakStarted()` for reporting SSAI ad break started events
-  - `SsaiApi.reportAdBreakFinished()` for reporting SSAI ad break finished events
-  - `SsaiApi.reportAdStarted()` for reporting SSAI ad started events
-  - `SsaiApi.reportAdFinished()` for reporting SSAI ad finished events
-  - `SsaiApi.reportAdSkipped()` for reporting SSAI ad skipped events
-  - `SsaiApi.update(adInfo:)` for updating the ad info
 - Tracking of `c3.ad.firstCreativeId` and `c3.ad.firstAdSystem` tags for VAST client side ads
+- `ConvivaAnalytics.ssai` namespace to enable server side ad tracking
 
 ### Changed
 - Updated minimum Bitmovin Player version to 3.64.0

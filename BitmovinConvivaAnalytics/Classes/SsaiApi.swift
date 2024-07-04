@@ -41,6 +41,8 @@ public class SsaiApi {
 
     /// Reports the start of a server-side ad.
     ///
+    /// Has to be called after calling `reportAdBreakStarted` method.
+    ///
     /// - Parameter adInfo: Object containing metadata about the server-side ad.
     public func reportAdStarted(adInfo: SsaiAdInfo) {
         delegate?.ssaiApi_reportAdStarted(adInfo: adInfo)

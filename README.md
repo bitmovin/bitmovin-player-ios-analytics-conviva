@@ -96,7 +96,7 @@ The following example shows basic server side ad tracking:
 ```swift
 convivaAnalytics.ssai.reportAdBreakStarted()
 
-SsaiAdInfo adInfo = SsaiAdInfo(
+let adInfo = SsaiAdInfo(
     title: "My ad title",
     position: .preroll,
     duration: 30

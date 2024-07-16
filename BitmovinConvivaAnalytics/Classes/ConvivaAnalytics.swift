@@ -539,6 +539,10 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         internalEndSession()
     }
 
+    func onSourceLoaded() {
+        updateSession()
+    }
+
     func onTimeChanged() {
         reportPlayHeadTime()
         updateSession()

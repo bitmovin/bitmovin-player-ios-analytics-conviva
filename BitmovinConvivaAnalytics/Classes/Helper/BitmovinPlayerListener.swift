@@ -38,6 +38,10 @@ extension BitmovinPlayerListener: PlayerListener {
         }
     }
 
+    func onSourceLoaded(_ event: SourceLoadedEvent, player: any Player) {
+        delegate?.onSourceLoaded()
+    }
+
     func onTimeChanged(_ event: TimeChangedEvent, player: Player) {
         delegate?.onTimeChanged()
     }

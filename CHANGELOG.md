@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Missing content length reporting when autoplay is enabled
+
 ## [3.3.0] - 2024-07-04
 
 ### Added

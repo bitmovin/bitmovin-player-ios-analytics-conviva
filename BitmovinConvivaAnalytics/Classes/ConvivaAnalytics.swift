@@ -300,12 +300,13 @@ private extension ConvivaAnalytics {
         }
 
         setupPlayerStateManager()
-        updateSession()
 
         videoAnalytics.reportPlaybackRequested(contentMetadataBuilder.build())
         logger.debugLog(message: "Creating session with metadata: \(contentMetadataBuilder)")
         logger.debugLog(message: "Session started")
         isSessionActive = true
+
+        updateSession()
     }
 
     private func updateSession() {
@@ -537,6 +538,10 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onSourceUnloaded() {
         internalEndSession()
+    }
+
+    func onSourceLoaded() {
+        updateSession()
     }
 
     func onTimeChanged() {

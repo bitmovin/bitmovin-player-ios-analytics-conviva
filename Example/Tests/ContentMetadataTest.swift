@@ -114,10 +114,9 @@ class ContentMetadataTest: QuickSpec {
 
             context("when updating session") {
                 it("update video duration") {
+                    _ = TestDouble(aClass: playerDouble!, name: "duration", return: 50.0)
+
                     playerDouble.fakePlayEvent() // to initialize session
-                    var metadata = MetadataOverrides()
-                    metadata.duration = 50
-                    convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
 
                     expect(spy).to(
@@ -142,10 +141,9 @@ class ContentMetadataTest: QuickSpec {
                 }
 
                 it("update stream type (VOD/Live)") {
+                    _ = TestDouble(aClass: playerDouble!, name: "isLive", return: true)
+
                     playerDouble.fakePlayEvent() // to initialize session
-                    var metadata = MetadataOverrides()
-                    metadata.streamType = StreamType.CONVIVA_STREAM_LIVE
-                    convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
 
                     expect(spy).to(

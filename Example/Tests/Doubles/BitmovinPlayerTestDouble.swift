@@ -134,6 +134,13 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         onTimeChanged(TimeChangedEvent(currentTime: 1), player)
     }
 
+    func fakeSourceLoadedEvent() {
+        guard let onSourceLoaded = fakeListener?.onSourceLoaded else {
+            return
+        }
+        onSourceLoaded(SourceLoadedEvent(source: fakeSource), player)
+    }
+
     func fakeSourceUnloadedEvent() {
         guard let onSourceUnloaded = fakeListener?.onSourceUnloaded else {
             return

@@ -114,10 +114,9 @@ class ContentMetadataTest: QuickSpec {
 
             context("when updating session") {
                 it("update video duration") {
+                    _ = TestDouble(aClass: playerDouble!, name: "duration", return: 50.0)
+
                     playerDouble.fakePlayEvent() // to initialize session
-                    var metadata = MetadataOverrides()
-                    metadata.duration = 50
-                    convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
 
                     expect(spy).to(
@@ -125,11 +124,26 @@ class ContentMetadataTest: QuickSpec {
                     )
                 }
 
+                describe("when duration is not yet available on play") {
+                    it("update video duration on source loaded") {
+                        _ = TestDouble(aClass: playerDouble!, name: "duration", return: 0.0)
+                        playerDouble.fakePlayEvent() // to initialize session
+
+                        _ = TestDouble(aClass: playerDouble!, name: "duration", return: 50.0)
+                        playerDouble.fakeSourceLoadedEvent() // to initialize session
+
+                        let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
+
+                        expect(spy).to(
+                            haveBeenCalled(withArgs: ["duration": "50"])
+                        )
+                    }
+                }
+
                 it("update stream type (VOD/Live)") {
+                    _ = TestDouble(aClass: playerDouble!, name: "isLive", return: true)
+
                     playerDouble.fakePlayEvent() // to initialize session
-                    var metadata = MetadataOverrides()
-                    metadata.streamType = StreamType.CONVIVA_STREAM_LIVE
-                    convivaAnalytics.updateContentMetadata(metadataOverrides: metadata)
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
 
                     expect(spy).to(

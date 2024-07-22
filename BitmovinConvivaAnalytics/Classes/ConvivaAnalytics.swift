@@ -95,7 +95,7 @@ public final class ConvivaAnalytics: NSObject {
         self.contentMetadataBuilder = ContentMetadataBuilder(logger: logger)
 
         videoAnalytics = analytics.createVideoAnalytics()
-        adAnalytics = analytics.createAdAnalytics()
+        adAnalytics = analytics.createAdAnalytics(withVideoAnalytics: videoAnalytics)
         super.init()
 
         listener = BitmovinPlayerListener(player: player)

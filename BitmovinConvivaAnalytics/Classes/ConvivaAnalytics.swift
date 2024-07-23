@@ -394,8 +394,6 @@ private extension ConvivaAnalytics {
             CIS_SSDK_METADATA_ENCODED_FRAMERATE,
             "streamType",
             "integrationVersion",
-            CIS_SSDK_METADATA_VIEWER_ID,
-            CIS_SSDK_METADATA_PLAYER_NAME,
         ]
         return contentMetadataBuilder.build()
             .filter { key, _ in

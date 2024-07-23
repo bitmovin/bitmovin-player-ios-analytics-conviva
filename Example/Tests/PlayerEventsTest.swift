@@ -96,11 +96,40 @@ class PlayerEventsTest: QuickSpec {
             }
 
             context("deinitialize player state manager") {
-                it("on playback finished") {
-                    let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackEnded")
-                    playerDouble.fakePlayEvent()
-                    playerDouble.fakePlaybackFinishedEvent()
-                    expect(spy).to(haveBeenCalled())
+                context("when there is no ad break started event seen after playback finished") {
+                    it("reports playback ended on playback finished") {
+                        let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackEnded")
+                        playerDouble.fakePlayEvent()
+                        playerDouble.fakePlaybackFinishedEvent()
+                        waitUntil { done in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                                done()
+                            }
+                        }
+                        expect(spy).to(haveBeenCalled())
+                    }
+                }
+                context("when there is ad break started event seen after playback finished") {
+                    it("does not report playback ended on playback finished") {
+                        let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackEnded")
+                        playerDouble.fakePlayEvent()
+                        playerDouble.fakePlaybackFinishedEvent()
+                        playerDouble.fakeAdBreakStartedEvent()
+                        waitUntil { done in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                                done()
+                            }
+                        }
+                        expect(spy).toNot(haveBeenCalled())
+                    }
+                    it("reports playback ended on ad break finished") {
+                        let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackEnded")
+                        playerDouble.fakePlayEvent()
+                        playerDouble.fakePlaybackFinishedEvent()
+                        playerDouble.fakeAdBreakStartedEvent()
+                        playerDouble.fakeAdBreakFinishedEvent()
+                        expect(spy).to(haveBeenCalled())
+                    }
                 }
             }
 
@@ -258,20 +287,27 @@ class PlayerEventsTest: QuickSpec {
                     expect(spy).to(haveBeenCalled())
                 }
 
-                it("on playback finished") {
-                    let playbackStateSpy = Spy(
-                        aClass: CISVideoAnalyticsTestDouble.self,
-                        functionName: "reportPlaybackMetric"
-                    )
+                context("on playback finished") {
+                    it("reports finished state") {
+                        let playbackStateSpy = Spy(
+                            aClass: CISVideoAnalyticsTestDouble.self,
+                            functionName: "reportPlaybackMetric"
+                        )
 
-                    playerDouble.fakePlayEvent()
-                    playerDouble.fakePlaybackFinishedEvent()
-                    expect(spy).to(haveBeenCalled())
-                    expect(playbackStateSpy).to(
-                        haveBeenCalled(withArgs: [
-                            CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_STOPPED.rawValue)"
-                        ])
-                    )
+                        playerDouble.fakePlayEvent()
+                        playerDouble.fakePlaybackFinishedEvent()
+                        waitUntil { done in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                                done()
+                            }
+                        }
+                        expect(spy).to(haveBeenCalled())
+                        expect(playbackStateSpy).to(
+                            haveBeenCalled(withArgs: [
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_STOPPED.rawValue)"
+                            ])
+                        )
+                    }
                 }
 
                 it("on playlist transition") {
@@ -282,6 +318,11 @@ class PlayerEventsTest: QuickSpec {
 
                     playerDouble.fakePlayEvent()
                     playerDouble.fakePlaylistTransitionEvent()
+                    waitUntil { done in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                            done()
+                        }
+                    }
                     expect(spy).to(haveBeenCalled())
                     expect(playbackStateSpy).to(
                         haveBeenCalled(withArgs: [

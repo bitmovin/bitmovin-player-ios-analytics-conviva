@@ -597,7 +597,8 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onStallStarted() {
         isStalled = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) { [weak self] in
+            guard let self else { return }
             self.logger.debugLog(
                 message: "[ ConvivaAnalytics ] calling StallStarted after 0.10 seconds"
             )

@@ -145,15 +145,19 @@ class PlayerEventsTest: QuickSpec {
                     playerDouble.fakePlayingEvent()
                     playerDouble.fakeStallStartedEvent()
                     playerDouble.fakeStallEndedEvent()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
-                        expect(spy).notTo(
-                            haveBeenCalled(
-                                withArgs: [
-                                    CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
-                                ]
-                            )
-                        )
+                    waitUntil { done in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                            done()
+                        }
                     }
+                    expect(spy).notTo(
+                        haveBeenCalled(
+                            withArgs: [
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE:
+                                    "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
+                            ]
+                        )
+                    )
                 }
                 it("on stall started/Stall Ended no wait") {
                     playerDouble.fakePlayingEvent()
@@ -170,28 +174,34 @@ class PlayerEventsTest: QuickSpec {
                 it("on stall started / Stall Ended after 0.10 seconds") {
                     playerDouble.fakePlayingEvent()
                     playerDouble.fakeStallStartedEvent()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
-                        playerDouble.fakeStallEndedEvent()
-                        expect(spy).to(
-                            haveBeenCalled(
-                                withArgs: [
-                                    CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
-                                ]
-                            )
-                        )
+                    waitUntil { done in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                            playerDouble.fakeStallEndedEvent()
+                            done()
+                        }
                     }
+                    expect(spy).to(
+                        haveBeenCalled(
+                            withArgs: [
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
+                            ]
+                        )
+                    )
                 }
                 it("on stall started") {
                     playerDouble.fakeStallStartedEvent()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
-                        expect(spy).to(
-                            haveBeenCalled(
-                                withArgs: [
-                                    CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
-                                ]
-                            )
-                        )
+                    waitUntil { done in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                            done()
+                        }
                     }
+                    expect(spy).to(
+                        haveBeenCalled(
+                            withArgs: [
+                                CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE: "\(PlayerState.CONVIVA_BUFFERING.rawValue)"
+                            ]
+                        )
+                    )
                 }
 
                 context("after stalling") {

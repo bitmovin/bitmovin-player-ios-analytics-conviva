@@ -102,7 +102,7 @@ class PlayerEventsTest: QuickSpec {
                         playerDouble.fakePlayEvent()
                         playerDouble.fakePlaybackFinishedEvent()
                         waitUntil { done in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
                                 done()
                             }
                         }
@@ -116,7 +116,7 @@ class PlayerEventsTest: QuickSpec {
                         playerDouble.fakePlaybackFinishedEvent()
                         playerDouble.fakeAdBreakStartedEvent()
                         waitUntil { done in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
                                 done()
                             }
                         }
@@ -175,7 +175,7 @@ class PlayerEventsTest: QuickSpec {
                     playerDouble.fakeStallStartedEvent()
                     playerDouble.fakeStallEndedEvent()
                     waitUntil { done in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
                             done()
                         }
                     }
@@ -204,7 +204,7 @@ class PlayerEventsTest: QuickSpec {
                     playerDouble.fakePlayingEvent()
                     playerDouble.fakeStallStartedEvent()
                     waitUntil { done in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
                             playerDouble.fakeStallEndedEvent()
                             done()
                         }
@@ -220,7 +220,7 @@ class PlayerEventsTest: QuickSpec {
                 it("on stall started") {
                     playerDouble.fakeStallStartedEvent()
                     waitUntil { done in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
                             done()
                         }
                     }
@@ -297,7 +297,7 @@ class PlayerEventsTest: QuickSpec {
                         playerDouble.fakePlayEvent()
                         playerDouble.fakePlaybackFinishedEvent()
                         waitUntil { done in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
                                 done()
                             }
                         }
@@ -319,7 +319,7 @@ class PlayerEventsTest: QuickSpec {
                     playerDouble.fakePlayEvent()
                     playerDouble.fakePlaylistTransitionEvent()
                     waitUntil { done in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
                             done()
                         }
                     }

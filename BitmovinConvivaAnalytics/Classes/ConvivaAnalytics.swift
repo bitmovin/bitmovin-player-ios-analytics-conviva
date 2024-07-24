@@ -358,6 +358,9 @@ private extension ConvivaAnalytics {
             return
         }
 
+        playbackFinishedDispatchWorkItem?.cancel()
+        playbackFinishedDispatchWorkItem = nil
+
         if isSsaiAdBreakActive {
             adAnalytics.reportAdEnded()
             videoAnalytics.reportAdBreakEnded()

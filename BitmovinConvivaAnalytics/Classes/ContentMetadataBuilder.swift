@@ -95,6 +95,8 @@ class ContentMetadataBuilder: CustomStringConvertible {
             }
             if let duration = self.duration, duration > 0 {
                 contentInfo[CIS_SSDK_METADATA_DURATION] = duration
+            } else {
+                contentInfo[CIS_SSDK_METADATA_DURATION] = -1
             }
             if let custom = self.custom {
                 contentInfo.merge(custom) { $1 }
@@ -103,11 +105,12 @@ class ContentMetadataBuilder: CustomStringConvertible {
                 contentInfo.merge(additionalStandardTags) { $1 }
             }
         } else {
-            if let duration = self.duration, duration > 0 {
-                if let newDuration = contentInfo[CIS_SSDK_METADATA_DURATION] as? Int {
-                    if newDuration == 0 {
-                        contentInfo[CIS_SSDK_METADATA_DURATION] = duration
-                    }
+            if let oldDuration = contentInfo[CIS_SSDK_METADATA_DURATION] as? Int,
+               oldDuration == 0 {
+                if let duration = self.duration, duration > 0 {
+                    contentInfo[CIS_SSDK_METADATA_DURATION] = duration
+                } else {
+                    contentInfo[CIS_SSDK_METADATA_DURATION] = -1
                 }
             }
         }

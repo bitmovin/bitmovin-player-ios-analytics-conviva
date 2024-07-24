@@ -615,12 +615,12 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
             self.internalEndSession()
         }
         self.playbackFinishedDispatchWorkItem = playbackFinishedDispatchWorkItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10, execute: playbackFinishedDispatchWorkItem)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: playbackFinishedDispatchWorkItem)
     }
 
     func onStallStarted() {
         isStalled = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) { [weak self] in
             guard let self else { return }
             self.logger.debugLog(
                 message: "[ ConvivaAnalytics ] calling StallStarted after 0.10 seconds"

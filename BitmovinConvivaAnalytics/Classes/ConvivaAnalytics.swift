@@ -36,6 +36,7 @@ public final class ConvivaAnalytics: NSObject {
     private var isStalled = false
     private var playbackStarted = false
     private var isSsaiAdBreakActive = false
+    private var playbackFinishedDispatchWorkItem: DispatchWorkItem?
 
     // MARK: - Public Attributes
     /**
@@ -357,6 +358,9 @@ private extension ConvivaAnalytics {
             return
         }
 
+        playbackFinishedDispatchWorkItem?.cancel()
+        playbackFinishedDispatchWorkItem = nil
+
         if isSsaiAdBreakActive {
             adAnalytics.reportAdEnded()
             videoAnalytics.reportAdBreakEnded()
@@ -526,6 +530,16 @@ private extension ConvivaAnalytics {
             adInfo["c3.ad.firstAdSystem"] = firstAdSystem
         }
     }
+
+    private func maybeCancelEndSessionBeforePostRoll() {
+        playbackFinishedDispatchWorkItem?.cancel()
+    }
+
+    private func maybeEndSessionAfterPostRoll() {
+        guard playbackFinishedDispatchWorkItem != nil else { return }
+        playbackFinishedDispatchWorkItem = nil
+        internalEndSession()
+    }
 }
 
 // MARK: - PlayerListener
@@ -592,12 +606,20 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
 
     func onPlaybackFinished() {
         onPlaybackStateChanged(playerState: .CONVIVA_STOPPED)
-        internalEndSession()
+        let playbackFinishedDispatchWorkItem = DispatchWorkItem { [weak self] in
+            guard let self,
+                  let currentWorkItem = self.playbackFinishedDispatchWorkItem,
+                  !currentWorkItem.isCancelled else { return }
+            self.internalEndSession()
+        }
+        self.playbackFinishedDispatchWorkItem = playbackFinishedDispatchWorkItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: playbackFinishedDispatchWorkItem)
     }
 
     func onStallStarted() {
         isStalled = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) { [weak self] in
+            guard let self else { return }
             self.logger.debugLog(
                 message: "[ ConvivaAnalytics ] calling StallStarted after 0.10 seconds"
             )
@@ -693,6 +715,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {
+        maybeCancelEndSessionBeforePostRoll()
         videoAnalytics.reportAdBreakStarted(
             AdPlayer.ADPLAYER_CONTENT,
             adType: AdTechnology.CLIENT_SIDE,
@@ -704,6 +727,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     func onAdBreakFinished(_ event: AdBreakFinishedEvent) {
         videoAnalytics.reportAdBreakEnded()
         customEvent(event: event)
+        maybeEndSessionAfterPostRoll()
     }
 
     func onDestroy() {
@@ -736,6 +760,8 @@ extension ConvivaAnalytics: SsaiApiDelegate {
         guard !isSsaiAdBreakActive else { return }
         isSsaiAdBreakActive = true
 
+        maybeCancelEndSessionBeforePostRoll()
+
         videoAnalytics.reportAdBreakStarted(
             .ADPLAYER_CONTENT,
             adType: .SERVER_SIDE,
@@ -748,6 +774,8 @@ extension ConvivaAnalytics: SsaiApiDelegate {
 
         isSsaiAdBreakActive = false
         videoAnalytics.reportAdBreakEnded()
+
+        maybeEndSessionAfterPostRoll()
     }
 
     func ssaiApi_reportAdStarted(adInfo: SsaiAdInfo) {

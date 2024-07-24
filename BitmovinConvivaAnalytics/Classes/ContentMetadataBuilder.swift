@@ -105,8 +105,8 @@ class ContentMetadataBuilder: CustomStringConvertible {
                 contentInfo.merge(additionalStandardTags) { $1 }
             }
         } else {
-            if let oldDuration = contentInfo[CIS_SSDK_METADATA_DURATION] as? Int,
-               oldDuration == 0 {
+            let oldDuration = contentInfo[CIS_SSDK_METADATA_DURATION] as? Int
+            if oldDuration == nil || oldDuration == 0 {
                 if let duration = self.duration, duration > 0 {
                     contentInfo[CIS_SSDK_METADATA_DURATION] = duration
                 } else {

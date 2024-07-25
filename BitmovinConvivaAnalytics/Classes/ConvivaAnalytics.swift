@@ -406,11 +406,7 @@ private extension ConvivaAnalytics {
     }
 
     private func buildDynamicContentMetadata() {
-        if !player.isLive, player.duration.isFinite {
-            contentMetadataBuilder.duration = Int(player.duration)
-        } else {
-            contentMetadataBuilder.duration = nil
-        }
+        contentMetadataBuilder.duration = player.isLive ? -1 : Int(player.duration)
         contentMetadataBuilder.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
         contentMetadataBuilder.streamUrl = player.source?.sourceConfig.url.absoluteString
     }

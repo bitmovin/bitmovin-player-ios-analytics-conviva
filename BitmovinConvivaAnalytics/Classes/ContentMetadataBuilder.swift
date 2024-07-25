@@ -93,10 +93,8 @@ class ContentMetadataBuilder: CustomStringConvertible {
                 contentInfo[CIS_SSDK_METADATA_IS_LIVE] = type
                 == StreamType.CONVIVA_STREAM_LIVE ? NSNumber(value: true) : NSNumber(value: false)
             }
-            if let duration = self.duration, duration > 0 {
+            if let duration, duration != 0 {
                 contentInfo[CIS_SSDK_METADATA_DURATION] = duration
-            } else {
-                contentInfo[CIS_SSDK_METADATA_DURATION] = -1
             }
             if let custom = self.custom {
                 contentInfo.merge(custom) { $1 }
@@ -106,12 +104,10 @@ class ContentMetadataBuilder: CustomStringConvertible {
             }
         } else {
             let oldDuration = contentInfo[CIS_SSDK_METADATA_DURATION] as? Int
-            if oldDuration == nil || oldDuration == 0 {
-                if let duration = self.duration, duration > 0 {
-                    contentInfo[CIS_SSDK_METADATA_DURATION] = duration
-                } else {
-                    contentInfo[CIS_SSDK_METADATA_DURATION] = -1
-                }
+            if oldDuration == 0,
+               let duration,
+               duration != 0 {
+                contentInfo[CIS_SSDK_METADATA_DURATION] = duration
             }
         }
 

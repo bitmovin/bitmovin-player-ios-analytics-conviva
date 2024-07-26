@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.3.2] - 2024-07-26
+
 ### Fixed
 - Missing viewer ID and Player Name collection for client-side ads
 - Invalid session ID errors in Conviva Touchstone when using ads

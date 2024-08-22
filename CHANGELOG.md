@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Warning logs in case the `viewerId` or `applicationName` is missing
+
 ## [3.3.2] - 2024-07-26
 
 ### Fixed

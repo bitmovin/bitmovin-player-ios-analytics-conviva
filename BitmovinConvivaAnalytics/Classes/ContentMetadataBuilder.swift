@@ -68,7 +68,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
     func setOverrides(_ metadataOverrides: MetadataOverrides) {
         if playbackStarted {
             logger.debugLog(
-                message: "[ Conviva Analytics ] Playback has started. Only some metadata attributes will be updated"
+                message: "Playback has started. Only some metadata attributes will be updated"
             )
         }
 

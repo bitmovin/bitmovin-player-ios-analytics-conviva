@@ -406,9 +406,11 @@ private extension ConvivaAnalytics {
     }
 
     private func buildDynamicContentMetadata() {
-        contentMetadataBuilder.duration = player.isLive ? -1 : Int(player.duration)
+        guard let source = player.source else { return }
+
+        contentMetadataBuilder.duration = player.isLive ? -1 : Int(source.duration)
         contentMetadataBuilder.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
-        contentMetadataBuilder.streamUrl = player.source?.sourceConfig.url.absoluteString
+        contentMetadataBuilder.streamUrl = source.sourceConfig.url.absoluteString
     }
 
     private func customEvent(event: PlayerViewEvent, args: [String: String] = [:]) {

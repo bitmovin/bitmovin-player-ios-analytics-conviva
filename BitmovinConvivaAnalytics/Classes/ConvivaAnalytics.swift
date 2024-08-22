@@ -400,6 +400,7 @@ private extension ConvivaAnalytics {
     // MARK: - meta data handling
     private func buildContentMetadata() {
         let sourceConfig = player?.source?.sourceConfig
+        contentMetadataBuilder.assetName = sourceConfig?.title
 
         var customInternTags: [String: Any] = [
             "integrationVersion": version

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Wrong initial Content Length reported when pre-roll ads are present
+
 ## [3.3.2] - 2024-07-26
 
 ### Fixed

@@ -17,7 +17,7 @@ class SourceTestDouble: Source, TestDoubleDataSource {
             return mockedValue as! SourceConfig
         }
 
-        fatalError("Missing mock for sourceConfig")
+        return SourceConfig(url: URL(string: "http://fake.url")!, type: .hls)
     }
 
     var isAttachedToPlayer: Bool {

@@ -43,7 +43,7 @@ extension BitmovinPlayerListener: PlayerListener {
     }
 
     func onTimeChanged(_ event: TimeChangedEvent, player: Player) {
-        delegate?.onTimeChanged(player: player)
+        delegate?.onTimeChanged()
     }
 
     func onPlayerError(_ event: PlayerErrorEvent, player: Player) {

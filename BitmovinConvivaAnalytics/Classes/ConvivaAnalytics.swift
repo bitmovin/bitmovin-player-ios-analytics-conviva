@@ -556,7 +556,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         updateSession()
     }
 
-    func onTimeChanged(player: Player) {
+    func onTimeChanged() {
         guard !player.isAd else {
             return
         }

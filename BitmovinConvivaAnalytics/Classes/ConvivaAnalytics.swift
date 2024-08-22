@@ -38,8 +38,6 @@ public final class ConvivaAnalytics: NSObject {
     private var isSsaiAdBreakActive = false
     private var playbackFinishedDispatchWorkItem: DispatchWorkItem?
 
-    private var reportPlaybackRequestedTimeStamp: TimeInterval?
-
     // MARK: - Public Attributes
     /**
      Set the PlayerView to enable view triggered events like fullscreen state changes
@@ -327,8 +325,6 @@ private extension ConvivaAnalytics {
 
         setupPlayerStateManager()
 
-        print("[log] reportPlaybackRequested \(Date().timeIntervalSince1970)")
-        reportPlaybackRequestedTimeStamp = Date().timeIntervalSince1970
         videoAnalytics.reportPlaybackRequested(contentMetadataBuilder.build())
         logger.debugLog(message: "Creating session with metadata: \(contentMetadataBuilder)")
         logger.debugLog(message: "Session started")
@@ -630,11 +626,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         playbackStarted = true
         contentMetadataBuilder.setPlaybackStarted(true)
         updateSession()
-        print("[log] reporting playing \(Date().timeIntervalSince1970)")
         onPlaybackStateChanged(playerState: .CONVIVA_PLAYING)
-
-        guard let reportPlaybackRequestedTimeStamp else { return }
-        print("[log] local vst inside conviva: \(Date().timeIntervalSince1970 - reportPlaybackRequestedTimeStamp)")
     }
 
     func onPaused() {
@@ -721,8 +713,6 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         let adInfo = buildAdInfo(adStartedEvent: event)
         adAnalytics.reportAdLoaded(adInfo)
         adAnalytics.reportAdStarted(adInfo)
-        guard let reportPlaybackRequestedTimeStamp else { return }
-        print("[log] local ad vst inside conviva: \(Date().timeIntervalSince1970 - reportPlaybackRequestedTimeStamp)")
         adAnalytics.reportAdMetric(
             CIS_SSDK_PLAYBACK_METRIC_PLAYER_STATE,
             value: PlayerState.CONVIVA_PLAYING.rawValue
@@ -754,9 +744,6 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onAdBreakStarted(_ event: AdBreakStartedEvent) {
-        guard let reportPlaybackRequestedTimeStamp else { return }
-        print("[log] local ad break vst inside conviva: \(Date().timeIntervalSince1970 - reportPlaybackRequestedTimeStamp)")
-
         maybeCancelEndSessionBeforePostRoll()
         videoAnalytics.reportAdBreakStarted(
             AdPlayer.ADPLAYER_CONTENT,

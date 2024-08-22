@@ -79,7 +79,6 @@ public final class ConvivaAnalytics: NSObject {
         customerKey: String,
         config: ConvivaConfiguration = ConvivaConfiguration()
     ) throws {
-        self.player = player
         self.customerKey = customerKey
         self.config = config
 

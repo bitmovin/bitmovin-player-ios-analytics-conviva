@@ -52,17 +52,19 @@ class SourceTestDouble: Source, TestDoubleDataSource {
         return .unloaded
     }
 
-    var metadata: [String : AnyObject]? {
+    var metadata: [String: AnyObject]? {
         get {
             if let mockedValue = mocks["metadata"] {
-                return mockedValue as! [String : AnyObject]?
+                return mockedValue as! [String: AnyObject]?
             }
 
             return [:]
         }
+        // swiftlint:disable:next unused_setter_value
         set { }
     }
 
+    // swiftlint:disable:next identifier_name
     var _modules: _SourceModulesApi {
         if let mockedValue = mocks["_modules"] {
             return mockedValue as! _SourceModulesApi
@@ -100,10 +102,8 @@ class SourceTestDouble: Source, TestDoubleDataSource {
     }
 
     func add(listener: any BitmovinPlayerCore.SourceListener) {
-
     }
 
     func remove(listener: any BitmovinPlayerCore.SourceListener) {
-
     }
 }

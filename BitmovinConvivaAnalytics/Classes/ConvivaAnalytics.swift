@@ -485,7 +485,7 @@ private extension ConvivaAnalytics {
         // do not report any stalling when isStalled false (StallEnded triggered immediatelly after StallStarted)
         else if !isStalled, playerState == .CONVIVA_BUFFERING {
             self.logger.debugLog(
-                message: "[ ConvivaAnalytics ] false stalling, not registering to Conviva"
+                message: "False stalling, not registering to Conviva"
             )
             return
         }
@@ -673,7 +673,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) { [weak self] in
             guard let self else { return }
             self.logger.debugLog(
-                message: "[ ConvivaAnalytics ] calling StallStarted after 0.10 seconds"
+                message: "Calling StallStarted after 0.10 seconds"
             )
             self.onPlaybackStateChanged(playerState: .CONVIVA_BUFFERING)
         }

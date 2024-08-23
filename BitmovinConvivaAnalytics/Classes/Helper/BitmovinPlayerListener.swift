@@ -111,7 +111,7 @@ extension BitmovinPlayerListener: PlayerListener {
 
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent, player: Player) {
-        delegate?.onAdStarted(event)
+        delegate?.onAdStarted(event, player: player)
     }
 
     func onAdFinished(_ event: AdFinishedEvent, player: Player) {

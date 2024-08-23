@@ -515,7 +515,7 @@ private extension ConvivaAnalytics {
         )
     }
 
-    private func buildAdInfo(adStartedEvent: AdStartedEvent) -> [String: Any] {
+    private func buildAdInfo(adStartedEvent: AdStartedEvent, player: Player) -> [String: Any] {
         var adInfo = [String: Any]()
 
         adInfo["c3.ad.id"] = notAvailable
@@ -538,7 +538,7 @@ private extension ConvivaAnalytics {
 
         adInfo["c3.ad.position"] = AdEventUtil.parseAdPosition(
             event: adStartedEvent,
-            contentDuration: adStartedEvent.duration
+            contentDuration: player.duration
         ).rawValue
         adInfo[CIS_SSDK_METADATA_DURATION] = adStartedEvent.duration
         adInfo[CIS_SSDK_METADATA_IS_LIVE] = videoAnalytics.getMetadataInfo()[CIS_SSDK_METADATA_IS_LIVE]
@@ -732,8 +732,8 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     // MARK: - Ad events
-    func onAdStarted(_ event: AdStartedEvent) {
-        let adInfo = buildAdInfo(adStartedEvent: event)
+    func onAdStarted(_ event: AdStartedEvent, player: Player) {
+        let adInfo = buildAdInfo(adStartedEvent: event, player: player)
         adAnalytics.reportAdLoaded(adInfo)
         adAnalytics.reportAdStarted(adInfo)
         adAnalytics.reportAdMetric(

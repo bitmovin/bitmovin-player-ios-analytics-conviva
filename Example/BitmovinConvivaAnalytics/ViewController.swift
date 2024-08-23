@@ -115,6 +115,8 @@ class ViewController: UIViewController {
     @IBAction func destroyPlayer(_ sender: Any) {
         convivaAnalytics?.release()
         player?.unload()
+        player?.destroy()
+        player = nil
     }
 
     @IBAction func pauseTracking(_ sender: Any) {

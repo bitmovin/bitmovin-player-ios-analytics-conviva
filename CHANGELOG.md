@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Warning logs in case the `viewerId` or `applicationName` is missing
+
 ### Fixed
 - Wrong initial Content Length reported when pre-roll ads are present
 

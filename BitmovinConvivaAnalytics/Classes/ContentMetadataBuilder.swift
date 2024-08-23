@@ -68,7 +68,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
     func setOverrides(_ metadataOverrides: MetadataOverrides) {
         if playbackStarted {
             logger.debugLog(
-                message: "[ Conviva Analytics ] Playback has started. Only some metadata attributes will be updated"
+                message: "Playback has started. Only some metadata attributes will be updated"
             )
         }
 
@@ -77,6 +77,28 @@ class ContentMetadataBuilder: CustomStringConvertible {
 
     func setPlaybackStarted(_ playbackStarted: Bool) {
         self.playbackStarted = playbackStarted
+
+        guard playbackStarted else { return }
+
+        let buildMissingMetadataWarningMessage: (_ metadataName: String) -> String = { name in
+            """
+            [ Warning ] `\(name)` not set but playback started. \
+            Please provide `\(name)` through \
+            `ConvivaAnalytics.updateContentMetadata(metadataOverrides:)` before playback starts
+            """
+        }
+
+        if viewerId == nil {
+            logger.debugLog(
+                message: buildMissingMetadataWarningMessage("viewerId")
+            )
+        }
+
+        if applicationName == nil {
+            logger.debugLog(
+                message: buildMissingMetadataWarningMessage("applicationName")
+            )
+        }
     }
 
     func build() -> [String: Any] {

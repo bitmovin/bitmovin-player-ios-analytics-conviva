@@ -83,7 +83,7 @@ public final class ConvivaAnalytics: NSObject {
             config: config
         )
     }
-    
+
     /// Initialize a new Bitmovin Conviva Analytics object to track metrics from Bitmovin Player.
     ///
     /// Use this initializer if you plan to manually start VST tracking **before** a `Player` instance is created.

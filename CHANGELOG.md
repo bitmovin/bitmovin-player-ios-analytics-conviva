@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Warning logs in case the `viewerId` or `applicationName` is missing
+- Possibility to start session tracking without an `Player` instance
+  - `ConvivaAnalytics.init(customerKey:config:)` initializer without a `Player`
+  - `ConvivaAnalytics.attach(player:)` to attach the `Player` at a later point in the session life-cycle
 
 ### Fixed
 - Wrong initial Content Length reported when pre-roll ads are present

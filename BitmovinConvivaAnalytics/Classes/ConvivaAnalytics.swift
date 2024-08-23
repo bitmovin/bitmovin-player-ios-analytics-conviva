@@ -88,7 +88,7 @@ public final class ConvivaAnalytics: NSObject {
 
     public convenience init(
         customerKey: String,
-        config: ConvivaConfiguration
+        config: ConvivaConfiguration = ConvivaConfiguration()
     ) throws {
         try self.init(
             nil,

@@ -86,11 +86,20 @@ class ViewController: UIViewController {
         }
         convivaConfig.debugLoggingEnabled = true
 
-        let convivaAnalytics = try ConvivaAnalytics(
-            player: player,
-            customerKey: convivaCustomerKey,
-            config: convivaConfig
-        )
+        let convivaAnalytics: ConvivaAnalytics
+        if let player {
+            convivaAnalytics = try ConvivaAnalytics(
+                player: player,
+                customerKey: convivaCustomerKey,
+                config: convivaConfig
+            )
+        } else {
+            convivaAnalytics = try ConvivaAnalytics(
+                customerKey: convivaCustomerKey,
+                config: convivaConfig
+            )
+        }
+
         convivaAnalytics.updateContentMetadata(
             metadataOverrides: buildMetadataOverrides()
         )

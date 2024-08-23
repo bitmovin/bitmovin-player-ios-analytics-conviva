@@ -74,10 +74,33 @@ public final class ConvivaAnalytics: NSObject {
         - customerKey: Conviva customerKey
         - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
      */
-    public init(
-        player: Player? = nil,
+    public convenience init(
+        player: Player,
         customerKey: String,
         config: ConvivaConfiguration = ConvivaConfiguration()
+    ) throws {
+        try self.init(
+            player,
+            customerKey: customerKey,
+            config: config
+        )
+    }
+
+    public convenience init(
+        customerKey: String,
+        config: ConvivaConfiguration
+    ) throws {
+        try self.init(
+            nil,
+            customerKey: customerKey,
+            config: config
+        )
+    }
+
+    private init(
+        _ player: Player?,
+        customerKey: String,
+        config: ConvivaConfiguration
     ) throws {
         self.customerKey = customerKey
         self.config = config

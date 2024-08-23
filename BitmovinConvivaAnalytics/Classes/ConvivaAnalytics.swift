@@ -66,14 +66,12 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     // MARK: - initializer
-    /**
-     Initialize a new Bitmovin Conviva Analytics object to track metrics from Bitmovin Player
-
-     - Parameters:
-        - player: Bitmovin Player instance to track
-        - customerKey: Conviva customerKey
-        - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
-     */
+    /// Initialize a new Bitmovin Conviva Analytics object to track metrics from Bitmovin Player
+    ///  
+    /// - Parameters:
+    ///    - player: Bitmovin Player instance to track
+    ///    - customerKey: Conviva customerKey
+    ///    - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
     public convenience init(
         player: Player,
         customerKey: String,
@@ -85,7 +83,15 @@ public final class ConvivaAnalytics: NSObject {
             config: config
         )
     }
-
+    
+    /// Initialize a new Bitmovin Conviva Analytics object to track metrics from Bitmovin Player.
+    ///
+    /// Use this initializer if you plan to manually start VST tracking **before** a `Player` instance is created.
+    /// Once the `Player` instance is created, attach it using the `attach(player:)` method.
+    ///
+    /// - Parameters:
+    ///   - customerKey: Conviva customerKey
+    ///   - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
     public convenience init(
         customerKey: String,
         config: ConvivaConfiguration = ConvivaConfiguration()
@@ -285,6 +291,11 @@ public final class ConvivaAnalytics: NSObject {
         logger.debugLog(message: "Tracking resumed.")
     }
 
+    /// Attaches a `Player` instance to the Conviva Analytics object.
+    /// We suggest to call this method as soon as the `Player` instance is initialized to not mis any tracking.
+    ///
+    /// Has no effect if there is already an `Player` instance set. Use the `ConvivaAnalytics.init` without `player`
+    /// if you plan to attach an `Player` instance later in the life-cycle.
     public func attach(player: Player) {
         if self.player != nil {
             logger.debugLog(

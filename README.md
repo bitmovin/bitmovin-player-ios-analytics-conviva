@@ -155,7 +155,7 @@ player.load(…);
 ### External VST tracking
 
 If your app needs additional setup steps which should be included in VST tracking, such as DRM token generation, before the `Player` instance can be initialized, 
-the `ConvivaAnalytics` can be initialized without an `Player` instance. Once the `Player` instance is created it can be attached.
+the `ConvivaAnalytics` can be initialized without a `Player` instance. Once the `Player` instance is created it can be attached.
 
 1. Create the `ConvivaAnalytics` instance with your `customerKey` and configuration.
 

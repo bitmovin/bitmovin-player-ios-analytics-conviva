@@ -292,7 +292,7 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     /// Attaches a `Player` instance to the Conviva Analytics object.
-    /// We suggest to call this method as soon as the `Player` instance is initialized to not mis any tracking.
+    /// This method should be called as soon as the `Player` instance is initialized to not miss any tracking.
     ///
     /// Has no effect if there is already an `Player` instance set. Use the `ConvivaAnalytics.init` without `player`
     /// if you plan to attach an `Player` instance later in the life-cycle.

@@ -27,6 +27,7 @@
 		37756EC0216F9A510041806D /* ContentMetadataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EBF216F9A510041806D /* ContentMetadataTest.swift */; };
 		37756EC2216F9AA50041806D /* CustomEventsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EC1216F9AA50041806D /* CustomEventsTest.swift */; };
 		37756EC42170764E0041806D /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EC32170764E0041806D /* SpecHelper.swift */; };
+		37B615A02C775567009511D9 /* SourceTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B6159F2C77555E009511D9 /* SourceTestDouble.swift */; };
 		37EB3CD3216B70D70093F085 /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CD1216B70650093F085 /* TestHelper.swift */; };
 		37EB3CD4216B70DA0093F085 /* BitmovinPlayerTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CC7216B6E3F0093F085 /* BitmovinPlayerTestDouble.swift */; };
 		44D4DC502841032B00C0BE9D /* CISAnalyticsCreatorTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D4DC4F2841032B00C0BE9D /* CISAnalyticsCreatorTestDouble.swift */; };
@@ -81,6 +82,8 @@
 		37756EBF216F9A510041806D /* ContentMetadataTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentMetadataTest.swift; sourceTree = "<group>"; };
 		37756EC1216F9AA50041806D /* CustomEventsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEventsTest.swift; sourceTree = "<group>"; };
 		37756EC32170764E0041806D /* SpecHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecHelper.swift; sourceTree = "<group>"; };
+		37B6159E2C774236009511D9 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = SOURCE_ROOT; };
+		37B6159F2C77555E009511D9 /* SourceTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceTestDouble.swift; sourceTree = "<group>"; };
 		37EB3CC7216B6E3F0093F085 /* BitmovinPlayerTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BitmovinPlayerTestDouble.swift; path = Doubles/BitmovinPlayerTestDouble.swift; sourceTree = "<group>"; };
 		37EB3CD1216B70650093F085 /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
 		3C5797E6D291A3F208E7499E /* Pods_BitmovinConvivaAnalytics_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BitmovinConvivaAnalytics_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,6 +200,7 @@
 		37EB3CC6216B6D2B0093F085 /* Doubles */ = {
 			isa = PBXGroup;
 			children = (
+				37B6159F2C77555E009511D9 /* SourceTestDouble.swift */,
 				37EB3CC7216B6E3F0093F085 /* BitmovinPlayerTestDouble.swift */,
 				44D4DC4F2841032B00C0BE9D /* CISAnalyticsCreatorTestDouble.swift */,
 				44D4DC51284119E700C0BE9D /* CISAnalyticsTestDouble.swift */,
@@ -228,6 +232,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				37B6159E2C774236009511D9 /* CHANGELOG.md */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				37495D452C06010800B49BBE /* Shared */,
 				607FACD21AFB9204008FA782 /* BitmovinConvivaAnalyticsExample */,
@@ -745,6 +750,7 @@
 				44D4DC52284119E700C0BE9D /* CISAnalyticsTestDouble.swift in Sources */,
 				37EB3CD4216B70DA0093F085 /* BitmovinPlayerTestDouble.swift in Sources */,
 				44D4DC5428411DE400C0BE9D /* CISVideoAnalyticsTestDouble.swift in Sources */,
+				37B615A02C775567009511D9 /* SourceTestDouble.swift in Sources */,
 				37EB3CD3216B70D70093F085 /* TestHelper.swift in Sources */,
 				37756EB2216F8E2F0041806D /* Spy.swift in Sources */,
 				37756EBA216F8FD30041806D /* SpyTracker.swift in Sources */,

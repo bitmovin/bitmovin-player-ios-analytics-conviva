@@ -16,7 +16,7 @@ let package = Package(
             targets: ["BitmovinConvivaAnalytics"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/Conviva/conviva-ios-sdk-spm.git", exact: "4.0.40"),
+        .package(url: "https://github.com/Conviva/conviva-ios-sdk-spm.git", exact: "4.0.49"),
         .package(url: "https://github.com/bitmovin/player-ios-core.git", from: "3.0.0")
     ],
     targets: [

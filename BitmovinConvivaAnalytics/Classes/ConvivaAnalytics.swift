@@ -304,6 +304,15 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
+        if player.source != nil {
+            logger.debugLog(
+                message: """
+                         [ Warning ] There is already a Source loaded into the Player instance! \
+                         This method should be called before loading a Source.
+                         """
+            )
+        }
+
         self.player = player
         updateSession()
 

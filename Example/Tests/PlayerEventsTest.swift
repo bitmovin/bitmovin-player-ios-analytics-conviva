@@ -79,7 +79,7 @@ class PlayerEventsTest: QuickSpec {
             context("initialize player state manager") {
                 it("on play") {
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setPlayerInfo")
-                    let adAnalyticsSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "setPlayerInfo")
+                    let adAnalyticsSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "setAdPlayerInfo")
                     playerDouble.fakePlayEvent()
                     expect(spy).to(haveBeenCalled())
                     expect(adAnalyticsSpy).to(haveBeenCalled())

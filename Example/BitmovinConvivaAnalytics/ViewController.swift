@@ -53,32 +53,14 @@ class ViewController: UIViewController {
         let playerConfig = buildDefaultPlayerConfig(enableAds: adsSwitch.isOn)
         player = PlayerFactory.createPlayer(playerConfig: playerConfig)
 
-        let convivaConfig = ConvivaConfiguration()
-
-        // Set gatewayUrl ONLY in debug mode !!!
-        if let gatewayString = convivaGatewayString,
-            let gatewayUrl = URL(string: gatewayString) {
-            convivaConfig.gatewayUrl = gatewayUrl
-        }
-        convivaConfig.debugLoggingEnabled = true
-
-        var metadata = MetadataOverrides()
-        metadata.applicationName = "Bitmovin iOS Conviva integration example app"
-        metadata.viewerId = "awesomeViewerId"
-        metadata.custom = ["custom_tag": "Episode"]
-        metadata.additionalStandardTags = ["c3.cm.contentType": "VOD"]
-
-        metadata.imaSdkVersion = IMAAdsLoader.sdkVersion()
-
-        do {
-            convivaAnalytics = try ConvivaAnalytics(
-                player: player,
-                customerKey: convivaCustomerKey,
-                config: convivaConfig
-            )
-            convivaAnalytics?.updateContentMetadata(metadataOverrides: metadata)
-        } catch {
-            NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
+        if convivaAnalytics == nil {
+            do {
+                convivaAnalytics = try setupConvivaAnalytics(player: player)
+            } catch {
+                NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
+            }
+        } else {
+            convivaAnalytics?.attach(player: player)
         }
 
         // Setup UI
@@ -94,6 +76,37 @@ class ViewController: UIViewController {
         player.load(source: SourceFactory.createSource(from: vodSourceConfig))
     }
 
+    func setupConvivaAnalytics(player: Player?) throws -> ConvivaAnalytics {
+        let convivaConfig = ConvivaConfiguration()
+
+        // Set gatewayUrl ONLY in debug mode !!!
+        if let gatewayString = convivaGatewayString,
+            let gatewayUrl = URL(string: gatewayString) {
+            convivaConfig.gatewayUrl = gatewayUrl
+        }
+        convivaConfig.debugLoggingEnabled = true
+
+        let convivaAnalytics: ConvivaAnalytics
+        if let player {
+            convivaAnalytics = try ConvivaAnalytics(
+                player: player,
+                customerKey: convivaCustomerKey,
+                config: convivaConfig
+            )
+        } else {
+            convivaAnalytics = try ConvivaAnalytics(
+                customerKey: convivaCustomerKey,
+                config: convivaConfig
+            )
+        }
+
+        convivaAnalytics.updateContentMetadata(
+            metadataOverrides: buildMetadataOverrides()
+        )
+
+        return convivaAnalytics
+    }
+
     // MARK: - actions
     @IBAction func setupPlayer(_ sender: Any) {
         setupBitmovinPlayer()
@@ -102,6 +115,8 @@ class ViewController: UIViewController {
     @IBAction func destroyPlayer(_ sender: Any) {
         convivaAnalytics?.release()
         player?.unload()
+        player?.destroy()
+        player = nil
     }
 
     @IBAction func pauseTracking(_ sender: Any) {
@@ -122,4 +137,33 @@ class ViewController: UIViewController {
             attributes: ["at Time": "\(Int(player.currentTime))"]
         )
     }
+
+    @IBAction func startSession(_ sender: Any) {
+        do {
+            let convivaAnalytics = try setupConvivaAnalytics(player: player)
+
+            convivaAnalytics.updateContentMetadata(
+                metadataOverrides: buildMetadataOverrides(assetName: "Art of Motion")
+            )
+
+            try convivaAnalytics.initializeSession()
+
+            self.convivaAnalytics = convivaAnalytics
+        } catch {
+            NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
+        }
+    }
+}
+
+private func buildMetadataOverrides(assetName: String? = nil) -> MetadataOverrides {
+    var metadata = MetadataOverrides()
+    metadata.applicationName = "Bitmovin iOS Conviva integration example app"
+    metadata.viewerId = "awesomeViewerId"
+    metadata.custom = ["custom_tag": "Episode"]
+    metadata.additionalStandardTags = ["c3.cm.contentType": "VOD"]
+    metadata.imaSdkVersion = IMAAdsLoader.sdkVersion()
+    if let assetName {
+        metadata.assetName = assetName
+    }
+    return metadata
 }

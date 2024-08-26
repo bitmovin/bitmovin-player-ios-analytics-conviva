@@ -25,42 +25,42 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onReady = fakeListener?.onReady else {
             return
         }
-        onReady(ReadyEvent(), player)
+        onReady(ReadyEvent(), self)
     }
 
     func fakePlayEvent() {
         guard let onPlay = fakeListener?.onPlay else {
             return
         }
-        onPlay(PlayEvent(time: 1), player)
+        onPlay(PlayEvent(time: 1), self)
     }
 
     func fakePlayingEvent() {
         guard let onPlaying = fakeListener?.onPlaying else {
             return
         }
-        onPlaying(PlayingEvent(time: 1), player)
+        onPlaying(PlayingEvent(time: 1), self)
     }
 
     func fakePauseEvent() {
         guard let onPaused = fakeListener?.onPaused else {
             return
         }
-        onPaused(PausedEvent(time: 1), player)
+        onPaused(PausedEvent(time: 1), self)
     }
 
     func fakeStallStartedEvent() {
         guard let onStallStarted = fakeListener?.onStallStarted else {
             return
         }
-        onStallStarted(StallStartedEvent(), player)
+        onStallStarted(StallStartedEvent(), self)
     }
 
     func fakeStallEndedEvent() {
         guard let onStallEnded = fakeListener?.onStallEnded else {
             return
         }
-        onStallEnded(StallEndedEvent(), player)
+        onStallEnded(StallEndedEvent(), self)
     }
 
     func fakePlayerErrorEvent() {
@@ -73,7 +73,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
                 message: "Test player error",
                 data: nil
             ),
-            player
+            self
         )
     }
 
@@ -81,7 +81,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onSourceError = fakeListener?.onSourceError else {
             return
         }
-        onSourceError(SourceErrorEvent(code: SourceError.Code.general, message: "Test source error", data: nil), player)
+        onSourceError(SourceErrorEvent(code: SourceError.Code.general, message: "Test source error", data: nil), self)
     }
 
     func fakeAdStartedEvent(position: String? = "pre") {
@@ -99,7 +99,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
                 position: position,
                 ad: BitmovinPlayerTestAd()
             ),
-            player
+            self
         )
     }
 
@@ -111,7 +111,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
             AdBreakStartedEvent(
                 adBreak: TestAdBreak(position: position)
             ),
-            player
+            self
         )
     }
 
@@ -123,7 +123,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
             AdBreakFinishedEvent(
                 adBreak: TestAdBreak(position: position)
             ),
-            player
+            self
         )
     }
 
@@ -131,42 +131,42 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onTimeChanged = fakeListener?.onTimeChanged else {
             return
         }
-        onTimeChanged(TimeChangedEvent(currentTime: 1), player)
+        onTimeChanged(TimeChangedEvent(currentTime: 1), self)
     }
 
     func fakeSourceLoadedEvent() {
         guard let onSourceLoaded = fakeListener?.onSourceLoaded else {
             return
         }
-        onSourceLoaded(SourceLoadedEvent(source: fakeSource), player)
+        onSourceLoaded(SourceLoadedEvent(source: fakeSource), self)
     }
 
     func fakeSourceUnloadedEvent() {
         guard let onSourceUnloaded = fakeListener?.onSourceUnloaded else {
             return
         }
-        onSourceUnloaded(SourceUnloadedEvent(source: fakeSource), player)
+        onSourceUnloaded(SourceUnloadedEvent(source: fakeSource), self)
     }
 
     func fakeAdSkippedEvent() {
         guard let onAdSkipped = fakeListener?.onAdSkipped else {
             return
         }
-        onAdSkipped(AdSkippedEvent(ad: BitmovinPlayerTestAd()), player)
+        onAdSkipped(AdSkippedEvent(ad: BitmovinPlayerTestAd()), self)
     }
 
     func fakeAdFinishedEvent() {
         guard let onAdFinished = fakeListener?.onAdFinished else {
             return
         }
-        onAdFinished(AdFinishedEvent(ad: BitmovinPlayerTestAd()), player)
+        onAdFinished(AdFinishedEvent(ad: BitmovinPlayerTestAd()), self)
     }
 
     func fakeAdErrorEvent() {
         guard let onAdError = fakeListener?.onAdError else {
             return
         }
-        onAdError(AdErrorEvent(adItem: nil, code: 1_000, message: "Error Message", adConfig: nil), player)
+        onAdError(AdErrorEvent(adItem: nil, code: 1_000, message: "Error Message", adConfig: nil), self)
     }
 
     func fakeSeekEvent(position: TimeInterval = 0, seekTarget: TimeInterval = 0) {
@@ -176,7 +176,7 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         // seek target returns -DBL_MAX when livestreaming
         let fromSeekPos = SeekPosition(source: fakeSource, time: position)
         let toSeekPos = SeekPosition(source: fakeSource, time: seekTarget)
-        onSeek(SeekEvent(from: fromSeekPos, to: toSeekPos), player)
+        onSeek(SeekEvent(from: fromSeekPos, to: toSeekPos), self)
     }
 
     func fakeTimeShiftEvent(position: TimeInterval = 0, seekTarget: TimeInterval = 0) {
@@ -184,42 +184,42 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
             return
         }
         // seek target returns -DBL_MAX when livestreaming
-        onTimeShift(TimeShiftEvent(position: position, target: seekTarget, timeShift: 0), player)
+        onTimeShift(TimeShiftEvent(position: position, target: seekTarget, timeShift: 0), self)
     }
 
     func fakeSeekedEvent() {
         guard let onSeeked = fakeListener?.onSeeked else {
             return
         }
-        onSeeked(SeekedEvent(), player)
+        onSeeked(SeekedEvent(), self)
     }
 
     func fakeTimeShiftedEvent() {
         guard let onTimeShifted = fakeListener?.onTimeShifted else {
             return
         }
-        onTimeShifted(TimeShiftedEvent(), player)
+        onTimeShifted(TimeShiftedEvent(), self)
     }
 
     func fakePlaybackFinishedEvent() {
         guard let onPlaybackFinished = fakeListener?.onPlaybackFinished else {
             return
         }
-        onPlaybackFinished(PlaybackFinishedEvent(), player)
+        onPlaybackFinished(PlaybackFinishedEvent(), self)
     }
 
     func fakePlaylistTransitionEvent() {
         guard let onPlaylistTransition = fakeListener?.onPlaylistTransition else {
             return
         }
-        onPlaylistTransition(PlaylistTransitionEvent(from: fakeSource, to: fakeSource), player)
+        onPlaylistTransition(PlaylistTransitionEvent(from: fakeSource, to: fakeSource), self)
     }
 
     func fakeDestroyEvent() {
         guard let onDestroyEvent = fakeListener?.onDestroy else {
             return
         }
-        onDestroyEvent(DestroyEvent(), player)
+        onDestroyEvent(DestroyEvent(), self)
     }
 
     override func add(listener: PlayerListener) {

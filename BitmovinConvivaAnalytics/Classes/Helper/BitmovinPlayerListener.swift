@@ -43,7 +43,7 @@ extension BitmovinPlayerListener: PlayerListener {
     }
 
     func onTimeChanged(_ event: TimeChangedEvent, player: Player) {
-        delegate?.onTimeChanged()
+        delegate?.onTimeChanged(player: player)
     }
 
     func onPlayerError(_ event: PlayerErrorEvent, player: Player) {
@@ -89,7 +89,7 @@ extension BitmovinPlayerListener: PlayerListener {
     }
 
     func onStallEnded(_ event: StallEndedEvent, player: Player) {
-        delegate?.onStallEnded()
+        delegate?.onStallEnded(player: player)
     }
 
     // MARK: - Seek / Timeshift events
@@ -98,7 +98,7 @@ extension BitmovinPlayerListener: PlayerListener {
     }
 
     func onSeeked(_ event: SeekedEvent, player: Player) {
-        delegate?.onSeeked()
+        delegate?.onSeeked(player: player)
     }
 
     func onTimeShift(_ event: TimeShiftEvent, player: Player) {
@@ -111,7 +111,7 @@ extension BitmovinPlayerListener: PlayerListener {
 
     // MARK: - Ad events
     func onAdStarted(_ event: AdStartedEvent, player: Player) {
-        delegate?.onAdStarted(event)
+        delegate?.onAdStarted(event, player: player)
     }
 
     func onAdFinished(_ event: AdFinishedEvent, player: Player) {

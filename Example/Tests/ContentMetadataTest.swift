@@ -51,6 +51,12 @@ class ContentMetadataTest: QuickSpec {
                 }
             }
             context("when initializing session") {
+                var sourceDouble: SourceTestDouble!
+                beforeEach {
+                    sourceDouble = SourceTestDouble()
+
+                    _ = TestDouble(aClass: playerDouble!, name: "source", return: sourceDouble!)
+                }
                 it("set application name") {
                     playerDouble.fakePlayEvent() // to initialize session
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
@@ -63,13 +69,11 @@ class ContentMetadataTest: QuickSpec {
                 it("set asset name") {
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
 
-                    let playerConfig = PlayerConfig()
-                    _ = TestDouble(aClass: playerDouble!, name: "config", return: playerConfig)
-
                     let sourceConfig = SourceConfig(url: URL(string: "www.google.com.m3u8")!, type: .hls)
                     sourceConfig.title = "Art of Unit Test"
-                    let source = SourceFactory.createSource(from: sourceConfig)
-                    playerDouble.load(source: source)
+
+                    _ = TestDouble(aClass: sourceDouble!, name: "sourceConfig", return: sourceConfig)
+
                     playerDouble.fakePlayEvent() // to initialize session
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["assetName": "Art of Unit Test"])
@@ -113,10 +117,16 @@ class ContentMetadataTest: QuickSpec {
             }
 
             context("when updating session") {
+                var sourceDouble: SourceTestDouble!
+                beforeEach {
+                    sourceDouble = SourceTestDouble()
+
+                    _ = TestDouble(aClass: playerDouble!, name: "source", return: sourceDouble!)
+                }
                 context("with VOD stream") {
                     it("update video duration") {
                         _ = TestDouble(aClass: playerDouble!, name: "isLive", return: false)
-                        _ = TestDouble(aClass: playerDouble!, name: "duration", return: 50.0)
+                        _ = TestDouble(aClass: sourceDouble!, name: "duration", return: 50.0)
 
                         playerDouble.fakePlayEvent() // to initialize session
                         let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
@@ -142,10 +152,10 @@ class ContentMetadataTest: QuickSpec {
 
                 describe("when duration is not yet available on play") {
                     it("update video duration on source loaded") {
-                        _ = TestDouble(aClass: playerDouble!, name: "duration", return: 0.0)
+                        _ = TestDouble(aClass: sourceDouble!, name: "duration", return: 0.0)
                         playerDouble.fakePlayEvent() // to initialize session
 
-                        _ = TestDouble(aClass: playerDouble!, name: "duration", return: 50.0)
+                        _ = TestDouble(aClass: sourceDouble!, name: "duration", return: 50.0)
                         playerDouble.fakeSourceLoadedEvent() // to initialize session
 
                         let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")

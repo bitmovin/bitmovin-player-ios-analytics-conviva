@@ -25,7 +25,7 @@ BitmovinConvivaAnalytics is available through [CocoaPods](https://cocoapods.org)
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'BitmovinConvivaAnalytics', git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: '3.3.2'
+pod 'BitmovinConvivaAnalytics', git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: '3.4.0'
 ```
 
 Then, in your command line run:
@@ -151,6 +151,45 @@ If you want to use the same player instance for multiple playback, just load a n
 ```swift
 player.load(…);
 ```
+
+### External VST tracking
+
+If your app needs additional setup steps which should be included in VST tracking, such as DRM token generation, before the `Player` instance can be initialized, 
+the `ConvivaAnalytics` can be initialized without a `Player` instance. Once the `Player` instance is created it can be attached.
+
+1. Create the `ConvivaAnalytics` instance with your `customerKey` and configuration.
+
+```swift
+do {
+    convivaAnalytics = try ConvivaAnalytics(
+        customerKey: "YOUR-CONVIVA-CUSTOMER-KEY"
+    )
+} catch {
+    NSLog("[ Example ] ConvivaAnalytics initialization failed with error: \(error)")
+}
+```
+
+2. Conviva requires that the `assetName` is set at session initialization. Therefore ensure that you provide using the `MetadataOverrides` **before** initializing the tracking session.
+
+```swift
+var metadata = MetadataOverrides()
+metadata.assetName = "Your Asset Name"
+convivaAnalytics.updateContentMetadata(
+    metadataOverrides: metadata
+)
+
+// Initialize tracking session
+try convivaAnalytics.initializeSession()
+```
+
+3. Once your `Player` instance is ready attach it to the `ConvivaAnalytics` instance.
+
+```swift
+// ... Additional setup steps
+
+let player = PlayerFactory.createPlayer(...)
+convivaAnalytics.attach(player: player)
+``` 
 
 ## Limitations
 

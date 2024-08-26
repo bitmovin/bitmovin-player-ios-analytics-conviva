@@ -115,5 +115,6 @@ class CISVideoAnalyticsTestDouble: NSObject, CISVideoAnalyticsProtocol, TestDoub
     }
 
     func cleanup() {
+        spy(functionName: "cleanup")
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol TestDoubleDataSource {
+protocol TestDoubleDataSource: AnyObject {
     var mocks: [String: Any] { get }
     func spy(functionName: String, args: [String: String]?)
 }
@@ -19,6 +19,10 @@ extension TestDoubleDataSource {
     }
 
     func spy(functionName: String, args: [String: String]? = nil) {
-        TestHelper.shared.spy(functionName: functionName, args: args)
+        TestHelper.shared.spy(
+            aClass: type(of: self),
+            functionName: functionName,
+            args: args
+        )
     }
 }

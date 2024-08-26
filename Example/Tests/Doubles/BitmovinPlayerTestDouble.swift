@@ -284,6 +284,22 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         }
         return player.currentTime
     }
+
+    override var isAd: Bool {
+        if let mockedValue = mocks["isAd"] {
+            // swiftlint:disable:next force_cast
+            return mockedValue as! Bool
+        }
+        return player.isAd
+    }
+
+    override func currentTime(_ timeMode: TimeMode) -> TimeInterval {
+        if let mockedValue = mocks["currentTime(_:)"] {
+            // swiftlint:disable:next force_cast
+            return mockedValue as! TimeInterval
+        }
+        return player.currentTime(timeMode)
+    }
 }
 
 class TestAdBreak: NSObject, AdBreak {
@@ -337,7 +353,7 @@ class BitmovinPlayerStub: NSObject, Player {
     override init() {
         let config = PlayerConfig()
         config.key = "foobar"
-        player = PlayerFactory.createPlayer(playerConfig: config)
+        player = PlayerFactory.createPlayer(playerConfig: config, analytics: .disabled)
     }
 
     var isDestroyed: Bool {
@@ -503,15 +519,12 @@ class BitmovinPlayerStub: NSObject, Player {
     }
 
     func load(sourceConfig: SourceConfig) {
-        player.load(sourceConfig: sourceConfig)
     }
 
     func load(source: Source) {
-        player.load(source: source)
     }
 
     func load(playlistConfig: PlaylistConfig) {
-        player.load(playlistConfig: playlistConfig)
     }
 
     func unload() {

@@ -63,5 +63,7 @@ class CISAnalyticsTestDouble: NSObject, CISAnalyticsProtocol, TestDoubleDataSour
     func setUserPrefsForDataDeletion(_ userPrefs: [AnyHashable: Any]) {
     }
 
-    func cleanup() {}
+    func cleanup() {
+        spy(functionName: "cleanup")
+    }
 }

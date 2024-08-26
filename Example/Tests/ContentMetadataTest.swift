@@ -344,7 +344,7 @@ class ContentMetadataTest: QuickSpec {
                         let sourceConfig = SourceConfig(url: URL(string: "http://a.url")!, type: .hls)
                         sourceConfig.title = "MyTitle"
                         let source = SourceFactory.createSource(from: sourceConfig)
-                        playerDouble.load(source: source)
+                        _ = TestDouble(aClass: playerDouble!, name: "source", return: source)
 
                         _ = TestDouble(aClass: playerDouble!, name: "config", return: playerConfig)
 

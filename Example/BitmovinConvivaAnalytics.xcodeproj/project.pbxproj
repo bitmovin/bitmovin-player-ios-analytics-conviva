@@ -16,6 +16,7 @@
 		37495D472C06010800B49BBE /* DefaultPlayerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37495D432C06010800B49BBE /* DefaultPlayerConfig.swift */; };
 		37495D482C06014100B49BBE /* DefaultAdConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37495D422C06010800B49BBE /* DefaultAdConfig.swift */; };
 		37495D492C06014300B49BBE /* DefaultPlayerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37495D432C06010800B49BBE /* DefaultPlayerConfig.swift */; };
+		375B06562C7CCB3A0045768A /* TestConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375B06552C7CCB3A0045768A /* TestConfiguration.swift */; };
 		37756EB0216F8E0D0041806D /* TestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EAF216F8E0D0041806D /* TestDouble.swift */; };
 		37756EB2216F8E2F0041806D /* Spy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB1216F8E2F0041806D /* Spy.swift */; };
 		37756EB4216F8E450041806D /* TestDoubleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EB3216F8E450041806D /* TestDoubleDataSource.swift */; };
@@ -26,7 +27,6 @@
 		37756EBE216F99C80041806D /* PlayerEventsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EBD216F99C80041806D /* PlayerEventsTest.swift */; };
 		37756EC0216F9A510041806D /* ContentMetadataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EBF216F9A510041806D /* ContentMetadataTest.swift */; };
 		37756EC2216F9AA50041806D /* CustomEventsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EC1216F9AA50041806D /* CustomEventsTest.swift */; };
-		37756EC42170764E0041806D /* SpecHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37756EC32170764E0041806D /* SpecHelper.swift */; };
 		37B615A02C775567009511D9 /* SourceTestDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B6159F2C77555E009511D9 /* SourceTestDouble.swift */; };
 		37C28E5B2C7885E800737FBC /* LatePlayerAttachingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C28E5A2C7885E800737FBC /* LatePlayerAttachingTest.swift */; };
 		37EB3CD3216B70D70093F085 /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EB3CD1216B70650093F085 /* TestHelper.swift */; };
@@ -72,6 +72,7 @@
 		37226EC822043A9D0072DE47 /* ExternallyManagedSessionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternallyManagedSessionTest.swift; sourceTree = "<group>"; };
 		37495D422C06010800B49BBE /* DefaultAdConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultAdConfig.swift; sourceTree = "<group>"; };
 		37495D432C06010800B49BBE /* DefaultPlayerConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPlayerConfig.swift; sourceTree = "<group>"; };
+		375B06552C7CCB3A0045768A /* TestConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConfiguration.swift; sourceTree = "<group>"; };
 		37756EAF216F8E0D0041806D /* TestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestDouble.swift; path = Helpers/TestDouble.swift; sourceTree = "<group>"; };
 		37756EB1216F8E2F0041806D /* Spy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Spy.swift; path = Helpers/Spy.swift; sourceTree = "<group>"; };
 		37756EB3216F8E450041806D /* TestDoubleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TestDoubleDataSource.swift; path = Helpers/TestDoubleDataSource.swift; sourceTree = "<group>"; };
@@ -82,7 +83,6 @@
 		37756EBD216F99C80041806D /* PlayerEventsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEventsTest.swift; sourceTree = "<group>"; };
 		37756EBF216F9A510041806D /* ContentMetadataTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentMetadataTest.swift; sourceTree = "<group>"; };
 		37756EC1216F9AA50041806D /* CustomEventsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEventsTest.swift; sourceTree = "<group>"; };
-		37756EC32170764E0041806D /* SpecHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecHelper.swift; sourceTree = "<group>"; };
 		37B6159E2C774236009511D9 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = SOURCE_ROOT; };
 		37B6159F2C77555E009511D9 /* SourceTestDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceTestDouble.swift; sourceTree = "<group>"; };
 		37C28E5A2C7885E800737FBC /* LatePlayerAttachingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatePlayerAttachingTest.swift; sourceTree = "<group>"; };
@@ -281,18 +281,18 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				375B06552C7CCB3A0045768A /* TestConfiguration.swift */,
 				37756EBD216F99C80041806D /* PlayerEventsTest.swift */,
 				A8ECFE352C348BC50037C9D7 /* SsaiTest.swift */,
 				37756EBF216F9A510041806D /* ContentMetadataTest.swift */,
 				37756EC1216F9AA50041806D /* CustomEventsTest.swift */,
 				607FACEB1AFB9204008FA782 /* SeekTimeshiftTest.swift */,
 				37226EC822043A9D0072DE47 /* ExternallyManagedSessionTest.swift */,
-				37756EC32170764E0041806D /* SpecHelper.swift */,
 				37EB3CD1216B70650093F085 /* TestHelper.swift */,
+				37C28E5A2C7885E800737FBC /* LatePlayerAttachingTest.swift */,
 				37756EAE216F8DF00041806D /* Helpers */,
 				37EB3CC6216B6D2B0093F085 /* Doubles */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
-				37C28E5A2C7885E800737FBC /* LatePlayerAttachingTest.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -741,8 +741,8 @@
 				44D4DC562841201F00C0BE9D /* CISAdAnalyticsTestDouble.swift in Sources */,
 				A8ECFE362C348BC50037C9D7 /* SsaiTest.swift in Sources */,
 				44D4DC502841032B00C0BE9D /* CISAnalyticsCreatorTestDouble.swift in Sources */,
+				375B06562C7CCB3A0045768A /* TestConfiguration.swift in Sources */,
 				37756EBC216F90020041806D /* MockTracker.swift in Sources */,
-				37756EC42170764E0041806D /* SpecHelper.swift in Sources */,
 				37756EB6216F8E700041806D /* CustomNimbleMatchers.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* SeekTimeshiftTest.swift in Sources */,
 				37756EC0216F9A510041806D /* ContentMetadataTest.swift in Sources */,

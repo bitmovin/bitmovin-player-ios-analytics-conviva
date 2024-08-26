@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- Potential crash during ad tracking due to accessing Player APIs on a background thread
+
 ## [3.4.0] - 2024-08-26
 
 ### Added

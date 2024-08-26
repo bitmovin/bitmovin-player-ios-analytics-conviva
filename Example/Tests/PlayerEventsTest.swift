@@ -14,7 +14,7 @@ import Nimble
 import Quick
 
 // swiftlint:disable:next type_body_length
-class PlayerEventsTest: QuickSpec {
+class PlayerEventsTest: AsyncSpec {
     // swiftlint:disable:next function_body_length
     override class func spec() {
         var playerDouble: BitmovinPlayerTestDouble!
@@ -101,11 +101,8 @@ class PlayerEventsTest: QuickSpec {
                         let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackEnded")
                         playerDouble.fakePlayEvent()
                         playerDouble.fakePlaybackFinishedEvent()
-                        waitUntil { done in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-                                done()
-                            }
-                        }
+                        await sleep(seconds: 0.1)
+
                         expect(spy).to(haveBeenCalled())
                     }
                 }
@@ -115,11 +112,8 @@ class PlayerEventsTest: QuickSpec {
                         playerDouble.fakePlayEvent()
                         playerDouble.fakePlaybackFinishedEvent()
                         playerDouble.fakeAdBreakStartedEvent()
-                        waitUntil { done in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-                                done()
-                            }
-                        }
+                        await sleep(seconds: 0.1)
+
                         expect(spy).toNot(haveBeenCalled())
                     }
                     it("reports playback ended on ad break finished") {
@@ -174,11 +168,8 @@ class PlayerEventsTest: QuickSpec {
                     playerDouble.fakePlayingEvent()
                     playerDouble.fakeStallStartedEvent()
                     playerDouble.fakeStallEndedEvent()
-                    waitUntil { done in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-                            done()
-                        }
-                    }
+                    await sleep(seconds: 0.1)
+
                     expect(spy).notTo(
                         haveBeenCalled(
                             withArgs: [
@@ -203,12 +194,8 @@ class PlayerEventsTest: QuickSpec {
                 it("on stall started / Stall Ended after 0.10 seconds") {
                     playerDouble.fakePlayingEvent()
                     playerDouble.fakeStallStartedEvent()
-                    waitUntil { done in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-                            playerDouble.fakeStallEndedEvent()
-                            done()
-                        }
-                    }
+                    await sleep(seconds: 0.1)
+
                     expect(spy).to(
                         haveBeenCalled(
                             withArgs: [
@@ -219,11 +206,8 @@ class PlayerEventsTest: QuickSpec {
                 }
                 it("on stall started") {
                     playerDouble.fakeStallStartedEvent()
-                    waitUntil { done in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-                            done()
-                        }
-                    }
+                    await sleep(seconds: 0.1)
+
                     expect(spy).to(
                         haveBeenCalled(
                             withArgs: [
@@ -348,11 +332,8 @@ class PlayerEventsTest: QuickSpec {
 
                         playerDouble.fakePlayEvent()
                         playerDouble.fakePlaybackFinishedEvent()
-                        waitUntil { done in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-                                done()
-                            }
-                        }
+                        await sleep(seconds: 0.1)
+
                         expect(spy).to(haveBeenCalled())
                         expect(playbackStateSpy).to(
                             haveBeenCalled(withArgs: [
@@ -370,11 +351,8 @@ class PlayerEventsTest: QuickSpec {
 
                     playerDouble.fakePlayEvent()
                     playerDouble.fakePlaylistTransitionEvent()
-                    waitUntil { done in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-                            done()
-                        }
-                    }
+                    await sleep(seconds: 0.1)
+
                     expect(spy).to(haveBeenCalled())
                     expect(playbackStateSpy).to(
                         haveBeenCalled(withArgs: [
@@ -719,5 +697,24 @@ class PlayerEventsTest: QuickSpec {
                 }
             }
         }
+    }
+}
+
+private func sleep(seconds: TimeInterval) async {
+    await waitUntil { done in
+        try? await Task.sleep(seconds: seconds)
+        done()
+    }
+}
+
+private extension Task<Never, Never> {
+    static func sleep(seconds: TimeInterval) async throws {
+        try await Task.sleep(nanoseconds: .seconds(seconds))
+    }
+}
+
+private extension UInt64 {
+    static func seconds(_ seconds: TimeInterval) -> UInt64 {
+        UInt64(seconds * Double(NSEC_PER_SEC))
     }
 }

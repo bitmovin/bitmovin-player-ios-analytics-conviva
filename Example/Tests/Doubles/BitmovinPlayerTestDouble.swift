@@ -519,15 +519,12 @@ class BitmovinPlayerStub: NSObject, Player {
     }
 
     func load(sourceConfig: SourceConfig) {
-        player.load(sourceConfig: sourceConfig)
     }
 
     func load(source: Source) {
-        player.load(source: source)
     }
 
     func load(playlistConfig: PlaylistConfig) {
-        player.load(playlistConfig: playlistConfig)
     }
 
     func unload() {

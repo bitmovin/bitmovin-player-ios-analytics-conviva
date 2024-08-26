@@ -124,9 +124,8 @@ class CISAdAnalyticsTestDouble: NSObject, CISAdAnalyticsProtocol, TestDoubleData
 
     func reportPlaybackMetric(_ key: String, value: Any?) {
         spy(functionName: "reportPlaybackMetric", args: [
-               "key": key,
-               "value": "\(value ?? "")"
-           ])
+            key: "\(value ?? "")"
+        ])
     }
 
     func setUpdateHandler(_ updateHandler: @escaping UpdateHandler) {

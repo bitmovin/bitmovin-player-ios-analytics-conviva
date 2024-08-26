@@ -29,7 +29,7 @@ final class BitmovinPlayerHelper: NSObject {
         }
     }
 
-    var version: String {
+    static var version: String {
         PlayerFactory.sdkVersion
     }
 }

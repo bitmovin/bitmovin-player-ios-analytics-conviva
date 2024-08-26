@@ -13,7 +13,7 @@ protocol BitmovinPlayerListenerDelegate: AnyObject {
     func onEvent(_ event: Event)
     func onSourceUnloaded()
     func onSourceLoaded()
-    func onTimeChanged()
+    func onTimeChanged(player: Player)
     func onPlayerError(_ event: PlayerErrorEvent)
     func onSourceError(_ event: SourceErrorEvent)
 
@@ -26,16 +26,16 @@ protocol BitmovinPlayerListenerDelegate: AnyObject {
     func onPaused()
     func onPlaybackFinished()
     func onStallStarted()
-    func onStallEnded()
+    func onStallEnded(player: Player)
 
     // MARK: - Seek / Timeshift events
     func onSeek(_ event: SeekEvent)
-    func onSeeked()
+    func onSeeked(player: Player)
     func onTimeShift(_ event: TimeShiftEvent)
     func onTimeShifted()
 
     // MARK: - Ad events
-    func onAdStarted(_ event: AdStartedEvent)
+    func onAdStarted(_ event: AdStartedEvent, player: Player)
     func onAdFinished()
     func onAdSkipped(_ event: AdSkippedEvent)
     func onAdError(_ event: AdErrorEvent)

@@ -15,7 +15,7 @@ private let notAvailable = "NA"
 
 public final class ConvivaAnalytics: NSObject {
     // MARK: - Bitmovin Player attributes
-    private let player: Player
+    private var player: Player?
 
     // MARK: - Conviva related attributes
     private let customerKey: String
@@ -31,7 +31,7 @@ public final class ConvivaAnalytics: NSObject {
 
     // MARK: - Helper
     private let logger: Logger
-    private let playerHelper: BitmovinPlayerHelper
+    private var playerHelper: BitmovinPlayerHelper?
     // Workaround for player issue when onPlay is sent while player is stalled
     private var isStalled = false
     private var playbackStarted = false
@@ -66,21 +66,48 @@ public final class ConvivaAnalytics: NSObject {
     }
 
     // MARK: - initializer
-    /**
-     Initialize a new Bitmovin Conviva Analytics object to track metrics from Bitmovin Player
-
-     - Parameters:
-        - player: Bitmovin Player instance to track
-        - customerKey: Conviva customerKey
-        - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
-     */
-    public init?(
+    /// Initialize a new Bitmovin Conviva Analytics object to track metrics from Bitmovin Player
+    ///  
+    /// - Parameters:
+    ///    - player: Bitmovin Player instance to track
+    ///    - customerKey: Conviva customerKey
+    ///    - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
+    public convenience init(
         player: Player,
         customerKey: String,
         config: ConvivaConfiguration = ConvivaConfiguration()
     ) throws {
-        self.player = player
-        self.playerHelper = BitmovinPlayerHelper(player: player)
+        try self.init(
+            player,
+            customerKey: customerKey,
+            config: config
+        )
+    }
+
+    /// Initialize a new Bitmovin Conviva Analytics object to track metrics from Bitmovin Player.
+    ///
+    /// Use this initializer if you plan to manually start VST tracking **before** a `Player` instance is created.
+    /// Once the `Player` instance is created, attach it using the `attach(player:)` method.
+    ///
+    /// - Parameters:
+    ///   - customerKey: Conviva customerKey
+    ///   - config: ConvivaConfiguration object (see ConvivaConfiguration for more information)
+    public convenience init(
+        customerKey: String,
+        config: ConvivaConfiguration = ConvivaConfiguration()
+    ) throws {
+        try self.init(
+            nil,
+            customerKey: customerKey,
+            config: config
+        )
+    }
+
+    private init(
+        _ player: Player?,
+        customerKey: String,
+        config: ConvivaConfiguration
+    ) throws {
         self.customerKey = customerKey
         self.config = config
 
@@ -99,8 +126,10 @@ public final class ConvivaAnalytics: NSObject {
         adAnalytics = analytics.createAdAnalytics(withVideoAnalytics: videoAnalytics)
         super.init()
 
-        listener = BitmovinPlayerListener(player: player)
-        listener?.delegate = self
+        if let player {
+            attach(player: player)
+        }
+
         adAnalytics.setUpdateHandler { [weak self] in
             self?.handleAdUpdateRequest()
         }
@@ -181,7 +210,7 @@ public final class ConvivaAnalytics: NSObject {
             return
         }
 
-        if player.source?.sourceConfig.title == nil, contentMetadataBuilder.assetName == nil {
+        if player?.source?.sourceConfig.title == nil, contentMetadataBuilder.assetName == nil {
             throw ConvivaAnalyticsError(
                 "AssetName is missing. Load player source (with title) first or set assetName via updateContentMetadata"
             )
@@ -261,14 +290,50 @@ public final class ConvivaAnalytics: NSObject {
         self.isBumper = false
         logger.debugLog(message: "Tracking resumed.")
     }
+
+    /// Attaches a `Player` instance to the Conviva Analytics object.
+    /// This method should be called as soon as the `Player` instance is initialized to not miss any tracking.
+    ///
+    /// Has no effect if there is already a `Player` instance set. Use the `ConvivaAnalytics.init` without `player`
+    /// if you plan to attach a `Player` instance later in the life-cycle.
+    public func attach(player: Player) {
+        if self.player != nil {
+            logger.debugLog(
+                message: "[ Warning ] There is already a Player instance attached! Ignoring new Player instance."
+            )
+            return
+        }
+
+        if player.source != nil {
+            logger.debugLog(
+                message: """
+                         [ Warning ] There is already a Source loaded into the Player instance! \
+                         This method should be called before loading a Source.
+                         """
+            )
+        }
+
+        self.player = player
+        updateSession()
+
+        playerHelper = BitmovinPlayerHelper(player: player)
+        listener = BitmovinPlayerListener(player: player)
+        listener?.delegate = self
+    }
 }
 
 private extension ConvivaAnalytics {
     private var isAd: Bool {
-        player.isAd || isSsaiAdBreakActive
+        guard let player else { return false }
+
+        return player.isAd || isSsaiAdBreakActive
     }
 
     private var currentPlayerState: ConvivaSDK.PlayerState {
+        guard let player else {
+            return .CONVIVA_STOPPED
+        }
+
         if player.isPaused {
             return .CONVIVA_PAUSED
         }
@@ -287,7 +352,7 @@ private extension ConvivaAnalytics {
         )
         var playerInfo = [String: Any]()
         playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin Player iOS"
-        playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = playerHelper.version
+        playerInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = BitmovinPlayerHelper.version
         videoAnalytics.setPlayerInfo(playerInfo)
         adAnalytics.setAdPlayerInfo(playerInfo)
     }
@@ -317,7 +382,7 @@ private extension ConvivaAnalytics {
         }
         buildDynamicContentMetadata()
 
-        if let videoQuality = player.videoQuality {
+        if let player, let videoQuality = player.videoQuality {
             let bitrate = Int(videoQuality.bitrate) / 1_000 // in kbps
             let value = NSValue(
                 cgSize: CGSize(
@@ -377,13 +442,16 @@ private extension ConvivaAnalytics {
 
     // MARK: - meta data handling
     private func buildContentMetadata() {
-        let sourceConfig = player.source?.sourceConfig
+        let sourceConfig = player?.source?.sourceConfig
         contentMetadataBuilder.assetName = sourceConfig?.title
 
-        let customInternTags: [String: Any] = [
-            "streamType": playerHelper.streamType,
+        var customInternTags: [String: Any] = [
             "integrationVersion": version
         ]
+
+        if let playerHelper {
+            customInternTags["streamType"] = playerHelper.streamType
+        }
 
         contentMetadataBuilder.custom = customInternTags
         buildDynamicContentMetadata()
@@ -406,7 +474,7 @@ private extension ConvivaAnalytics {
     }
 
     private func buildDynamicContentMetadata() {
-        guard let source = player.source else { return }
+        guard let player, let source = player.source else { return }
 
         contentMetadataBuilder.duration = player.isLive ? -1 : Int(source.duration)
         contentMetadataBuilder.streamType = player.isLive ? .CONVIVA_STREAM_LIVE : .CONVIVA_STREAM_VOD
@@ -450,7 +518,7 @@ private extension ConvivaAnalytics {
     }
 
     private func handleAdUpdateRequest() {
-        guard isAd else { return }
+        guard let player, isAd else { return }
 
         adAnalytics.reportPlaybackMetric(
             CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
@@ -459,7 +527,7 @@ private extension ConvivaAnalytics {
     }
 
     private func reportPlayHeadTime() {
-        guard isSessionActive else { return }
+        guard let player, isSessionActive else { return }
 
         videoAnalytics.reportPlaybackMetric(
             CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
@@ -467,7 +535,7 @@ private extension ConvivaAnalytics {
         )
     }
 
-    private func buildAdInfo(adStartedEvent: AdStartedEvent) -> [String: Any] {
+    private func buildAdInfo(adStartedEvent: AdStartedEvent, player: Player) -> [String: Any] {
         var adInfo = [String: Any]()
 
         adInfo["c3.ad.id"] = notAvailable
@@ -485,7 +553,7 @@ private extension ConvivaAnalytics {
                 .imaSdkVersion ?? notAvailable
         } else {
             adInfo[CIS_SSDK_PLAYER_FRAMEWORK_NAME] = "Bitmovin"
-            adInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = playerHelper.version
+            adInfo[CIS_SSDK_PLAYER_FRAMEWORK_VERSION] = BitmovinPlayerHelper.version
         }
 
         adInfo["c3.ad.position"] = AdEventUtil.parseAdPosition(
@@ -556,7 +624,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         updateSession()
     }
 
-    func onTimeChanged() {
+    func onTimeChanged(player: Player) {
         guard !player.isAd else {
             return
         }
@@ -631,7 +699,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         }
     }
 
-    func onStallEnded() {
+    func onStallEnded(player: Player) {
         isStalled = false
 
         guard playbackStarted else { return }
@@ -653,7 +721,7 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
         videoAnalytics.reportPlaybackMetric(CIS_SSDK_PLAYBACK_METRIC_SEEK_STARTED, value: Int64(event.to.time * 1_000))
     }
 
-    func onSeeked() {
+    func onSeeked(player: Player) {
         if !isSessionActive {
             // See comment in onSeek
             return
@@ -684,8 +752,8 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     // MARK: - Ad events
-    func onAdStarted(_ event: AdStartedEvent) {
-        let adInfo = buildAdInfo(adStartedEvent: event)
+    func onAdStarted(_ event: AdStartedEvent, player: Player) {
+        let adInfo = buildAdInfo(adStartedEvent: event, player: player)
         adAnalytics.reportAdLoaded(adInfo)
         adAnalytics.reportAdStarted(adInfo)
         adAnalytics.reportAdMetric(

@@ -91,6 +91,17 @@
                                     <action selector="setupPlayer:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="pdM-M2-Cgh"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YLt-uJ-a1f">
+                                <rect key="frame" x="20" y="557.33333333333337" width="390" height="35"/>
+                                <state key="normal" title="Send custom event">
+                                    <color key="titleColor" red="0.1215686275" green="0.6705882353" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="filled" title="Start session"/>
+                                <connections>
+                                    <action selector="sendCustomEvent:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="y4i-Ad-xIh"/>
+                                    <action selector="startSession:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="vOM-BI-JTG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
@@ -111,11 +122,14 @@
                             <constraint firstItem="fQh-KT-xoi" firstAttribute="centerY" secondItem="8Dd-hJ-36w" secondAttribute="centerY" id="W26-cb-q04"/>
                             <constraint firstItem="HrS-Ed-xzX" firstAttribute="top" secondItem="3QL-eh-ZrN" secondAttribute="bottom" constant="18" id="WvM-e7-lT5"/>
                             <constraint firstItem="Jhg-y7-hrv" firstAttribute="trailing" secondItem="0nJ-z5-CEq" secondAttribute="trailing" id="Xgj-8c-sXF"/>
+                            <constraint firstItem="YLt-uJ-a1f" firstAttribute="leading" secondItem="Sdv-DY-6Hj" secondAttribute="leading" id="YAc-ED-WK6"/>
                             <constraint firstItem="Sdv-DY-6Hj" firstAttribute="trailing" secondItem="CH6-Cy-ZzH" secondAttribute="trailing" id="Zz3-mW-haT"/>
                             <constraint firstItem="HrS-Ed-xzX" firstAttribute="trailing" secondItem="Jhg-y7-hrv" secondAttribute="trailing" id="azn-fc-0ek"/>
                             <constraint firstItem="Sdv-DY-6Hj" firstAttribute="top" secondItem="jOh-oJ-5HR" secondAttribute="bottom" constant="16" id="bOZ-OY-PfM"/>
+                            <constraint firstItem="YLt-uJ-a1f" firstAttribute="top" secondItem="Sdv-DY-6Hj" secondAttribute="bottom" constant="16" id="blt-p8-NcZ"/>
                             <constraint firstItem="CH6-Cy-ZzH" firstAttribute="leading" secondItem="jOh-oJ-5HR" secondAttribute="trailing" constant="16" id="et0-ek-4Xs"/>
                             <constraint firstItem="Jhg-y7-hrv" firstAttribute="top" secondItem="0nJ-z5-CEq" secondAttribute="bottom" constant="16" id="isJ-67-sFZ"/>
+                            <constraint firstItem="YLt-uJ-a1f" firstAttribute="trailing" secondItem="Sdv-DY-6Hj" secondAttribute="trailing" id="n7p-kX-JFp"/>
                             <constraint firstItem="jOh-oJ-5HR" firstAttribute="top" secondItem="8Dd-hJ-36w" secondAttribute="bottom" constant="16" id="phJ-IH-9lH"/>
                             <constraint firstItem="8Dd-hJ-36w" firstAttribute="leading" secondItem="HrS-Ed-xzX" secondAttribute="leading" id="prr-Ti-jp2"/>
                             <constraint firstItem="8Dd-hJ-36w" firstAttribute="top" secondItem="HrS-Ed-xzX" secondAttribute="bottom" constant="16" id="uwM-7T-LZq"/>

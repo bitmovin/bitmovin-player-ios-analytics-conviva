@@ -51,6 +51,12 @@ class ContentMetadataTest: QuickSpec {
                 }
             }
             context("when initializing session") {
+                var sourceDouble: SourceTestDouble!
+                beforeEach {
+                    sourceDouble = SourceTestDouble()
+
+                    _ = TestDouble(aClass: playerDouble!, name: "source", return: sourceDouble!)
+                }
                 it("set application name") {
                     playerDouble.fakePlayEvent() // to initialize session
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
@@ -63,13 +69,11 @@ class ContentMetadataTest: QuickSpec {
                 it("set asset name") {
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "reportPlaybackRequested")
 
-                    let playerConfig = PlayerConfig()
-                    _ = TestDouble(aClass: playerDouble!, name: "config", return: playerConfig)
-
                     let sourceConfig = SourceConfig(url: URL(string: "www.google.com.m3u8")!, type: .hls)
                     sourceConfig.title = "Art of Unit Test"
-                    let source = SourceFactory.createSource(from: sourceConfig)
-                    playerDouble.load(source: source)
+
+                    _ = TestDouble(aClass: sourceDouble!, name: "sourceConfig", return: sourceConfig)
+
                     playerDouble.fakePlayEvent() // to initialize session
                     expect(spy).to(
                         haveBeenCalled(withArgs: ["assetName": "Art of Unit Test"])

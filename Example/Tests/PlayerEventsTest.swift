@@ -263,6 +263,58 @@ class PlayerEventsTest: QuickSpec {
                         )
                     }
                 }
+
+                context("on timechanged") {
+                    beforeEach {
+                        _ = TestDouble(aClass: playerDouble, name: "currentTime(_:)", return: 10.0)
+                    }
+                    it("reports current play head time") {
+                        playerDouble.fakeTimeChangedEvent()
+
+                        expect(spy).to(
+                            haveBeenCalled(
+                                withArgs: [
+                                    CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME: "10000"
+                                ]
+                            )
+                        )
+                    }
+                    context("durring an ad") {
+                        var adAnalyticsSpy: Spy!
+                        beforeEach {
+                            adAnalyticsSpy = Spy(
+                                aClass: CISAdAnalyticsTestDouble.self,
+                                functionName: "reportPlaybackMetric"
+                            )
+                            _ = TestDouble(aClass: playerDouble, name: "currentTime(_:)", return: 5.0)
+                            _ = TestDouble(aClass: playerDouble, name: "isAd", return: true)
+                            playerDouble.fakeAdBreakStartedEvent(position: 0.0)
+                            playerDouble.fakeAdStartedEvent()
+                        }
+                        it("reports current play head time on ad analytics") {
+                            playerDouble.fakeTimeChangedEvent()
+
+                            expect(adAnalyticsSpy).to(
+                                haveBeenCalled(
+                                    withArgs: [
+                                        CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME: "5000"
+                                    ]
+                                )
+                            )
+                        }
+                        it("does not report play head time on video analytics") {
+                            playerDouble.fakeTimeChangedEvent()
+
+                            expect(spy).toNot(
+                                haveBeenCalled(
+                                    withArgs: [
+                                        CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME: "5000"
+                                    ]
+                                )
+                            )
+                        }
+                    }
+                }
             }
 
             context("end session") {

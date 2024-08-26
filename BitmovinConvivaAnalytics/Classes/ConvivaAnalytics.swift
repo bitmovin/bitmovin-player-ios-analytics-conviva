@@ -130,10 +130,6 @@ public final class ConvivaAnalytics: NSObject {
             attach(player: player)
         }
 
-        adAnalytics.setUpdateHandler { [weak self] in
-            self?.handleAdUpdateRequest()
-        }
-
         ssai.delegate = self
     }
 
@@ -517,22 +513,18 @@ private extension ConvivaAnalytics {
         logger.debugLog(message: "Player state changed: \(playerState.rawValue)")
     }
 
-    private func handleAdUpdateRequest() {
-        guard let player, isAd else { return }
-
-        adAnalytics.reportPlaybackMetric(
-            CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
-            value: Int64(player.currentTime(.relativeTime) * 1_000)
-        )
-    }
-
     private func reportPlayHeadTime() {
         guard let player, isSessionActive else { return }
 
-        videoAnalytics.reportPlaybackMetric(
-            CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
-            value: Int64(player.currentTime(.relativeTime) * 1_000)
-        )
+        let reportPlayHeadTime: (_ analytics: CISStreamAnalyticsProtocol) -> Void = { analytics in
+            let currentTime = Int64(player.currentTime(.relativeTime) * 1_000)
+            analytics.reportPlaybackMetric(
+                CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
+                value: currentTime
+            )
+        }
+
+        reportPlayHeadTime(isAd ? adAnalytics : videoAnalytics)
     }
 
     private func buildAdInfo(adStartedEvent: AdStartedEvent, player: Player) -> [String: Any] {
@@ -625,11 +617,12 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onTimeChanged(player: Player) {
+        reportPlayHeadTime()
+
         guard !player.isAd else {
             return
         }
 
-        reportPlayHeadTime()
         updateSession()
     }
 

@@ -284,6 +284,22 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         }
         return player.currentTime
     }
+
+    override var isAd: Bool {
+        if let mockedValue = mocks["isAd"] {
+            // swiftlint:disable:next force_cast
+            return mockedValue as! Bool
+        }
+        return player.isAd
+    }
+
+    override func currentTime(_ timeMode: TimeMode) -> TimeInterval {
+        if let mockedValue = mocks["currentTime(_:)"] {
+            // swiftlint:disable:next force_cast
+            return mockedValue as! TimeInterval
+        }
+        return player.currentTime(timeMode)
+    }
 }
 
 class TestAdBreak: NSObject, AdBreak {

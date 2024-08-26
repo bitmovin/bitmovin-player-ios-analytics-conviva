@@ -9,6 +9,6 @@
 import Foundation
 
 struct Spy {
-    let aClass: Any
+    let aClass: AnyObject
     let functionName: String
 }

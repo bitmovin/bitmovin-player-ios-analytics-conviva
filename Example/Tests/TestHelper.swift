@@ -21,8 +21,8 @@ class TestHelper: NSObject {
     }
 
     // Shortcut method for TestHelper.shared.spyTracker.track(..)
-    func spy(functionName: String, args: [String: String]? = nil) {
-        TestHelper.shared.spyTracker.track(functionName: functionName, args: args)
+    func spy(aClass: AnyObject, functionName: String, args: [String: String]? = nil) {
+        TestHelper.shared.spyTracker.track(aClass: aClass, functionName: functionName, args: args)
     }
 
     // Shortcut method for TestHelper.shared.mockTracker.addMock(..)

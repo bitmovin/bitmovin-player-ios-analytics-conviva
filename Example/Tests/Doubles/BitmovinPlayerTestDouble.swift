@@ -353,7 +353,7 @@ class BitmovinPlayerStub: NSObject, Player {
     override init() {
         let config = PlayerConfig()
         config.key = "foobar"
-        player = PlayerFactory.createPlayer(playerConfig: config)
+        player = PlayerFactory.createPlayer(playerConfig: config, analytics: .disabled)
     }
 
     var isDestroyed: Bool {

@@ -22,5 +22,7 @@
 	<string>PLAYER-LICENSE-KEY</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSPrincipalClass</key>
+	<string>BitmovinConvivaAnalytics_Tests.TestConfiguration</string>
 </dict>
 </plist>

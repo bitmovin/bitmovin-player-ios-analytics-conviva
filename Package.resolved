@@ -1,0 +1,41 @@
+{
+  "pins" : [
+    {
+      "identity" : "bitmovin-analytics-collector-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bitmovin/bitmovin-analytics-collector-ios.git",
+      "state" : {
+        "revision" : "2084a34ef569eee0de098fa5d503c4ec0aa96955",
+        "version" : "3.8.1"
+      }
+    },
+    {
+      "identity" : "conviva-ios-sdk-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Conviva/conviva-ios-sdk-spm.git",
+      "state" : {
+        "revision" : "62f136ddb511cbf7d6b110bf024aea6b548a86e6",
+        "version" : "4.0.51"
+      }
+    },
+    {
+      "identity" : "player-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bitmovin/player-ios.git",
+      "state" : {
+        "revision" : "fa81ee31910b64c56131a648becaa4942b262553",
+        "version" : "3.75.0"
+      }
+    },
+    {
+      "identity" : "player-ios-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bitmovin/player-ios-core.git",
+      "state" : {
+        "revision" : "fda8f4c76be8ebf63c56d5b40f26eb23dfc07c17",
+        "version" : "3.75.0"
+      }
+    }
+  ],
+  "version" : 2
+}

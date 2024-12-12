@@ -44,8 +44,10 @@ public final class ConvivaAnalytics: NSObject {
      */
     public var playerView: PlayerView? {
         didSet {
-            oldValue?.remove(listener: self)
-            playerView?.add(listener: self)
+            Task { @MainActor in
+                oldValue?.remove(listener: self)
+                playerView?.add(listener: self)
+            }
         }
     }
 

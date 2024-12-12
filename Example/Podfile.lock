@@ -1,15 +1,15 @@
 PODS:
-  - BitmovinAnalyticsCollector/BitmovinPlayer (3.7.0):
+  - BitmovinAnalyticsCollector/BitmovinPlayer (3.9.0):
     - BitmovinAnalyticsCollector/Core
     - BitmovinPlayerCore (~> 3.48)
-  - BitmovinAnalyticsCollector/Core (3.7.0)
+  - BitmovinAnalyticsCollector/Core (3.9.0)
   - BitmovinConvivaAnalytics (3.4.1):
     - BitmovinPlayer (~> 3.64)
     - ConvivaSDK (~> 4.0)
-  - BitmovinPlayer (3.64.0):
+  - BitmovinPlayer (3.79.0):
     - BitmovinAnalyticsCollector/BitmovinPlayer (~> 3.0)
-    - BitmovinPlayerCore (= 3.64.0)
-  - BitmovinPlayerCore (3.64.0)
+    - BitmovinPlayerCore (= 3.79.0)
+  - BitmovinPlayerCore (3.79.0)
   - ConvivaSDK (4.0.49)
   - CwlCatchException (2.2.0):
     - CwlCatchExceptionSupport (~> 2.2.0)
@@ -28,7 +28,7 @@ PODS:
 
 DEPENDENCIES:
   - BitmovinConvivaAnalytics (from `../`)
-  - BitmovinPlayer (= 3.64.0)
+  - BitmovinPlayer (= 3.79.0)
   - ConvivaSDK (= 4.0.49)
   - GoogleAds-IMA-iOS-SDK (= 3.22.1)
   - GoogleAds-IMA-tvOS-SDK (= 4.12.0)
@@ -36,11 +36,10 @@ DEPENDENCIES:
   - Quick (~> 7.5.0)
 
 SPEC REPOS:
-  https://github.com/bitmovin/cocoapod-specs.git:
+  trunk:
     - BitmovinAnalyticsCollector
     - BitmovinPlayer
     - BitmovinPlayerCore
-  trunk:
     - ConvivaSDK
     - CwlCatchException
     - CwlCatchExceptionSupport
@@ -57,10 +56,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  BitmovinAnalyticsCollector: bbd82c0b8e11aefacd8e53b6e40c62f2cba6f3f5
+  BitmovinAnalyticsCollector: d08e0b13bcc32973370e0d71f2faa739561bac0a
   BitmovinConvivaAnalytics: 88938e0b343392c4036b122e635b47745dd8af80
-  BitmovinPlayer: f69350e5db2f57ad950108ec829b7c7a4b360d00
-  BitmovinPlayerCore: 1553570729eed0a64cdfbd06d16c39d69d7e701f
+  BitmovinPlayer: 1c19b819952c2c10c875569756593f2e177cf036
+  BitmovinPlayerCore: 299f35f2d8882140a80577c14bd3026beb0cae7c
   ConvivaSDK: 5d10811e8611ed1fd99a5ab291bdcb1e795f8756
   CwlCatchException: 51bf8319009a31104ea6f0568730d1ecc25b6454
   CwlCatchExceptionSupport: 1345d6adb01a505933f2bc972dab60dcb9ce3e50
@@ -72,6 +71,6 @@ SPEC CHECKSUMS:
   Nimble: 3ac6c6b0b7e9835d1540b6507d8054b12a415536
   Quick: 2b651168441479b949ba987f3cee41a9cc53aa32
 
-PODFILE CHECKSUM: 7c46997cf928147ddff32915a3194ff8947b03e2
+PODFILE CHECKSUM: 3604f8e81142c31edfa76597d16f64d2d56ac541
 
 COCOAPODS: 1.15.2

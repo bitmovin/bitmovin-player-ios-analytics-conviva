@@ -3,7 +3,7 @@ source 'https://cdn.cocoapods.org/'
 
 def shared_pods
   pod 'BitmovinConvivaAnalytics', path: '../'
-  pod 'BitmovinPlayer', '3.64.0'
+  pod 'BitmovinPlayer', '3.79.0'
   pod 'ConvivaSDK', '4.0.49'
 end
 

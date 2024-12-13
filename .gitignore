@@ -32,3 +32,6 @@ Pods/
 
 # Intellij IDEA
 .idea/
+
+.build
+.vscodebuild

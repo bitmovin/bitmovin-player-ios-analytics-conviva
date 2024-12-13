@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.5.0] - 2024-12-13
+
 ### Fixed
 - Build error when using Bitmovin Player version 3.78.0 or newer
 

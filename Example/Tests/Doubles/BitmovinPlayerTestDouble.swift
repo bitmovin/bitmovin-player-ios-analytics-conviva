@@ -442,6 +442,15 @@ class BitmovinPlayerStub: NSObject, Player {
         player.isAirPlayAvailable
     }
 
+    var allowsAirPlay: Bool {
+        get {
+            player.allowsAirPlay
+        }
+        set {
+            player.allowsAirPlay = newValue
+        }
+    }
+
     var availableVideoQualities: [VideoQuality] {
         player.availableVideoQualities
     }

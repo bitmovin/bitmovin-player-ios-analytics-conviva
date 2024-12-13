@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- Build error when using Bitmovin Player version 3.78.0 or newer
+
+### Changed
+- Updated the Bitmovin Player version used in the Example application to 3.79.0
+
 ## [3.4.1] - 2024-08-26
 
 ### Fixed

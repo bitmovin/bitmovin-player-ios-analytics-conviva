@@ -344,6 +344,10 @@ class TestAdBreak: NSObject, AdBreak {
 }
 
 class BitmovinPlayerStub: NSObject, Player {
+    var thumbnails: BitmovinPlayerCore.ThumbnailsApi {
+        player.thumbnails
+    }
+
     var latency: BitmovinPlayerCore.LatencyApi {
         player.latency
     }

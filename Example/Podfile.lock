@@ -6,10 +6,10 @@ PODS:
   - BitmovinConvivaAnalytics (3.5.0):
     - BitmovinPlayer (~> 3.64)
     - ConvivaSDK (~> 4.0)
-  - BitmovinPlayer (3.79.0):
+  - BitmovinPlayer (3.81.0):
     - BitmovinAnalyticsCollector/BitmovinPlayer (~> 3.0)
-    - BitmovinPlayerCore (= 3.79.0)
-  - BitmovinPlayerCore (3.79.0)
+    - BitmovinPlayerCore (= 3.81.0)
+  - BitmovinPlayerCore (3.81.0)
   - ConvivaSDK (4.0.49)
   - CwlCatchException (2.2.0):
     - CwlCatchExceptionSupport (~> 2.2.0)
@@ -28,7 +28,7 @@ PODS:
 
 DEPENDENCIES:
   - BitmovinConvivaAnalytics (from `../`)
-  - BitmovinPlayer (= 3.79.0)
+  - BitmovinPlayer (= 3.81.0)
   - ConvivaSDK (= 4.0.49)
   - GoogleAds-IMA-iOS-SDK (= 3.22.1)
   - GoogleAds-IMA-tvOS-SDK (= 4.12.0)
@@ -58,8 +58,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   BitmovinAnalyticsCollector: d08e0b13bcc32973370e0d71f2faa739561bac0a
   BitmovinConvivaAnalytics: 65852b604f811ce7d73999bac3a1071f4f293a41
-  BitmovinPlayer: 1c19b819952c2c10c875569756593f2e177cf036
-  BitmovinPlayerCore: 299f35f2d8882140a80577c14bd3026beb0cae7c
+  BitmovinPlayer: 4dd87b63c192ceaa4b29db93a7c7430eece618dc
+  BitmovinPlayerCore: 63641d00a689efbca6fe97bb8f68aea91f303758
   ConvivaSDK: 5d10811e8611ed1fd99a5ab291bdcb1e795f8756
   CwlCatchException: 51bf8319009a31104ea6f0568730d1ecc25b6454
   CwlCatchExceptionSupport: 1345d6adb01a505933f2bc972dab60dcb9ce3e50
@@ -71,6 +71,6 @@ SPEC CHECKSUMS:
   Nimble: 3ac6c6b0b7e9835d1540b6507d8054b12a415536
   Quick: 2b651168441479b949ba987f3cee41a9cc53aa32
 
-PODFILE CHECKSUM: 3604f8e81142c31edfa76597d16f64d2d56ac541
+PODFILE CHECKSUM: 0fd2cc2981fd6f2c4d5cd50dda76702779fa9d68
 
 COCOAPODS: 1.15.2

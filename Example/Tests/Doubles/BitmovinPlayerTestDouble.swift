@@ -70,7 +70,6 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         onPlayerError(
             PlayerErrorEvent(
                 code: PlayerError.Code.networkGeneral,
-                errorCode: 1_200,
                 message: "Test player error",
                 data: nil
             ),
@@ -85,7 +84,6 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         onSourceError(
             SourceErrorEvent(
                 code: SourceError.Code.general,
-                errorCode: 2_001,
                 message: "Test source error",
                 data: nil
             ),

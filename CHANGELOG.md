@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Reporting value of `errorCode` of `SourceErrorEvent` and `PlayerErrorEvent` instead of `code` for reporting error information
+
 ## [3.5.0] - 2024-12-13
 
 ### Fixed

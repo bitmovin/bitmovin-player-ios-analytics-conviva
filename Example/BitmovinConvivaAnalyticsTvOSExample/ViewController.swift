@@ -25,7 +25,7 @@ class ViewController: UIViewController {
 
     var vodSourceConfig: SourceConfig {
         // swiftlint:disable:next force_unwrapping
-        let url = URL(string: "https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/m3u8s/11331.m3u8")!
+        let url = URL(string: "https://cdn.bitmovin.com/content/assets/art-of-motion_drm/m3u8s/11331.m3u8")!
         let sourceConfig = SourceConfig(url: url, type: .hls)
         sourceConfig.title = "Art of Motion"
         return sourceConfig

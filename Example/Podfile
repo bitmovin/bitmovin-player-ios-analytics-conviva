@@ -1,10 +1,9 @@
-source 'https://github.com/bitmovin/cocoapod-specs.git'
 source 'https://cdn.cocoapods.org/'
 
 def shared_pods
   pod 'BitmovinConvivaAnalytics', path: '../'
-  pod 'BitmovinPlayer', '3.81.0'
-  pod 'ConvivaSDK', '4.0.49'
+  pod 'BitmovinPlayer', '3.94.0'
+  pod 'ConvivaSDK', '4.2.3'
 end
 
 target 'BitmovinConvivaAnalytics_Example' do

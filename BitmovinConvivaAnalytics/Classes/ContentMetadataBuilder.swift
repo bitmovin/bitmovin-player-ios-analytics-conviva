@@ -25,7 +25,7 @@ public struct MetadataOverrides {
 
     // Can only be set before playback started
     public var viewerId: String?
-    public var streamType: StreamType?
+    public var streamType: BitmovinConvivaAnalytics.StreamType?
     public var applicationName: String?
     public var custom: [String: Any]?
     public var duration: Int?
@@ -162,7 +162,7 @@ class ContentMetadataBuilder: CustomStringConvertible {
         }
     }
 
-    var streamType: StreamType? {
+    var streamType: BitmovinConvivaAnalytics.StreamType? {
         get {
             metadataOverrides.streamType ?? metadata.streamType
         }

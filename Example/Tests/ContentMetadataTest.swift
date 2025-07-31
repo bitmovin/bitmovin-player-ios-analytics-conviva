@@ -173,7 +173,9 @@ class ContentMetadataTest: QuickSpec {
                     let spy = Spy(aClass: CISVideoAnalyticsTestDouble.self, functionName: "setContentInfo")
 
                     expect(spy).to(
-                        haveBeenCalled(withArgs: ["isLive": "\(StreamType.CONVIVA_STREAM_LIVE.rawValue)"])
+                        haveBeenCalled(
+                            withArgs: ["isLive": "1"]
+                        )
                     )
                 }
 
@@ -256,10 +258,10 @@ class ContentMetadataTest: QuickSpec {
                     }
 
                     it("set stream type") {
-                        let streamType = StreamType.CONVIVA_STREAM_LIVE
+                        let streamType = BitmovinConvivaAnalytics.StreamType.CONVIVA_STREAM_LIVE
                         metadata.streamType = streamType
                         updateMetadataAndInitialize()
-                        expect(spy).to(haveBeenCalled(withArgs: ["isLive": "\(streamType.rawValue)"]))
+                        expect(spy).to(haveBeenCalled(withArgs: ["isLive": "1"]))
                     }
 
                     it("set duration") {
@@ -375,7 +377,7 @@ class ContentMetadataTest: QuickSpec {
                     }
 
                     it("set stream type") {
-                        let streamType = StreamType.CONVIVA_STREAM_LIVE
+                        let streamType = BitmovinConvivaAnalytics.StreamType.CONVIVA_STREAM_LIVE
                         metadata.streamType = streamType
                         updateMetadataAndInitialize()
                         expect(spy).toNot(haveBeenCalled(withArgs: ["streamType": "\(streamType.rawValue)"]))

@@ -249,7 +249,7 @@ public final class ConvivaAnalytics: NSObject {
      */
     public func reportPlaybackDeficiency(
         message: String,
-        severity: ErrorSeverity,
+        severity: ConvivaSDK.ErrorSeverity,
         endSession: Bool = true
     ) {
         if !isSessionActive {

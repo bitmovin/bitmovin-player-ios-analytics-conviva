@@ -420,9 +420,15 @@ class PlayerEventsTest: AsyncSpec {
             }
 
             describe("ads") {
-                let adStartedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdStarted")
-                let adLoadedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdLoaded")
-                let adMetricSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdMetric")
+                var adStartedSpy: Spy!
+                var adLoadedSpy: Spy!
+                var adMetricSpy: Spy!
+
+                beforeEach {
+                    adStartedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdStarted")
+                    adLoadedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdLoaded")
+                    adMetricSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdMetric")
+                }
 
                 let baseAdInfo = [
                     "c3.ad.technology": "Client Side",
@@ -465,10 +471,13 @@ class PlayerEventsTest: AsyncSpec {
                 }
 
                 context("track preroll ad") {
-                    var expectedAdInfo = baseAdInfo
-                    expectedAdInfo["c3.ad.position"] = "\(AdPosition.ADPOSITION_PREROLL.rawValue)"
+                    var expectedAdInfoArgs: [String: String]!
 
-                    let expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
+                    beforeEach {
+                        var expectedAdInfo = baseAdInfo
+                        expectedAdInfo["c3.ad.position"] = "\(AdPosition.ADPOSITION_PREROLL.rawValue)"
+                        expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
+                    }
 
                     it("with string") {
                         playerDouble.fakeAdStartedEvent(position: "pre")
@@ -547,10 +556,13 @@ class PlayerEventsTest: AsyncSpec {
                 }
 
                 context("track midroll ad") {
-                    var expectedAdInfo = baseAdInfo
-                    expectedAdInfo["c3.ad.position"] = "\(AdPosition.ADPOSITION_MIDROLL.rawValue)"
+                    var expectedAdInfoArgs: [String: String]!
 
-                    let expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
+                    beforeEach {
+                        var expectedAdInfo = baseAdInfo
+                        expectedAdInfo["c3.ad.position"] = "\(AdPosition.ADPOSITION_MIDROLL.rawValue)"
+                        expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
+                    }
 
                     it("with percentage") {
                         playerDouble.fakeAdStartedEvent(position: "10%")
@@ -585,10 +597,13 @@ class PlayerEventsTest: AsyncSpec {
                 }
 
                 context("track postroll ad") {
-                    var expectedAdInfo = baseAdInfo
-                    expectedAdInfo["c3.ad.position"] = "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"
+                    var expectedAdInfoArgs: [String: String]!
 
-                    let expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
+                    beforeEach {
+                        var expectedAdInfo = baseAdInfo
+                        expectedAdInfo["c3.ad.position"] = "\(AdPosition.ADPOSITION_POSTROLL.rawValue)"
+                        expectedAdInfoArgs = ["adInfo": expectedAdInfo.toStringWithStableOrder()]
+                    }
 
                     it("with string") {
                         playerDouble.fakeAdStartedEvent(position: "post")
@@ -638,9 +653,10 @@ class PlayerEventsTest: AsyncSpec {
                 }
 
                 context("track ad end") {
-                    let adEndedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdEnded")
+                    var adEndedSpy: Spy!
 
                     beforeEach {
+                        adEndedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdEnded")
                         playerDouble.fakePlayEvent()
                     }
 
@@ -651,9 +667,10 @@ class PlayerEventsTest: AsyncSpec {
                 }
 
                 context("track ad skipped") {
-                    let adSkippedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdSkipped")
+                    var adSkippedSpy: Spy!
 
                     beforeEach {
+                        adSkippedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdSkipped")
                         playerDouble.fakePlayEvent()
                     }
 
@@ -664,9 +681,10 @@ class PlayerEventsTest: AsyncSpec {
                 }
 
                 context("track ad failed") {
-                    let adFailedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdFailed")
+                    var adFailedSpy: Spy!
 
                     beforeEach {
+                        adFailedSpy = Spy(aClass: CISAdAnalyticsTestDouble.self, functionName: "reportAdFailed")
                         playerDouble.fakePlayEvent()
                     }
 

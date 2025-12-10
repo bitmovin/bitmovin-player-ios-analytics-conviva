@@ -75,10 +75,14 @@ class SsaiTest: QuickSpec {
                 }
             }
             describe("reportAdBreakStarted") {
-                let spy = Spy(
-                    aClass: CISVideoAnalyticsTestDouble.self,
-                    functionName: "reportAdBreakStarted"
-                )
+                var spy: Spy!
+
+                beforeEach {
+                    spy = Spy(
+                        aClass: CISVideoAnalyticsTestDouble.self,
+                        functionName: "reportAdBreakStarted"
+                    )
+                }
                 context("when no ad break is active") {
                     context("with ad break info") {
                         it("reports ad break started") {
@@ -111,10 +115,14 @@ class SsaiTest: QuickSpec {
                 }
             }
             describe("reportAdBreakFinished") {
-                let spy = Spy(
-                    aClass: CISVideoAnalyticsTestDouble.self,
-                    functionName: "reportAdBreakEnded"
-                )
+                var spy: Spy!
+
+                beforeEach {
+                    spy = Spy(
+                        aClass: CISVideoAnalyticsTestDouble.self,
+                        functionName: "reportAdBreakEnded"
+                    )
+                }
                 context("when no ad break is active") {
                     it("does not report ad break finished") {
                         convivaAnalytics.ssai.reportAdBreakFinished()

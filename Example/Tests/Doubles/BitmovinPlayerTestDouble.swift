@@ -81,7 +81,14 @@ class BitmovinPlayerTestDouble: BitmovinPlayerStub, TestDoubleDataSource {
         guard let onSourceError = fakeListener?.onSourceError else {
             return
         }
-        onSourceError(SourceErrorEvent(code: SourceError.Code.general, message: "Test source error", data: nil), self)
+        onSourceError(
+            SourceErrorEvent(
+                code: SourceError.Code.general,
+                message: "Test source error",
+                data: nil
+            ),
+            self
+        )
     }
 
     func fakeAdStartedEvent(position: String? = "pre") {
@@ -344,6 +351,10 @@ class TestAdBreak: NSObject, AdBreak {
 }
 
 class BitmovinPlayerStub: NSObject, Player {
+    var thumbnails: BitmovinPlayerCore.ThumbnailsApi {
+        player.thumbnails
+    }
+
     var latency: BitmovinPlayerCore.LatencyApi {
         player.latency
     }

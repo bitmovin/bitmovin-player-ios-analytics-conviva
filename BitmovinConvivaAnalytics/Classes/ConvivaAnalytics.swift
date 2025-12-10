@@ -249,7 +249,7 @@ public final class ConvivaAnalytics: NSObject {
      */
     public func reportPlaybackDeficiency(
         message: String,
-        severity: ErrorSeverity,
+        severity: ConvivaSDK.ErrorSeverity,
         endSession: Bool = true
     ) {
         if !isSessionActive {
@@ -629,11 +629,13 @@ extension ConvivaAnalytics: BitmovinPlayerListenerDelegate {
     }
 
     func onPlayerError(_ event: PlayerErrorEvent) {
-        trackError(errorCode: event.code.rawValue, errorMessage: event.message)
+        let errorCode = event.errorCodeValue
+        trackError(errorCode: errorCode, errorMessage: event.message)
     }
 
     func onSourceError(_ event: SourceErrorEvent) {
-        trackError(errorCode: event.code.rawValue, errorMessage: event.message)
+        let errorCode = event.errorCodeValue
+        trackError(errorCode: errorCode, errorMessage: event.message)
     }
 
     func trackError(errorCode: Int, errorMessage: String) {
@@ -922,6 +924,38 @@ private extension SsaiAdPosition {
             return .ADPOSITION_MIDROLL
         case .postroll:
             return .ADPOSITION_POSTROLL
+        }
+    }
+}
+
+// Placeholder type to allow using the `#selector()` syntax for the `errorCode` property
+@objc(BMAErrorCodeHaving)
+private protocol ErrorCodeHaving {
+    var errorCode: Int { get }
+}
+
+// Extension to allow accessing the `errorCode` property of the `PlayerErrorEvent` class if it exists.
+// This property is only available in the BitmovinPlayerCore SDK version `3.82.0` and above.
+private extension PlayerErrorEvent {
+    var errorCodeValue: Int {
+        if responds(to: #selector(getter: ErrorCodeHaving.errorCode)),
+           let errorCode = value(forKey: "errorCode") as? Int {
+            return errorCode
+        } else {
+            return code.rawValue
+        }
+    }
+}
+
+// Extension to allow accessing the `errorCode` property of the `SourceErrorEvent` class if it exists.
+// This property is only available in the BitmovinPlayerCore SDK version `3.82.0` and above.
+private extension SourceErrorEvent {
+    var errorCodeValue: Int {
+        if responds(to: #selector(getter: ErrorCodeHaving.errorCode)),
+           let errorCode = value(forKey: "errorCode") as? Int {
+            return errorCode
+        } else {
+            return code.rawValue
         }
     }
 }

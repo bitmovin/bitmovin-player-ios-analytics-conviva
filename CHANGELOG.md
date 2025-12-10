@@ -5,9 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [3.6.1]
 
-## [3.5.0] - 2024-12-13
+### Fixed
+- Missing version number bump
+
+## [3.6.0]
+
+### Changed
+- Reporting value of `errorCode` of `SourceErrorEvent` and `PlayerErrorEvent` instead of `code` for reporting error information
+
+### Fixed
+- Missing type `StreamType` when using more recent ConvivaSDK versions
+
+## [3.6.1] - 2024-12-13
 
 ### Fixed
 - Build error when using Bitmovin Player version 3.78.0 or newer

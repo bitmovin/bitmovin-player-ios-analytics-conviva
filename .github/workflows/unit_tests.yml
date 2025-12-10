@@ -3,7 +3,7 @@ name: Unit Tests
 on:
   push:
     paths-ignore:
-      - '*.md'
+      - "*.md"
 
 concurrency:
   group: ${{ github.ref }}
@@ -30,7 +30,7 @@ jobs:
 
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.4'
+          xcode-version: "16.4"
 
       - name: Install CocoaPods depenedencies
         run: |

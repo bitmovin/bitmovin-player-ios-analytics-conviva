@@ -519,7 +519,13 @@ private extension ConvivaAnalytics {
         guard let player, isSessionActive else { return }
 
         let reportPlayHeadTime: (_ analytics: CISStreamAnalyticsProtocol) -> Void = { analytics in
-            let currentTime = Int64(player.currentTime(.relativeTime) * 1_000)
+            let rawTime = player.currentTime(.relativeTime)
+            let currentTime: Int64
+            if rawTime.isNaN || rawTime.isInfinite {
+                currentTime = 0
+            } else {
+                currentTime = Int64(rawTime * 1_000)
+            }
             analytics.reportPlaybackMetric(
                 CIS_SSDK_PLAYBACK_METRIC_PLAY_HEAD_TIME,
                 value: currentTime

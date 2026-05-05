@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- Handled Not a number (NaN) scenario for reportPlayHeadTime in ConvivaAnalytics.swift
+
 ## [3.6.1]
 
 ### Fixed

@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Swift Package Manager support through a `Package.swift` exposing the `BitmovinConvivaAnalytics` library
+
 ## [3.6.1]
 
 ### Fixed

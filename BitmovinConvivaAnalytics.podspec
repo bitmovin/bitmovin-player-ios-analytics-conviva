@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'BitmovinConvivaAnalytics'
-  s.version          = '3.6.2'
+  s.version          = '3.7.0'
   s.summary          = 'Conviva Analytics Integration for the Bitmovin Player iOS SDK'
 
   s.description      = <<-DESC
@@ -17,6 +17,7 @@ Conviva Analytics Integration for the Bitmovin Player iOS SDK
 
   s.source_files = 'BitmovinConvivaAnalytics/Classes/**/*.swift'
   s.resources = 'BitmovinConvivaAnalytics/Assets/*'
+  s.deprecated_in_favor_of = 'using SPM: https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva'
   s.swift_version = '5.0'
   s.cocoapods_version = '>= 1.9.0'
 

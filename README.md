@@ -20,12 +20,32 @@ Thank you for your contributions!
 
 ## Installation
 
+### Swift Package Manager
+
+In Xcode, go to `File > Add Package Dependencies…`, enter the repository URL and pick a version:
+
+```
+https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git
+```
+
+Or add it to the `dependencies` of your `Package.swift`:
+
+```swift
+.package(url: "https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git", from: "3.7.0")
+```
+
+Then add the `BitmovinConvivaAnalytics` product to the targets that need it. `BitmovinPlayer` and `ConvivaSDK` are resolved automatically as transitive dependencies.
+
+### CocoaPods (_Deprecated_)
+
+> CocoaPods will sunset at the end of 2026 and is therefore deprecated. See [this](https://community.bitmovin.com/t/cocoapods-deprecation-notice/3864) community post for more details.
+
 BitmovinConvivaAnalytics is available through [CocoaPods](https://cocoapods.org). We depend on cocoapods version >= 1.9.0
 
 To install it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'BitmovinConvivaAnalytics', git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: '3.6.1'
+pod 'BitmovinConvivaAnalytics', git: 'https://github.com/bitmovin/bitmovin-player-ios-analytics-conviva.git', tag: '3.7.0'
 ```
 
 Then, in your command line run:

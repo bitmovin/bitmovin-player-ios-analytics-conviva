@@ -32,3 +32,8 @@ Pods/
 
 # Intellij IDEA
 .idea/
+
+# Swift Package Manager
+Package.resolved
+.build/
+.swiftpm/

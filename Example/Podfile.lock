@@ -3,7 +3,7 @@ PODS:
     - BitmovinAnalyticsCollector/Core
     - BitmovinPlayerCore (~> 3.48)
   - BitmovinAnalyticsCollector/Core (3.14.0)
-  - BitmovinConvivaAnalytics (3.6.1):
+  - BitmovinConvivaAnalytics (3.7.0):
     - BitmovinPlayer (~> 3.64)
     - ConvivaSDK (~> 4.0)
   - BitmovinPlayer (3.94.0):
@@ -57,7 +57,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BitmovinAnalyticsCollector: b1ac53954340e9f9c902c88235a981ef54923e01
-  BitmovinConvivaAnalytics: 942cd98bbed81f0dfca7919daed74e5c8792f34a
+  BitmovinConvivaAnalytics: f6e5dcbd2f4a897fca03714612ad838c6d8db076
   BitmovinPlayer: a9b9fac8773a8864847857568ce53acebc8c5424
   BitmovinPlayerCore: b98a9f03cbcd7a5818265489545934adec3b2c32
   ConvivaSDK: 08a347b198d295b087ef1e9a1b91ddcc33e2ae9d

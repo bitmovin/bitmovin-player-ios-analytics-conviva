@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- Raise the SPM deployment targets to iOS/tvOS 15 to support current Player packages.
+
 ## [3.7.0]
 
 ### Added

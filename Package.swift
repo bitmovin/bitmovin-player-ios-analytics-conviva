@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "bitmovin-player-ios-analytics-conviva",
-    platforms: [.iOS(.v14), .tvOS(.v14)],
+    platforms: [.iOS(.v15), .tvOS(.v15)],
     products: [
         .library(
             name: "BitmovinConvivaAnalytics",

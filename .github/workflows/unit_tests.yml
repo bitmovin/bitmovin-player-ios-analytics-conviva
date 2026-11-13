@@ -12,7 +12,7 @@ concurrency:
 jobs:
   prepare-dependencies:
     name: Unit Tests
-    runs-on: macos-latest
+    runs-on: macos-15-intel
 
     steps:
       - name: Checkout

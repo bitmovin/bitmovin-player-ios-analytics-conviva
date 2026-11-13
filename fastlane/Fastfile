@@ -13,7 +13,7 @@ platform :ios do
       code_coverage: true,
       xcodebuild_formatter: 'xcbeautify --renderer github-actions',
       output_types: '',
-      device: 'iPhone 16 Pro'
+      device: 'iPhone 17 Pro'
     )
   end
 
